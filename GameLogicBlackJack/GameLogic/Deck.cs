@@ -23,31 +23,33 @@ namespace GameLogicBlackJack.GameLogic
             cards.AddRange(Enumerable.Range(1, 4).SelectMany(s => Enumerable.Range(1, 13).Select(n => new Card((CardFaceEnum)n, (CardSuitEnum)s))));
         }
 
-        public void DrowACard(Hand hand)
+        public void Shuffle()
+        {
+            Random rng = new Random();
+            int n = cards.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                Card card = cards[k];
+                cards[k] = cards[n];
+                cards[n] = card;
+            }
+        }
+
+        public Card DrowACard()
         {
 
             if (cards.Count <= 0)
             {
                 this.Populate();
+                this.Shuffle();
             }
-            Card cardToReturn = cards[random.Next(cards.Count - 1)];
-            hand.AddCard(cardToReturn);
-            cards.Remove(cardToReturn);
-            cardToReturn = cards[random.Next(cards.Count - 1)];
-            hand.AddCard(cardToReturn);
-            cards.Remove(cardToReturn);
-        }
 
-        public void GiveAdditionalCard(Hand hand)
-        {
-            if (cards.Count < 1)
-            {
-                throw new InvalidOperationException();
-            }
-            Card cardToReturn = cards[random.Next(cards.Count - 1)];
-            hand.AddCard(cardToReturn);
-            cards.RemoveAt(0);
-        } 
+            Card cardToReturn = cards[cards.Count - 1];
+            cards.RemoveAt(cards.Count - 1);
+            return cardToReturn;
+        }
 
         public Int32 GetAmountOfRemeiningCard()
         {

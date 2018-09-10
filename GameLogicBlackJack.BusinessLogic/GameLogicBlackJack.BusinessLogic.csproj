@@ -44,7 +44,6 @@
     <Compile Include="Enum\CardSuitEnum.cs" />
     <Compile Include="Enum\GameAction.cs" />
     <Compile Include="Enum\GameState.cs" />
-    <Compile Include="Interface\IAutomatState.cs" />
     <Compile Include="Interface\IBot.cs" />
     <Compile Include="Interface\IDealer.cs" />
     <Compile Include="Interface\IPlayerAccount.cs" />

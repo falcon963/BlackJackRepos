@@ -10,5 +10,7 @@ namespace GameLogicBlackJack.BusinessLogic.Interface
     {
         String BotName { get; set; }
         Int32 BotId { get; }
+        Decimal BotBalance { get; set; }
+        Decimal BotBet { get; set; }
     }
 }

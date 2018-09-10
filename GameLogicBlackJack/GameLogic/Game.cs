@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GameLogicBlackJack.BusinessLogic.Enum;
+using GameLogicBlackJack.Controllers;
+using GameLogicBlackJack.View;
 
 namespace GameLogicBlackJack.GameLogic
 {
@@ -14,6 +16,14 @@ namespace GameLogicBlackJack.GameLogic
     {
         readonly Int32 gameId;
         List<Bot> bots = new List<Bot>();
+        private Deck deck = new Deck();
+        private GameAction allowedActions;
+        private GameState lastState;
+        public static Player Player { get; set; }
+        public static Dealer Dealer { get; set; }
+        public static Bot Bot { get; set; }
+
+
         public Int32 ReadGameId
         {
             get
@@ -22,14 +32,9 @@ namespace GameLogicBlackJack.GameLogic
             }
         }
 
-        private Deck deck;
-        private GameAction allowedActions;
-        private GameState lastState;
-
         public Game(Int32 gameId)
         {
             this.gameId = gameId;
-            Bot = new Bot(1);
             Dealer = new Dealer(1);
             Player = new Player(1);
             LastState = GameState.Unknown;
@@ -37,12 +42,6 @@ namespace GameLogicBlackJack.GameLogic
             
         }
 
-        public event EventHandler LastStateChanged;
-        public event EventHandler AllowedActionsChanged;
-
-        public Player Player { get; private set; }
-        public Dealer Dealer { get; private set; }
-        public Bot Bot { get; private set; }
         public GameAction AllowedActions
         {
             get
@@ -74,18 +73,24 @@ namespace GameLogicBlackJack.GameLogic
             }
         }
 
-        public void AddBots(Int32 num)
+        public void AddBots()
         {
-            for(int i = 0; i < num; i++)
+            GameController.ConsoleBotsChoise();
+            for(int i = 0; i < GameController.ConsoleBotsChoise(); i++)
             {
-                bots.Add(Bot);
+                bots.Add(new Bot(i));
+                Console.WriteLine("Bot number " + i);
             }
         }
 
-        public void Play(Decimal balance, Decimal bet)
+        public void Play()
         {
-            Player.PlayerBalance = balance;
-            Player.PlayerBet = bet;
+            GameController.ConsolePlayerNickname();
+            Player.PlayerName = GameController.ConsolePlayerNickname();
+            GameController.ConsolePlayerBalanse();
+            Player.PlayerBalance = GameController.ConsolePlayerBalanse();
+            GameController.ConsolePlayerBet();
+            Player.PlayerBet = GameController.ConsolePlayerBet();
             AllowedActions = GameAction.Deal;
         }
 
@@ -103,35 +108,57 @@ namespace GameLogicBlackJack.GameLogic
             if (deck != null)
             {
                 deck.Populate();
+                deck.Shuffle();
             }
 
-            Dealer.hand.Clear();
-            Player.hand.Clear();
-            for (Int32 i = 0; i > bots.Count; i++)
+            foreach(Bot bot in bots)
             {
-                Bot.hand.Clear();
+                bot.botHand.Clear();
+                bot.botHand.Add(deck.DrowACard());
+                bot.botHand.Add(deck.DrowACard());
             }
-            deck.DrowACard(Dealer.hand);
-            deck.DrowACard(Player.hand);
+            Dealer.dealerHand.Clear();
+            Dealer.dealerHand.Add(deck.DrowACard());
+            Dealer.dealerHand.Add(deck.DrowACard());
+            Player.playerHand.Clear();
+            Player.playerHand.Add(deck.DrowACard());
+            Player.playerHand.Add(deck.DrowACard());
 
-            if (Player.hand.TotalValue == 21 & Dealer.hand.TotalValue == 21)
+            foreach(Bot bot in bots)
+            {
+                if (bot.TotalValue == 21 & Dealer.TotalValue == 21)
+                {
+
+                }
+                if (bot.TotalValue == 21 & Dealer.TotalValue != 21)
+                {
+                    bot.BotBalance += bot.BotBet;
+                }
+                if (bot.TotalValue != 21 & Dealer.TotalValue == 21)
+                {
+                    bot.BotBalance -= bot.BotBet;
+                }
+
+            }
+
+            if (Player.TotalValue == 21 & Dealer.TotalValue == 21)
             {
                 LastState = GameState.Draw;
                 AllowedActions = GameAction.Deal;
             }
-            if (Player.hand.TotalValue == 21 & Dealer.hand.TotalValue != 21)
+            if (Player.TotalValue == 21 & Dealer.TotalValue != 21)
             {
                 Player.PlayerBalance += Player.PlayerBet;
                 LastState = GameState.PlayerWon;
                 AllowedActions = GameAction.Deal;
             }
-            if (Player.hand.TotalValue != 21 & Dealer.hand.TotalValue == 21)
+            if (Player.TotalValue != 21 & Dealer.TotalValue == 21)
             {
                 Player.PlayerBalance -= Player.PlayerBet;
                 LastState = GameState.DealerWon;
                 AllowedActions = GameAction.Deal;
             }
-            if (Player.hand.TotalValue != 21 & Dealer.hand.TotalValue != 21)
+            if (Player.TotalValue != 21 & Dealer.TotalValue != 21)
             {
                 AllowedActions = GameAction.Hit | GameAction.Stand;
             }
@@ -144,9 +171,9 @@ namespace GameLogicBlackJack.GameLogic
             {
                 throw new InvalidOperationException();
             }
-            deck.GiveAdditionalCard(Player.hand);
+            Player.playerHand.Add(deck.DrowACard());
 
-            if (Player.hand.TotalValue > 21)
+            if (Player.TotalValue > 21)
             {
                 Player.PlayerBalance -= Player.PlayerBet;
                 LastState = GameState.DealerWon;
@@ -156,26 +183,48 @@ namespace GameLogicBlackJack.GameLogic
 
         public void Stand()
         {
+            foreach(Bot bot in bots)
+            {
+
+                while (bot.TotalValue < 18)
+                {
+                    bot.botHand.Add(deck.DrowACard());
+                }
+
+                if (Dealer.TotalValue > 21 || bot.TotalValue > Dealer.TotalValue)
+                {
+                    bot.BotBalance += bot.BotBet;
+                }
+                if (bot.TotalValue == Dealer.TotalValue)
+                {
+                    
+                }
+                if (bot.TotalValue < Dealer.TotalValue)
+                {
+                    bot.BotBalance -= bot.BotBet;
+                }
+            }
+
             if ((AllowedActions & GameAction.Stand) != GameAction.Stand)
             {
                 throw new InvalidOperationException();
             }
 
-            while (Dealer.hand.TotalValue < 17)
+            while (Dealer.TotalValue < 17)
             {
-                deck.GiveAdditionalCard(Dealer.hand);
+                Dealer.dealerHand.Add(deck.DrowACard());
             }
 
-            if (Dealer.hand.TotalValue > 21 || Player.hand.TotalValue > Dealer.hand.TotalValue)
+            if (Dealer.TotalValue > 21 || Player.TotalValue > Dealer.TotalValue)
             {
                 Player.PlayerBalance += Player.PlayerBet;
                 LastState = GameState.PlayerWon;
             }
-            if(Dealer.hand.TotalValue == Player.hand.TotalValue)
+            if(Dealer.TotalValue == Player.TotalValue)
             {
                 LastState = GameState.Draw;
             }
-            if(Dealer.hand.TotalValue > Player.hand.TotalValue)
+            if(Dealer.TotalValue > Player.TotalValue)
             {
                 Player.PlayerBalance -= Player.PlayerBet;
                 LastState = GameState.DealerWon;

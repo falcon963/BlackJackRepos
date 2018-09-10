@@ -4,22 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GameLogicBlackJack.BusinessLogic.Interface;
+using GameLogicBlackJack.BusinessLogic.Enum;
 
 namespace GameLogicBlackJack.GameLogic
 {
-    public class Player : BaseHand, IPlayerAccount
+   
+    public class Player : IPlayerAccount
     {
+        public List<Card> playerHand = new List<Card>();
         private String nameOfPlayer;
-        private Decimal balanceOfPlayer;
+        public Decimal balanceOfPlayer;
         private Decimal betOfPlayer;
         public readonly Int32 idOfPlayer;
+
 
 
         public Player( Int32 idOfPlayer)
         {
             this.idOfPlayer = idOfPlayer;
-            this.hand = new Hand(isDealer: false);
-            this.hand = new Hand(isBot: false);
         }
 
         public String PlayerName {
@@ -86,6 +88,40 @@ namespace GameLogicBlackJack.GameLogic
                     PlayerBalance = temp - value;
                 }
             }
+        }
+
+        public Int32 TotalValue
+        {
+            get
+            {
+                Int32 totalValue = 0;
+                foreach (Card card in playerHand)
+                {
+                    if ((Int32)card.CardFace > 1 & (Int32)card.CardFace < 11)
+                    {
+                        card.CardValue = (Int32)card.CardFace;
+                    }
+                    if ((Int32)card.CardFace >= 11)
+                    {
+                        card.CardValue = 10;
+                    }
+                    if (card.CardFace == CardFaceEnum.Ace & totalValue + 11 < 22)
+                    {
+                        card.CardValue = 11;
+                    }
+                    if (card.CardFace == CardFaceEnum.Ace & totalValue + 11 > 22)
+                    {
+                        card.CardValue = 1;
+                    }
+                    totalValue += card.CardValue;
+                }
+                return totalValue;
+            }
+        }
+
+        public void Clear()
+        {
+            playerHand.Clear();
         }
 
     }

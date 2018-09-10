@@ -42,18 +42,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\GameController.cs" />
     <Compile Include="GameLogic\BaseHand.cs" />
     <Compile Include="GameLogic\Bot.cs" />
     <Compile Include="GameLogic\Card.cs" />
-    <Compile Include="GameLogic\ConsoleGame.cs" />
     <Compile Include="GameLogic\Dealer.cs" />
     <Compile Include="GameLogic\Deck.cs" />
     <Compile Include="GameLogic\Game.cs" />
     <Compile Include="GameLogic\Hand.cs" />
     <Compile Include="GameLogic\Player.cs" />
-    <Compile Include="GameLogic\PlayerInitialize.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\GameConsole.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

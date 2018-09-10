@@ -9,6 +9,6 @@ namespace GameLogicBlackJack.BusinessLogic.Interface
     public interface IDealer
     {
         Int32 DealerId { get; }
-        String DealerName { get; set; }
+        
     }
 }
