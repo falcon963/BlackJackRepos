@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Ordering";
+}
+<h2>
+    Form of registration of purchase:
+</h2>
+
+<form method="post" class="form-horizontal" role="form">
+    <input type="hidden" value="@ViewBag.PhoneId" name="PhoneId" />
+    <p>
+        To make a purchase, fill in the following fields:
+    </p>
+    <div class="form-group">
+        <label for="User" class="col-md-2 control-label">Name:</label>
+        <div class="col-md-4">
+            <input type="text" name="User" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="Address" class="col-md-2 control-label">Address:</label>
+        <div class="col-md-4">
+            <input type="text" name="Address" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Phone:</label>
+        <div class="col-md-4">
+            <input type="text" name="ContactPhone" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Send" />
+        </div>
+    </div>
+</form>

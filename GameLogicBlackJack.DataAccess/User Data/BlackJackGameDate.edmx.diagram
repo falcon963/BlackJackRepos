@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="03122337454a4e9889e27f82db936adc" Name="Diagram1" >
+        <EntityTypeShape EntityType="BlackJackGameDate.PlayerData" Width="1.5" PointX="5.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackJackGameDate.GameData" Width="1.5" PointX="8.875" PointY="2.125" />
+        <AssociationConnector Association="BlackJackGameDate.PlayerDataGameData" />
+        <EntityTypeShape EntityType="BlackJackGameDate.BotsDatas" Width="1.5" PointX="15.75" PointY="4" />
+        <EntityTypeShape EntityType="BlackJackGameDate.DealerData" Width="1.5" PointX="8.375" PointY="5.125" />
+        <EntityTypeShape EntityType="BlackJackGameDate.BotsBuffer" Width="1.5" PointX="12.375" PointY="1.75" FillColor="Red" />
+        <AssociationConnector Association="BlackJackGameDate.Id_Dealer" />
+        <AssociationConnector Association="BlackJackGameDate.Id_Bot" />
+        <AssociationConnector Association="BlackJackGameDate.Id_Game" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

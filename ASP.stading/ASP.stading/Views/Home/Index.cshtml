@@ -1,0 +1,24 @@
+﻿@model IEnumerable<ASP.stading.Models.Phone>
+@{
+    ViewData["Title"] = "Smartphone list";
+}
+<!DOCTYPE html>
+
+    <h3>Smartphones</h3>
+    <table class=" = "table-condensed">
+        <tr>
+            <td>Model</td>
+            <td>Company</td>
+            <td>Price</td>
+            <td></td>
+        </tr>
+        @foreach (var phone in Model)
+        {
+            <tr>
+                <td>@phone.Name</td>
+                <td>@phone.Company</td>
+                <td>@phone.Price</td>
+                <td><a href="~/Home/Buy/@phone.Id">Buy</a></td>
+            </tr>
+        }
+    </table>

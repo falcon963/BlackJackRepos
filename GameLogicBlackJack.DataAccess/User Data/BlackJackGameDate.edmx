@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="BlackJackGameDate.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
+        <EntityContainer Name="BlackJackGameDateTargetContainer" >
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="BlackJackGameDate" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="BlackJackGameDateContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PlayerDatas" EntityType="BlackJackGameDate.PlayerData" />
+          <EntitySet Name="GameDatas" EntityType="BlackJackGameDate.GameData" />
+          <AssociationSet Name="PlayerDataGameData" Association="BlackJackGameDate.PlayerDataGameData">
+            <End Role="PlayerData" EntitySet="PlayerDatas" />
+            <End Role="GameData" EntitySet="GameDatas" />
+          </AssociationSet>
+          <EntitySet Name="BotsDatas" EntityType="BlackJackGameDate.BotsDatas" />
+          <EntitySet Name="DealerDatas" EntityType="BlackJackGameDate.DealerData" />
+          <EntitySet Name="BotsBuffers" EntityType="BlackJackGameDate.BotsBuffer" />
+          <AssociationSet Name="Id_Dealer" Association="BlackJackGameDate.Id_Dealer">
+            <End Role="DealerData" EntitySet="DealerDatas" />
+            <End Role="GameData" EntitySet="GameDatas" />
+          </AssociationSet>
+          <AssociationSet Name="Id_Bot" Association="BlackJackGameDate.Id_Bot">
+            <End Role="BotsDatas" EntitySet="BotsDatas" />
+            <End Role="BotsBuffer" EntitySet="BotsBuffers" />
+          </AssociationSet>
+          <AssociationSet Name="Id_Game" Association="BlackJackGameDate.Id_Game">
+            <End Role="GameData" EntitySet="GameDatas" />
+            <End Role="BotsBuffer" EntitySet="BotsBuffers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="PlayerData">
+          <Key>
+            <PropertyRef Name="PlayerId" />
+          </Key>
+          <Property Name="PlayerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlayerNickname" Type="String" Nullable="false" />
+          <Property Name="PlayerBalance" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GameDatas" Relationship="BlackJackGameDate.PlayerDataGameData" FromRole="PlayerData" ToRole="GameData" />
+        </EntityType>
+        <EntityType Name="GameData">
+          <Key>
+            <PropertyRef Name="Id_Game" />
+          </Key>
+          <Property Name="Id_Game" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BotNumber" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PlayerData" Relationship="BlackJackGameDate.PlayerDataGameData" FromRole="GameData" ToRole="PlayerData" />
+          <Property Name="PlayerId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DealerData" Relationship="BlackJackGameDate.Id_Dealer" FromRole="GameData" ToRole="DealerData" />
+          <Property Name="Id_Dealer" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BotsBuffers" Relationship="BlackJackGameDate.Id_Game" FromRole="GameData" ToRole="BotsBuffer" />
+        </EntityType>
+        <Association Name="PlayerDataGameData">
+          <End Type="BlackJackGameDate.PlayerData" Role="PlayerData" Multiplicity="1" />
+          <End Type="BlackJackGameDate.GameData" Role="GameData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlayerData">
+              <PropertyRef Name="PlayerId" />
+            </Principal>
+            <Dependent Role="GameData">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BotsDatas">
+          <Key>
+            <PropertyRef Name="Id_Bot" />
+          </Key>
+          <Property Name="Id_Bot" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="BotsBuffers" Relationship="BlackJackGameDate.Id_Bot" FromRole="BotsDatas" ToRole="BotsBuffer" />
+        </EntityType>
+        <EntityType Name="DealerData">
+          <Key>
+            <PropertyRef Name="Id_Dealer" />
+          </Key>
+          <Property Name="Id_Dealer" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name_Dealer" Type="String" Nullable="false" />
+          <NavigationProperty Name="GameDatas" Relationship="BlackJackGameDate.Id_Dealer" FromRole="DealerData" ToRole="GameData" />
+        </EntityType>
+        <EntityType Name="BotsBuffer" >
+          <NavigationProperty Name="BotsData" Relationship="BlackJackGameDate.Id_Bot" FromRole="BotsBuffer" ToRole="BotsDatas" />
+          <Property Name="Id_Bot" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GameData" Relationship="BlackJackGameDate.Id_Game" FromRole="BotsBuffer" ToRole="GameData" />
+          <Property Name="Id_Game" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="Id_Dealer">
+          <End Type="BlackJackGameDate.DealerData" Role="DealerData" Multiplicity="1" />
+          <End Type="BlackJackGameDate.GameData" Role="GameData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DealerData">
+              <PropertyRef Name="Id_Dealer" />
+            </Principal>
+            <Dependent Role="GameData">
+              <PropertyRef Name="Id_Dealer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Id_Bot">
+          <End Type="BlackJackGameDate.BotsDatas" Role="BotsDatas" Multiplicity="1" />
+          <End Type="BlackJackGameDate.BotsBuffer" Role="BotsBuffer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BotsDatas">
+              <PropertyRef Name="Id_Bot" />
+            </Principal>
+            <Dependent Role="BotsBuffer">
+              <PropertyRef Name="Id_Bot" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Id_Game">
+          <End Type="BlackJackGameDate.GameData" Role="GameData" Multiplicity="1" />
+          <End Type="BlackJackGameDate.BotsBuffer" Role="BotsBuffer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameData">
+              <PropertyRef Name="Id_Game" />
+            </Principal>
+            <Dependent Role="BotsBuffer">
+              <PropertyRef Name="Id_Game" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="BlackJackGameDate" />
+        <Alias Key="Target" Value="BlackJackGameDate.Store" />
+        <EntityContainerMapping CdmEntityContainer="BlackJackGameDateContainer" StorageEntityContainer="BlackJackGameDateTargetContainer">
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
