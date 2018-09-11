@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using GameLogicBlackJack.Controllers;
 using GameLogicBlackJack.GameLogic;
-using GameLogicBlackJack.Controllers;
 
 namespace GameLogicBlackJack.View
 {
@@ -33,12 +32,18 @@ namespace GameLogicBlackJack.View
 
         public static void PlayerInfo()
         {
-            Console.WriteLine("You cards: {0}, {1}. You score: {2}",
+            Console.WriteLine("You score: {2}. You cards: {0}, {1}.",
                 Game.Player.playerHand.ElementAt(0).CardFace + " " + Game.Player.playerHand.ElementAt(0).CardSuit,
                 Game.Player.playerHand.ElementAt(1).CardFace + " " + Game.Player.playerHand.ElementAt(1).CardSuit, Game.Player.TotalValue);
             Console.WriteLine("Dealer score: {0}. Dealer cards: {1}, {2}", 
                 Game.Dealer.TotalValue, Game.Dealer.dealerHand.ElementAt(0).CardFace + " " + Game.Dealer.dealerHand.ElementAt(0).CardSuit,
                 Game.Dealer.dealerHand.ElementAt(1).CardFace + " " + Game.Dealer.dealerHand.ElementAt(1).CardSuit);
+        }
+
+        public static void Score()
+        {
+            Console.WriteLine("You score: {0}.", Game.Player.TotalValue);
+            Console.WriteLine("Dealer score: {0}.", Game.Dealer.TotalValue);
         }
 
         public static void PlayerTakeCard()
@@ -85,5 +90,22 @@ namespace GameLogicBlackJack.View
         {
             Console.WriteLine("Diller and {0} have Black Jack, it is draw!", Game.Player.PlayerName);
         }
+        public static void ContinueOrStopGame()
+        {
+            Console.WriteLine("If you want continue game, press N. Else press Escape.");
+        }
+        public static void EndGame()
+        {
+            Console.WriteLine("Game was stoped. {0} balance: {1}.", Game.Player.PlayerName, Game.Player.PlayerBalance);
+        }
+        public static void BustGame()
+        {
+            Console.WriteLine("Game was stoped. You dont have money. {0} balance: {1}.\n ..............Press Escape..............", Game.Player.PlayerName, Game.Player.PlayerBalance);
+        }
+      /*  public static void BotsInfo()
+        {
+            Console.WriteLine("Bot{0} cards: {1}, {2}", Game.Bot.BotId, Game.Bot.botHand.ElementAt(0).CardSuit + " " + Game.Bot.botHand.ElementAt(0).CardFace,
+                Game.Bot.botHand.ElementAt(1).CardSuit + " " + Game.Bot.botHand.ElementAt(1).CardFace);
+        }*/
     }
 }

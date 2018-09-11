@@ -12,21 +12,34 @@ namespace GameLogicBlackJack.Controllers
     public class GameController
     {
         Game game = new Game(2);
-        
-        public void ConsoleChoise()
+        Boolean moneySpend = false;
+        public void GameInitialize()
         {
             game.AddBots();
             game.Ininialize();
-            game.Deal();
-            GameConsole.PlayerInfo();
-            while (!game.blackJack)
+            
+        }
+
+        public void ConsoleChoise()
+        {
+            if (Game.Player.PlayerBalance <= 0)
+            {
+                moneySpend = true;
+            }
+            if (!moneySpend)
+            {
+                game.PlayerDealBet();
+                game.Deal();
+                GameConsole.PlayerInfo();
+            }
+            while (!game.blackJack && !moneySpend)
             {
                 GameConsole.PlayerMakeChoise();
                 ConsoleKeyInfo key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.Enter)
                 {
                     game.Stand();
-                    GameConsole.PlayerInfo();
+                    GameConsole.Score();
                     Console.WriteLine("Balance: {0}", Game.Player.PlayerBalance);
                     GameConsole.DealerTakeCard();
                     break;
@@ -34,15 +47,30 @@ namespace GameLogicBlackJack.Controllers
                 if (key.Key == ConsoleKey.Spacebar)
                 {
                     game.Hit();
-                    GameConsole.PlayerInfo();
+                    GameConsole.Score();
                     GameConsole.PlayerTakeCard();
-                    if(Game.Player.TotalValue > 21)
+                    if (Game.Player.TotalValue > 21)
                     {
                         GameConsole.PlayerLose();
                         Console.WriteLine("Balance: {0}", Game.Player.PlayerBalance);
                         break;
                     }
                 }
+            }
+            GameConsole.ContinueOrStopGame();
+            if (moneySpend)
+            {
+                GameConsole.BustGame();
+            }
+            ConsoleKeyInfo keyNewGame = Console.ReadKey(true);
+            if (keyNewGame.Key == ConsoleKey.N)
+            {
+                game.blackJack = false;
+                ConsoleChoise();
+            }
+            if (keyNewGame.Key == ConsoleKey.Escape)
+            {
+                GameConsole.EndGame();
             }
         }
         public static Int32 ConsoleBotsChoise()
@@ -88,14 +116,14 @@ namespace GameLogicBlackJack.Controllers
             return balance;
         }
 
-       public static Decimal ConsolePlayerBet()
+        public static Decimal ConsolePlayerBet()
         {
             GameConsole.ConsolePlayerEnterBet();
             Int32 bet;
             String input = Console.ReadLine();
             input.Trim().Replace(" ", "");
             Int32.TryParse(input, out bet);
-            if (bet <= 0 || bet < Game.Player.PlayerBalance)
+            if (bet <= 0 || bet > Game.Player.PlayerBalance)
             {
                 input = Console.ReadLine();
                 input.Trim().Replace(" ", "");

@@ -14,6 +14,7 @@ namespace GameLogicBlackJack
         static void Main(string[] args)
         {
             GameController controllers = new GameController();
+            controllers.GameInitialize();
             controllers.ConsoleChoise();
             Console.WriteLine("Game End");
             Console.ReadKey();

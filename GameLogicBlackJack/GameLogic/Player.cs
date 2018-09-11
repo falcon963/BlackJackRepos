@@ -63,30 +63,7 @@ namespace GameLogicBlackJack.GameLogic
             }
             set
             {
-                if(betOfPlayer == value)
-                {
-                    return;
-                }
-
-                if(value > balanceOfPlayer + betOfPlayer && balanceOfPlayer > 0)
-                {
-                    betOfPlayer += balanceOfPlayer;
-                    PlayerBalance = 0;
-                }
-
-                if(value < 0 && betOfPlayer > 0)
-                {
-                    var temp = betOfPlayer + balanceOfPlayer;
-                    betOfPlayer = 0;
-                    PlayerBalance = temp;
-                }
-
-                if(value >= 0 && value <= balanceOfPlayer + betOfPlayer)
-                {
-                    var temp = balanceOfPlayer + betOfPlayer;
-                    betOfPlayer = value;
-                    PlayerBalance = temp - value;
-                }
+                betOfPlayer = value;
             }
         }
 
