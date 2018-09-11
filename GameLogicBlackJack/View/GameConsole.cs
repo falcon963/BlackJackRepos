@@ -41,9 +41,49 @@ namespace GameLogicBlackJack.View
                 Game.Dealer.dealerHand.ElementAt(1).CardFace + " " + Game.Dealer.dealerHand.ElementAt(1).CardSuit);
         }
 
+        public static void PlayerTakeCard()
+        {
+            Console.WriteLine("You take {0}.", Game.Player.playerHand.Last().CardFace + " " + Game.Player.playerHand.Last().CardSuit);
+        }
+
+        public static void DealerTakeCard()
+        {
+            Console.WriteLine("Dealer take {0}.", Game.Dealer.dealerHand.Last().CardFace + " " + Game.Dealer.dealerHand.Last().CardSuit);
+        }
+
         public static void PlayerMakeChoise()
         {
-            Console.WriteLine("Do you want take card {0}. Press SPACE if want, or ENTER if want continue", Game.Player.PlayerName);
+            Console.WriteLine("Do you want take card {0}? Press SPACE if want, or ENTER if want continue", Game.Player.PlayerName);
+        }
+
+        public static void PlayerLose()
+        {
+            Console.WriteLine("{0} lose!", Game.Player.PlayerName);
+        }
+
+        public static void PlayerWon()
+        {
+            Console.WriteLine("{0} won!", Game.Player.PlayerName);
+        }
+
+        public static void PlayerDraw()
+        {
+            Console.WriteLine("Diller and {0} played in a draw!", Game.Player.PlayerName);
+        }
+
+        public static void PlayerWonBlackJack()
+        {
+            Console.WriteLine("{0} won! {0} has Black Jack!", Game.Player.PlayerName);
+        }
+
+        public static void PlayerLoseBlackJack()
+        {
+            Console.WriteLine("{0} lose! Dealer has Black Jack!", Game.Player.PlayerName);
+        }
+
+        public static void PlayerDrawBlackJack()
+        {
+            Console.WriteLine("Diller and {0} have Black Jack, it is draw!", Game.Player.PlayerName);
         }
     }
 }

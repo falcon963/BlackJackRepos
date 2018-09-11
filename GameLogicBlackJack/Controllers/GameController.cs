@@ -16,41 +16,32 @@ namespace GameLogicBlackJack.Controllers
         public void ConsoleChoise()
         {
             game.AddBots();
-            game.Play();
+            game.Ininialize();
             game.Deal();
             GameConsole.PlayerInfo();
-            while (true)
+            while (!game.blackJack)
             {
-                
                 GameConsole.PlayerMakeChoise();
                 ConsoleKeyInfo key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.Enter)
                 {
-                    if ((game.AllowedActions & GameAction.Deal) == GameAction.Deal)
-                    {
-                        game.Deal();
-                        GameConsole.PlayerInfo();
-                    }
-                    if ((game.AllowedActions & GameAction.Deal) != GameAction.Deal)
-                    {
-                        game.Stand();
-                        GameConsole.PlayerInfo();
-                    }
+                    game.Stand();
+                    GameConsole.PlayerInfo();
+                    Console.WriteLine("Balance: {0}", Game.Player.PlayerBalance);
+                    GameConsole.DealerTakeCard();
                     break;
                 }
                 if (key.Key == ConsoleKey.Spacebar)
                 {
-                    if ((game.AllowedActions & GameAction.Deal) == GameAction.Deal)
+                    game.Hit();
+                    GameConsole.PlayerInfo();
+                    GameConsole.PlayerTakeCard();
+                    if(Game.Player.TotalValue > 21)
                     {
-                        game.Deal();
-                        GameConsole.PlayerInfo();
+                        GameConsole.PlayerLose();
+                        Console.WriteLine("Balance: {0}", Game.Player.PlayerBalance);
+                        break;
                     }
-                    if ((game.AllowedActions & GameAction.Deal) != GameAction.Deal)
-                    {
-                        game.Hit();
-                        GameConsole.PlayerInfo();
-                    }
-                    break;
                 }
             }
         }
@@ -58,11 +49,13 @@ namespace GameLogicBlackJack.Controllers
         {
             Int32 number;
             GameConsole.ConsolePlayerEnterNumberOfBots();
-            String input = Console.ReadLine().Trim().Replace(" ", "");
+            String input = Console.ReadLine();
+            input.Trim().Replace(" ", "");
             Int32.TryParse(input, out number);
             if (number < 0 || number > 5)
             {
-                input = Console.ReadLine().Trim().Replace(" ", "");
+                input = Console.ReadLine();
+                input.Trim().Replace(" ", "");
             }
             return number;
         }
@@ -70,10 +63,12 @@ namespace GameLogicBlackJack.Controllers
         public static String ConsolePlayerNickname()
         {
             GameConsole.ConsolePlayerEnterNickname();
-            String inputLine = Console.ReadLine().Trim().Replace(" ", "");
-            if(inputLine == "")
+            String inputLine = Console.ReadLine();
+            inputLine.Trim().Replace(" ", "");
+            if(string.IsNullOrEmpty(inputLine))
             {
-                inputLine = Console.ReadLine().Trim().Replace(" ", "");
+                inputLine = Console.ReadLine();
+                inputLine.Trim().Replace(" ", "");
             }
             return inputLine;
         }
@@ -82,11 +77,13 @@ namespace GameLogicBlackJack.Controllers
         {
             Int32 balance;
             GameConsole.PlayerEnterBalance();
-            String input = Console.ReadLine().Trim().Replace(" ", "");
+            String input = Console.ReadLine();
+            input.Trim().Replace(" ", "");
             Int32.TryParse(input, out balance);
             if ( balance <= 0 || balance >= 1000)
             {
-                input = Console.ReadLine().Trim().Replace(" ", "");
+                input = Console.ReadLine();
+                input.Trim().Replace(" ", "");
             }
             return balance;
         }
@@ -95,11 +92,13 @@ namespace GameLogicBlackJack.Controllers
         {
             GameConsole.ConsolePlayerEnterBet();
             Int32 bet;
-            String input = Console.ReadLine().Trim().Replace(" ", "");
+            String input = Console.ReadLine();
+            input.Trim().Replace(" ", "");
             Int32.TryParse(input, out bet);
             if (bet <= 0 || bet < Game.Player.PlayerBalance)
             {
-                input = Console.ReadLine().Trim().Replace(" ", "");
+                input = Console.ReadLine();
+                input.Trim().Replace(" ", "");
             }
             return bet;
         } 
