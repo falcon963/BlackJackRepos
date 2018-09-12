@@ -19,11 +19,11 @@ namespace GameLogicBlackJack.GameLogic
         private Deck deck = new Deck();
         private GameAction allowedActions;
         private GameState lastState;
-        public static Player Player { get; set; }
-        public static Dealer Dealer { get; set; }
-        public static Bot Bot { get; set; }
+        public Player Player { get; set; }
+        public Dealer Dealer { get; set; }
+        public Bot Bot { get; set; }
         public Boolean blackJack = false;
-
+       // GameController controller;
 
         public Int32 ReadGameId
         {
@@ -74,24 +74,18 @@ namespace GameLogicBlackJack.GameLogic
             }
         }
 
-        public void AddBots()
+        public void AddBots(Int32 countOfBots)
         {
-            Int32 number = GameController.ConsoleBotsChoise();
-            for(int i = 0; i < number ; i++)
+            Int32 number = countOfBots;
+            for(Int32 i = 0; i < number ; i++)
             {
                 bots.Add(new Bot(i));
             }
         }
 
-        public void Ininialize()
+        public void PlayerDealBet(Decimal playerBet)
         {
-            Player.PlayerName = GameController.ConsolePlayerNickname();
-            Player.PlayerBalance = GameController.ConsolePlayerBalanse();
-            AllowedActions = GameAction.Deal;
-        }
-        public void PlayerDealBet()
-        {
-            Player.PlayerBet = GameController.ConsolePlayerBet();
+            Player.PlayerBet = playerBet;
             AllowedActions = GameAction.Deal;
         }
 
@@ -146,7 +140,7 @@ namespace GameLogicBlackJack.GameLogic
             if (Player.TotalValue == 21 & Dealer.TotalValue == 21)
             {
                 blackJack = true;
-                GameConsole.PlayerDrawBlackJack();
+                GameController.GameConsole.PlayerDrawBlackJack();
                 LastState = GameState.Draw;
                 AllowedActions = GameAction.Deal;
             }
@@ -154,14 +148,14 @@ namespace GameLogicBlackJack.GameLogic
             {
                 Player.PlayerBalance += Player.PlayerBet;
                 blackJack = true;
-                GameConsole.PlayerWonBlackJack();
+                GameController.GameConsole.PlayerWonBlackJack();
                 LastState = GameState.PlayerWon;
                 AllowedActions = GameAction.Deal;
             }
             if (Player.TotalValue != 21 & Dealer.TotalValue == 21)
             {
                 Player.PlayerBalance -= Player.PlayerBet;
-                GameConsole.PlayerLoseBlackJack();
+                GameController.GameConsole.PlayerLoseBlackJack();
                 blackJack = true;
                 LastState = GameState.DealerWon;
                 AllowedActions = GameAction.Deal;
@@ -226,19 +220,19 @@ namespace GameLogicBlackJack.GameLogic
             if (Dealer.TotalValue > 21 || Player.TotalValue > Dealer.TotalValue)
             {
                 Player.PlayerBalance += Player.PlayerBet;
-                GameConsole.PlayerWon();
+                GameController.GameConsole.PlayerWon();
                 LastState = GameState.PlayerWon;
             }
             if(Dealer.TotalValue == Player.TotalValue)
             {
-                GameConsole.PlayerDraw();
+                GameController.GameConsole.PlayerDraw();
                 LastState = GameState.Draw;
             }
             if(Dealer.TotalValue <= 21 && Dealer.TotalValue > Player.TotalValue)
             {
                 Player.PlayerBalance -= Player.PlayerBet;
                 LastState = GameState.DealerWon;
-                GameConsole.PlayerLose();
+                GameController.GameConsole.PlayerLose();
             }
             AllowedActions = GameAction.Deal;
         }

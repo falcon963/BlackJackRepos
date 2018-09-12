@@ -12,7 +12,7 @@ namespace GameLogicBlackJack.View
 
     public class GameConsole
     {
-        public static void ConsolePlayerEnterNickname()
+        /*public static void ConsolePlayerEnterNickname()
         {
             Console.WriteLine("Enter your nickname: ");
         }
