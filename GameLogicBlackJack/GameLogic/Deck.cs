@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameLogicBlackJack.BusinessLogic.Enum;
+using GameLogicBlackJack.Interface;
+using GameLogicBlackJack.Enums;
 
 
 namespace GameLogicBlackJack.GameLogic
@@ -12,6 +13,14 @@ namespace GameLogicBlackJack.GameLogic
     {
         Random random = new Random();
         public List<Card> cards = new List<Card>(52);
+        public static Int32 GetEnumEntries<T>() where T: struct, IConvertible
+        {
+            if (!typeof(T).IsEnum)
+            {
+                throw new ArgumentException("T must be an enumerated type.");
+            }
+            return Enum.GetNames(typeof(T)).Length;
+        }
         public Deck()
         {
             this.Populate();
@@ -20,14 +29,15 @@ namespace GameLogicBlackJack.GameLogic
         public void Populate()
         {
             cards.Clear();
-            cards.AddRange(Enumerable.Range(1, 4).SelectMany(s => Enumerable.Range(1, 13).Select(n => new Card((CardFaceEnum)n, (CardSuitEnum)s))));
+            cards.AddRange(Enumerable.Range(1, GetEnumEntries<CardSuitEnum>()).SelectMany(s => Enumerable.Range(1, GetEnumEntries<CardFaceEnum>()).Select(n => new Card((CardFaceEnum)n, (CardSuitEnum)s))));
+
         }
 
         public void Shuffle()
         {
             Random rng = new Random();
             int n = cards.Count;
-            while (n > 1)
+            for(Int32 i = 1; n > i ;)
             {
                 n--;
                 int k = rng.Next(n + 1);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameLogicBlackJack.BusinessLogic.Enum;
 using GameLogicBlackJack.GameLogic;
 using GameLogicBlackJack.View;
 
@@ -22,14 +21,14 @@ namespace GameLogicBlackJack.Controllers
         {
 
             game.Player.PlayerName = ConsolePlayerNickname();
-            game.Player.PlayerBalance = ConsolePlayerBalance();
+            game.Player.Balance = ConsolePlayerBalance();
             ConsoleBotsChoise();
             game.AddBots(_numberOfBots);
         }
 
         public void ConsoleChoise()
         {
-            if (game.Player.PlayerBalance <= 0)
+            if (game.Player.Balance <= 0)
             {
                 moneySpend = true;
             }
@@ -48,7 +47,7 @@ namespace GameLogicBlackJack.Controllers
                 {
                     game.Stand();
                     console.Score(game);
-                    Console.WriteLine("Balance: {0}", game.Player.PlayerBalance);
+                    Console.WriteLine("Balance: {0}", game.Player.Balance);
                     console.DealerTakeCard(game);
                     break;
                 }
@@ -57,10 +56,10 @@ namespace GameLogicBlackJack.Controllers
                     game.Hit();
                     console.Score(game);
                     console.PlayerTakeCard(game);
-                    if (game.Player.TotalValue > 21)
+                    if (Game.TotalValue(game.Player.Hand) > 21)
                     {
                         GameConsole.PlayerLose();
-                        Console.WriteLine("Balance: {0}", game.Player.PlayerBalance);
+                        Console.WriteLine("Balance: {0}", game.Player.Balance);
                         break;
                     }
                 }
@@ -98,12 +97,13 @@ namespace GameLogicBlackJack.Controllers
         }
 
         public String ConsolePlayerNickname()
-        { 
+        {
             GameConsole.ConsolePlayerEnterNickname();
             String inputLine = Console.ReadLine();
             inputLine.Trim().Replace(" ", "");
             while (string.IsNullOrEmpty(inputLine) || inputLine.Contains(" "))
             {
+                GameConsole.ConsolePlayerEnterNickname();
                 inputLine = Console.ReadLine();
                 inputLine.Trim().Replace(" ", "");
             }
@@ -117,8 +117,9 @@ namespace GameLogicBlackJack.Controllers
             String input = Console.ReadLine();
             input.Trim().Replace(" ", "");
             Int32.TryParse(input, out balance);
-            while( balance <= 0 || balance >= 1000)
+            while (balance <= 0 || balance >= 1000)
             {
+                GameConsole.PlayerEnterBalance();
                 input = Console.ReadLine();
                 input.Trim().Replace(" ", "");
                 Int32.TryParse(input, out balance);
@@ -133,8 +134,9 @@ namespace GameLogicBlackJack.Controllers
             String input = Console.ReadLine();
             input.Trim().Replace(" ", "");
             Int32.TryParse(input, out bet);
-            while(bet <= 0 || bet > game.Player.PlayerBalance)
+            while (bet <= 0 || bet > game.Player.Balance)
             {
+                console.ConsolePlayerEnterBet(game);
                 input = Console.ReadLine();
                 input.Trim().Replace(" ", "");
                 Int32.TryParse(input, out bet);
@@ -145,7 +147,7 @@ namespace GameLogicBlackJack.Controllers
         public class GameConsole
         {
 
-            
+
             public static void ConsolePlayerEnterNickname()
             {
                 Console.WriteLine("Enter your nickname: ");
@@ -160,88 +162,129 @@ namespace GameLogicBlackJack.Controllers
             }
             public void ConsolePlayerEnterBet(Game game)
             {
-                Console.WriteLine("{1} balance: {0}$.", game.Player.PlayerBalance, game.Player.PlayerName);
-                Console.WriteLine(@"How much bet do you want (0 - {0})?", game.Player.PlayerBalance);
+                Console.WriteLine("{1} balance: {0}$.\n", game.Player.Balance, game.Player.PlayerName);
+                Console.WriteLine(@"How much bet do you want (0 - {0})?", game.Player.Balance);
             }
 
             public void PlayerInfo(Game game)
             {
-                Console.WriteLine("You score: {2}. You cards: {0}, {1}.",
+                Console.WriteLine("You score: {2}. You cards: {0}, {1}.\n",
                     game.Player.playerHand.ElementAt(0).CardFace + " " + game.Player.playerHand.ElementAt(0).CardSuit,
-                    game.Player.playerHand.ElementAt(1).CardFace + " " + game.Player.playerHand.ElementAt(1).CardSuit, game.Player.TotalValue);
-                Console.WriteLine("Dealer score: {0}. Dealer cards: {1}, {2}",
-                    game.Dealer.TotalValue, game.Dealer.dealerHand.ElementAt(0).CardFace + " " + game.Dealer.dealerHand.ElementAt(0).CardSuit,
+                    game.Player.playerHand.ElementAt(1).CardFace + " " + game.Player.playerHand.ElementAt(1).CardSuit, Game.TotalValue(game.Player.Hand));
+                Console.WriteLine("Dealer score: {0}. Dealer cards: {1}, {2}.\n",
+                   Game.TotalValue(game.Dealer.Hand), game.Dealer.dealerHand.ElementAt(0).CardFace + " " + game.Dealer.dealerHand.ElementAt(0).CardSuit,
                     game.Dealer.dealerHand.ElementAt(1).CardFace + " " + game.Dealer.dealerHand.ElementAt(1).CardSuit);
             }
 
             public void Score(Game game)
             {
-                Console.WriteLine("You score: {0}.", game.Player.TotalValue);
-                Console.WriteLine("Dealer score: {0}.", game.Dealer.TotalValue);
+                Console.WriteLine("You score: {0}.\n", Game.TotalValue(game.Player.Hand));
+                Console.WriteLine("Dealer score: {0}.\n", Game.TotalValue(game.Dealer.Hand));
             }
 
             public void PlayerTakeCard(Game game)
             {
-                Console.WriteLine("You take {0}.", game.Player.playerHand.Last().CardFace + " " + game.Player.playerHand.Last().CardSuit);
+                Console.WriteLine("You take {0}.\n", game.Player.playerHand.Last().CardFace + " " + game.Player.playerHand.Last().CardSuit);
             }
 
             public void DealerTakeCard(Game game)
             {
-                Console.WriteLine("Dealer take {0}.", game.Dealer.dealerHand.Last().CardFace + " " + game.Dealer.dealerHand.Last().CardSuit);
+                Console.WriteLine("Dealer take {0}.\n", game.Dealer.dealerHand.Last().CardFace + " " + game.Dealer.dealerHand.Last().CardSuit);
             }
 
             public void PlayerMakeChoise(Game game)
             {
-                Console.WriteLine("Do you want take card {0}? Press SPACE if want, or ENTER if want continue", game.Player.PlayerName);
+                Console.WriteLine("Do you want take card {0}? Press SPACE if want, or ENTER if want continue\n", game.Player.PlayerName);
             }
 
             public static void PlayerLose()
             {
-                Console.WriteLine("You lose!");
+                Console.WriteLine("You lose!\n");
             }
 
             public static void PlayerWon()
             {
-                Console.WriteLine("You won!");
+                Console.WriteLine("You won!\n");
             }
 
             public static void PlayerDraw()
             {
-                Console.WriteLine("Diller and you played in a draw!");
+                Console.WriteLine("Diller and you played in a draw!\n");
             }
 
             public static void PlayerWonBlackJack()
             {
-                Console.WriteLine("You won and have Black Jack!");
+                Console.WriteLine("You won and have Black Jack!\n");
             }
 
             public static void PlayerLoseBlackJack()
             {
-                Console.WriteLine("You lose! Dealer has Black Jack!");
+                Console.WriteLine("You lose! Dealer has Black Jack!\n");
             }
 
             public static void PlayerDrawBlackJack()
             {
-                Console.WriteLine("Diller and you have Black Jack, it is draw!");
+                Console.WriteLine("Diller and you have Black Jack, it is draw!\n");
             }
             public static void ContinueOrStopGame()
             {
-                Console.WriteLine("If you want continue game, press N. Else press Escape.");
+                Console.WriteLine("If you want continue game, press N. Else press Escape.\n");
             }
             public void EndGame(Game game)
             {
-                Console.WriteLine("Game was stoped. {0} balance: {1}.", game.Player.PlayerName, game.Player.PlayerBalance);
+                Console.WriteLine("Game was stoped. {0} balance: {1}.\n", game.Player.PlayerName, game.Player.Balance);
             }
             public void BustGame(Game game)
             {
-                Console.WriteLine("Game was stoped. You dont have money. {0} balance: {1}.\n ..............Press Escape..............", game.Player.PlayerName, game.Player.PlayerBalance);
+                Console.WriteLine("Game was stoped. You dont have money. {0} balance: {1}.\n ..............Press Escape..............\n", game.Player.PlayerName, game.Player.Balance);
             }
-            /*  public static void BotsInfo()
-              {
-                  Console.WriteLine("Bot{0} cards: {1}, {2}", Game.Bot.BotId, Game.Bot.botHand.ElementAt(0).CardSuit + " " + Game.Bot.botHand.ElementAt(0).CardFace,
-                      Game.Bot.botHand.ElementAt(1).CardSuit + " " + Game.Bot.botHand.ElementAt(1).CardFace);
-              }*/
-        }
+            public static void BotsInfo(Bot bot)
+            {
 
-}
+                Console.WriteLine("Bot{0} cards 1: {1}, value = {3},\nBot{0} cards 2: {2}, value = {4}.\nBot{0} score = {5}",
+                    bot.Id + 1, bot.Hand.ElementAt(0).CardSuit + " " + bot.botHand.ElementAt(0).CardFace,
+                      bot.Hand.ElementAt(1).CardSuit + " " + bot.Hand.ElementAt(1).CardFace, bot.Hand.ElementAt(0).CardValue,
+                      bot.Hand.ElementAt(1).CardValue, Game.TotalValue(bot.Hand));
+            }
+            public static void BotTakeCard(Bot bot)
+            {
+                Console.WriteLine("Bot{0} take card {1}.\n", bot.Id + 1, bot.Hand.Last().CardFace + " " + bot.Hand.Last().CardSuit);
+            }
+            public static void BotLose(Bot bot)
+            {
+                Console.WriteLine("Bot{0} lose!\n", bot.Id + 1);
+            }
+
+            public static void BotWon(Bot bot)
+            {
+                Console.WriteLine("Bot{0} won!\n", bot.Id + 1);
+            }
+
+            public static void BotDraw(Bot bot)
+            {
+                Console.WriteLine("Diller and Bot{0} played in a draw!\n", bot.Id + 1);
+            }
+
+            public static void BotWonBlackJack(Bot bot)
+            {
+                Console.WriteLine("Bot{0} won because he has Black Jack!\n", bot.Id + 1);
+            }
+
+            public static void BotLoseBlackJack(Bot bot)
+            {
+                Console.WriteLine("Bot{0} lose because Dealer has Black Jack!\n", bot.Id + 1);
+            }
+
+            public static void BotDrawBlackJack(Bot bot)
+            {
+                Console.WriteLine("Diller and Bot{0} have Black Jack, it is draw!\n", bot.Id + 1);
+
+            }
+            public static void BotBalance(Bot bot)
+            {
+                Console.WriteLine("Bot{0} balance: {1}$\n", bot.Id + 1, bot.Balance);
+            }
+
+        }
+    }
 }

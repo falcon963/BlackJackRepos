@@ -3,28 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameLogicBlackJack.BusinessLogic.Interface;
-using GameLogicBlackJack.BusinessLogic.Enum;
+using GameLogicBlackJack.Interface;
+using GameLogicBlackJack.Enums;
 
 namespace GameLogicBlackJack.GameLogic
 {
 
    
 
-    public class Bot : IBot
+    public class Bot : IHand, IBet, IBalance, IId
     {
         public List<Card> botHand = new List<Card>();
-        private String botName;
         readonly Int32 botId;
         public Decimal botBalance = 500;
         public Decimal botBet;
+
+        public List<Card> Hand
+        {
+            get
+            {
+                return botHand;
+            }
+            set
+            {
+                botHand = value;
+            }
+        }
 
         public Bot(Int32 botId)
         {
             this.botId = botId;
         }
 
-        public Decimal BotBalance
+        public Decimal Balance
         {
             get
             {
@@ -32,18 +43,11 @@ namespace GameLogicBlackJack.GameLogic
             }
             set
             {
-                if(botBalance < 10)
-                {
-                    botBalance = 500;
-                }
-                if(botBalance >= 10)
-                {
-                    botBalance = value;
-                }
+                botBalance = value;
             }
         }
 
-        public Decimal BotBet
+        public Decimal Bet
         {
             get
             {
@@ -63,19 +67,8 @@ namespace GameLogicBlackJack.GameLogic
             }
         }
 
-        public String BotName
-        {
-            get
-            {
-                return botName;
-            }
-            set
-            {
-                botName = value;
-            }
-        }
 
-        public Int32 BotId
+        public Int32 Id
         {
             get
             {
@@ -83,34 +76,6 @@ namespace GameLogicBlackJack.GameLogic
             }
         }
 
-        public Int32 TotalValue
-        {
-            get
-            {
-                Int32 totalValue = 0;
-                foreach (Card card in botHand)
-                {
-                    if ((Int32)card.CardFace > 1 & (Int32)card.CardFace < 11)
-                    {
-                        card.CardValue = (Int32)card.CardFace;
-                    }
-                    if ((Int32)card.CardFace >= 11)
-                    {
-                        card.CardValue = 10;
-                    }
-                    if (card.CardFace == CardFaceEnum.Ace & totalValue + 11 < 22)
-                    {
-                        card.CardValue = 11;
-                    }
-                    if (card.CardFace == CardFaceEnum.Ace & totalValue + 11 > 22)
-                    {
-                        card.CardValue = 1;
-                    }
-                    totalValue += card.CardValue;
-                }
-                return totalValue;
-            }
-        }
 
         public void Clear()
         {

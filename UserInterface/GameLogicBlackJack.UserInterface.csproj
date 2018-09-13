@@ -45,10 +45,6 @@
     <Compile Include="UI\Messenger.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameLogicBlackJack.BusinessLogic\GameLogicBlackJack.BusinessLogic.csproj">
-      <Project>{5c66172b-0f94-49e7-b639-76e2e50c23d9}</Project>
-      <Name>GameLogicBlackJack.BusinessLogic</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GameLogicBlackJack.DataAccess\GameLogicBlackJack.DataAccess.csproj">
       <Project>{18fcb1c9-a6fd-4d49-8fb0-4e3c79aeac48}</Project>
       <Name>GameLogicBlackJack.DataAccess</Name>

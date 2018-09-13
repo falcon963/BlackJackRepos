@@ -43,7 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\GameController.cs" />
-    <Compile Include="GameLogic\BaseHand.cs" />
+    <Compile Include="Enums\CardFaceEnum.cs" />
+    <Compile Include="Enums\CardSuitEnum.cs" />
+    <Compile Include="Enums\GameAction.cs" />
+    <Compile Include="Enums\GameState.cs" />
     <Compile Include="GameLogic\Bot.cs" />
     <Compile Include="GameLogic\Card.cs" />
     <Compile Include="GameLogic\Dealer.cs" />
@@ -51,6 +54,13 @@
     <Compile Include="GameLogic\Game.cs" />
     <Compile Include="GameLogic\Hand.cs" />
     <Compile Include="GameLogic\Player.cs" />
+    <Compile Include="Interface\IBalance.cs" />
+    <Compile Include="Interface\IBet.cs" />
+    <Compile Include="Interface\IBot.cs" />
+    <Compile Include="Interface\IDealer.cs" />
+    <Compile Include="Interface\IHand.cs" />
+    <Compile Include="Interface\IId.cs" />
+    <Compile Include="Interface\IPlayerAccount.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\GameConsole.cs" />
@@ -59,10 +69,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameLogicBlackJack.BusinessLogic\GameLogicBlackJack.BusinessLogic.csproj">
-      <Project>{5c66172b-0f94-49e7-b639-76e2e50c23d9}</Project>
-      <Name>GameLogicBlackJack.BusinessLogic</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GameLogicBlackJack.DataAccess\GameLogicBlackJack.DataAccess.csproj">
       <Project>{18fcb1c9-a6fd-4d49-8fb0-4e3c79aeac48}</Project>
       <Name>GameLogicBlackJack.DataAccess</Name>

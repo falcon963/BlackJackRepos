@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameLogicBlackJack.BusinessLogic.Interface;
-using GameLogicBlackJack.BusinessLogic.Enum;
+using GameLogicBlackJack.Interface;
+using GameLogicBlackJack.Enums;
 
 namespace GameLogicBlackJack.GameLogic
 {
    
-    public class Player : IPlayerAccount
+    public class Player : IPlayerAccount, IHand, IId, IBet, IBalance
     {
         public List<Card> playerHand = new List<Card>();
         private String nameOfPlayer;
@@ -35,7 +35,7 @@ namespace GameLogicBlackJack.GameLogic
             }
         }
 
-        public Int32 PlayerId
+        public Int32 Id
         {
             get
             {
@@ -43,7 +43,7 @@ namespace GameLogicBlackJack.GameLogic
             }
         }
 
-        public Decimal PlayerBalance
+        public Decimal Balance
         {
             get
             {
@@ -55,7 +55,7 @@ namespace GameLogicBlackJack.GameLogic
             }
         }
 
-        public Decimal PlayerBet
+        public Decimal Bet
         {
             get
             {
@@ -67,34 +67,19 @@ namespace GameLogicBlackJack.GameLogic
             }
         }
 
-        public Int32 TotalValue
+        public List<Card> Hand
         {
             get
             {
-                Int32 totalValue = 0;
-                foreach (Card card in playerHand)
-                {
-                    if ((Int32)card.CardFace > 1 & (Int32)card.CardFace < 11)
-                    {
-                        card.CardValue = (Int32)card.CardFace;
-                    }
-                    if ((Int32)card.CardFace >= 11)
-                    {
-                        card.CardValue = 10;
-                    }
-                    if (card.CardFace == CardFaceEnum.Ace & totalValue + 11 < 22)
-                    {
-                        card.CardValue = 11;
-                    }
-                    if (card.CardFace == CardFaceEnum.Ace & totalValue + 11 > 22)
-                    {
-                        card.CardValue = 1;
-                    }
-                    totalValue += card.CardValue;
-                }
-                return totalValue;
+                return playerHand;
+            }
+            set
+            {
+                playerHand = value;
             }
         }
+
+       
 
         public void Clear()
         {
