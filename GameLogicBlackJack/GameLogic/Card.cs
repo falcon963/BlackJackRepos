@@ -15,8 +15,8 @@ namespace GameLogicBlackJack.GameLogic
             CardFace = cardFace;
             CardSuit = cardSuit;
         }
-            public CardFaceEnum CardFace { get; set; }
-            public CardSuitEnum CardSuit { get; set; }
-            public Int32 CardValue { get; set; }
+        public CardFaceEnum CardFace { get; set; }
+        public CardSuitEnum CardSuit { get; set; }
+        public Int32 CardValue { get; set; }
     }
 }

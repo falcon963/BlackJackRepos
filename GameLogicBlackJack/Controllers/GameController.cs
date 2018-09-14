@@ -39,7 +39,7 @@ namespace GameLogicBlackJack.Controllers
                 game.Deal();
                 console.PlayerInfo(game);
             }
-            while (!game.blackJack && !moneySpend)
+            while (!game.goldBlackJack && !game.blackJack && !moneySpend)
             {
                 console.PlayerMakeChoise(game);
                 ConsoleKeyInfo key = Console.ReadKey(true);
@@ -73,6 +73,7 @@ namespace GameLogicBlackJack.Controllers
             if (keyNewGame.Key == ConsoleKey.N)
             {
                 game.blackJack = false;
+                game.goldBlackJack = false;
                 ConsoleChoise();
             }
             if (keyNewGame.Key == ConsoleKey.Escape)
@@ -172,8 +173,8 @@ namespace GameLogicBlackJack.Controllers
                     game.Player.playerHand.ElementAt(0).CardFace + " " + game.Player.playerHand.ElementAt(0).CardSuit,
                     game.Player.playerHand.ElementAt(1).CardFace + " " + game.Player.playerHand.ElementAt(1).CardSuit, Game.TotalValue(game.Player.Hand));
                 Console.WriteLine("Dealer score: {0}. Dealer cards: {1}, {2}.\n",
-                   Game.TotalValue(game.Dealer.Hand), game.Dealer.dealerHand.ElementAt(0).CardFace + " " + game.Dealer.dealerHand.ElementAt(0).CardSuit,
-                    game.Dealer.dealerHand.ElementAt(1).CardFace + " " + game.Dealer.dealerHand.ElementAt(1).CardSuit);
+                   Game.TotalValue(game.Dealer.Hand), game.Dealer.Hand.ElementAt(0).CardFace + " " + game.Dealer.Hand.ElementAt(0).CardSuit,
+                    game.Dealer.Hand.ElementAt(1).CardFace + " " + game.Dealer.Hand.ElementAt(1).CardSuit);
             }
 
             public void Score(Game game)
@@ -184,12 +185,12 @@ namespace GameLogicBlackJack.Controllers
 
             public void PlayerTakeCard(Game game)
             {
-                Console.WriteLine("You take {0}.\n", game.Player.playerHand.Last().CardFace + " " + game.Player.playerHand.Last().CardSuit);
+                Console.WriteLine("You take {0}.\n", game.Player.Hand.Last().CardFace + " " + game.Player.Hand.Last().CardSuit);
             }
 
             public void DealerTakeCard(Game game)
             {
-                Console.WriteLine("Dealer take {0}.\n", game.Dealer.dealerHand.Last().CardFace + " " + game.Dealer.dealerHand.Last().CardSuit);
+                Console.WriteLine("Dealer take {0}.\n", game.Dealer.Hand.Last().CardFace + " " + game.Dealer.Hand.Last().CardSuit);
             }
 
             public void PlayerMakeChoise(Game game)

@@ -12,7 +12,7 @@ namespace GameLogicBlackJack.GameLogic
     public class Deck
     {
         Random random = new Random();
-        public List<Card> cards = new List<Card>(52);
+        public List<Card> cards = new List<Card>();
         public static Int32 GetEnumEntries<T>() where T: struct, IConvertible
         {
             if (!typeof(T).IsEnum)
@@ -29,8 +29,22 @@ namespace GameLogicBlackJack.GameLogic
         public void Populate()
         {
             cards.Clear();
-            cards.AddRange(Enumerable.Range(1, GetEnumEntries<CardSuitEnum>()).SelectMany(s => Enumerable.Range(1, GetEnumEntries<CardFaceEnum>()).Select(n => new Card((CardFaceEnum)n, (CardSuitEnum)s))));
-
+          //  cards.AddRange(Enumerable.Range(1, GetEnumEntries<CardSuitEnum>()).SelectMany(s => Enumerable.Range(1, GetEnumEntries<CardFaceEnum>()).Select(n => new Card((CardFaceEnum)n, (CardSuitEnum)s))));
+            for (Int32 i = 1; i < 5; i++)
+            {
+                for(Int32 j = 1; j < 14; j++)
+                {
+                    cards.Add(new Card((CardFaceEnum)j, (CardSuitEnum)(CardFaceEnum)i));
+                    if (j <= 9)
+                    {
+                        cards[cards.Count - 1].CardValue = j;
+                    }
+                    if(j > 9)
+                    {
+                        cards[cards.Count - 1].CardValue = 10;
+                    }
+                }
+            }
         }
 
         public void Shuffle()
