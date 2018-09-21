@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameLogicBlackJack.GameLogic;
+using GameLogicBlackJack.Models;
 using GameLogicBlackJack.View;
 
 namespace GameLogicBlackJack.Controllers
 {
     public class GameController
     {
-        Game game = new Game(2);
+        Game game = new Game();
         public Game Game { get; set; }
         GameConsole console = new GameConsole();
         public Int32 _numberOfBots;
@@ -20,7 +20,7 @@ namespace GameLogicBlackJack.Controllers
         public void GameInitialize()
         {
 
-            game.Player.PlayerName = ConsolePlayerNickname();
+            game.Player.Name = ConsolePlayerNickname();
             game.Player.Balance = ConsolePlayerBalance();
             ConsoleBotsChoise();
             game.AddBots(_numberOfBots);
@@ -39,7 +39,7 @@ namespace GameLogicBlackJack.Controllers
                 game.Deal();
                 console.PlayerInfo(game);
             }
-            while (!game.goldBlackJack && !game.blackJack && !moneySpend)
+            while (!game._goldBlackJack && !game._blackJack && !moneySpend)
             {
                 console.PlayerMakeChoise(game);
                 ConsoleKeyInfo key = Console.ReadKey(true);
@@ -72,8 +72,8 @@ namespace GameLogicBlackJack.Controllers
             ConsoleKeyInfo keyNewGame = Console.ReadKey(true);
             if (keyNewGame.Key == ConsoleKey.N)
             {
-                game.blackJack = false;
-                game.goldBlackJack = false;
+                game._blackJack = false;
+                game._goldBlackJack = false;
                 ConsoleChoise();
             }
             if (keyNewGame.Key == ConsoleKey.Escape)
@@ -163,15 +163,15 @@ namespace GameLogicBlackJack.Controllers
             }
             public void ConsolePlayerEnterBet(Game game)
             {
-                Console.WriteLine("{1} balance: {0}$.\n", game.Player.Balance, game.Player.PlayerName);
+                Console.WriteLine("{1} balance: {0}$.\n", game.Player.Balance, game.Player.Name);
                 Console.WriteLine(@"How much bet do you want (0 - {0})?", game.Player.Balance);
             }
 
             public void PlayerInfo(Game game)
             {
                 Console.WriteLine("You score: {2}. You cards: {0}, {1}.\n",
-                    game.Player.playerHand.ElementAt(0).CardFace + " " + game.Player.playerHand.ElementAt(0).CardSuit,
-                    game.Player.playerHand.ElementAt(1).CardFace + " " + game.Player.playerHand.ElementAt(1).CardSuit, Game.TotalValue(game.Player.Hand));
+                    game.Player.Hand.ElementAt(0).CardFace + " " + game.Player.Hand.ElementAt(0).CardSuit,
+                    game.Player.Hand.ElementAt(1).CardFace + " " + game.Player.Hand.ElementAt(1).CardSuit, Game.TotalValue(game.Player.Hand));
                 Console.WriteLine("Dealer score: {0}. Dealer cards: {1}, {2}.\n",
                    Game.TotalValue(game.Dealer.Hand), game.Dealer.Hand.ElementAt(0).CardFace + " " + game.Dealer.Hand.ElementAt(0).CardSuit,
                     game.Dealer.Hand.ElementAt(1).CardFace + " " + game.Dealer.Hand.ElementAt(1).CardSuit);
@@ -195,7 +195,7 @@ namespace GameLogicBlackJack.Controllers
 
             public void PlayerMakeChoise(Game game)
             {
-                Console.WriteLine("Do you want take card {0}? Press SPACE if want, or ENTER if want continue\n", game.Player.PlayerName);
+                Console.WriteLine("Do you want take card {0}? Press SPACE if want, or ENTER if want continue\n", game.Player.Name);
             }
 
             public static void PlayerLose()
@@ -233,17 +233,17 @@ namespace GameLogicBlackJack.Controllers
             }
             public void EndGame(Game game)
             {
-                Console.WriteLine("Game was stoped. {0} balance: {1}.\n", game.Player.PlayerName, game.Player.Balance);
+                Console.WriteLine("Game was stoped. {0} balance: {1}.\n", game.Player.Name, game.Player.Balance);
             }
             public void BustGame(Game game)
             {
-                Console.WriteLine("Game was stoped. You dont have money. {0} balance: {1}.\n ..............Press Escape..............\n", game.Player.PlayerName, game.Player.Balance);
+                Console.WriteLine("Game was stoped. You dont have money. {0} balance: {1}.\n ..............Press Escape..............\n", game.Player.Name, game.Player.Balance);
             }
             public static void BotsInfo(Bot bot)
             {
 
                 Console.WriteLine("Bot{0} cards 1: {1}, value = {3},\nBot{0} cards 2: {2}, value = {4}.\nBot{0} score = {5}",
-                    bot.Id + 1, bot.Hand.ElementAt(0).CardSuit + " " + bot.botHand.ElementAt(0).CardFace,
+                    bot.Id + 1, bot.Hand.ElementAt(0).CardSuit + " " + bot.Hand.ElementAt(0).CardFace,
                       bot.Hand.ElementAt(1).CardSuit + " " + bot.Hand.ElementAt(1).CardFace, bot.Hand.ElementAt(0).CardValue,
                       bot.Hand.ElementAt(1).CardValue, Game.TotalValue(bot.Hand));
             }

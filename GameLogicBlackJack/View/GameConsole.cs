@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GameLogicBlackJack.Controllers;
-using GameLogicBlackJack.GameLogic;
+using GameLogicBlackJack.Models;
 
 namespace GameLogicBlackJack.View
 {

@@ -9,8 +9,5 @@ namespace GameLogicBlackJack.BusinessLogic.Interface
     public interface IPlayerAccount
     {
         String PlayerName { get; set; }
-        Decimal PlayerBalance { get; set; }
-        Int32 PlayerId { get; }
-        Decimal PlayerBet { get; set; }
     }
 }

@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameLogicBlackJack.Models;
 
 namespace GameLogicBlackJack.Interface
 {
-    public interface IBet
+    public interface IPlayers
     {
-        Decimal Bet { get; set; }
+        String Name { get; set; }
     }
 }
