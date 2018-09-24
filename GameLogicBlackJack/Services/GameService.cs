@@ -12,41 +12,24 @@ using GameLogicBlackJack.Enums;
 
 namespace GameLogicBlackJack.Services
 {
-    public class GameService : IGameService
+    public class GameService
     {
-        IUnitOfWork Database { get; set; }
-        List<Bot> bots = new List<Bot>();
+        public static IUnitOfWork Database { get; private set; }
 
-        public GameService(IUnitOfWork unitOfWork)
+        private GameService(IUnitOfWork unitOfWork)
         {
             Database = unitOfWork;
         }
 
-        public Int32 TotalValue(List<Card> hand)
-        {
-            Int32 totalValue = 0;
-            foreach (Card card in hand)
-            {
-                if (card.CardFace == CardFaceEnum.Ace & totalValue + 11 < 22)
-                {
-                    card.CardValue = 11;
-                }
-                if (card.CardFace == CardFaceEnum.Ace & totalValue + 11 > 22)
-                {
-                    card.CardValue = 1;
-                }
-                totalValue += card.CardValue;
-            }
-            return totalValue;
-        }
+       
 
-        public Bot GetBot(Int32? id)
+        public static Bot GetBot(Int32? id)
         {
             var bot = Database.Bots.Get(id.Value);
             return new Bot { Id = bot.Id, Name = bot.Name, Balance = bot.Balance, Bet = bot.Bet };
         }
 
-        public void BotsInitialize()
+        public static void BotsInitialize(Game game)
         {
             Int32 number;
             String input = Console.ReadLine();
@@ -58,67 +41,59 @@ namespace GameLogicBlackJack.Services
                 input.Trim().Replace(" ", "");
                 Int32.TryParse(input, out number);
             }
-            for(int i = 1; i <= number; i++)
+            for(int i = 0; i <= number; i++)
             {
-                bots.Add(GetBot(i));
+                game.bots.Add(GetBot(i+1));
             }
         }
 
-        public void DealerInitialize()
-        {
-            DealerDAL dealerDAL = new DealerDAL();
-        }
 
-        public void PlayerInitialize()
+        public static void PlayerSave(Game game)
         {
-            String inputLine = Console.ReadLine();
-            inputLine.Trim().Replace(" ", "");
-            while (string.IsNullOrEmpty(inputLine) || inputLine.Contains(" "))
-            {
-                inputLine = Console.ReadLine();
-                inputLine.Trim().Replace(" ", "");
-            }
-            Int32 balance;
-            String input = Console.ReadLine();
-            input.Trim().Replace(" ", "");
-            Int32.TryParse(input, out balance);
-            while (balance <= 0 || balance >= 1000)
-            {
-                input = Console.ReadLine();
-                input.Trim().Replace(" ", "");
-                Int32.TryParse(input, out balance);
-            }
-            Int32 bet;
-            input = Console.ReadLine();
-            input.Trim().Replace(" ", "");
-            Int32.TryParse(input, out bet);
-            while (bet <= 0 || bet > balance)
-            {
-                input = Console.ReadLine();
-                input.Trim().Replace(" ", "");
-                Int32.TryParse(input, out bet);
-            }
             PlayerDAL playerDAL = new PlayerDAL()
             {
-                Name = inputLine,
-                Balance = balance,
-                Bet = bet
+                Name = game.Player.Name,
+                Balance = game.Player.Balance,
+                Bet = game.Player.Bet,
+                PlayerWon = game.Player.PlayerWon,
+                PlayerDraw = game.Player.PlayerDraw
             };
         }
 
-        public void GameInitialize(Game game)
+        public static void BotsSave(Game game)
         {
-            PlayerDAL playerDAL = Database.Players.Get(game.PlayerId);
-            BotDAL botDAL = Database.Bots.Get(game.BotId);
-            DealerDAL dealerDAL = Database.Dealers.Get(game.DealerId);
-
-            GameDAL gameDAL = new GameDAL()
+            foreach (Bot bot in game.bots)
             {
-                PlayerId = playerDAL.Id,
-                BotId = botDAL.Id,
-                DealerId = dealerDAL.Id,
-            };
-
+                BotSaves botSaves = new BotSaves()
+                {
+                    Id = bot.Id,
+                    BotWon = bot.BotWon,
+                    BotDraw = bot.BotDraw
+                };
+            }
         }
+
+        public static void DealerSave(Game game)
+        {
+            DealerDAL dealerDAL = new DealerDAL()
+            {
+                Id = game.Dealer.Id
+            };
+        }
+
+        public static void GameSave(Game game)
+        {
+            foreach (Bot bot in game.bots)
+            {
+                GameDAL gameDAL = new GameDAL()
+                {
+                    Id = game.GameId,
+                    PlayerId = game.Player.Id,
+                    DealerId = game.Dealer.Id,
+                    BotId = bot.Id
+                };
+            }
+        }
+
     }
 }

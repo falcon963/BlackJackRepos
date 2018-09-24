@@ -12,18 +12,11 @@ namespace GameLogicBlackJack.Interface
 {
     public interface IGameService
     {
-        Int32 CardTotalValue(List<Card> Hand);
         Bot GetBot(Int32? id);
-        void BotsInitialize();
-        void PlayerInitialize();
-        void DealerInitialize();
-        void BotPlaying();
-        void BotAndDealerPlaying(BotDAL bot, DealerDAL dealer);
-        void PlayerChoise(Player player);
-        void PlayerCheckupGoldBlackJack(Player player);
-        void BotCheckupGoldBlackJack(Player player);
-        void Deal(Player player, Dealer dealer, Bot bot);
-        void Hit(Player player);
-        void Stand(Player player, Dealer dealer, Bot bot);
+        void BotsInitialize(Game game);
+        void PlayerSave(Game game);
+        void BotsSave(Game game);
+        void DealerSave(Game game);
+        void GameSave(Game game);
     }
 }

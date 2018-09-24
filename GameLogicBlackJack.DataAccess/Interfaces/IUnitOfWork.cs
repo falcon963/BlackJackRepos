@@ -10,8 +10,9 @@ namespace GameLogicBlackJack.DataAccess.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         IRepository<PlayerDAL> Players { get; }
-        IRepository<BotDAL> Bots { get; }
+        IRepository<BotSaves> BotSave { get; }
         IRepository<DealerDAL> Dealers { get; }
         IRepository<GameDAL> Games { get; }
+        IRepository<BotDAL> Bots { get; }
     }
 }

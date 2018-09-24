@@ -15,11 +15,6 @@ namespace GameLogicBlackJack.DataAccess.Entities
         
         public Int32 Balance { get; set; }
         public Int32 Bet { get; set; }
-        [Required]
         public String Name { get; set; }
-        [Required]
-        public Boolean BotWon { get; set; }
-
-        ICollection<GameDAL> Game { get; set; }
     }
 }

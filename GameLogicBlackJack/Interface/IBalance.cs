@@ -9,6 +9,6 @@ namespace GameLogicBlackJack.Interface
 {
     public interface IBalance
     {
-        Decimal Balance { get; set; }
+        Int32 Balance { get; set; }
     }
 }

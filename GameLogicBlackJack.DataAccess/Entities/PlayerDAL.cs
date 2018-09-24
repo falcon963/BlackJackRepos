@@ -21,6 +21,8 @@ namespace GameLogicBlackJack.DataAccess.Entities
         public String Name { get; set; }
         [Required]
         public Boolean PlayerWon { get; set; }
+        [Required]
+        public Boolean PlayerDraw { get; set; }
 
         ICollection<GameDAL> Game { get; set; }
     }

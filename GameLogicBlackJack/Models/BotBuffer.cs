@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameLogicBlackJack.Models;
 
-namespace GameLogicBlackJack.Interface
+namespace GameLogicBlackJack.Models
 {
-    public interface IBet
+    class BotBuffer
     {
-        Int32 Bet { get; set; }
     }
 }

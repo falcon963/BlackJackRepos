@@ -17,7 +17,7 @@ namespace GameLogicBlackJack.DataAccess.Entities
         public virtual PlayerDAL Player { get; set; }
         [Indexed]
         public Int32 BotId { get; set; }
-        public virtual BotDAL Bot { get; set; }
+        public virtual BotSaves Bot { get; set; }
         [Indexed]
         public Int32 DealerId { get; set; }
         public virtual DealerDAL Dealer { get; set; }

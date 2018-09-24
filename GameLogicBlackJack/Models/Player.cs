@@ -14,10 +14,11 @@ namespace GameLogicBlackJack.Models
 
         public String Name { get; set; }
 
-        public Decimal Balance { get; set; }
+        public Int32 Balance { get; set; }
 
-        public Decimal Bet { get; set; }
+        public Int32 Bet { get; set; }
 
         public Boolean PlayerWon { get; set; }
+        public Boolean PlayerDraw { get; set; }
     }
 }

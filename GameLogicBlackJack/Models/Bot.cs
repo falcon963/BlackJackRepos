@@ -9,15 +9,23 @@ using GameLogicBlackJack.Enums;
 namespace GameLogicBlackJack.Models
 {
 
-    public class Bot :BaseModel, IBet, IBalance, IPlayers
+    public class Bot : BaseModel, IBet, IBalance, IPlayers
     {
-        
-        public String Name{ get; set; }
 
-        public Decimal Balance { get; set; }
+        public String Name { get; set; }
 
-        public Decimal Bet { get; set; }
+        public Int32 Balance { get; set; }
+
+        public Int32 Bet { get; set; }
 
         public Boolean BotWon { get; set; }
+        public Boolean BotDraw { get; set; }
+
+        public BotState BotState { get; set; }
+
+        public Bot()
+        {
+            this.BotState = BotState.Unknown;
+        }
     }
 }

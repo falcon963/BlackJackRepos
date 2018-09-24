@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\GameController.cs" />
+    <Compile Include="Enums\BotState.cs" />
     <Compile Include="Enums\CardFaceEnum.cs" />
     <Compile Include="Enums\CardSuitEnum.cs" />
     <Compile Include="Enums\GameAction.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Interface\IGameService.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Bot.cs" />
+    <Compile Include="Models\BotBuffer.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\Dealer.cs" />
     <Compile Include="Models\Deck.cs" />
@@ -156,7 +158,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GameService.cs" />
-    <Compile Include="View\GameConsole.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
