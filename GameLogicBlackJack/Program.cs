@@ -8,7 +8,7 @@ using GameLogicBlackJack.Controllers;
 using GameLogicBlackJack.DataAccess.SQLite;
 using GameLogicBlackJack.Interface;
 using GameLogicBlackJack.Services;
-using GameLogicBlackJack.DataAccess.Interfaces;
+using GameLogicBlackJack.DataAccess.Repositories;
 
 namespace GameLogicBlackJack
 {
@@ -17,9 +17,11 @@ namespace GameLogicBlackJack
         
         static void Main(string[] args)
         {
+         
             GameController controllers = new GameController();
-            controllers.GameInitialize();
-            controllers.ConsoleChoise();
+          //  GameService.GetInstance(controllers.unit).BotAdd();
+            Console.WriteLine("1 - Load\n2 - AllPlayers\n3 - Delete Account\n4 - New Account\n Esc - Close program.");
+            GameService.GetInstance(controllers.unit).Launcher(controllers);
             Console.WriteLine("Game End");
             Console.ReadKey();
         }

@@ -8,6 +8,8 @@ namespace GameLogicBlackJack.Models
 {
     public class BaseModel
     {
+        public BaseModel() { }
+
         public List<Card> hand = new List<Card>();
         public Int32 Id { get; set; }
         public List<Card> Hand { get; set; }

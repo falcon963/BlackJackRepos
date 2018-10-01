@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using SQLite;
+using SQLite.Net.Attributes;
 
 
 namespace GameLogicBlackJack.DataAccess.Entities
@@ -12,14 +12,21 @@ namespace GameLogicBlackJack.DataAccess.Entities
     [Table("GamesInfo")]
     public class GameDAL : BaseEntities
     {
-        [Indexed]
+        public GameDAL() : base() { }
+
+        List<BotSaves> BotSaves { get; set; }
+        [Required, Indexed]
         public Int32 PlayerId { get; set; }
-        public virtual PlayerDAL Player { get; set; }
-        [Indexed]
-        public Int32 BotId { get; set; }
-        public virtual BotSaves Bot { get; set; }
-        [Indexed]
+        [Required, Indexed]
         public Int32 DealerId { get; set; }
-        public virtual DealerDAL Dealer { get; set; }
+        [Column("PlayerBet")]
+        [Required]
+        public Int32 Bet { get; set; }
+        [Column("PlayerWin")]
+        [Required]
+        public Boolean PlayerWon { get; set; }
+        [Column("PlayerDraw")]
+        [Required]
+        public Boolean PlayerDraw { get; set; }
     }
 }

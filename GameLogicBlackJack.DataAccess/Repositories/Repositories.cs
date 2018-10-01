@@ -14,19 +14,55 @@ namespace GameLogicBlackJack.DataAccess.Repositories
     {
         private SQLiteConnection database;
 
-        public Repositories(BlackJackContext context)
+        public Repositories() { }
+
+        public Repositories(String filename)
         {
-            this.database = context.DataBaseConnection();
+            SQLiteConsole console = new SQLiteConsole();
+            String databasePath = console.GetDatabasePath(filename);
+            SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
+            database = new SQLiteConnection(databasePath);
+            database.CreateTable<PlayerDAL>();
+            database.CreateTable<BotDAL>();
+            database.CreateTable<DealerDAL>();
+            database.CreateTable<GameDAL>();
+            database.CreateTable<BotSaves>();
         }
 
-        public IEnumerable<BaseEntities> GetAll()
+        public void BotAdd()
         {
-            return database.Table<BaseEntities>();
+           var bot = database.Insert(new BotDAL { Id = 1, Name = "Jim", Balance = 500, Bet = 20 });
+            bot = database.Insert(new BotDAL { Id = 2, Name = "Fill", Balance = 600, Bet = 20 });
+            bot = database.Insert(new BotDAL { Id = 3, Name = "Sam", Balance = 700, Bet = 20 });
+            bot = database.Insert(new BotDAL { Id = 4, Name = "Bill", Balance = 560, Bet = 20 });
+            bot = database.Insert(new BotDAL { Id = 5, Name = "Joker", Balance = 580, Bet = 20 });
         }
 
-        public BaseEntities Get(Int32 id)
+
+        public PlayerDAL CheckAccountAccess(String nickname, String password)
         {
-            return database.Table<BaseEntities>().ElementAt(id);
+            var pass = database.Table<PlayerDAL>().Where(v => v.Name == nickname).Select(v => v.Password).FirstOrDefault();
+            return (pass == password) ? database.Get<PlayerDAL>(database.Table<PlayerDAL>().Where(v => v.Name == nickname).Select(v => v.Id).FirstOrDefault()) : null;
+        }
+
+        public Boolean CheckValidNickname(String nickname)
+        {
+            
+            var login = database.Table<PlayerDAL>().Where(v => v.Name == nickname).FirstOrDefault();
+
+            return login == null ? true : false;
+            
+        }
+
+
+        public IEnumerable<String> GetAllPlayer()
+        {
+            return database.Table<PlayerDAL>().Select(s => s.Name);
+        }
+
+        public BotDAL GetBots(Int32 id)
+        {
+            return database.Get<BotDAL>(id);
         }
 
         public void Create(BaseEntities player)
@@ -34,12 +70,17 @@ namespace GameLogicBlackJack.DataAccess.Repositories
             database.Insert(player);
         }
 
-        public void Delete(Int32 id)
+        public void Delete(String nickname, String password)
         {
-            BaseEntities player = database.Table<BaseEntities>().ElementAt(id);
-            if (player != null)
+            var pass = database.Table<PlayerDAL>().Where(v => v.Name.Equals(nickname)).Select(p => p.Password).ToString();
+            if(password == pass)
             {
-                database.Delete(player);
+               var player = database.Get<PlayerDAL>(database.Table<PlayerDAL>().Where(v => v.Name.Equals(nickname)).Select(p => p.Id).ToString());
+               database.Delete(player);
+            }
+            if(password != pass)
+            {
+                new Exception("Denied access");
             }
         }
 
@@ -47,5 +88,40 @@ namespace GameLogicBlackJack.DataAccess.Repositories
         {
             return database.Table<BaseEntities>().Where(predicate).ToList();
         }
+
+        public void SaveChangePlayer(PlayerDAL player, String nickname)
+        {
+            if (CheckValidNickname(nickname))
+            {
+                database.Insert(player);
+            }
+            if (!CheckValidNickname(nickname))
+            {
+                database.Update(player.Balance);
+            }
+        }
+
+        public void SaveChange(BaseEntities baseEntities)
+        {
+                database.Insert(baseEntities);
+        }
+
+        public void DeleteAll()
+        {
+            Int32 count = database.Table<PlayerDAL>().Count();
+            for (Int32 i = 1; i <= count; i++)
+            {
+                var player = database.Get<PlayerDAL>(i);
+                if (player != null)
+
+                    database.Delete(player);
+            }
+        }
+
+        public void UpdatePlayerAccount(BaseEntities baseEntities)
+        {
+            database.Update(baseEntities);
+        }
+
     }
 }

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SQLite;
+using SQLite.Net.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace GameLogicBlackJack.DataAccess.Entities
 {
     public class BotSaves : BotDAL
     {
+        public BotSaves() : base() { }
         [Column("Win")]
         [Required]
         public Boolean BotWon { get; set; }
@@ -22,7 +23,8 @@ namespace GameLogicBlackJack.DataAccess.Entities
         public Int32 Balance { get; set; }
         [Ignore]
         public Int32 Bet { get; set; }
+        [Required, Indexed]
+        public Int32 GameId { get; set; }
 
-        ICollection<GameDAL> GameDAL { get; set; }
     }
 }

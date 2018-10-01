@@ -9,16 +9,14 @@ using GameLogicBlackJack.Enums;
 namespace GameLogicBlackJack.Models
 {
    
-    public class Player : BaseModel, IPlayers, IBet, IBalance
+    public class Player : BaseModel, IPlayers, IBalance
     {
+
 
         public String Name { get; set; }
 
         public Int32 Balance { get; set; }
 
-        public Int32 Bet { get; set; }
-
-        public Boolean PlayerWon { get; set; }
-        public Boolean PlayerDraw { get; set; }
+        public String Password { get; set; }
     }
 }

@@ -7,31 +7,29 @@ using GameLogicBlackJack.DataAccess.Entities;
 using GameLogicBlackJack.DataAccess.Interfaces;
 using GameLogicBlackJack.DataAccess.SQLite;
 using SQLite;
+using GameLogicBlackJack.DataAccess.Repositories;
 
 namespace GameLogicBlackJack.DataAccess.Repositories
 {
-    public class SQLiteUnitOfWork
+    public class SQLiteUnitOfWork : IUnitOfWork
     {
-        private BlackJackContext context;
         private Repositories repositories;
+        public const string DATABASE_NAME = "BlackJackDataBaseV1.2.db3";
 
+        public SQLiteUnitOfWork() { }
 
-        public SQLiteUnitOfWork(String namePath)
-        {
-            this.context = new BlackJackContext(namePath);
-        } 
-
-        public IRepository<BaseEntities> Enteties
+        public IRepository<BaseEntities> Entities
         {
             get
             {
                 if(repositories == null)
                 {
-                    repositories = new Repositories(context);
+                    repositories = new Repositories(DATABASE_NAME);
                 }
                 return repositories;
             }
         }
+
         
     }
 }

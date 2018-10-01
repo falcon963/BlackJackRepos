@@ -28,6 +28,10 @@ namespace GameLogicBlackJack.Models
         public List<Bot> bots = new List<Bot>();
         public GameAction AllowedActions { get; set; }
         public GameState LastState { get; set; }
+        public Int32 Bet { get; set; }
+        public Boolean PlayerWon { get; set; }
+        public Boolean PlayerDraw { get; set; }
+
 
         public Game()
         {
