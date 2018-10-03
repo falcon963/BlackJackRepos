@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameLogicBlackJack.Enums
+namespace GameLogicBlackJack.BusinessLogic.Enums
 {
     public enum CardFaceEnum
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameLogicBlackJack.BusinessLogic.Enum
+namespace GameLogicBlackJack.BusinessLogic.Enums
 {
     [Flags]
     public enum GameAction : Byte

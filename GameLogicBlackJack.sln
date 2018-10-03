@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLogicBlackJack", "GameL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLogicBlackJack.DataAccessLayer", "GameLogicBlackJack.DataAccess\GameLogicBlackJack.DataAccessLayer.csproj", "{18FCB1C9-A6FD-4D49-8FB0-4E3C79AEAC48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLogicBlackJack.BusinessLogic", "GameLogicBlackJack.BusinessLogic\GameLogicBlackJack.BusinessLogic.csproj", "{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,22 @@ Global
 		{18FCB1C9-A6FD-4D49-8FB0-4E3C79AEAC48}.Release|x64.Build.0 = Release|Any CPU
 		{18FCB1C9-A6FD-4D49-8FB0-4E3C79AEAC48}.Release|x86.ActiveCfg = Release|Any CPU
 		{18FCB1C9-A6FD-4D49-8FB0-4E3C79AEAC48}.Release|x86.Build.0 = Release|Any CPU
+		{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}.Debug|ARM.Build.0 = Debug|Any CPU
+		{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}.Debug|x64.Build.0 = Debug|Any CPU
+		{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}.Debug|x86.Build.0 = Debug|Any CPU
+		{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}.Release|ARM.ActiveCfg = Release|Any CPU
+		{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}.Release|ARM.Build.0 = Release|Any CPU
+		{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}.Release|x64.ActiveCfg = Release|Any CPU
+		{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}.Release|x64.Build.0 = Release|Any CPU
+		{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}.Release|x86.ActiveCfg = Release|Any CPU
+		{3ED6358C-9ED4-41E2-A389-7444ACC26C3C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

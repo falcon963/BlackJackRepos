@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using SQLite.Net.Attributes;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace GameLogicBlackJack.DataAccess.Entities
@@ -13,5 +13,6 @@ namespace GameLogicBlackJack.DataAccess.Entities
     public class DealerDAL : BaseEntities
     {
         public DealerDAL() : base() { }
+        public virtual List<GameDAL> Game { get; set; }
     }
 }

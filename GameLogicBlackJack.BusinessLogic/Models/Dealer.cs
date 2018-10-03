@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameLogicBlackJack.Interface;
-using GameLogicBlackJack.Enums;
+using GameLogicBlackJack.BusinessLogic.Interface;
+using GameLogicBlackJack.BusinessLogic.Enums;
 
-namespace GameLogicBlackJack.Models
+namespace GameLogicBlackJack.BusinessLogic.Models
 {
 
     public class Dealer : BaseModel

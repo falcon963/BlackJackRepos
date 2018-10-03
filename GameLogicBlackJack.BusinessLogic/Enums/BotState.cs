@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameLogicBlackJack.Enums
+namespace GameLogicBlackJack.BusinessLogic.Enums
 {
-    public enum GameState : Byte
+    public enum BotState : byte
     {
         Unknown = 0,
-        PlayerWon = 1,
-        PlayerLose = 2,
-        Draw = 3
+        BotWon = 1,
+        BotLose = 2,
+        BotDraw = 3,
     }
 }

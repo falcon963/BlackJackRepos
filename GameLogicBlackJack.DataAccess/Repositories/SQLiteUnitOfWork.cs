@@ -14,9 +14,12 @@ namespace GameLogicBlackJack.DataAccess.Repositories
     public class SQLiteUnitOfWork : IUnitOfWork
     {
         private Repositories repositories;
-        public const string DATABASE_NAME = "BlackJackDataBaseV1.2.db3";
+        private BlackJackContext database;
 
-        public SQLiteUnitOfWork() { }
+        public SQLiteUnitOfWork()
+        {
+            database = new BlackJackContext();
+        }
 
         public IRepository<BaseEntities> Entities
         {
@@ -24,12 +27,11 @@ namespace GameLogicBlackJack.DataAccess.Repositories
             {
                 if(repositories == null)
                 {
-                    repositories = new Repositories(DATABASE_NAME);
+                    repositories = new Repositories(database);
                 }
                 return repositories;
             }
         }
 
-        
     }
 }

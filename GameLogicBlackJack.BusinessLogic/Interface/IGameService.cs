@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameLogicBlackJack.Models;
+using GameLogicBlackJack.BusinessLogic.Models;
 using GameLogicBlackJack.DataAccess.Entities;
 using GameLogicBlackJack.DataAccess.Interfaces;
 using GameLogicBlackJack.DataAccess.SQLite;
 
-namespace GameLogicBlackJack.Interface
+namespace GameLogicBlackJack.BusinessLogic.Interface
 {
     public interface IGameService
     {

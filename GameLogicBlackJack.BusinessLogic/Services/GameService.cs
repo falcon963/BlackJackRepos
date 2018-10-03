@@ -7,13 +7,13 @@ using GameLogicBlackJack.Models;
 using GameLogicBlackJack.DataAccess.Entities;
 using GameLogicBlackJack.DataAccess.Interfaces;
 using GameLogicBlackJack.DataAccess.SQLite;
-using GameLogicBlackJack.Interface;
-using GameLogicBlackJack.Enums;
+using GameLogicBlackJack.BusinessLogic.Interface;
+using GameLogicBlackJack.BusinessLogic.Enums;
 using GameLogicBlackJack.DataAccess.Repositories;
 using System.Security.Cryptography;
 using GameLogicBlackJack.Controllers;
 
-namespace GameLogicBlackJack.Services
+namespace GameLogicBlackJack.BusinessLogic.Services
 {
     public class GameService
     {
@@ -35,12 +35,31 @@ namespace GameLogicBlackJack.Services
             }
             return _instance;
         }
-        
-        public Bot GetBot(Int32 id)
+
+        public void BotAdd(Game game, Int32 num)
         {
-            var bot = Database.Entities.GetBots(id);
-            return new Bot { Id = bot.Id, Name = bot.Name, Balance = bot.Balance, Bet = bot.Bet };
+            if (num > 0 && num < 6)
+            {
+                game.bots.Add(new Bot { Name = "Jim", Balance = 500, Bet = 20 });
+            }
+            if (num > 1 && num < 6)
+            {
+                game.bots.Add(new Bot { Name = "Fill", Balance = 600, Bet = 20 });
+            }
+            if (num > 2 && num < 6)
+            {
+                game.bots.Add(new Bot { Name = "Sam", Balance = 700, Bet = 20 });
+            }
+            if (num > 3 && num < 6)
+            {
+                game.bots.Add(new Bot { Name = "Bill", Balance = 560, Bet = 20 });
+            }
+            if (num > 4 && num < 6)
+            {
+                game.bots.Add(new Bot { Name = "Joker", Balance = 580, Bet = 20 });
+            }
         }
+
 
         public void BotsInitialize(Game game)
         {
@@ -55,41 +74,50 @@ namespace GameLogicBlackJack.Services
                 input.Trim().Replace(" ", "");
                 Int32.TryParse(input, out number);
             }
-            for(int i = 1; i <= number; i++)
-            {
-                game.bots.Add(GetBot(i));
-            }
+            BotAdd(game, number);
         }
-
-        public void BotAdd()
-        {
-            Database.Entities.BotAdd();
-        }
-
 
         public void PlayerSave(Game game)
         {
-            PlayerDAL playerDAL = new PlayerDAL()
+            PlayerDAL playerDAL;
+            if (!(Database.Entities.CheckValidNickname(game.Player.Name)))
             {
-                Name = game.Player.Name,
-                Balance = game.Player.Balance,
-                Password = game.Player.Password
-            };
-            Database.Entities.SaveChangePlayer(playerDAL, game.Player.Name);
+                playerDAL = new PlayerDAL()
+                {
+                    Id = game.Player.Id,
+                    Name = game.Player.Name,
+                    Balance = game.Player.Balance,
+                    Password = game.Player.Password
+                };
+                Database.Entities.SaveChangePlayer(playerDAL, game.Player.Name);
+            }
+            if (Database.Entities.CheckValidNickname(game.Player.Name))
+                {
+                playerDAL = new PlayerDAL()
+                {
+                    Name = game.Player.Name,
+                    Balance = game.Player.Balance,
+                    Password = game.Player.Password
+                };
+                Database.Entities.SaveChangePlayer(playerDAL, game.Player.Name);
+            }
+
         }
 
         public void BotsSave(Game game)
         {
             foreach (Bot bot in game.bots)
             {
-                BotSaves botSaves = new BotSaves()
+                BotDAL botSaves = new BotDAL()
                 {
-                    Id = bot.Id,
                     BotWon = bot.BotWon,
                     BotDraw = bot.BotDraw,
-                    GameId = game.GameId
+                 //   GameId = game.GameId,
+                    Balance = bot.Balance,
+                    Bet = bot.Bet,
+                    Name = bot.Name
                 };
-                Database.Entities.SaveChange(botSaves);
+                Database.Entities.SaveChangeBot(botSaves);
             }
         }
 
@@ -99,7 +127,7 @@ namespace GameLogicBlackJack.Services
             {
                 Id = game.Dealer.Id
             };
-            Database.Entities.SaveChange(dealerDAL);
+            Database.Entities.SaveChangeDealer(dealerDAL);
         }
 
         public void GameSave(Game game)
@@ -108,13 +136,13 @@ namespace GameLogicBlackJack.Services
                 GameDAL gameDAL = new GameDAL()
                 {
                     Id = game.GameId,
-                    PlayerId = game.Player.Id,
-                    DealerId = game.Dealer.Id,
+                //    PlayerId = game.Player.Id,
+                //    DealerId = game.Dealer.Id,
                     Bet = game.Bet,
                     PlayerWon = game.PlayerWon,
                     PlayerDraw = game.PlayerDraw,
                 };
-            Database.Entities.SaveChange(gameDAL);
+            Database.Entities.SaveChangeGame(gameDAL);
         }
 
         public Int32  TakeNumber()

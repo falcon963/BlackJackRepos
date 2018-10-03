@@ -162,7 +162,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\BaseEntities.cs" />
-    <Compile Include="Entities\BotSaves.cs" />
     <Compile Include="Entities\BotDAL.cs" />
     <Compile Include="Entities\DealerDAL.cs" />
     <Compile Include="Entities\GameDAL.cs" />

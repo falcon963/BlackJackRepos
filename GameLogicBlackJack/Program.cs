@@ -17,9 +17,8 @@ namespace GameLogicBlackJack
         
         static void Main(string[] args)
         {
-         
             GameController controllers = new GameController();
-          //  GameService.GetInstance(controllers.unit).BotAdd();
+           // GameService.GetInstance(controllers.unit).BotAdd();
             Console.WriteLine("1 - Load\n2 - AllPlayers\n3 - Delete Account\n4 - New Account\n Esc - Close program.");
             GameService.GetInstance(controllers.unit).Launcher(controllers);
             Console.WriteLine("Game End");
