@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using GameLogicBlackJack.BusinessLogic.Models;
 
-namespace GameLogicBlackJack.BusinessLogic.Interface
+namespace GameLogicBlackJack.ViewModels
 {
-    public interface IBet
+    public class BaseViewModel
     {
-        Int32 Bet { get; set; }
+        public List<Card> hand = new List<Card>();
+        public Int32 Id { get; set; }
     }
 }

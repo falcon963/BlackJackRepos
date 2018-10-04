@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameLogicBlackJack.BusinessLogic.Interface
+namespace GameLogicBlackJack.ViewModels
 {
-    public interface IId
+    public class DealerViewModel : BaseViewModel
     {
-        Int32 Id { get; }
+
     }
 }

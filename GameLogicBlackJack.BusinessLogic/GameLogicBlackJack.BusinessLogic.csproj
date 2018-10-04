@@ -45,7 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Enums\BotState.cs" />
     <Compile Include="Enums\CardFaceEnum.cs" />
     <Compile Include="Enums\CardSuitEnum.cs" />
@@ -53,10 +52,7 @@
     <Compile Include="Enums\GameState.cs" />
     <Compile Include="Interface\IBalance.cs" />
     <Compile Include="Interface\IBet.cs" />
-    <Compile Include="Interface\IBot.cs" />
-    <Compile Include="Interface\IDealer.cs" />
     <Compile Include="Interface\IGameService.cs" />
-    <Compile Include="Interface\IId.cs" />
     <Compile Include="Interface\IPlayer.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Bot.cs" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameLogicBlackJack.Models;
+using GameLogicBlackJack.BusinessLogic.Models;
 
 namespace GameLogicBlackJack.BusinessLogic.Interface
 {

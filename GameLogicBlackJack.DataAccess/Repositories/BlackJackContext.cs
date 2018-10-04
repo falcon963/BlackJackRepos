@@ -43,21 +43,6 @@ namespace GameLogicBlackJack.DataAccess.Repositories
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<GameDAL>().
-            //    HasMany(p => p.Bots).
-            //    WithOne(s => s.Game).
-            //    HasForeignKey(c => c.GameId).
-            //    OnDelete(DeleteBehavior.Cascade);
-
-            //modelBuilder.Entity<PlayerDAL>().
-            //   HasMany(s => s.Game).
-            //    WithOne(p => p.Player).
-            //    OnDelete(DeleteBehavior.Cascade);
-
-            //modelBuilder.Entity<DealerDAL>().
-            //    HasMany(p => p.Game).
-            //   WithOne(s => s.Dealer).
-            //    OnDelete(DeleteBehavior.Cascade);
 
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {

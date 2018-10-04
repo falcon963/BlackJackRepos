@@ -25,7 +25,11 @@ namespace GameLogicBlackJack.DataAccess.Repositories
         public PlayerDAL CheckAccountAccess(String nickname, String password)
         {
             var pass = context.Players.Where(v => v.Name == nickname).Select(v => v.Password).FirstOrDefault();
-            return (pass == password) ? context.Players.Where(v => v.Name == nickname).FirstOrDefault() : null;
+            if (password != pass)
+            {
+                throw new InvalidCastException();
+            }
+            return context.Players.Where(v => v.Name == nickname).FirstOrDefault();
         }
 
         public Boolean CheckValidNickname(String nickname)
@@ -62,7 +66,7 @@ namespace GameLogicBlackJack.DataAccess.Repositories
             }
             if(password != pass)
             {
-                new Exception("Denied access");
+                throw new InvalidCastException();
             }
         }
 
@@ -76,7 +80,7 @@ namespace GameLogicBlackJack.DataAccess.Repositories
             if (!CheckValidNickname(nickname))
             {
                 var players = context.Players.ToList();
-                var playerToUpdate = players.Select(p => p).Where(p => p.Id==player.Id).FirstOrDefault();
+                var playerToUpdate = players.Select(p => p).Where(p => p.Name==player.Name).FirstOrDefault();
                 playerToUpdate.Balance = player.Balance;
                 context.Players.Update(playerToUpdate);
             }

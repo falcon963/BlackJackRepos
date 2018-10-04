@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using GameLogicBlackJack.Enums;
+using GameLogicBlackJack.BusinessLogic.Enums;
 
 
-namespace GameLogicBlackJack.Models
+namespace GameLogicBlackJack.BusinessLogic.Models
 {
 
 
@@ -16,12 +16,6 @@ namespace GameLogicBlackJack.Models
         private GameAction allowedActions;
         private GameState lastState;
         public Deck deck = new Deck();
-        /*   public Int32 PlayerId { get; set; }
-           public Int32 DealerId { get; set; }
-           public Int32 BotId { get; set; }
-           public Int32 GameId { get; set; }
-           public Boolean[] BotWon { get; set; }
-           public Boolean[] PlayerWon { get; set; }*/
         public Int32 GameId { get; set; }
         public Player Player { get; set; }
         public Dealer Dealer { get; set; }

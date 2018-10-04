@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameLogicBlackJack.Models;
+using GameLogicBlackJack.BusinessLogic.Models;
 using GameLogicBlackJack.DataAccess.Entities;
 using GameLogicBlackJack.DataAccess.Interfaces;
 using GameLogicBlackJack.DataAccess.SQLite;
@@ -11,32 +11,32 @@ using GameLogicBlackJack.BusinessLogic.Interface;
 using GameLogicBlackJack.BusinessLogic.Enums;
 using GameLogicBlackJack.DataAccess.Repositories;
 using System.Security.Cryptography;
-using GameLogicBlackJack.Controllers;
 
 namespace GameLogicBlackJack.BusinessLogic.Services
 {
-    public class GameService
+    public class GameService : IGameService
     {
         public SQLiteUnitOfWork Database { get; private set; }
 
 
-        private GameService(SQLiteUnitOfWork unitOfWork)
+        public GameService()
         {
-           Database = unitOfWork;
+           Database = unit;
         }
+        SQLiteUnitOfWork unit = new SQLiteUnitOfWork();
+        public Game game = new Game();
+        //private static GameService _instance;
 
-        private static GameService _instance;
-        
-        public static GameService GetInstance(SQLiteUnitOfWork unit)
-        {
-            if(_instance == null)
-            {
-                _instance = new GameService(unit);
-            }
-            return _instance;
-        }
+        //public static GameService GetInstance()
+        //{
+        //    if (_instance == null)
+        //    {
+        //        _instance = new GameService();
+        //    }
+        //    return _instance;
+        //}
 
-        public void BotAdd(Game game, Int32 num)
+        public void BotAdd(Int32 num)
         {
             if (num > 0 && num < 6)
             {
@@ -61,23 +61,8 @@ namespace GameLogicBlackJack.BusinessLogic.Services
         }
 
 
-        public void BotsInitialize(Game game)
-        {
-            Console.WriteLine("Enter num bots");
-            Int32 number;
-            String input = Console.ReadLine();
-            input.Trim().Replace(" ", "");
-            Int32.TryParse(input, out number);
-            while (number < 0 || number > 5)
-            {
-                input = Console.ReadLine();
-                input.Trim().Replace(" ", "");
-                Int32.TryParse(input, out number);
-            }
-            BotAdd(game, number);
-        }
 
-        public void PlayerSave(Game game)
+        public void PlayerSave()
         {
             PlayerDAL playerDAL;
             if (!(Database.Entities.CheckValidNickname(game.Player.Name)))
@@ -104,7 +89,7 @@ namespace GameLogicBlackJack.BusinessLogic.Services
 
         }
 
-        public void BotsSave(Game game)
+        public void BotsSave()
         {
             foreach (Bot bot in game.bots)
             {
@@ -112,7 +97,6 @@ namespace GameLogicBlackJack.BusinessLogic.Services
                 {
                     BotWon = bot.BotWon,
                     BotDraw = bot.BotDraw,
-                 //   GameId = game.GameId,
                     Balance = bot.Balance,
                     Bet = bot.Bet,
                     Name = bot.Name
@@ -121,7 +105,7 @@ namespace GameLogicBlackJack.BusinessLogic.Services
             }
         }
 
-        public void DealerSave(Game game)
+        public void DealerSave()
         {
             DealerDAL dealerDAL = new DealerDAL()
             {
@@ -130,14 +114,12 @@ namespace GameLogicBlackJack.BusinessLogic.Services
             Database.Entities.SaveChangeDealer(dealerDAL);
         }
 
-        public void GameSave(Game game)
+        public void GameSave()
         {
 
                 GameDAL gameDAL = new GameDAL()
                 {
                     Id = game.GameId,
-                //    PlayerId = game.Player.Id,
-                //    DealerId = game.Dealer.Id,
                     Bet = game.Bet,
                     PlayerWon = game.PlayerWon,
                     PlayerDraw = game.PlayerDraw,
@@ -145,20 +127,6 @@ namespace GameLogicBlackJack.BusinessLogic.Services
             Database.Entities.SaveChangeGame(gameDAL);
         }
 
-        public Int32  TakeNumber()
-        {
-            Int32 number;
-            String input = Console.ReadLine();
-            input.Trim().Replace(" ", "");
-            Int32.TryParse(input, out number);
-            while (number <= 0)
-            {
-                input = Console.ReadLine();
-                input.Trim().Replace(" ", "");
-                Int32.TryParse(input, out number);
-            }
-            return number;
-        }
 
         public String HashPassword(String password)
         {
@@ -173,129 +141,376 @@ namespace GameLogicBlackJack.BusinessLogic.Services
             return sb.ToString();
         }
 
-        public Player VerifyHashedPassword()
+        public Player VerifyHashedPassword(String login, String password)
         {
-            var account = Database.Entities.CheckAccountAccess(ConsolePlayerNickname(), HashPassword(ConsolePlayerPassword()));
+            var account = Database.Entities.CheckAccountAccess(login, HashPassword(password));
 
             return account != null ? new Player { Id = account.Id, Name = account.Name, Balance = account.Balance, Password = account.Password } : null;
         }
 
-        public String ConsolePlayerPassword()
+        public Boolean CheckLogin(String input)
         {
-            Console.WriteLine("Password");
-            String inputLine = Console.ReadLine();
-            inputLine.Trim().Replace(" ", "");
-            while (string.IsNullOrEmpty(inputLine) || inputLine.Contains(" "))
-            {
-                inputLine = Console.ReadLine();
-                inputLine.Trim().Replace(" ", "");
-            }
-            return inputLine;
+           return Database.Entities.CheckValidNickname(input);
         }
 
-        public String ConsolePlayerNewNickname()
+        public List<Card> GetPlayerCards()
         {
-            Console.WriteLine("Nickname");
-            String inputLine = Console.ReadLine();
-            inputLine.Trim().Replace(" ", "");
-            while ((string.IsNullOrEmpty(inputLine) || inputLine.Contains(" ")) || !Database.Entities.CheckValidNickname(inputLine))
-            {
-                inputLine = Console.ReadLine();
-                inputLine.Trim().Replace(" ", "");
-            }
-            return inputLine;
+            return game.Player.hand;
         }
-
-        public String ConsolePlayerNickname()
+        public List<Card> GetDealerCards()
         {
-            Console.WriteLine("Nickname");
-            String inputLine = Console.ReadLine();
-            inputLine.Trim().Replace(" ", "");
-            while (string.IsNullOrEmpty(inputLine) || inputLine.Contains(" "))
-            {
-                inputLine = Console.ReadLine();
-                inputLine.Trim().Replace(" ", "");
-            }
-            return inputLine;
+            return game.Dealer.hand;
         }
-
-        public void Launcher(GameController controller)
+        public List<List<Card>> GetBotsCards()
         {
-            
-            while (true)
+            List<List<Card>> cards = null;
+            foreach(Bot bot in game.bots)
             {
-                ConsoleKeyInfo key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.NumPad1)
-                {
-                    var account = VerifyHashedPassword();//загрузить существующий аккаунт
-                    if (account != null)
-                    {
-                        controller.game.Player.Name = account.Name;
-                        controller.game.Player.Balance = account.Balance;
-                        controller.game.Player.Password = account.Password;
-                        controller.game.Player.Id = account.Id;
-                        BotsInitialize(controller.game);
-                        controller.ConsoleChoise();
-                    }
-                }
-                if (key.Key == ConsoleKey.NumPad2)
-                {
-                    var players = Database.Entities.GetAllPlayer();//получить всех играков +
-                    foreach (String player in players)
-                    {
-                        Console.WriteLine(player);
-                    }
-                }
-                if (key.Key == ConsoleKey.NumPad3)
-                {
-                    Database.Entities.Delete(ConsolePlayerNickname(), HashPassword(ConsolePlayerPassword()));//Удалить аккаунт
-                }
-                if (key.Key == ConsoleKey.NumPad4)//new account
-                {
-                    controller.NewGameInitialize();
-                    controller.ConsoleChoise();
-                }
-                if (key.Key == ConsoleKey.Escape)
-                {
-                    break;
-                }
+                cards[bot.Id] = bot.hand;
             }
+            return cards;
         }
 
 
-        public Int32 ConsolePlayerBalance()
+        public List<String> GetListPlayers()
         {
-            Int32 balance;
-            String input = Console.ReadLine();
-            input.Trim().Replace(" ", "");
-            Int32.TryParse(input, out balance);
-            while (balance <= 0 || balance >= 1000)
-            {
-                input = Console.ReadLine();
-                input.Trim().Replace(" ", "");
-                Int32.TryParse(input, out balance);
-            }
-            return balance;
+            return Database.Entities.GetAllPlayer().ToList();
         }
 
-        public Int32 ConsolePlayerBet(Game game)
+        public void DeletePlayer(String login, String password)
         {
-            Int32 bet;
-            String input = Console.ReadLine();
-            input.Trim().Replace(" ", "");
-            Int32.TryParse(input, out bet);
-            while (bet <= 0 || bet > game.Player.Balance)
-            {
-                input = Console.ReadLine();
-                input.Trim().Replace(" ", "");
-                Int32.TryParse(input, out bet);
-            }
-            return bet;
+            Database.Entities.Delete(login, HashPassword(password));
         }
+        
         public void DeleteAll()
         {
             Database.Entities.DeleteAll();
         }
 
+
+        public void CheckGameResult()
+        {
+            if (game.LastState == GameState.PlayerWon)
+            {
+                game.PlayerWon = true;
+            }
+
+
+            if (game.LastState == GameState.Draw)
+            {
+                game.PlayerDraw = true;
+            }
+
+
+            foreach (Bot bot in game.bots)
+            {
+                if (bot.BotState == BotState.BotWon)
+                {
+                    bot.BotWon = true;
+                }
+                if (bot.BotState == BotState.BotDraw)
+                {
+                    bot.BotDraw = true;
+                }
+            }
+        }
+    
+        public Boolean CheckPlayerWon()
+        {
+            return game.LastState == GameState.PlayerWon ? true : false;
+        }
+        public Boolean CheckPlayerLose()
+        {
+            return game.LastState == GameState.PlayerLose ? true : false;
+        }
+        public Boolean CheckPlayerDraw()
+        {
+            return game.LastState == GameState.Draw ? true : false;
+        }
+
+
+        public Boolean CheckPlayerStatus()
+        {
+            return (game.LastState == GameState.PlayerWon || game.LastState == GameState.PlayerLose || game.LastState == GameState.Draw) ? true : false;
+        }
+
+        public List<Bot> UpdateBotStatus()
+        {
+            return game.bots;
+        }
+
+        public Int32 TotalValue(List<Card> hand)
+        {
+            Int32 totalValue = 0;
+            foreach (Card card in hand)
+            {
+                if (card.CardFace == CardFaceEnum.Ace & totalValue + 11 < 22)
+                {
+                    card.CardValue = 11;
+                }
+                if (card.CardFace == CardFaceEnum.Ace & totalValue + 11 > 22)
+                {
+                    card.CardValue = 1;
+                }
+                totalValue += card.CardValue;
+            }
+            return totalValue;
+        }
+
+
+        public void PlayerDealBet(Int32 playerBet)
+        {
+            game.Bet = playerBet;
+            game.AllowedActions = GameAction.Deal;
+        }
+
+        public void GoldBlackJackPlayerCheckup(List<Card> dealer, List<Card> player)
+        {
+            if ((dealer[0].CardFace == CardFaceEnum.Ace && dealer[1].CardFace == CardFaceEnum.Ace) && !(player[0].CardFace == CardFaceEnum.Ace && player[1].CardFace == CardFaceEnum.Ace) && (game.LastState == GameState.Draw && game.LastState == GameState.PlayerWon && game.LastState == GameState.PlayerLose))
+            {
+                game.LastState = GameState.Draw;
+            }
+            if ((player[0].CardFace == CardFaceEnum.Ace && player[1].CardFace == CardFaceEnum.Ace) && !(game.LastState == GameState.Draw && game.LastState == GameState.PlayerWon && game.LastState == GameState.PlayerLose))
+            {
+                game.Player.Balance += game.Bet;
+                game.LastState = GameState.PlayerWon;
+            }
+            if ((dealer[0].CardFace == CardFaceEnum.Ace && dealer[1].CardFace == CardFaceEnum.Ace) && !(game.LastState == GameState.Draw && game.LastState == GameState.PlayerWon && game.LastState == GameState.PlayerLose))
+            {
+                game.Player.Balance -= game.Bet;
+                game.LastState = GameState.PlayerLose;
+            }
+        }
+
+        public void GoldBlackJackBotCheckup(List<Card> dealer, List<Bot> bots)
+        {
+            foreach (Bot bot in bots)
+            {
+                if ((dealer[0].CardFace == CardFaceEnum.Ace && dealer[1].CardFace == CardFaceEnum.Ace) && (bot.hand[0].CardFace == CardFaceEnum.Ace && bot.hand[1].CardFace == CardFaceEnum.Ace) && !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.BotState = BotState.BotDraw;
+                }
+                if ((bot.hand[0].CardFace == CardFaceEnum.Ace && bot.hand[1].CardFace == CardFaceEnum.Ace) && !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.Balance += bot.Bet;
+                    bot.BotState = BotState.BotWon;
+                }
+                if ((dealer[0].CardFace == CardFaceEnum.Ace && dealer[1].CardFace == CardFaceEnum.Ace) && !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.Balance -= bot.Bet;
+                    bot.BotState = BotState.BotLose;
+                }
+            }
+        }
+
+        public void Deal()
+        {
+            game.LastState = GameState.Unknown;
+            if (game.deck == null)
+            {
+                game.deck = new Deck();
+            }
+            if (game.deck != null)
+            {
+                game.deck.Populate();
+                game.deck.Shuffle();
+            }
+
+            foreach (Bot bot in game.bots)
+            {
+                bot.hand.Clear();
+                bot.hand.Add(game.deck.DrowACard());
+                bot.hand.Add(game.deck.DrowACard());
+            }
+            game.Dealer.Clear();
+            game.Dealer.hand.Add(game.deck.DrowACard());
+            game.Dealer.hand.Add(game.deck.DrowACard());
+            game.Player.Clear();
+            game.Player.hand.Add(game.deck.DrowACard());
+            game.Player.hand.Add(game.deck.DrowACard());
+
+
+
+
+
+            GoldBlackJackBotCheckup(game.Dealer.hand, game.bots);
+            GoldBlackJackPlayerCheckup(game.Dealer.hand, game.Player.hand);
+
+            foreach (Bot bot in game.bots)
+            {
+                if (TotalValue(bot.hand) == 21 & TotalValue(game.Dealer.hand) == 21 & !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.BotState = BotState.BotDraw;
+                }
+                if (TotalValue(bot.hand) == 21 & TotalValue(game.Dealer.hand) != 21 & !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.Balance += bot.Bet;
+                    bot.BotState = BotState.BotWon;
+                }
+                if (TotalValue(bot.hand) != 21 & TotalValue(game.Dealer.hand) == 21 & !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.Balance -= bot.Bet;
+                    bot.BotState = BotState.BotLose;
+                }
+
+            }
+
+            if (TotalValue(game.Player.hand) == 21 & TotalValue(game.Dealer.hand) == 21 & !(game.LastState == GameState.Draw && game.LastState == GameState.PlayerWon && game.LastState == GameState.PlayerLose))
+            {
+                game.LastState = GameState.Draw;
+                game.AllowedActions = GameAction.Deal;
+            }
+            if (TotalValue(game.Player.hand) == 21 & TotalValue(game.Dealer.hand) != 21 & !(game.LastState == GameState.Draw && game.LastState == GameState.PlayerWon && game.LastState == GameState.PlayerLose))
+            {
+                game.Player.Balance += game.Bet;
+                game.LastState = GameState.PlayerWon;
+                game.AllowedActions = GameAction.Deal;
+                BotAndDealerPlay();
+            }
+            if (TotalValue(game.Player.hand) != 21 & TotalValue(game.Dealer.hand) == 21 & !(game.LastState == GameState.Draw && game.LastState == GameState.PlayerWon && game.LastState == GameState.PlayerLose))
+            {
+                game.Player.Balance -= game.Bet;
+                game.LastState = GameState.PlayerLose;
+                game.AllowedActions = GameAction.Deal;
+            }
+            if (TotalValue(game.Player.hand) != 21 & TotalValue(game.Dealer.hand) != 21 & !(game.LastState == GameState.Draw && game.LastState == GameState.PlayerWon && game.LastState == GameState.PlayerLose))
+            {
+                game.AllowedActions = GameAction.Hit | GameAction.Stand;
+            }
+        }
+
+
+        public void BotPlaying()
+        {
+            foreach (Bot bot in game.bots)
+            {
+
+                while (TotalValue(bot.hand) < 18 && !bot.BotWon && !bot.BotDraw)
+                {
+                    bot.hand.Add(game.deck.DrowACard());
+                }
+            }
+        }
+
+        public void Hit()
+        {
+            game.Player.hand.Add(game.deck.DrowACard());
+
+            if (TotalValue(game.Player.hand) > 21 & !(game.LastState == GameState.Draw && game.LastState == GameState.PlayerWon && game.LastState == GameState.PlayerLose))
+            {
+                game.Player.Balance -= game.Bet;
+                game.LastState = GameState.PlayerLose;
+                BotAndDealerPlay();
+            }
+        }
+
+        public Int32 CheckBalance()
+        {
+            return game.Player.Balance;
+        }
+
+        public void Stand()
+        {
+
+            BotPlaying();
+
+            while (TotalValue(game.Dealer.hand) < 17)
+            {
+                game.Dealer.hand.Add(game.deck.DrowACard());
+            }
+
+
+
+            if (TotalValue(game.Dealer.hand) > 21 || TotalValue(game.Player.hand) > TotalValue(game.Dealer.hand) & !(game.LastState == GameState.Draw && game.LastState == GameState.PlayerWon && game.LastState == GameState.PlayerLose))
+            {
+                game.Player.Balance += game.Bet;
+                game.LastState = GameState.PlayerWon;
+            }
+            if (TotalValue(game.Dealer.hand) == TotalValue(game.Player.hand) & !(game.LastState == GameState.Draw && game.LastState == GameState.PlayerWon && game.LastState == GameState.PlayerLose))
+            {
+                game.LastState = GameState.Draw;
+            }
+            if (TotalValue(game.Dealer.hand) > 21 && TotalValue(game.Player.hand) > 21 && !(game.LastState == GameState.Draw && game.LastState == GameState.PlayerWon && game.LastState == GameState.PlayerLose))
+            {
+                game.LastState = GameState.Draw;
+            }
+            if (TotalValue(game.Dealer.hand) <= 21 && TotalValue(game.Dealer.hand) > TotalValue(game.Player.hand) && !(game.LastState == GameState.Draw && game.LastState == GameState.PlayerWon && game.LastState == GameState.PlayerLose))
+            {
+                game.Player.Balance -= game.Bet;
+                game.LastState = GameState.PlayerLose;
+            }
+            foreach (Bot bot in game.bots)
+            {
+                if (TotalValue(game.Dealer.hand) > 21 && TotalValue(bot.hand) <= 21 && !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.Balance += bot.Bet;
+                    bot.BotState = BotState.BotWon;
+                }
+                if ((TotalValue(bot.hand) > TotalValue(game.Dealer.hand)) && TotalValue(bot.hand) <= 21 && TotalValue(game.Dealer.hand) < 21 && !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.Balance += bot.Bet;
+                    bot.BotState = BotState.BotWon;
+                }
+                if (TotalValue(bot.hand) > 21 && TotalValue(game.Dealer.hand) > 21 && !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.BotState = BotState.BotDraw;
+                }
+                if ((TotalValue(bot.hand) == TotalValue(game.Dealer.hand)) && TotalValue(bot.hand) <= 21 && !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.BotState = BotState.BotDraw;
+                }
+                if ((TotalValue(bot.hand) < TotalValue(game.Dealer.hand)) && (TotalValue(game.Dealer.hand) <= 21 && TotalValue(bot.hand) < 21) && !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.Balance -= bot.Bet;
+                    bot.BotState = BotState.BotLose;
+                }
+                if (TotalValue(bot.hand) > 21 && TotalValue(game.Dealer.hand) <= 21 && !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.Balance -= bot.Bet;
+                    bot.BotState = BotState.BotLose;
+                }
+            }
+            game.AllowedActions = GameAction.Deal;
+        }
+
+        public void BotAndDealerPlay()
+        {
+            BotPlaying();
+            while (TotalValue(game.Dealer.hand) < 17)
+            {
+                game.Dealer.hand.Add(game.deck.DrowACard());
+            }
+            foreach (Bot bot in game.bots)
+            {
+                if (TotalValue(game.Dealer.hand) > 21 && TotalValue(bot.hand) <= 21 && !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.Balance += bot.Bet;
+                    bot.BotState = BotState.BotWon;
+                }
+                if ((TotalValue(bot.hand) > TotalValue(game.Dealer.hand)) && TotalValue(bot.hand) <= 21 && TotalValue(game.Dealer.hand) < 21 && !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.Balance += bot.Bet;
+                    bot.BotState = BotState.BotWon;
+                }
+                if (TotalValue(bot.hand) > 21 && TotalValue(game.Dealer.hand) > 21 && !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.BotState = BotState.BotDraw;
+                }
+                if ((TotalValue(bot.hand) == TotalValue(game.Dealer.hand)) && TotalValue(bot.hand) <= 21 && !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.BotState = BotState.BotDraw;
+                }
+                if ((TotalValue(bot.hand) < TotalValue(game.Dealer.hand)) && (TotalValue(game.Dealer.hand) <= 21 && TotalValue(bot.hand) < 21) && !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.Balance -= bot.Bet;
+                    bot.BotState = BotState.BotLose;
+                }
+                if (TotalValue(bot.hand) > 21 && TotalValue(game.Dealer.hand) <= 21 && !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))
+                {
+                    bot.Balance -= bot.Bet;
+                    bot.BotState = BotState.BotLose;
+                }
+            }
+        }
     }
 }
