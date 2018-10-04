@@ -63,35 +63,40 @@ namespace GameLogicBlackJack.Controllers
         public void DrawPlayerCard()
         {
             TakePlayerCardDeck();
+            Console.ForegroundColor = ConsoleColor.Green;
             Int32 countCard = gameView.Player.hand.Count();
+            Console.WriteLine("-------------------------------------------------------------------\n");
             for(Int32 i = 0; i < countCard; i++)
             {
-                Console.WriteLine("{0} card" + (i + 1) + ": {1}", gameView.Player.Name, gameView.Player.hand[i].CardFace + " " + gameView.Player.hand[i].CardSuit);
+                Console.WriteLine("{0} card" + (i + 1) + ": {1}\n", gameView.Player.Name, gameView.Player.hand[i].CardFace + " " + gameView.Player.hand[i].CardSuit);
             }
-            Console.WriteLine("{0} score: {1}", gameView.Player.Name, service.TotalValue(gameView.Player.hand));
+            Console.WriteLine("{0} score: {1}\n", gameView.Player.Name, service.TotalValue(gameView.Player.hand));
+            Console.WriteLine("-------------------------------------------------------------------\n");
         }
 
         public void DrawBotsCard()
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
             foreach (Bot bot in service.game.bots)
             {
                 Int32 countCard = bot.hand.Count();
                 for (Int32 i = 0; i < countCard; i++)
                 {
-                    Console.WriteLine("{0} card" + (i + 1) + ": {1}", bot.Name, bot.hand[i].CardFace + " " + bot.hand[i].CardSuit);
+                    Console.WriteLine("{0} card" + (i + 1) + ": {1}\n", bot.Name, bot.hand[i].CardFace + " " + bot.hand[i].CardSuit);
                 }
-                Console.WriteLine("{0} score: {1}", bot.Name, service.TotalValue(bot.hand));
+                Console.WriteLine("{0} score: {1}\n", bot.Name, service.TotalValue(bot.hand));
             }
         }
 
         public void DrawDealerCard()
         {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             Int32 countCard = service.game.Dealer.hand.Count();
             for (Int32 i = 0; i < countCard; i++)
             {
-                Console.WriteLine("Dealer card" + (i + 1) + ": {0}", service.game.Dealer.hand[i].CardFace + " " + service.game.Dealer.hand[i].CardSuit);
+                Console.WriteLine("Dealer card" + (i + 1) + ": {0}\n", service.game.Dealer.hand[i].CardFace + " " + service.game.Dealer.hand[i].CardSuit);
             }
-            Console.WriteLine("Dealer score: {0}", service.TotalValue(service.game.Dealer.hand));
+            Console.WriteLine("Dealer score: {0}\n", service.TotalValue(service.game.Dealer.hand));
         }
 
         public String ConsolePlayerPassword()
@@ -213,7 +218,8 @@ namespace GameLogicBlackJack.Controllers
                 OutPlayerStatus();
                 while (!service.CheckPlayerStatus())
                 {
-                    Console.WriteLine("Press Enter if you want continue, or press Space if you want take card");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("Press Enter if you want continue, or press Space if you want take card\n");
                     ConsoleKeyInfo key = Console.ReadKey(true);
                     if (key.Key == ConsoleKey.Enter)
                     {
@@ -227,6 +233,7 @@ namespace GameLogicBlackJack.Controllers
                         DrawPlayerCard();
                     }
                 }
+                DrawBotsCard();
                 CheckBotStatus();
                 OutPlayerStatus();
                 service.DealerSave();
@@ -242,8 +249,9 @@ namespace GameLogicBlackJack.Controllers
             }
             finally
             {
+                Console.ForegroundColor = ConsoleColor.White;
                 service.PlayerSave();
-                Console.WriteLine("Start new game - press N, stop game - press Esc");
+                Console.WriteLine("Start new game - press N, stop game - press Esc\n");
                 ConsoleKeyInfo keyNewGame = Console.ReadKey(true);
                 if (keyNewGame.Key == ConsoleKey.N)
                 {
@@ -259,6 +267,7 @@ namespace GameLogicBlackJack.Controllers
 
         public void OutPlayerStatus()
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             if (service.CheckPlayerWon())
             {
                 Console.WriteLine("{0}, won!", gameView.Player.Name);
@@ -275,18 +284,18 @@ namespace GameLogicBlackJack.Controllers
 
         public void CheckBotStatus()
         {
-            var botUpdate = service.UpdateBotStatus();
-            foreach(Bot bot in botUpdate)
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            foreach (Bot bot in service.game.bots)
             {
-                if (bot.BotWon)
+                if (bot.BotState == BusinessLogic.Enums.BotState.BotWon)
                 {
                     Console.WriteLine("{0} won!", bot.Name);
                 }
-                if (!bot.BotWon)
+                if (bot.BotState == BusinessLogic.Enums.BotState.BotLose)
                 {
                     Console.WriteLine("{0} lose!", bot.Name);
                 }
-                if (bot.BotDraw)
+                if (bot.BotState == BusinessLogic.Enums.BotState.BotDraw)
                 {
                     Console.WriteLine("{0} play a draw!", bot.Name);
                 }
@@ -392,9 +401,5 @@ namespace GameLogicBlackJack.Controllers
             }
             service.BotAdd(number);
         }
-
-
-
-
     }
 }
