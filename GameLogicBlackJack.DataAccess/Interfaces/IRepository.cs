@@ -12,7 +12,6 @@ namespace GameLogicBlackJack.DataAccess.Interfaces
         void Create(T item);
         void Delete(String nickname, String password);
         IEnumerable<String> GetAllPlayer();
-        void DeleteAll();
         void SaveChangePlayer(PlayerDAL player, String nickname);
         void SaveChangeGame(GameDAL game);
         void SaveChangeBot(BotDAL bot);

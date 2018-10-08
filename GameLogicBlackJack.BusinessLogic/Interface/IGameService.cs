@@ -24,9 +24,9 @@ namespace GameLogicBlackJack.BusinessLogic.Interface
         void DeletePlayer(String login, String password);
         Int32 CheckBalance();
         Boolean CheckPlayerStatus();
-        void Deal();
-        void Hit();
-        void Stand();
+        void GameDeal();
+        void PlayerHitGame();
+        void PlayerStandGame();
         List<Card> GetPlayerCards();
         List<Card> GetDealerCards();
         List<List<Card>> GetBotsCards();
@@ -34,6 +34,5 @@ namespace GameLogicBlackJack.BusinessLogic.Interface
         Boolean CheckPlayerWon();
         Boolean CheckPlayerLose();
         Boolean CheckPlayerDraw();
-        List<Bot> UpdateBotStatus();
     }
 }

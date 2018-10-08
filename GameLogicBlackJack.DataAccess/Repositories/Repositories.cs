@@ -80,7 +80,7 @@ namespace GameLogicBlackJack.DataAccess.Repositories
             if (!CheckValidNickname(nickname))
             {
                 var players = context.Players.ToList();
-                var playerToUpdate = players.Select(p => p).Where(p => p.Name==player.Name).FirstOrDefault();
+                var playerToUpdate = players.Select(p => p).Where(p => p.Name == player.Name).FirstOrDefault();
                 playerToUpdate.Balance = player.Balance;
                 context.Players.Update(playerToUpdate);
             }
@@ -103,20 +103,6 @@ namespace GameLogicBlackJack.DataAccess.Repositories
         {
             context.Dealers.Add(dealer);
             context.SaveChanges();
-        }
-
-
-        public void DeleteAll()
-        {
-            Int32 count = context.Players.Count();
-            for (Int32 i = 1; i <= count; i++)
-            {
-                var player = context.Players.Find(i);
-                if (player != null)
-
-                    context.Remove(player);
-                context.SaveChanges();
-            }
         }
 
         public void UpdatePlayerAccount(BaseEntities baseEntities)

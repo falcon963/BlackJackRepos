@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GameLogicBlackJack.Controllers;
 using GameLogicBlackJack.BusinessLogic.Services;
 using GameLogicBlackJack.BusinessLogic.Interface;
+using GameLogicBlackJack.Services;
 
 namespace GameLogicBlackJack
 {
@@ -13,9 +14,8 @@ namespace GameLogicBlackJack
     {
         
         static void Main(string[] args)
-        {
-            HomeController controller = new HomeController();
-            controller.Launcher();
+        {  
+            UIService.GetInstance().controller.Launcher();
             Console.WriteLine("...");
             Console.ReadKey();
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameLogicBlackJack.ViewModels
 {
-    public class DealerViewModel : BaseViewModel
+    public class DealerViewModel: BaseViewModel
     {
 
     }

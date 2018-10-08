@@ -11,8 +11,7 @@ namespace GameLogicBlackJack.BusinessLogic.Models
 {
     public class Deck
     {
-        Random random = new Random();
-        public List<Card> cards = new List<Card>();
+        public List<Card> cards;
         public static Int32 GetEnumEntries<T>() where T: struct, IConvertible
         {
             if (!typeof(T).IsEnum)
@@ -23,13 +22,19 @@ namespace GameLogicBlackJack.BusinessLogic.Models
         }
         public Deck()
         {
-            this.Populate();
+            cards = new List<Card>();
+            this.CardInitialize();
         }
 
-        public void Populate()
+        public void CardInitialize()
         {
+            if(cards == null)
+            {
+                cards = new List<Card>();
+            }
+
             cards.Clear();
-          //  cards.AddRange(Enumerable.Range(1, GetEnumEntries<CardSuitEnum>()).SelectMany(s => Enumerable.Range(1, GetEnumEntries<CardFaceEnum>()).Select(n => new Card((CardFaceEnum)n, (CardSuitEnum)s))));
+
             for (Int32 i = 1; i < 5; i++)
             {
                 for(Int32 j = 1; j < 14; j++)
@@ -49,15 +54,15 @@ namespace GameLogicBlackJack.BusinessLogic.Models
 
         public void Shuffle()
         {
-            Random rng = new Random();
-            int n = cards.Count;
-            for(Int32 i = 1; n > i ;)
+            Random randomCard = new Random();
+            int countCard = cards.Count;
+            for(Int32 i = 1; countCard > i ;)
             {
-                n--;
-                int k = rng.Next(n + 1);
+                countCard--;
+                int k = randomCard.Next(countCard + 1);
                 Card card = cards[k];
-                cards[k] = cards[n];
-                cards[n] = card;
+                cards[k] = cards[countCard];
+                cards[countCard] = card;
             }
         }
 
@@ -66,7 +71,7 @@ namespace GameLogicBlackJack.BusinessLogic.Models
 
             if (cards.Count <= 0)
             {
-                this.Populate();
+                this.CardInitialize();
                 this.Shuffle();
             }
 

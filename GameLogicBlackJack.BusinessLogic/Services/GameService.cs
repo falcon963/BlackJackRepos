@@ -25,36 +25,27 @@ namespace GameLogicBlackJack.BusinessLogic.Services
         }
         SQLiteUnitOfWork unit = new SQLiteUnitOfWork();
         public Game game = new Game();
-        //private static GameService _instance;
 
-        //public static GameService GetInstance()
-        //{
-        //    if (_instance == null)
-        //    {
-        //        _instance = new GameService();
-        //    }
-        //    return _instance;
-        //}
 
         public void BotAdd(Int32 num)
         {
-            if (num > 0 && num < 6)
+            if (num >= 1)
             {
                 game.bots.Add(new Bot { Name = "Jim", Balance = 500, Bet = 20 });
             }
-            if (num > 1 && num < 6)
+            if (num >= 2)
             {
                 game.bots.Add(new Bot { Name = "Fill", Balance = 600, Bet = 20 });
             }
-            if (num > 2 && num < 6)
+            if (num >= 3)
             {
                 game.bots.Add(new Bot { Name = "Sam", Balance = 700, Bet = 20 });
             }
-            if (num > 3 && num < 6)
+            if (num >= 4)
             {
                 game.bots.Add(new Bot { Name = "Bill", Balance = 560, Bet = 20 });
             }
-            if (num > 4 && num < 6)
+            if (num >= 5)
             {
                 game.bots.Add(new Bot { Name = "Joker", Balance = 580, Bet = 20 });
             }
@@ -141,7 +132,7 @@ namespace GameLogicBlackJack.BusinessLogic.Services
             return sb.ToString();
         }
 
-        public Player VerifyHashedPassword(String login, String password)
+        public Player VerifyHashedPassword(String login, String password)//+
         {
             var account = Database.Entities.CheckAccountAccess(login, HashPassword(password));
 
@@ -177,45 +168,13 @@ namespace GameLogicBlackJack.BusinessLogic.Services
             return Database.Entities.GetAllPlayer().ToList();
         }
 
-        public void DeletePlayer(String login, String password)
+        public void DeletePlayer(String login, String password)//+
         {
             Database.Entities.Delete(login, HashPassword(password));
         }
-        
-        public void DeleteAll()
-        {
-            Database.Entities.DeleteAll();
-        }
 
 
-        public void CheckGameResult()
-        {
-            if (game.LastState == GameState.PlayerWon)
-            {
-                game.PlayerWon = true;
-            }
-
-
-            if (game.LastState == GameState.Draw)
-            {
-                game.PlayerDraw = true;
-            }
-
-
-            foreach (Bot bot in game.bots)
-            {
-                if (bot.BotState == BotState.BotWon)
-                {
-                    bot.BotWon = true;
-                }
-                if (bot.BotState == BotState.BotDraw)
-                {
-                    bot.BotDraw = true;
-                }
-            }
-        }
-    
-        public Boolean CheckPlayerWon()
+        public Boolean CheckPlayerWon()//+
         {
             return game.LastState == GameState.PlayerWon ? true : false;
         }
@@ -232,11 +191,6 @@ namespace GameLogicBlackJack.BusinessLogic.Services
         public Boolean CheckPlayerStatus()
         {
             return (game.LastState == GameState.PlayerWon || game.LastState == GameState.PlayerLose || game.LastState == GameState.Draw) ? true : false;
-        }
-
-        public List<Bot> UpdateBotStatus()
-        {
-            return game.bots;
         }
 
         public Int32 TotalValue(List<Card> hand)
@@ -258,11 +212,7 @@ namespace GameLogicBlackJack.BusinessLogic.Services
         }
 
 
-        public void PlayerDealBet(Int32 playerBet)
-        {
-            game.Bet = playerBet;
-            game.AllowedActions = GameAction.Deal;
-        }
+
 
         public void GoldBlackJackPlayerCheckup(List<Card> dealer, List<Card> player)
         {
@@ -303,7 +253,7 @@ namespace GameLogicBlackJack.BusinessLogic.Services
             }
         }
 
-        public void Deal()
+        public void GameDeal()
         {
             game.LastState = GameState.Unknown;
             if (game.deck == null)
@@ -312,7 +262,7 @@ namespace GameLogicBlackJack.BusinessLogic.Services
             }
             if (game.deck != null)
             {
-                game.deck.Populate();
+                game.deck.CardInitialize();
                 game.deck.Shuffle();
             }
 
@@ -392,7 +342,7 @@ namespace GameLogicBlackJack.BusinessLogic.Services
             }
         }
 
-        public void Hit()
+        public void PlayerHitGame()
         {
             game.Player.hand.Add(game.deck.DrowACard());
 
@@ -409,7 +359,7 @@ namespace GameLogicBlackJack.BusinessLogic.Services
             return game.Player.Balance;
         }
 
-        public void Stand()
+        public void PlayerStandGame()
         {
 
             BotPlaying();
