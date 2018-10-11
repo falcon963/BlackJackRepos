@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using GameLogicBlackJack.DataAccess.Entities;
 using GameLogicBlackJack.DataAccess.Interfaces;
-using GameLogicBlackJack.DataAccess.SQLite;
 using SQLite;
 using GameLogicBlackJack.DataAccess.Repositories;
 

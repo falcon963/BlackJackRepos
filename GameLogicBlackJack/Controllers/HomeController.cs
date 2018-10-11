@@ -52,94 +52,132 @@ namespace GameLogicBlackJack.Controllers
 
             while (true)
             {
-                UIService.GetInstance().MenuListMessege();
+                UIService.GetInstance().Line();
+                UIService.GetInstance().MenuListMessenge();
+                UIService.GetInstance().Line();
                 ConsoleKeyInfo key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.NumPad1)//+
+                if (key.Key == ConsoleKey.NumPad1)
                 {
-                    UIService.GetInstance().EnterNicknameMessege();
+                    UIService.GetInstance().EnterNicknameMessenge();
                     var login = PlayerEnterData();
                     while (string.IsNullOrEmpty(login) || login.Contains(" "))
                     {
-                        //error messege
+                        UIService.GetInstance().WrongNicknameEnter();
                         login = PlayerEnterData();
                     }
 
-                    UIService.GetInstance().EnterPasswordMessege();
+                    UIService.GetInstance().EnterPasswordMessenge();
                     var password = PlayerEnterData();
                     while (string.IsNullOrEmpty(password) || password.Contains(" "))
                     {
-                        //error messege
+                        UIService.GetInstance().WrongPasswordEnter();
                         password = PlayerEnterData();
                     }
 
                     var account = service.VerifyHashedPassword(login, password);
-                        if (account != null)
+                        if (account)
                         {
-                            gameView.Player.Name = account.Name;
-                            gameView.Player.Balance = account.Balance;
-                            gameView.Player.Password = account.Password;
-                            gameView.Player.Id = account.Id;
+                            gameView.Player.Name = service.game.Player.Name;
+                            gameView.Player.Balance = service.game.Player.Balance;
+                            gameView.Player.Password = service.game.Player.Password;
+                            gameView.Player.Id = service.game.Player.Id;
                             UpdatePlayerInBL();
 
+                        UIService.GetInstance().ComleteMessenge();
+
                         UIService.GetInstance().EnterNumBots();
-                            var botNumber = PlayerEnterData();
-                            while (botNumber.Any(c => char.IsLetter(c)) || Convert.ToInt32(botNumber) < 0 || Convert.ToInt32(botNumber) > 5 || string.IsNullOrEmpty(botNumber) || botNumber.Contains(" "))
-                            {
-                            //error messege
+                        var botNumber = PlayerEnterData();
+                        while (botNumber.Any(c => char.IsLetter(c)) || Convert.ToInt32(botNumber) < 0 || Convert.ToInt32(botNumber) > 5 || string.IsNullOrEmpty(botNumber) || botNumber.Contains(" "))
+                        {
+                            UIService.GetInstance().WrongNumberOfBots();
                             botNumber = PlayerEnterData();
-                            }
+                        }
+
+                        if(service.game.bots != null)
+                        {
+                            service.game.bots.Clear();
+                        }
+
                             service.BotAdd(Convert.ToInt32(botNumber));
                             GameStart();
                         }
+                    if (!account)
+                    {
+                        UIService.GetInstance().AccountAccessError();
+                    }
                 }
                 if (key.Key == ConsoleKey.NumPad2)
                 {
                     UIService.GetInstance().AllPlayersList();
                 }
-                if (key.Key == ConsoleKey.NumPad3)//+
+                if (key.Key == ConsoleKey.NumPad3)
                 {
-                    UIService.GetInstance().EnterNicknameMessege();
+                    UIService.GetInstance().EnterNicknameMessenge();
                     var login = PlayerEnterData();
                     while (string.IsNullOrEmpty(login) || login.Contains(" "))
                     {
                         //error messege
+                        UIService.GetInstance().WrongNicknameEnter();
                         login = PlayerEnterData();
                     }
 
-                    UIService.GetInstance().EnterPasswordMessege();
+                    UIService.GetInstance().EnterPasswordMessenge();
                     var password = PlayerEnterData();
                     while (string.IsNullOrEmpty(password) || password.Contains(" "))
                     {
                         //error messege
+                        UIService.GetInstance().WrongPasswordEnter();
                         password = PlayerEnterData();
                     }
 
-                    service.DeletePlayer(login, password);
+                    var deleteStatus = service.DeletePlayer(login, password);
+                    if(deleteStatus)
+                    {
+                        UIService.GetInstance().ComleteMessenge();
+                    }
+                    if (!deleteStatus)
+                    {
+                        UIService.GetInstance().AccountAccessError();
+                    }
                 }
                 if (key.Key == ConsoleKey.NumPad4)//new account
                 {
                     NewGameInitialize();
                     GameStart();
                 }
+                if (key.Key == ConsoleKey.Delete)//new account
+                {
+                    UIService.GetInstance().DeleteMessenge();
+                    ConsoleKeyInfo keyDelete = Console.ReadKey(true);
+                    if (keyDelete.Key == ConsoleKey.Y)
+                    {
+                        service.ClearDataBase();
+                    }
+                    if(keyDelete.Key == ConsoleKey.N)
+                    {
+
+                    }
+                }
                 if (key.Key == ConsoleKey.Escape)
                 {
-                    UIService.GetInstance().ExitComplitMessege();
+                    UIService.GetInstance().ExitComplitMessenge();
                     break;
                 }
             }
         }
 
-        public void GameStart()//+
+        public void GameStart()
         {
                 if (service.CheckBalance() <= 0)
                 {
-                    UIService.GetInstance().BalancePlayerErrorMessege();
+                UIService.GetInstance().BalancePlayerErrorMessenge();
 
-                UIService.GetInstance().EnterBalanceMessege();
+                UIService.GetInstance().EnterBalanceMessenge();
                     var balance = PlayerEnterData();
                     while (balance.Any(c => char.IsLetter(c)) || Convert.ToInt32(balance) <= 0 || Convert.ToInt32(balance) > 5000 || string.IsNullOrEmpty(balance) || balance.Contains(" "))
                     {
                     //error messege
+                    UIService.GetInstance().WrongBalanceEnter();
                     balance = PlayerEnterData();
                     }
                     gameView.Player.Balance = Convert.ToInt32(balance);
@@ -152,6 +190,7 @@ namespace GameLogicBlackJack.Controllers
                 while (bet.Any(c => char.IsLetter(c)) || Convert.ToInt32(bet) <= 0 || Convert.ToInt32(bet) > service.game.Player.Balance || string.IsNullOrEmpty(bet) || bet.Contains(" "))
                 {
                 //error messege
+                UIService.GetInstance().WrongBetEnter();
                 bet = PlayerEnterData();
                 }
                 gameView.Bet = Convert.ToInt32(bet);
@@ -166,7 +205,7 @@ namespace GameLogicBlackJack.Controllers
                 while (!service.CheckPlayerStatus())
                 {
                     Console.ForegroundColor = ConsoleColor.White;
-                    UIService.GetInstance().PressKeyMessege();
+                UIService.GetInstance().PressKeyMessenge();
                     ConsoleKeyInfo key = Console.ReadKey(true);
                     if (key.Key == ConsoleKey.Enter)
                     {
@@ -192,7 +231,7 @@ namespace GameLogicBlackJack.Controllers
 
                 Console.ForegroundColor = ConsoleColor.White;
                 service.PlayerSave();
-                UIService.GetInstance().StartNewGameMessege();
+            UIService.GetInstance().StartNewGameMessenge();
                 ConsoleKeyInfo keyNewGame = Console.ReadKey(true);
                 if (keyNewGame.Key == ConsoleKey.N)
                 {
@@ -200,39 +239,40 @@ namespace GameLogicBlackJack.Controllers
                 }
                 if (keyNewGame.Key == ConsoleKey.Escape)
                 {
-                    UIService.GetInstance().GameStopMessege();
+                UIService.GetInstance().GameStopMessenge();
                 }
             
         }
 
 
-        
-
         public void NewGameInitialize()//+
         {
-            UIService.GetInstance().EnterNicknameMessege();
+            UIService.GetInstance().EnterNicknameMessenge();
             var login = PlayerEnterData();
             while (string.IsNullOrEmpty(login) || login.Contains(" "))
             {
                 //error messege
+                UIService.GetInstance().WrongNicknameEnter();
                 login = PlayerEnterData();
             }
             gameView.Player.Name = login;
 
-            UIService.GetInstance().EnterPasswordMessege();
+            UIService.GetInstance().EnterPasswordMessenge();
             var password = PlayerEnterData();
             while (string.IsNullOrEmpty(password) || password.Contains(" "))
             {
                 //error messege
+                UIService.GetInstance().WrongPasswordEnter();
                 password = PlayerEnterData();
             }
             gameView.Player.Password = service.HashPassword(password);
 
-            UIService.GetInstance().EnterBalanceMessege();
+            UIService.GetInstance().EnterBalanceMessenge();
             var balance = PlayerEnterData();
             while(balance.Any(c => char.IsLetter(c)) || Convert.ToInt32(balance) <= 0 || Convert.ToInt32(balance) > 5000 || string.IsNullOrEmpty(balance) || balance.Contains(" "))
             {
                 //error messege
+                UIService.GetInstance().WrongBalanceEnter();
                 balance = PlayerEnterData();
             }
             gameView.Player.Balance = Convert.ToInt32(balance);
@@ -240,12 +280,14 @@ namespace GameLogicBlackJack.Controllers
 
             UpdatePlayerInBL();
             service.PlayerSave();
+            service.TakePlayerId(gameView.Player.Name);
 
             UIService.GetInstance().EnterNumBots();
             var botNumber = PlayerEnterData();
             while (botNumber.Any(c => char.IsLetter(c)) || Convert.ToInt32(botNumber) < 0 || Convert.ToInt32(botNumber) > 5 || string.IsNullOrEmpty(botNumber) || botNumber.Contains(" "))
             {
                 //error messege
+                UIService.GetInstance().WrongNumberOfBots();
                 botNumber = PlayerEnterData();
             }
             service.BotAdd(Convert.ToInt32(botNumber));

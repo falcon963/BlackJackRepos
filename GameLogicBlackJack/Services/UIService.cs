@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using GameLogicBlackJack.Controllers;
 using GameLogicBlackJack.BusinessLogic.Models;
+using GameLogicBlackJack.Constant;
 
 namespace GameLogicBlackJack.Services
 {
     public class UIService
     {
+        
+
         public HomeController controller = new HomeController();
 
         private static UIService _instance;
@@ -112,18 +115,28 @@ namespace GameLogicBlackJack.Services
             }
         }
 
-        public void PasswordWrongEnterMessege() => Console.WriteLine("Wrong login or password!");
-        public void ExitComplitMessege() => Console.WriteLine("Exit complite.");
-        public void MenuListMessege() => Console.WriteLine("Menu:\n1|\tLoad\n2|\tPlayers list\n3|\tDelete account\n4|\tNew account\nEsc|\tExit");
-        public void PressKeyMessege() => Console.WriteLine("Press Enter if you want continue, or press Space if you want take card\n");
-        public void PlayerInfoMessege() => Console.WriteLine("{0} | {1}", controller.service.game.Player.Name, controller.service.game.Player.Balance);
-        public void BalancePlayerErrorMessege() => Console.WriteLine("Insufficient funds in the account!");
-        public void StartNewGameMessege() => Console.WriteLine("Start new game - press N, stop game - press Esc\n");
-        public void GameStopMessege() => Console.WriteLine("Game was stop");
-        public void EnterBalanceMessege() => Console.WriteLine("Enter balance:");
-        public void EnterPasswordMessege() => Console.WriteLine("Enter you password:");
-        public void EnterNicknameMessege() => Console.WriteLine("Enter you nickname:");
         public void DealBetMessege() => Console.WriteLine("Deal bet (1 - {0})", controller.service.game.Player.Balance);
-        public void EnterNumBots() => Console.WriteLine("Enter num bots(0 - 5):");
+        public void PlayerInfoMessege() => Console.WriteLine("{0} | {1}", controller.service.game.Player.Name, controller.service.game.Player.Balance);
+
+
+        public void WrongPasswordEnter() => Console.WriteLine(GameMessenges.WrongPasswordEnter);
+        public void ExitComplitMessenge() => Console.WriteLine(GameMessenges.ExitComplitMessenge);
+        public void MenuListMessenge() => Console.WriteLine(GameMessenges.MenuListMessenge);
+        public void PressKeyMessenge() => Console.WriteLine(GameMessenges.PressKeyMessenge);
+        public void BalancePlayerErrorMessenge() => Console.WriteLine(GameMessenges.BalancePlayerErrorMessenge);
+        public void StartNewGameMessenge() => Console.WriteLine(GameMessenges.StartNewGameMessenge);
+        public void GameStopMessenge() => Console.WriteLine(GameMessenges.GameStopMessenge);
+        public void EnterBalanceMessenge() => Console.WriteLine(GameMessenges.EnterBalanceMessenge);
+        public void EnterPasswordMessenge() => Console.WriteLine(GameMessenges.EnterPasswordMessenge);
+        public void EnterNicknameMessenge() => Console.WriteLine(GameMessenges.EnterNicknameMessenge);
+        public void EnterNumBots() => Console.WriteLine(GameMessenges.EnterNumBots);
+        public void Line() => Console.WriteLine(GameMessenges.Line);
+        public void WrongBalanceEnter() => Console.WriteLine(GameMessenges.WrongBalanceEnter);
+        public void WrongNumberOfBots() => Console.WriteLine(GameMessenges.WrongNumberOfBots);
+        public void WrongNicknameEnter() => Console.WriteLine(GameMessenges.WrongNicknameEnter);
+        public void WrongBetEnter() => Console.WriteLine(GameMessenges.WrongBetEnter);
+        public void AccountAccessError() => Console.WriteLine(GameMessenges.AccountAccessError);
+        public void DeleteMessenge() => Console.WriteLine(GameMessenges.DeleteMessenge);
+        public void ComleteMessenge() => Console.WriteLine(GameMessenges.ComleteMessenge);
     }
 }

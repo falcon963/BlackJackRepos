@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using GameLogicBlackJack.BusinessLogic.Models;
 using GameLogicBlackJack.DataAccess.Entities;
 using GameLogicBlackJack.DataAccess.Interfaces;
-using GameLogicBlackJack.DataAccess.SQLite;
 
 namespace GameLogicBlackJack.BusinessLogic.Interface
 {
@@ -18,10 +17,10 @@ namespace GameLogicBlackJack.BusinessLogic.Interface
         void DealerSave();
         void GameSave();
         String HashPassword(String password);
-        Player VerifyHashedPassword(String login, String password);
+        Boolean VerifyHashedPassword(String login, String password);
         Boolean CheckLogin(String input);
         List<String> GetListPlayers();
-        void DeletePlayer(String login, String password);
+        Boolean DeletePlayer(String login, String password);
         Int32 CheckBalance();
         Boolean CheckPlayerStatus();
         void GameDeal();
@@ -34,5 +33,6 @@ namespace GameLogicBlackJack.BusinessLogic.Interface
         Boolean CheckPlayerWon();
         Boolean CheckPlayerLose();
         Boolean CheckPlayerDraw();
+        void ClearDataBase();
     }
 }

@@ -9,15 +9,13 @@ namespace GameLogicBlackJack.DataAccess.Interfaces
 {
     public interface IRepository<T> where T: BaseEntities
     {
-        void Create(T item);
-        void Delete(String nickname, String password);
-        IEnumerable<String> GetAllPlayer();
+        Boolean Delete(String nickname, String password);
+        IEnumerable<String> GetAllPlayers();
         void SaveChangePlayer(PlayerDAL player, String nickname);
-        void SaveChangeGame(GameDAL game);
-        void SaveChangeBot(BotDAL bot);
-        void SaveChangeDealer(DealerDAL dealer);
         PlayerDAL CheckAccountAccess(String nickname, String password);
         Boolean CheckValidNickname(String nickname);
-        void UpdatePlayerAccount(T baseEntities);
+        void UniversalSaveChanges(BaseEntities baseEntities);
+        void ClearDataBase();
+        Int32 ReturnPlayerId(String nickname);
     }
 }

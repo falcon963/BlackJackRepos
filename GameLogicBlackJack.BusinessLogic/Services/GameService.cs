@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using GameLogicBlackJack.BusinessLogic.Models;
 using GameLogicBlackJack.DataAccess.Entities;
 using GameLogicBlackJack.DataAccess.Interfaces;
-using GameLogicBlackJack.DataAccess.SQLite;
 using GameLogicBlackJack.BusinessLogic.Interface;
 using GameLogicBlackJack.BusinessLogic.Enums;
 using GameLogicBlackJack.DataAccess.Repositories;
@@ -51,11 +50,16 @@ namespace GameLogicBlackJack.BusinessLogic.Services
             }
         }
 
+        public void TakePlayerId(String nickname)
+        {
+            game.Player.Id = Database.Entities.ReturnPlayerId(nickname);
+        }
 
 
         public void PlayerSave()
         {
             PlayerDAL playerDAL;
+
             if (!(Database.Entities.CheckValidNickname(game.Player.Name)))
             {
                 playerDAL = new PlayerDAL()
@@ -67,6 +71,7 @@ namespace GameLogicBlackJack.BusinessLogic.Services
                 };
                 Database.Entities.SaveChangePlayer(playerDAL, game.Player.Name);
             }
+
             if (Database.Entities.CheckValidNickname(game.Player.Name))
                 {
                 playerDAL = new PlayerDAL()
@@ -92,7 +97,7 @@ namespace GameLogicBlackJack.BusinessLogic.Services
                     Bet = bot.Bet,
                     Name = bot.Name
                 };
-                Database.Entities.SaveChangeBot(botSaves);
+                Database.Entities.UniversalSaveChanges(botSaves);
             }
         }
 
@@ -102,7 +107,7 @@ namespace GameLogicBlackJack.BusinessLogic.Services
             {
                 Id = game.Dealer.Id
             };
-            Database.Entities.SaveChangeDealer(dealerDAL);
+            Database.Entities.UniversalSaveChanges(dealerDAL);
         }
 
         public void GameSave()
@@ -115,7 +120,7 @@ namespace GameLogicBlackJack.BusinessLogic.Services
                     PlayerWon = game.PlayerWon,
                     PlayerDraw = game.PlayerDraw,
                 };
-            Database.Entities.SaveChangeGame(gameDAL);
+            Database.Entities.UniversalSaveChanges(gameDAL);
         }
 
 
@@ -132,11 +137,23 @@ namespace GameLogicBlackJack.BusinessLogic.Services
             return sb.ToString();
         }
 
-        public Player VerifyHashedPassword(String login, String password)//+
+        public Boolean VerifyHashedPassword(String login, String password)//+
         {
+            Boolean accessStatus = false;
             var account = Database.Entities.CheckAccountAccess(login, HashPassword(password));
-
-            return account != null ? new Player { Id = account.Id, Name = account.Name, Balance = account.Balance, Password = account.Password } : null;
+            if(account != null)
+            {
+                game.Player.Id = account.Id;
+                game.Player.Name = account.Name;
+                game.Player.Balance = account.Balance;
+                game.Player.Password = account.Password;
+                accessStatus = true;
+            }
+            if(account == null)
+            {
+                new Player();
+            }
+            return accessStatus;
         }
 
         public Boolean CheckLogin(String input)
@@ -148,10 +165,12 @@ namespace GameLogicBlackJack.BusinessLogic.Services
         {
             return game.Player.hand;
         }
+
         public List<Card> GetDealerCards()
         {
             return game.Dealer.hand;
         }
+
         public List<List<Card>> GetBotsCards()
         {
             List<List<Card>> cards = null;
@@ -162,15 +181,21 @@ namespace GameLogicBlackJack.BusinessLogic.Services
             return cards;
         }
 
+        public void ClearDataBase()
+        {
+            Database.Entities.ClearDataBase();
+        }
+
 
         public List<String> GetListPlayers()
         {
-            return Database.Entities.GetAllPlayer().ToList();
+            return Database.Entities.GetAllPlayers().ToList();
         }
 
-        public void DeletePlayer(String login, String password)//+
+        public Boolean DeletePlayer(String login, String password)//+
         {
-            Database.Entities.Delete(login, HashPassword(password));
+            var deleteStatus = Database.Entities.Delete(login, HashPassword(password));
+            return deleteStatus;
         }
 
 
@@ -178,10 +203,12 @@ namespace GameLogicBlackJack.BusinessLogic.Services
         {
             return game.LastState == GameState.PlayerWon ? true : false;
         }
+
         public Boolean CheckPlayerLose()
         {
             return game.LastState == GameState.PlayerLose ? true : false;
         }
+
         public Boolean CheckPlayerDraw()
         {
             return game.LastState == GameState.Draw ? true : false;
@@ -275,13 +302,10 @@ namespace GameLogicBlackJack.BusinessLogic.Services
             game.Dealer.Clear();
             game.Dealer.hand.Add(game.deck.DrowACard());
             game.Dealer.hand.Add(game.deck.DrowACard());
+
             game.Player.Clear();
             game.Player.hand.Add(game.deck.DrowACard());
             game.Player.hand.Add(game.deck.DrowACard());
-
-
-
-
 
             GoldBlackJackBotCheckup(game.Dealer.hand, game.bots);
             GoldBlackJackPlayerCheckup(game.Dealer.hand, game.Player.hand);
@@ -369,8 +393,6 @@ namespace GameLogicBlackJack.BusinessLogic.Services
                 game.Dealer.hand.Add(game.deck.DrowACard());
             }
 
-
-
             if (TotalValue(game.Dealer.hand) > 21 || TotalValue(game.Player.hand) > TotalValue(game.Dealer.hand) & !(game.LastState == GameState.Draw && game.LastState == GameState.PlayerWon && game.LastState == GameState.PlayerLose))
             {
                 game.Player.Balance += game.Bet;
@@ -389,6 +411,7 @@ namespace GameLogicBlackJack.BusinessLogic.Services
                 game.Player.Balance -= game.Bet;
                 game.LastState = GameState.PlayerLose;
             }
+
             foreach (Bot bot in game.bots)
             {
                 if (TotalValue(game.Dealer.hand) > 21 && TotalValue(bot.hand) <= 21 && !(bot.BotState == BotState.BotWon && bot.BotState == BotState.BotDraw && bot.BotState == BotState.BotLose))

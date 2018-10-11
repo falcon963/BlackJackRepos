@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using GameLogicBlackJack.DataAccess.Entities;
 using GameLogicBlackJack.DataAccess.Interfaces;
-using GameLogicBlackJack.DataAccess.SQLite;
 using SQLite;
 using Microsoft.Data.Sqlite;
 
@@ -25,10 +24,6 @@ namespace GameLogicBlackJack.DataAccess.Repositories
         public PlayerDAL CheckAccountAccess(String nickname, String password)
         {
             var pass = context.Players.Where(v => v.Name == nickname).Select(v => v.Password).FirstOrDefault();
-            if (password != pass)
-            {
-                throw new InvalidCastException();
-            }
             return context.Players.Where(v => v.Name == nickname).FirstOrDefault();
         }
 
@@ -42,19 +37,15 @@ namespace GameLogicBlackJack.DataAccess.Repositories
         }
 
 
-        public IEnumerable<String> GetAllPlayer()
+        public IEnumerable<String> GetAllPlayers()
         {
             return context.Players.Select(s => s.Name);
         }
 
-        public void Create(BaseEntities player)
-        {
-            context.Add(player);
-            context.SaveChanges();
-        }
 
 
-        public void Delete(String nickname, String password)
+
+        public Boolean Delete(String nickname, String password)
         {
             var pass = context.Players.Where(v => v.Name == nickname).Select(p => p.Password).FirstOrDefault();
             if(password == pass)
@@ -64,10 +55,7 @@ namespace GameLogicBlackJack.DataAccess.Repositories
                 context.Players.Remove(playerToDelete);
                 context.SaveChanges();
             }
-            if(password != pass)
-            {
-                throw new InvalidCastException();
-            }
+            return (password == pass) ? true : false;
         }
 
 
@@ -80,11 +68,17 @@ namespace GameLogicBlackJack.DataAccess.Repositories
             if (!CheckValidNickname(nickname))
             {
                 var players = context.Players.ToList();
-                var playerToUpdate = players.Select(p => p).Where(p => p.Name == player.Name).FirstOrDefault();
+                var playerToUpdate = players.Select(p => p).Where(p => p.Id == player.Id).FirstOrDefault();
                 playerToUpdate.Balance = player.Balance;
                 context.Players.Update(playerToUpdate);
             }
             context.SaveChanges();
+        }
+
+        public Int32 ReturnPlayerId(String nickname)
+        {
+            var playerId = context.Players.Where(v => v.Name == nickname).Select(s => s.Id).FirstOrDefault();
+            return playerId;
         }
 
         public void SaveChangeGame(GameDAL game)
@@ -99,17 +93,36 @@ namespace GameLogicBlackJack.DataAccess.Repositories
             context.SaveChanges();
         }
 
+        public void UniversalSaveChanges(BaseEntities baseEntities)
+        {
+            if(baseEntities is GameDAL)
+            {
+                context.Add(baseEntities);
+            }
+            if(baseEntities is BotDAL)
+            {
+                context.Add(baseEntities);
+            }
+            if(baseEntities is DealerDAL)
+            {
+                context.Add(baseEntities);
+            }
+            context.SaveChanges();
+        }
+
         public void SaveChangeDealer(DealerDAL dealer)
         {
             context.Dealers.Add(dealer);
             context.SaveChanges();
         }
 
-        public void UpdatePlayerAccount(BaseEntities baseEntities)
+        public void ClearDataBase()
         {
-            context.Update(baseEntities);
+            context.RemoveRange(context.Players);
+            context.RemoveRange(context.Games);
+            context.RemoveRange(context.Bots);
+            context.RemoveRange(context.Dealers);
             context.SaveChanges();
         }
-
     }
 }

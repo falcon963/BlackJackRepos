@@ -15,10 +15,14 @@ namespace GameLogicBlackJack.DataAccess.Repositories
 {
         public class BlackJackContext : DbContext
         {
-        
+
+        public DbSet<PlayerDAL> Players { get; set; }
+        public DbSet<DealerDAL> Dealers { get; set; }
+        public DbSet<BotDAL> Bots { get; set; }
+        public DbSet<GameDAL> Games { get; set; }
+
         public BlackJackContext()
         {
-          //  Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -51,11 +55,6 @@ namespace GameLogicBlackJack.DataAccess.Repositories
 
             base.OnModelCreating(modelBuilder);
         }
-
-        public DbSet<PlayerDAL> Players { get; set; }
-        public DbSet<DealerDAL> Dealers { get; set; }
-        public DbSet<BotDAL> Bots { get; set; }
-        public DbSet<GameDAL> Games { get; set; }
 
         }
 
