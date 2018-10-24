@@ -12,8 +12,8 @@ using System.Linq;
 
 namespace TestProject.Core.ViewModels
 {
-    public class TaskListViewModel : BaseViewModel
-    {
+    public class TaskListViewModel: BaseViewModel<ResultModel, ResultModel>
+        {
         private readonly IMvxNavigationService _navigationService;
         private ITaskService _taskService;
 
@@ -27,7 +27,7 @@ namespace TestProject.Core.ViewModels
             _listOfTasks = new MvxObservableCollection<UserTask>();
             //_listOfTasks.Add(new UserTask { Id = 1, Title = "Just do it!", Note = "You can do this bro!", Status = false });
         }
-        public override Task Initialize()
+        public override  Task Initialize()
         {
             MvxObservableCollection<UserTask> result = new MvxObservableCollection<UserTask>();
             Task.Factory.StartNew(async () =>
@@ -79,21 +79,31 @@ namespace TestProject.Core.ViewModels
         {
             get
             {
-                return new MvxAsyncCommand(async () =>
+                return new MvxAsyncCommand(async() =>
                 {
                     var result = await _taskService.GetTasksAsync();
                 });
             }
         }
 
-        public IMvxAsyncCommand ShowTaskCommand
+        public IMvxAsyncCommand<ResultModel> ShowTaskCommand
         {
             get
             {
-                return new MvxAsyncCommand(async () =>
+                return new MvxAsyncCommand<ResultModel>(async(task) =>
                 {
-                    await _navigationService.Navigate<TaskViewModel>();
+                    task = new ResultModel
+                    {
+                        Changes = new UserTask(),
+                        Result = Enum.UserTaskResult.Save
+                    };
+                    var result = await _navigationService.Navigate<TaskViewModel, ResultModel, ResultModel>(task);
+                    if (result.Result == Enum.UserTaskResult.Save)
+                    {
+                        ListOfTasks.Add(task.Changes);
+                    }
                 });
+
             }
         }
 
@@ -101,7 +111,7 @@ namespace TestProject.Core.ViewModels
         {
             get
             {
-                return new MvxAsyncCommand(async () =>
+                return new MvxAsyncCommand(async() =>
                 {
                     var result = await _taskService.GetCustomUserTasks();
                 });
@@ -114,26 +124,33 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxCommand<UserTask>(async (UserTask task) =>
                 {
-                    var result = await _navigationService.Navigate<TaskViewModel, UserTask, ResultModel>(task);
-                    if (result.result == Enum.UserTaskResult.Delete)
+                    var taskToNavigate = new ResultModel { Result = Enum.UserTaskResult.Update, Changes = new UserTask {Id=task.Id, Note=task.Note,Title=task.Title, Status=task.Status } };
+
+                    var result = await _navigationService.Navigate<TaskViewModel, ResultModel, ResultModel>(taskToNavigate);
+                    if(result.Result == Enum.UserTaskResult.Delete)
                     {
-                        var delete = ListOfTasks.Select(p => p).Where(p => p.Id == task.Id).FirstOrDefault();
+                        var delete = ListOfTasks.Select(p => p).Where(p => p.Id == result.Changes.Id).FirstOrDefault();
                         ListOfTasks.Remove(delete);
                     }
-                    if (result.result == Enum.UserTaskResult.Save)
+                    if(result.Result == Enum.UserTaskResult.UnChangeunchanged)
                     {
-                        var save = ListOfTasks.Select(p => p).Where(p => p.Id == task.Id).FirstOrDefault();
-                        ListOfTasks[ListOfTasks.IndexOf(save)] = task;
+                        return;
                     }
-                    if (result.result == Enum.UserTaskResult.UnChangeunchanged)
+                    if (result.Result == Enum.UserTaskResult.Update)
                     {
-                        var save = ListOfTasks.Select(p => p).Where(p => p.Id == task.Id).FirstOrDefault();
-                        ListOfTasks[ListOfTasks.IndexOf(save)] = save;
+                        var modelToUpdate = ListOfTasks.Select(p => p).Where(p => p.Id == result.Changes.Id).FirstOrDefault();
+                        ListOfTasks[ListOfTasks.IndexOf(modelToUpdate)] = result.Changes;
                     }
                 });
             }
         }
+        
 
         #endregion
+
+        public override void Prepare(ResultModel model)
+        {
+            base.Prepare();
+        }
     }
 }

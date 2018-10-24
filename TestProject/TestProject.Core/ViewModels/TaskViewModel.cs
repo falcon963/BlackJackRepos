@@ -13,32 +13,30 @@ using TestProject.Core.Enum;
 
 namespace TestProject.Core.ViewModels
 {
-    public class TaskViewModel : BaseViewModel<UserTask, ResultModel>
+    public class TaskViewModel : BaseViewModel<ResultModel, ResultModel>
     {
 
         private readonly IMvxNavigationService _navigationService;
         private readonly ITaskService _taskService;
         private ResultModel _resultModel;
 
-        private UserTask _userTask;
-
-        public UserTask UserTask
+        public ResultModel UserTask
         {
             get
             {
-                return _userTask;
+                return _resultModel;
             }
             set
             {
-                _userTask = value;
+                _resultModel = value;
                 RaisePropertyChanged(() => UserTask);
             }
         }
 
         public TaskViewModel(IMvxNavigationService navigationService, ITaskService taskService)
         {
-            _userTask = new UserTask();
             _resultModel = new ResultModel();
+            _resultModel.Changes = new UserTask();
             _navigationService = navigationService;
             _taskService = taskService;
         }
@@ -55,12 +53,10 @@ namespace TestProject.Core.ViewModels
         {
             get
             {
-                return new MvxAsyncCommand(async () =>
+                return new MvxAsyncCommand(async() =>
                 {
-                    ResultModel resultModel = new ResultModel();
-                    resultModel.Changes = UserTask;
-                    resultModel.result = Enum.UserTaskResult.UnChangeunchanged;
-                    await _navigationService.Close<ResultModel>(this, resultModel);
+                    _resultModel.Result = Enum.UserTaskResult.UnChangeunchanged;
+                    await _navigationService.Close<ResultModel>(this, _resultModel);
                 });
             }
         }
@@ -72,10 +68,8 @@ namespace TestProject.Core.ViewModels
                 return new MvxAsyncCommand(async () =>
                 {
                     var result = await DeleteUserTask();
-                    ResultModel resultModel = new ResultModel();
-                    resultModel.Changes = UserTask;
-                    resultModel.result = Enum.UserTaskResult.Delete;
-                    await _navigationService.Close<ResultModel>(this, resultModel);
+                    _resultModel.Result = Enum.UserTaskResult.Delete;
+                    await _navigationService.Close<ResultModel>(this, _resultModel);
                 });
             }
         }
@@ -87,16 +81,15 @@ namespace TestProject.Core.ViewModels
                 return new MvxAsyncCommand(async () =>
                 {
 
-                    var result = await SaveTask(UserTask);
-
+                    var result = await SaveTask(UserTask.Changes);
+                    
                     _resultModel.Changes = new UserTask
                     {
-                        Id = UserTask.Id,
-                        Note = UserTask.Note,
-                        Status = UserTask.Status,
-                        Title = UserTask.Title
+                        Id = UserTask.Changes.Id,
+                        Note= UserTask.Changes.Note,
+                        Status = UserTask.Changes.Status,
+                        Title = UserTask.Changes.Title
                     };
-                    _resultModel.result = Enum.UserTaskResult.Save;
                     await _navigationService.Close<ResultModel>(this, _resultModel);
                 });
             }
@@ -108,7 +101,7 @@ namespace TestProject.Core.ViewModels
 
         private Task<UserTask> GetUserTask()
         {
-            var result = _taskService.GetTaskAsync(_userTask.Id);
+            var result = _taskService.GetTaskAsync(_resultModel.Changes.Id);
             return result;
         }
 
@@ -126,13 +119,14 @@ namespace TestProject.Core.ViewModels
 
         private Task<Int32> DeleteUserTask()
         {
-            var result = _taskService.DeleteTaskAsync(_userTask);
+            var result = _taskService.DeleteTaskAsync(_resultModel.Changes);
             return result;
         }
 
-        public override void Prepare(UserTask parameter)
+        public override void Prepare(ResultModel parameter)
         {
             UserTask = parameter;
         }
+
     }
 }

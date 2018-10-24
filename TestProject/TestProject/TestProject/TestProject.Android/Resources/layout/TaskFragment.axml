@@ -24,7 +24,7 @@
 		android:inputType="textMultiLine"
 		android:layout_marginTop = "10dp"
 		android:layout_marginBottom="10dp"
-		local:MvxBind="Text UserTask.Title"/>
+		local:MvxBind="Text UserTask.Changes.Title"/>
 	<EditText
 		android:id="@+id/text_note"
 		android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
 		android:scrollbars="vertical"
 		android:imeOptions="actionGo"
 		android:inputType="textMultiLine"
-		local:MvxBind="Text UserTask.Note"/>
+		local:MvxBind="Text UserTask.Changes.Note"/>
 
 	<android.support.v7.widget.SwitchCompat
 		android:id = "@+id/switch_status"
@@ -45,7 +45,7 @@
 		android:layout_width="155.5dp"
 		android:layout_height="wrap_content"
 		android:paddingLeft="48dp"
-		local:MvxBind="Checked UserTask.Status"/>
+		local:MvxBind="Checked UserTask.Changes.Status"/>
 	<RelativeLayout
 		    android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
