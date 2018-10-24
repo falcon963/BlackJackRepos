@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Toolbar 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:local="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+	android:theme="@style/AppToolbar"
+	android:background="#455A64">
+
+	<Button
+        android:id="@+id/fragment_button_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+		android:text="Menu"
+		local:MvxBind="Click ShowMenuCommand"/>
+
+</Toolbar>

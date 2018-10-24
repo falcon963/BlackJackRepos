@@ -49,12 +49,6 @@
     <Reference Include="MvvmCross, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MvvmCross.6.2.1\lib\monoandroid81\MvvmCross.dll</HintPath>
     </Reference>
-    <Reference Include="MvvmCross.Core, Version=5.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\MvvmCross.Core.5.7.0\lib\MonoAndroid\MvvmCross.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Droid, Version=5.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\MvvmCross.Core.5.7.0\lib\MonoAndroid\MvvmCross.Droid.dll</HintPath>
-    </Reference>
     <Reference Include="MvvmCross.Droid.Support.Core.UI, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MvvmCross.Droid.Support.Core.UI.6.2.1\lib\monoandroid81\MvvmCross.Droid.Support.Core.UI.dll</HintPath>
     </Reference>
@@ -70,11 +64,26 @@
     <Reference Include="MvvmCross.Droid.Support.V7.Preference, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MvvmCross.Droid.Support.V7.Preference.6.2.1\lib\monoandroid81\MvvmCross.Droid.Support.V7.Preference.dll</HintPath>
     </Reference>
-    <Reference Include="MvvmCross.Platform, Version=5.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\MvvmCross.Platform.5.7.0\lib\MonoAndroid\MvvmCross.Platform.dll</HintPath>
+    <Reference Include="MvvmCross.Droid.Support.V7.RecyclerView, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MvvmCross.Droid.Support.V7.RecyclerView.6.2.1\lib\monoandroid81\MvvmCross.Droid.Support.V7.RecyclerView.dll</HintPath>
     </Reference>
-    <Reference Include="MvvmCross.Platform.Droid, Version=5.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\MvvmCross.Platform.5.7.0\lib\MonoAndroid\MvvmCross.Platform.Droid.dll</HintPath>
+    <Reference Include="SQLite-net, Version=1.5.231.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\sqlite-net-pcl.1.5.231\lib\netstandard1.1\SQLite-net.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_green, Version=1.1.11.121, Culture=neutral, PublicKeyToken=a84b7dcfb1391f7f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SQLitePCLRaw.bundle_green.1.1.11\lib\MonoAndroid\SQLitePCLRaw.batteries_green.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2, Version=1.1.11.121, Culture=neutral, PublicKeyToken=8226ea5df37bcae9, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SQLitePCLRaw.bundle_green.1.1.11\lib\MonoAndroid\SQLitePCLRaw.batteries_v2.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core, Version=1.1.11.121, Culture=neutral, PublicKeyToken=1488e028ca7ab535, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SQLitePCLRaw.core.1.1.11\lib\MonoAndroid\SQLitePCLRaw.core.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.lib.e_sqlite3, Version=1.1.11.121, Culture=neutral, PublicKeyToken=e4ad490600e2234c, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SQLitePCLRaw.lib.e_sqlite3.android.1.1.11\lib\MonoAndroid\SQLitePCLRaw.lib.e_sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.e_sqlite3, Version=1.1.11.121, Culture=neutral, PublicKeyToken=9c301db686d0bd12, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SQLitePCLRaw.provider.e_sqlite3.android.1.1.11\lib\MonoAndroid\SQLitePCLRaw.provider.e_sqlite3.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -129,13 +138,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\DatabaseConnection_Android.cs" />
+    <Compile Include="Fragments\TasksFragment.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setup.cs" />
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Views\BaseFragment.cs" />
-    <Compile Include="Views\MainView.cs" />
-    <Compile Include="Views\ToDoFragment.cs" />
+    <Compile Include="Views\MainActivity.cs" />
+    <Compile Include="Views\TaskFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -145,11 +157,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
-    <AndroidResource Include="Resources\mipmap-hdpi\Icon.png" />
-    <AndroidResource Include="Resources\mipmap-mdpi\Icon.png" />
-    <AndroidResource Include="Resources\mipmap-xhdpi\Icon.png" />
-    <AndroidResource Include="Resources\mipmap-xxhdpi\Icon.png" />
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\SplashScreen.axml">
@@ -157,7 +164,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\MainView.axml">
+    <AndroidResource Include="Resources\layout\MainActivity.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -165,7 +172,9 @@
     <AndroidResource Include="Resources\values\style.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Fragments\" />
+    <AndroidResource Include="Resources\layout\TasksFragmentLayout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\TestProject.Core\TestProject.Core.csproj">
@@ -174,22 +183,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_launcher.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_launcher.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_launcher.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_launcher.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_launcher.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\ToDoFragment.axml">
+    <AndroidResource Include="Resources\layout\TaskFragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -199,12 +193,47 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\menu\top_menu.axml">
+    <AndroidResource Include="Resources\layout\ListItemView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\android_button.xml" />
+    <AndroidResource Include="Resources\layout\fragment_toolbar.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-hdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-mdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xhdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xxhdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\corona_splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\corona_splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\corona_splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\corona_splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\corona_splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\colors.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\..\packages\Xamarin.Android.Support.Annotations.27.0.2.1\build\MonoAndroid81\Xamarin.Android.Support.Annotations.targets" Condition="Exists('..\..\..\packages\Xamarin.Android.Support.Annotations.27.0.2.1\build\MonoAndroid81\Xamarin.Android.Support.Annotations.targets')" />

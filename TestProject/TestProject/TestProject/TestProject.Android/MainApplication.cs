@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using TestProject.Core.ViewModels;
 using MvvmCross.Droid.Support.V7.AppCompat;
+using TestProject.Core;
 
 namespace TestProject.Droid
 {
@@ -20,6 +21,11 @@ namespace TestProject.Droid
         public MainApplication()
         {
 
+        }
+
+        public MainApplication(IntPtr javaReference, JniHandleOwnership transfer)
+            : base(javaReference, transfer)
+        {
         }
     }
 }

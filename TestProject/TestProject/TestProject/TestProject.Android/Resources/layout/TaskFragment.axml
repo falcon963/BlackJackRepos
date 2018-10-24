@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:local="http://schemas.android.com/apk/res-auto"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+		android:theme="@style/AppToolbar"
+	android:background="#455A64">
+	<LinearLayout
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#FBC02D">
+		<include
+		layout="@layout/fragment_toolbar"/>
+	<EditText
+		android:id="@+id/text_title"
+		android:layout_width="match_parent"
+		android:maxLines="2"
+		android:imeOptions="actionGo"
+		android:background="#d5e5e8"
+		android:layout_height="wrap_content"
+		android:inputType="textMultiLine"
+		android:layout_marginTop = "10dp"
+		android:layout_marginBottom="10dp"
+		local:MvxBind="Text UserTask.Title"/>
+	<EditText
+		android:id="@+id/text_note"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:padding="10dp"
+		android:layout_marginBottom="10dp"
+		android:background="#d5e5e8"
+		android:minLines="2"
+		android:maxLines="10"
+		android:scrollbars="vertical"
+		android:imeOptions="actionGo"
+		android:inputType="textMultiLine"
+		local:MvxBind="Text UserTask.Note"/>
+
+	<android.support.v7.widget.SwitchCompat
+		android:id = "@+id/switch_status"
+		android:text="Done"
+		android:layout_width="155.5dp"
+		android:layout_height="wrap_content"
+		android:paddingLeft="48dp"
+		local:MvxBind="Checked UserTask.Status"/>
+	<RelativeLayout
+		    android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+	<Button
+		android:id="@+id/button_save"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:text="Save"
+		local:MvxBind="Click SaveUserTaskCommand"/>
+	<Button
+		android:id="@+id/button_delete"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:text="Delete"
+		local:MvxBind="Click DeleteUserTaskCommand"/>
+			</RelativeLayout>
+	</LinearLayout>
+</LinearLayout>

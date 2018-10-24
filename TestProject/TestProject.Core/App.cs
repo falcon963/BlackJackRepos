@@ -4,12 +4,13 @@ using System.Text;
 using MvvmCross.IoC;
 using MvvmCross.ViewModels;
 using TestProject.Core.ViewModels;
+using MvvmCross;
 
 
 namespace TestProject.Core
 {
-    
-    public class App : MvvmCross.ViewModels.MvxApplication
+
+    public class App : MvxApplication
     {
         public override void Initialize()
         {
@@ -18,7 +19,7 @@ namespace TestProject.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            RegisterAppStart<HomeViewModel>();
+            RegisterCustomAppStart<AppStart>();
         }
     }
 }
