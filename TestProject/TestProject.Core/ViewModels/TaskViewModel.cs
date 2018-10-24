@@ -37,17 +37,8 @@ namespace TestProject.Core.ViewModels
 
         public TaskViewModel(IMvxNavigationService navigationService, ITaskService taskService)
         {
-
+            _userTask = new UserTask();
             _resultModel = new ResultModel();
-            if(UserTask == null)
-            {
-                _resultModel.result = UserTaskResult.Save;
-            }
-            if(UserTask != null)
-            {
-                _resultModel.result = UserTaskResult.Update;
-            }
-            
             _navigationService = navigationService;
             _taskService = taskService;
         }
@@ -64,7 +55,7 @@ namespace TestProject.Core.ViewModels
         {
             get
             {
-                return new MvxAsyncCommand(async() =>
+                return new MvxAsyncCommand(async () =>
                 {
                     ResultModel resultModel = new ResultModel();
                     resultModel.Changes = UserTask;
@@ -97,15 +88,15 @@ namespace TestProject.Core.ViewModels
                 {
 
                     var result = await SaveTask(UserTask);
-                    
+
                     _resultModel.Changes = new UserTask
                     {
                         Id = UserTask.Id,
-                        Note= UserTask.Note,
+                        Note = UserTask.Note,
                         Status = UserTask.Status,
                         Title = UserTask.Title
                     };
-                    _resultModel.result = Enum.UserTaskResult.Update;
+                    _resultModel.result = Enum.UserTaskResult.Save;
                     await _navigationService.Close<ResultModel>(this, _resultModel);
                 });
             }

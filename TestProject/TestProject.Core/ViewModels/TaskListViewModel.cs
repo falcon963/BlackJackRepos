@@ -12,8 +12,8 @@ using System.Linq;
 
 namespace TestProject.Core.ViewModels
 {
-    public class TaskListViewModel: BaseViewModel
-        {
+    public class TaskListViewModel : BaseViewModel
+    {
         private readonly IMvxNavigationService _navigationService;
         private ITaskService _taskService;
 
@@ -27,7 +27,7 @@ namespace TestProject.Core.ViewModels
             _listOfTasks = new MvxObservableCollection<UserTask>();
             //_listOfTasks.Add(new UserTask { Id = 1, Title = "Just do it!", Note = "You can do this bro!", Status = false });
         }
-        public override  Task Initialize()
+        public override Task Initialize()
         {
             MvxObservableCollection<UserTask> result = new MvxObservableCollection<UserTask>();
             Task.Factory.StartNew(async () =>
@@ -79,7 +79,7 @@ namespace TestProject.Core.ViewModels
         {
             get
             {
-                return new MvxAsyncCommand(async() =>
+                return new MvxAsyncCommand(async () =>
                 {
                     var result = await _taskService.GetTasksAsync();
                 });
@@ -90,7 +90,7 @@ namespace TestProject.Core.ViewModels
         {
             get
             {
-                return new MvxAsyncCommand(async() =>
+                return new MvxAsyncCommand(async () =>
                 {
                     await _navigationService.Navigate<TaskViewModel>();
                 });
@@ -101,7 +101,7 @@ namespace TestProject.Core.ViewModels
         {
             get
             {
-                return new MvxAsyncCommand(async() =>
+                return new MvxAsyncCommand(async () =>
                 {
                     var result = await _taskService.GetCustomUserTasks();
                 });
@@ -115,17 +115,17 @@ namespace TestProject.Core.ViewModels
                 return new MvxCommand<UserTask>(async (UserTask task) =>
                 {
                     var result = await _navigationService.Navigate<TaskViewModel, UserTask, ResultModel>(task);
-                    if(result.result == Enum.UserTaskResult.Delete)
+                    if (result.result == Enum.UserTaskResult.Delete)
                     {
                         var delete = ListOfTasks.Select(p => p).Where(p => p.Id == task.Id).FirstOrDefault();
                         ListOfTasks.Remove(delete);
                     }
-                    if(result.result == Enum.UserTaskResult.Save)
+                    if (result.result == Enum.UserTaskResult.Save)
                     {
                         var save = ListOfTasks.Select(p => p).Where(p => p.Id == task.Id).FirstOrDefault();
                         ListOfTasks[ListOfTasks.IndexOf(save)] = task;
                     }
-                    if(result.result == Enum.UserTaskResult.UnChangeunchanged)
+                    if (result.result == Enum.UserTaskResult.UnChangeunchanged)
                     {
                         var save = ListOfTasks.Select(p => p).Where(p => p.Id == task.Id).FirstOrDefault();
                         ListOfTasks[ListOfTasks.IndexOf(save)] = save;
