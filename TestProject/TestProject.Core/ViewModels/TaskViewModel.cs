@@ -19,6 +19,7 @@ namespace TestProject.Core.ViewModels
         private readonly IMvxNavigationService _navigationService;
         private readonly ITaskService _taskService;
         private ResultModel _resultModel;
+        private Boolean _beEnable;
 
         public ResultModel UserTask
         {
@@ -30,6 +31,7 @@ namespace TestProject.Core.ViewModels
             {
                 _resultModel = value;
                 RaisePropertyChanged(() => UserTask);
+                RaisePropertyChanged(() => TitleEnableStatus);
             }
         }
 
@@ -46,6 +48,14 @@ namespace TestProject.Core.ViewModels
             return Task.FromResult(0);
         }
 
+
+        public Boolean TitleEnableStatus
+        {
+            get
+            {
+                return String.IsNullOrEmpty(UserTask.Changes.Title);
+            }
+        }
 
         #region Commands
 
@@ -94,7 +104,6 @@ namespace TestProject.Core.ViewModels
                 });
             }
         }
-
 
         #endregion
 

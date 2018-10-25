@@ -9,19 +9,23 @@
     android:layout_height="wrap_content"
     local:layout_scrollFlags="scroll|enterAlways"
     local:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-    <Button
-        android:id="@+id/button_deleteall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-		android:text="Delete all"
-        android:padding="10dp"/>
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
 	<Button
 		android:id="@+id/button_add"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:padding="10dp"
 		android:text="Add"
 		local:MvxBind="Click ShowTaskCommand"
-		android:layout_marginRight="0.0dp"
-		android:layout_marginLeft="174.5dp" />
+		android:layout_alignParentRight="true"/>
+		<TextView
+			android:text="TaskyDrop"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
+			android:fontWeight="800"
+			android:textStyle="italic"
+			android:textColor="#FDD835"/>
+	</RelativeLayout>
 </Toolbar>

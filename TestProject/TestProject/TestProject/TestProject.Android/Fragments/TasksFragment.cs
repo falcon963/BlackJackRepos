@@ -19,7 +19,6 @@ namespace TestProject.Droid.Fragments
     [Register("testProject.droid.fragments.TasksFragment")]
     public class TasksFragment : BaseFragment<TaskListViewModel>
     {
-
         protected override int FragmentId => Resource.Layout.TasksFragmentLayout;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

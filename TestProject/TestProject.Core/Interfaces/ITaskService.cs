@@ -12,6 +12,6 @@ namespace TestProject.Core.Interfaces
         Task<UserTask> GetTaskAsync(Int32 id);
         Task<Int32> SaveTaskAsync(UserTask userTask);
         Task<Int32> DeleteTaskAsync(UserTask userTask);
-        Task<List<BaseUserTask>> GetCustomUserTasks();
+        Task<List<UserTask>> RefreshUserTasks();
     }
 }

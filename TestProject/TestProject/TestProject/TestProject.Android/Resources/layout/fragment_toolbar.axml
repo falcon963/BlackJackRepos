@@ -7,13 +7,23 @@
     android:layout_height="wrap_content"
 	android:theme="@style/AppToolbar"
 	android:background="#455A64">
-
+	<RelativeLayout
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
 	<Button
         android:id="@+id/fragment_button_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-		android:text="Menu"
+        android:layout_alignParentLeft="true"
+		android:text="Back"
 		local:MvxBind="Click ShowMenuCommand"/>
-
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerInParent="true"
+		android:fontWeight="800"
+		android:textStyle="italic"
+		android:textColor="#FDD835"
+		local:MvxBind="Text UserTask.Changes.Title"/>
+	</RelativeLayout>
 </Toolbar>

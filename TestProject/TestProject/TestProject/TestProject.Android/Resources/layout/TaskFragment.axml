@@ -3,6 +3,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:local="http://schemas.android.com/apk/res-auto"
 	android:orientation="vertical"
+	android:id="@+id/task_linearlayout"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 		android:theme="@style/AppToolbar"
@@ -17,14 +18,14 @@
 	<EditText
 		android:id="@+id/text_title"
 		android:layout_width="match_parent"
-		android:maxLines="2"
+		android:singleLine="true"
 		android:imeOptions="actionGo"
 		android:background="#d5e5e8"
 		android:layout_height="wrap_content"
-		android:inputType="textMultiLine"
 		android:layout_marginTop = "10dp"
 		android:layout_marginBottom="10dp"
-		local:MvxBind="Text UserTask.Changes.Title"/>
+		android:maxLength="40"
+		local:MvxBind="Text UserTask.Changes.Title; Enabled TitleEnableStatus"/>
 	<EditText
 		android:id="@+id/text_note"
 		android:layout_height="wrap_content"
@@ -32,33 +33,47 @@
 		android:padding="10dp"
 		android:layout_marginBottom="10dp"
 		android:background="#d5e5e8"
-		android:minLines="2"
+		android:minLines="1"
 		android:maxLines="10"
 		android:scrollbars="vertical"
 		android:imeOptions="actionGo"
 		android:inputType="textMultiLine"
 		local:MvxBind="Text UserTask.Changes.Note"/>
+		<RelativeLayout
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent">
+			<Switch
+				android:id="@+id/task_switch"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingLeft="20dp"
+				android:layout_alignParentLeft="true"
+				local:MvxBind="Checked UserTask.Changes.Status"/>
+			<TextView
+				android:text="Done"
+				android:textColor="#000000"
+				android:layout_width="160dp"
+				android:layout_height="40dp"
+				android:layout_centerInParent="true"
+				android:id="@+id/switch_text"
+				android:layout_toRightOf="@+id/task_switch"
+				android:gravity="center|fill_horizontal"
+				android:textSize="20dp" />
+		</RelativeLayout>
 
-	<android.support.v7.widget.SwitchCompat
-		android:id = "@+id/switch_status"
-		android:text="Done"
-		android:layout_width="155.5dp"
-		android:layout_height="wrap_content"
-		android:paddingLeft="48dp"
-		local:MvxBind="Checked UserTask.Changes.Status"/>
 	<RelativeLayout
 		    android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
-	<Button
-		android:id="@+id/button_save"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:text="Save"
-		local:MvxBind="Click SaveUserTaskCommand"/>
+			<Button
+				android:id="@+id/button_save"
+				android:layout_height="wrap_content"
+				android:layout_alignParentLeft="true"
+				android:text="Save"
+				local:MvxBind="Click SaveUserTaskCommand"
+				android:layout_width="@dimen/design_bottom_navigation_active_item_max_width"/>
 	<Button
 		android:id="@+id/button_delete"
-		android:layout_width="wrap_content"
+		android:layout_width="@dimen/design_bottom_navigation_active_item_max_width"
 		android:layout_height="wrap_content"
 		android:layout_alignParentRight="true"
 		android:text="Delete"

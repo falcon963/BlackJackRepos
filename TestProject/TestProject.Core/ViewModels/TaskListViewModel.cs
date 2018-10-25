@@ -16,6 +16,7 @@ namespace TestProject.Core.ViewModels
         {
         private readonly IMvxNavigationService _navigationService;
         private ITaskService _taskService;
+        private bool _isRefreshing;
 
         private MvxObservableCollection<UserTask> _listOfTasks;
 
@@ -52,6 +53,17 @@ namespace TestProject.Core.ViewModels
             return _listOfTasks;
         }
 
+        public virtual bool IsRefreshing
+        {
+            get { return _isRefreshing; }
+            set
+            {
+                _isRefreshing = value;
+                RaisePropertyChanged(() => IsRefreshing);
+            }
+        }
+
+        
         public void UserTaskProcess(List<UserTask> tasks)
         {
             ListOfTasks = new MvxObservableCollection<UserTask>(tasks);
@@ -98,6 +110,10 @@ namespace TestProject.Core.ViewModels
                         Result = Enum.UserTaskResult.Save
                     };
                     var result = await _navigationService.Navigate<TaskViewModel, ResultModel, ResultModel>(task);
+                    if (result == null)
+                    {
+                        return;
+                    }
                     if (result.Result == Enum.UserTaskResult.Save)
                     {
                         ListOfTasks.Add(task.Changes);
@@ -111,10 +127,17 @@ namespace TestProject.Core.ViewModels
         {
             get
             {
-                return new MvxAsyncCommand(async() =>
+                return new MvxAsyncCommand(async () =>
                 {
-                    var result = await _taskService.GetCustomUserTasks();
+                    IsRefreshing = true;
+
+                    var result = await _taskService.RefreshUserTasks();
+
+                    ListOfTasks = new MvxObservableCollection<UserTask>(result);
+
+                    IsRefreshing = false;
                 });
+
             }
         }
 
@@ -127,6 +150,10 @@ namespace TestProject.Core.ViewModels
                     var taskToNavigate = new ResultModel { Result = Enum.UserTaskResult.Update, Changes = new UserTask {Id=task.Id, Note=task.Note,Title=task.Title, Status=task.Status } };
 
                     var result = await _navigationService.Navigate<TaskViewModel, ResultModel, ResultModel>(taskToNavigate);
+                    if (result == null)
+                    {
+                        return;
+                    }
                     if(result.Result == Enum.UserTaskResult.Delete)
                     {
                         var delete = ListOfTasks.Select(p => p).Where(p => p.Id == result.Changes.Id).FirstOrDefault();

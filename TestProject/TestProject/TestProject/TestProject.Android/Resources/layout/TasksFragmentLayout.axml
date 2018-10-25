@@ -11,10 +11,8 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	local:layout_behavior="@string/appbar_scrolling_view_behavior"
-	local:MvxBind="RefreshCommand RefreshTaskCommand"
+	local:MvxBind="Refreshing IsRefreshing;RefreshCommand RefreshTaskCommand"
 	android:background="#FBC02D">
-
-
 	<MvxListView
 				android:id="@+id/task_recycler_view"
 				android:scrollbars="vertical"

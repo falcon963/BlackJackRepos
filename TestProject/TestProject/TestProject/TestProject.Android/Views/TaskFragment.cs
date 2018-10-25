@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
@@ -24,28 +25,35 @@ namespace TestProject.Droid.Views
     {
         protected override int FragmentId => Resource.Layout.TaskFragment;
 
+        private LinearLayout _linearLayout;
         private Toolbar _toolbar;
-
-        private Button _buttonSave;
-        private Button _buttonDelete;
-        private Button _buttonBack;
-        private Android.Support.V7.Widget.SwitchCompat @switchStatus;
-        private EditText _textTitle;
-        private EditText _textNote;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
+            _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.task_linearlayout);
             _toolbar = view.FindViewById<Toolbar>(Resource.Id.fragment_toolbar);
-            _buttonSave = view.FindViewById<Button>(Resource.Id.button_save);
-            _buttonDelete = view.FindViewById<Button>(Resource.Id.button_delete);
-            _buttonBack = view.FindViewById<Button>(Resource.Id.fragment_button_menu);
-            switchStatus = view.FindViewById<Android.Support.V7.Widget.SwitchCompat>(Resource.Id.switch_status);
-            _textTitle = view.FindViewById<EditText>(Resource.Id.text_title);
-            _textNote = view.FindViewById<EditText>(Resource.Id.text_note);
+
+            _linearLayout.Click += delegate { HideSoftKeyboard(); };
+            _toolbar.Click += delegate { HideSoftKeyboard(); };
+
 
             return view;
         }
 
+        public void HideSoftKeyboard()
+        {
+            InputMethodManager close = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+            close.HideSoftInputFromWindow(_linearLayout.WindowToken, 0);
+        }
+
+        public override void OnDestroyView()
+        {
+
+            InputMethodManager inputManager = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+            var currentFocus = Activity.CurrentFocus;
+            inputManager.HideSoftInputFromWindow(currentFocus.WindowToken, 0);
+            base.OnDestroyView();
+        }
     }
 }

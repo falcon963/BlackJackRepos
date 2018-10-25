@@ -20,7 +20,9 @@ using Android.Views.InputMethods;
 namespace TestProject.Droid.Views
 {
     [MvxActivityPresentation]
-    [Activity(Label = "TaskList Project",
+    [Activity(WindowSoftInputMode = SoftInput.AdjustPan,
+        ScreenOrientation = ScreenOrientation.Portrait,
+        Label = "TaskList Project",
         Theme = "@style/AppTheme",
         LaunchMode = LaunchMode.SingleTop,
         Name = "testProject.droid.views.MainActivity"
@@ -73,6 +75,9 @@ namespace TestProject.Droid.Views
 
             CurrentFocus.ClearFocus();
         }
+
+        
+
 
         protected override void OnViewModelSet()
         {

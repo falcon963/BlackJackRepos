@@ -39,36 +39,10 @@ namespace TestProject.Core.Services
             return database.DeleteAsync(userTask);
         }
 
-        public Task<List<BaseUserTask>> GetCustomUserTasks()
+        public async Task<List<UserTask>> RefreshUserTasks()
         {
-            return new Task<List<BaseUserTask>>(GetCusromListUserTask);
+            return await GetTasksAsync();
         }
 
-        private List<BaseUserTask> GetCusromListUserTask()
-        {
-            var result = new List<BaseUserTask>();
-            result.Add(new UserTask
-            {
-                Id = 1,
-                Title = "Just do it!",
-                Note = "You can do this bro!",
-                Status = false
-            });
-            result.Add(new UserTask
-            {
-                Id = 2,
-                Title = "Keep calm!",
-                Note = "It is easy for you!",
-                Status = false
-            });
-            result.Add(new UserTask
-            {
-                Id = 3,
-                Title = "Dont worry, be happy!",
-                Note = "Good luck, have fan!",
-                Status = false
-            });
-            return result;
-        }
     }
 }
