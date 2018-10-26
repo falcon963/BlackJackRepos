@@ -10,6 +10,7 @@ using MvvmCross.ViewModels;
 using TestProject.Core.Interfaces;
 using MvvmCross;
 using TestProject.Core.Enum;
+using Acr.UserDialogs;
 
 namespace TestProject.Core.ViewModels
 {
@@ -20,6 +21,8 @@ namespace TestProject.Core.ViewModels
         private readonly ITaskService _taskService;
         private ResultModel _resultModel;
         private Boolean _beEnable;
+        private readonly IUserDialogs _userDialogs;
+        private UserTask _userTaskDublicate;
 
         public ResultModel UserTask
         {
@@ -35,12 +38,13 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public TaskViewModel(IMvxNavigationService navigationService, ITaskService taskService)
+        public TaskViewModel(IMvxNavigationService navigationService, ITaskService taskService, IUserDialogs userDialogs)
         {
             _resultModel = new ResultModel();
             _resultModel.Changes = new UserTask();
             _navigationService = navigationService;
             _taskService = taskService;
+            _userDialogs = userDialogs;
         }
 
         public override Task Initialize()
@@ -65,6 +69,20 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async() =>
                 {
+                    if(UserTask.Changes.Note != _userTaskDublicate.Note || UserTask.Changes.Title != _userTaskDublicate.Title|| UserTask.Changes.Status != _userTaskDublicate.Status)
+                    {
+                        var goBack = await _userDialogs.ConfirmAsync(new ConfirmConfig
+                        {
+                            Title = "Alert Messege",
+                            Message = "If you go on TaskyDrop whithout save, you changes will be lose! Do you want this?",
+                            OkText = "Yes",
+                            CancelText = "No"
+                        });
+                        if (!goBack)
+                        {
+                            return;
+                        }
+                    }
                     _resultModel.Result = Enum.UserTaskResult.UnChangeunchanged;
                     await _navigationService.Close<ResultModel>(this, _resultModel);
                 });
@@ -77,6 +95,18 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
+                    var delete = await _userDialogs.ConfirmAsync(new ConfirmConfig
+                    {
+                        Title = "Delete Messege",
+                        Message = "Do you want delete this task?",
+                        OkText = "Yes",
+                        CancelText = "No"
+                    });
+                    if (!delete)
+                    {
+                        return;
+                    }
+
                     var result = await DeleteUserTask();
                     _resultModel.Result = Enum.UserTaskResult.Delete;
                     await _navigationService.Close<ResultModel>(this, _resultModel);
@@ -90,7 +120,11 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-
+                    if(String.IsNullOrEmpty(UserTask.Changes.Title) || String.IsNullOrEmpty(UserTask.Changes.Note))
+                    {
+                        var alert = UserDialogs.Instance.Alert(new AlertConfig { Message = "You can't save task when field is empty!", OkText = "Ok", Title = "System Alert" });
+                        return;
+                    }
                     var result = await SaveTask(UserTask.Changes);
                     
                     _resultModel.Changes = new UserTask
@@ -135,7 +169,14 @@ namespace TestProject.Core.ViewModels
         public override void Prepare(ResultModel parameter)
         {
             UserTask = parameter;
-        }
 
+            _userTaskDublicate = new UserTask
+            {
+                Id = parameter.Changes.Id,
+                Title = parameter.Changes.Title,
+                Note = parameter.Changes.Note,
+                Status = parameter.Changes.Status
+            };
+        }
     }
 }

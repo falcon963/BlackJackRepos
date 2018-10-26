@@ -20,10 +20,12 @@
 		android:layout_width="match_parent"
 		android:singleLine="true"
 		android:imeOptions="actionGo"
-		android:background="#d5e5e8"
 		android:layout_height="wrap_content"
 		android:layout_marginTop = "10dp"
 		android:layout_marginBottom="10dp"
+		android:background="@drawable/shadow_gradient"
+		android:layout_marginLeft="@dimen/abc_progress_bar_height_material"
+		android:layout_marginRight="@dimen/abc_progress_bar_height_material"
 		android:maxLength="40"
 		local:MvxBind="Text UserTask.Changes.Title; Enabled TitleEnableStatus"/>
 	<EditText
@@ -32,9 +34,11 @@
 		android:layout_width="match_parent"
 		android:padding="10dp"
 		android:layout_marginBottom="10dp"
-		android:background="#d5e5e8"
 		android:minLines="1"
 		android:maxLines="10"
+		android:background="@drawable/shadow_gradient"
+		android:layout_marginLeft="@dimen/abc_progress_bar_height_material"
+		android:layout_marginRight="@dimen/abc_progress_bar_height_material"
 		android:scrollbars="vertical"
 		android:imeOptions="actionGo"
 		android:inputType="textMultiLine"
@@ -69,6 +73,7 @@
 				android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
 				android:text="Save"
+				android:backgroundTint="#ffff"
 				local:MvxBind="Click SaveUserTaskCommand"
 				android:layout_width="@dimen/design_bottom_navigation_active_item_max_width"/>
 	<Button
@@ -76,6 +81,7 @@
 		android:layout_width="@dimen/design_bottom_navigation_active_item_max_width"
 		android:layout_height="wrap_content"
 		android:layout_alignParentRight="true"
+		android:backgroundTint="#ffff"
 		android:text="Delete"
 		local:MvxBind="Click DeleteUserTaskCommand"/>
 			</RelativeLayout>

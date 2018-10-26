@@ -5,7 +5,7 @@ using MvvmCross.IoC;
 using MvvmCross.ViewModels;
 using TestProject.Core.ViewModels;
 using MvvmCross;
-
+using Acr.UserDialogs;
 
 namespace TestProject.Core
 {
@@ -19,6 +19,7 @@ namespace TestProject.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
+            Mvx.IoCProvider.RegisterSingleton<IUserDialogs>(() => UserDialogs.Instance);
             RegisterCustomAppStart<AppStart>();
         }
     }

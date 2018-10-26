@@ -16,6 +16,7 @@ using TestProject.Core.ViewModels;
 using Android.Support.V4.Widget;
 using Android.Support.V4.View;
 using Android.Views.InputMethods;
+using Acr.UserDialogs;
 
 namespace TestProject.Droid.Views
 {
@@ -34,6 +35,8 @@ namespace TestProject.Droid.Views
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+
+            UserDialogs.Init(this);
 
             SetContentView(Resource.Layout.MainActivity);
 
