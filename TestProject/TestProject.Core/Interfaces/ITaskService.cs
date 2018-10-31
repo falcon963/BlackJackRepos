@@ -8,10 +8,13 @@ namespace TestProject.Core.Interfaces
 {
     public interface ITaskService
     {
-        Task<List<UserTask>> GetTasksAsync();
+        Task<List<UserTask>> GetTasksAsync(Int32 id);
         Task<UserTask> GetTaskAsync(Int32 id);
         Task<Int32> SaveTaskAsync(UserTask userTask);
         Task<Int32> DeleteTaskAsync(UserTask userTask);
-        Task<List<UserTask>> RefreshUserTasks();
+        Task<List<UserTask>> RefreshUserTasks(Int32 id);
+        Task<User> CheckAccountAccess(String login, String password);
+        Task<Boolean> CheckValidLogin(String login);
+        Task<Boolean> CreateUser(User user);
     }
 }

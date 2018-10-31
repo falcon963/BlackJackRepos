@@ -16,12 +16,22 @@
 			android:id="@+id/button_add"
 			android:layout_width="40dp"
 			android:layout_height="40dp"
-			android:background="@drawable/add_task_white"
+			android:background="@drawable/add"
 			android:cropToPadding="false"
 			android:scaleType="fitXY"
 			local:MvxBind="Click ShowTaskCommand"
 			android:layout_alignParentRight="true"
 			android:layout_marginRight="10dp" />
+		<ImageButton
+			android:id="@+id/button_exit"
+			android:layout_width="40dp"
+			android:layout_height="40dp"
+			android:background="@drawable/exit"
+			android:cropToPadding="false"
+			android:scaleType="fitXY"
+			local:MvxBind="Click LogOutCommand"
+			android:layout_alignParentLeft="true"
+			android:layout_marginLeft="10dp" />
 		<TextView
 			android:text="TaskyDrop"
 			android:layout_width="wrap_content"

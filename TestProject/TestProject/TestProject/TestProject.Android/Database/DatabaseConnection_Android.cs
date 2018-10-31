@@ -11,12 +11,11 @@ namespace LocalDataAccess.Droid
         public DatabaseConnectionService()
         {
             var database = DbConnection();
-            database.CreateTableAsync<UserTask>();
         }
 
         public SQLiteAsyncConnection DbConnection()
         {
-            var dbName = "CustomersDb.db3";
+            var dbName = "TaskyDB.db3";
             var path = Path.Combine(System.Environment.
               GetFolderPath(System.Environment.
               SpecialFolder.Personal), dbName);

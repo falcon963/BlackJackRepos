@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:local="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+	android:background="#455A64"
+    android:layout_height="match_parent">
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="#FFFF"
+		android:layout_marginTop="120dp"
+		android:maxLength="30"
+		android:singleLine="true"
+		android:layout_marginLeft="15dp"
+		android:layout_marginRight="15dp"
+		local:MvxBind="Text Login"/>
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:password="true"
+		android:background="#FFFF"
+		android:layout_marginTop="15dp"
+		android:singleLine="true"
+		android:maxLength="40"
+		android:layout_marginLeft="15dp"
+		android:layout_marginRight="15dp"
+		local:MvxBind="Text Password"/>
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="15dp"
+		android:layout_marginBottom="15dp">
+		<CheckBox
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:layout_alignParentLeft="true"
+			local:MvxBind="Checked RememberMeStatus; Enabled EnableStatus"/>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:paddingLeft="45dp"
+			android:text="Remember me"
+			android:layout_centerInParent ="true"/>
+	</RelativeLayout>
+	<RelativeLayout
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content">
+		<ImageButton
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:layout_alignParentRight="true"
+			local:MvxBind="Click RegistrationCommand; Enabled EnableStatus"
+			android:background="@drawable/user"
+			android:layout_marginRight="120.0dp" />
+		<ImageButton
+			android:layout_alignParentLeft="true"
+			local:MvxBind="Click LoginCommand; Enabled EnableStatus"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:background="@drawable/reg"
+			android:layout_marginLeft="120.0dp" />
+	</RelativeLayout>
+</LinearLayout>

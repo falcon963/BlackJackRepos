@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TestProject.Core.Models;
 using TestProject.Core.Interfaces;
 using SQLite;
+using System.Linq;
 using MvvmCross;
 
 namespace TestProject.Core.Services
@@ -17,32 +18,57 @@ namespace TestProject.Core.Services
         public TaskService(IDatabaseConnectionService connectionService)
         {
             database = connectionService.DbConnection();
+            database.CreateTableAsync<UserTask>();
+            database.CreateTableAsync<User>();
         }
 
-        public Task<List<UserTask>> GetTasksAsync()
+        public async Task<List<UserTask>> GetTasksAsync(Int32 id)
         {
-            return database.Table<UserTask>().ToListAsync();
+            return await database.Table<UserTask>().Where(i => i.UserId == id).ToListAsync();
         }
 
-        public Task<UserTask> GetTaskAsync(Int32 id)
+        public async Task<UserTask> GetTaskAsync(Int32 id)
         {
-            return database.Table<UserTask>().Where(i => i.Id == id).FirstOrDefaultAsync();
+            return await database.Table<UserTask>().Where(i => i.UserId == id).FirstOrDefaultAsync();
         }
 
-        public Task<Int32> SaveTaskAsync(UserTask userTask)
+        public async Task<Int32> SaveTaskAsync(UserTask userTask)
         {
-            return userTask.Id != 0 ? database.UpdateAsync(userTask) : database.InsertAsync(userTask);
+            return userTask.Id != 0 ? await database.UpdateAsync(userTask) : await database.InsertAsync(userTask);
         }
 
-        public Task<Int32> DeleteTaskAsync(UserTask userTask)
+        public async Task<Int32> DeleteTaskAsync(UserTask userTask)
         {
-            return database.DeleteAsync(userTask);
+            return await database.DeleteAsync(userTask);
         }
 
-        public async Task<List<UserTask>> RefreshUserTasks()
+        public async Task<List<UserTask>> RefreshUserTasks(Int32 id)
         {
-            return await GetTasksAsync();
+            return await GetTasksAsync(id);
         }
+
+        public async Task<User> CheckAccountAccess(String login, String password)
+        {
+            var user = await database.Table<User>().Where(v => v.Login == login && v.Password == password).FirstOrDefaultAsync();
+
+            return user;
+        }
+
+        public async Task<Boolean> CheckValidLogin(String login)
+        {
+
+            var result = await database.Table<User>().Where(v => v.Login == login).FirstOrDefaultAsync();
+
+            return result == null ? true : false;
+
+        }
+
+        public async Task<Boolean> CreateUser(User user)
+        {
+            await database.InsertAsync(user);
+            return await database.Table<User>().Where(v => v.Login == user.Login && v.Password == user.Password).FirstAsync() != null ? true : false;
+        }
+
 
     }
 }

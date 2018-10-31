@@ -10,41 +10,51 @@ using System.Threading.Tasks;
 
 namespace TestProject.Core.ViewModels
 {
-    public class MainViewModel : BaseViewModel
+    public class MainViewModel : BaseViewModel<Int32, ResultModel>
     {
         private readonly IMvxNavigationService _navigationService;
 
+        ResultModel _result;
 
+        ResultModel Result
+        {
+            get
+            {
+                return _result;
+            }
+            set
+            {
+                _result = value;
+                RaisePropertyChanged(() => Result);
+            }
+        }
 
         public MainViewModel(IMvxNavigationService navigationService)
         {
             _navigationService = navigationService;
+            _result = new ResultModel();
+            _result.Changes = new UserTask();
         }
 
         #region Commands
 
-        public IMvxAsyncCommand ShowMenuCommand
+        public IMvxAsyncCommand<ResultModel> ShowMenuCommand
         {
             get
             {
-                return new MvxAsyncCommand(async () =>
+                return new MvxAsyncCommand<ResultModel>(async (ResultModel model) =>
                 {
-                    await _navigationService.Navigate<TaskListViewModel>();
+                    model = Result;
+                    await _navigationService.Navigate<TaskListViewModel, ResultModel, ResultModel>(model);
                 });
             }
         }
 
-        public IMvxAsyncCommand ShowTaskCommand
-        {
-            get
-            {
-                return new MvxAsyncCommand(async() =>
-                {
-                   await  _navigationService.Navigate<TaskViewModel>();
-                });
-            }
-        }
-        
         #endregion
+
+        public override void Prepare(Int32 id)
+        {
+            Result.Changes.UserId = id;
+        }
     }
 }

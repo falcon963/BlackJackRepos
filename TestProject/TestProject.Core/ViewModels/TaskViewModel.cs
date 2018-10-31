@@ -148,12 +148,6 @@ namespace TestProject.Core.ViewModels
             return result;
         }
 
-        private Task<List<UserTask>> LoadAllTask()
-        {
-            var result = _taskService.GetTasksAsync();
-            return result;
-        }
-
         private Task<Int32> SaveTask(UserTask userTask)
         {
             var result = _taskService.SaveTaskAsync(userTask);
@@ -172,6 +166,7 @@ namespace TestProject.Core.ViewModels
 
             _userTaskDublicate = new UserTask
             {
+                UserId = parameter.Changes.UserId,
                 Id = parameter.Changes.Id,
                 Title = parameter.Changes.Title,
                 Note = parameter.Changes.Note,

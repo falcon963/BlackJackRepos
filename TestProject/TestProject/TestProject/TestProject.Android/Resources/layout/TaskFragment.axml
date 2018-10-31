@@ -24,8 +24,8 @@
 		android:layout_marginTop = "10dp"
 		android:layout_marginBottom="10dp"
 		android:background="@drawable/shadow_gradient"
-		android:layout_marginLeft="@dimen/abc_progress_bar_height_material"
-		android:layout_marginRight="@dimen/abc_progress_bar_height_material"
+		android:layout_marginLeft="@dimen/design_snackbar_padding_horizontal"
+		android:layout_marginRight="@dimen/design_snackbar_padding_horizontal"
 		android:maxLength="40"
 		local:MvxBind="Text UserTask.Changes.Title; Enabled TitleEnableStatus"/>
 	<EditText
@@ -37,8 +37,8 @@
 		android:minLines="1"
 		android:maxLines="10"
 		android:background="@drawable/shadow_gradient"
-		android:layout_marginLeft="@dimen/abc_progress_bar_height_material"
-		android:layout_marginRight="@dimen/abc_progress_bar_height_material"
+		android:layout_marginLeft="@dimen/design_snackbar_padding_horizontal"
+		android:layout_marginRight="@dimen/design_snackbar_padding_horizontal"
 		android:scrollbars="vertical"
 		android:imeOptions="actionGo"
 		android:inputType="textMultiLine"
@@ -62,6 +62,7 @@
 				android:id="@+id/switch_text"
 				android:layout_toRightOf="@+id/task_switch"
 				android:gravity="center|fill_horizontal"
+				android:paddingBottom="15dp"
 				android:textSize="20dp" />
 		</RelativeLayout>
 
@@ -73,12 +74,15 @@
 				android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
 				android:text="Save"
+				
 				android:backgroundTint="#ffff"
 				local:MvxBind="Click SaveUserTaskCommand"
-				android:layout_width="@dimen/design_bottom_navigation_active_item_max_width"/>
+				android:layout_marginLeft="7.5dp"
+				android:layout_width="170dp"/>
 	<Button
 		android:id="@+id/button_delete"
-		android:layout_width="@dimen/design_bottom_navigation_active_item_max_width"
+		android:layout_width="170dp"
+		android:layout_marginRight="7.5dp"
 		android:layout_height="wrap_content"
 		android:layout_alignParentRight="true"
 		android:backgroundTint="#ffff"
