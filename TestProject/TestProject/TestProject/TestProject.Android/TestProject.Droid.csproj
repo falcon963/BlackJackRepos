@@ -169,6 +169,7 @@
     <Compile Include="Database\DatabaseConnection_Android.cs" />
     <Compile Include="Fragments\TasksFragment.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="Adapter\ImageAdapter.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,10 +5,14 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using MvvmCross.Binding.BindingContext;
+using MvvmCross.Platforms.Android.Binding.BindingContext;
+using MvvmCross.Platforms.Android.Binding.Views;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.ViewModels;
 using TestProject.Droid.Views;
@@ -21,9 +25,14 @@ namespace TestProject.Droid.Fragments
     {
         protected override int FragmentId => Resource.Layout.TasksFragmentLayout;
 
+        MvxListView listView;
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
+            listView = view.FindViewById<MvxListView>(Resource.Id.task_recycler_view);
+            ImageAdapter adapter = new ImageAdapter(this.Activity, (MvxAndroidBindingContext)BindingContext, listView);
+            listView.Adapter = adapter;
             return view;
         }
     }
