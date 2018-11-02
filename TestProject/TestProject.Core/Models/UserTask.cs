@@ -11,5 +11,6 @@ namespace TestProject.Core.Models
     {
         [PrimaryKey, AutoIncrement]
         public new Int32 Id { get; set; }
+        public String ImagePath { get; set; }
     }
 }

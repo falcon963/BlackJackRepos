@@ -7,54 +7,46 @@ using MvvmCross.ViewModels;
 using TestProject.Core.Models;
 using TestProject.Core.Interfaces;
 using System.Threading.Tasks;
+using Plugin.SecureStorage;
+using TestProject.Core.Constant;
 
 namespace TestProject.Core.ViewModels
 {
-    public class MainViewModel : BaseViewModel<Int32, ResultModel>
+    public class MainViewModel : BaseViewModel
     {
         private readonly IMvxNavigationService _navigationService;
 
-        ResultModel _result;
+        private readonly ITaskService _taskService;
 
-        ResultModel Result
-        {
-            get
-            {
-                return _result;
-            }
-            set
-            {
-                _result = value;
-                RaisePropertyChanged(() => Result);
-            }
-        }
-
-        public MainViewModel(IMvxNavigationService navigationService)
+        public MainViewModel(IMvxNavigationService navigationService, ITaskService taskService)
         {
             _navigationService = navigationService;
-            _result = new ResultModel();
-            _result.Changes = new UserTask();
+            _taskService = taskService;
         }
 
         #region Commands
 
-        public IMvxAsyncCommand<ResultModel> ShowMenuCommand
+        public IMvxAsyncCommand ShowMenuCommand
         {
             get
             {
-                return new MvxAsyncCommand<ResultModel>(async (ResultModel model) =>
-                {
-                    model = Result;
-                    await _navigationService.Navigate<TaskListViewModel, ResultModel, ResultModel>(model);
-                });
+                    return new MvxAsyncCommand(async () =>
+                    {
+                        if (CrossSecureStorage.Current.GetValue(SecureConstant.status) == "True")
+                        {
+                            User user = new User();
+                            user = await _taskService.CheckAccountAccess(CrossSecureStorage.Current.GetValue(SecureConstant.login), CrossSecureStorage.Current.GetValue(SecureConstant.password));
+                            var taskToNavigate = new ResultModel { Changes = new UserTask { UserId = user.Id } };
+                            await _navigationService.Navigate<TaskListViewModel, ResultModel>(taskToNavigate);
+                        }
+                        if (CrossSecureStorage.Current.GetValue(SecureConstant.status) != "True")
+                        {
+                            await _navigationService.Navigate<LoginViewModel>();
+                        }
+                    });
             }
         }
 
         #endregion
-
-        public override void Prepare(Int32 id)
-        {
-            Result.Changes.UserId = id;
-        }
     }
 }

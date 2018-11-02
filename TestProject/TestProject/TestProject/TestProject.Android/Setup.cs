@@ -14,7 +14,7 @@ using TestProject.Core;
 
 namespace TestProject.Droid
 {
-    public class Setup : MvxAppCompatSetup<App>
+    public class Setup : MvxAppCompatSetup<TestProject.Core.App>
     {
         protected override IEnumerable<Assembly> AndroidViewAssemblies => new List<Assembly>(base.AndroidViewAssemblies)
         {

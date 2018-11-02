@@ -13,7 +13,7 @@ using TestProject.Core.Constant;
 
 namespace TestProject.Core.ViewModels
 {
-    public class LoginViewModel:BaseViewModel
+    public class LoginViewModel : BaseViewModel
     {
         private readonly IMvxNavigationService _navigationService;
 
@@ -151,7 +151,9 @@ namespace TestProject.Core.ViewModels
                     if (await _taskService.CheckAccountAccess(User.Login, User.Password) != null)
                     {
                         User = await _taskService.CheckAccountAccess(User.Login, User.Password);
-                        var result = await _navigationService.Navigate<MainViewModel, Int32>(User.Id);
+                        var taskToNavigate = new ResultModel {Changes = new UserTask { UserId = User.Id } };
+                        await _navigationService.Navigate<TaskListViewModel, ResultModel>(taskToNavigate);
+                        await _navigationService.Close(this);
                     }
                     if((await _taskService.CheckAccountAccess(User.Login, User.Password) == null))
                     {
@@ -183,5 +185,6 @@ namespace TestProject.Core.ViewModels
         }
 
         #endregion
+
     }
 }

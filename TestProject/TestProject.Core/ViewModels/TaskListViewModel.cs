@@ -15,7 +15,7 @@ using Acr.UserDialogs;
 
 namespace TestProject.Core.ViewModels
 {
-    public class TaskListViewModel: BaseViewModel<ResultModel, ResultModel>
+    public class TaskListViewModel: BaseViewModel<ResultModel>
         {
         private readonly IMvxNavigationService _navigationService;
         private ITaskService _taskService;
@@ -151,7 +151,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxCommand<UserTask>(async (UserTask task) =>
                 {
-                    var taskToNavigate = new ResultModel { Result = Enum.UserTaskResult.Update, Changes = new UserTask {Id=task.Id, Note=task.Note,Title=task.Title, Status=task.Status, UserId = _userId } };
+                    var taskToNavigate = new ResultModel { Result = Enum.UserTaskResult.Update, Changes = new UserTask {Id=task.Id, Note=task.Note,Title=task.Title, Status=task.Status, UserId = _userId, ImagePath = task.ImagePath} };
 
                     var result = await _navigationService.Navigate<TaskViewModel, ResultModel, ResultModel>(taskToNavigate);
                     if (result == null)

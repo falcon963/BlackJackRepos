@@ -165,6 +165,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App.cs" />
     <Compile Include="Database\DatabaseConnection_Android.cs" />
     <Compile Include="Fragments\TasksFragment.cs" />
     <Compile Include="Helpers\Settings.cs" />
@@ -174,7 +175,7 @@
     <Compile Include="Setup.cs" />
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Views\BaseFragment.cs" />
-    <Compile Include="Views\LoginActivity.cs" />
+    <Compile Include="Views\LoginFragment.cs" />
     <Compile Include="Views\MainActivity.cs" />
     <Compile Include="Views\TaskFragment.cs" />
   </ItemGroup>
@@ -301,7 +302,7 @@
     <AndroidResource Include="Resources\drawable\reg.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\LoginActivity.axml">
+    <AndroidResource Include="Resources\layout\LoginFragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -16,7 +16,7 @@ using TestProject.Core;
 namespace TestProject.Droid
 {
     [Application]
-    public class MainApplication : MvxAppCompatApplication<Setup, App>
+    public class MainApplication : MvxAppCompatApplication<Setup, TestProject.Core.App>
     {
         public MainApplication()
         {

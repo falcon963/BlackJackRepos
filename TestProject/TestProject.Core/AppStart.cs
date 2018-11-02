@@ -20,20 +20,8 @@ namespace TestProject.Core
 
         protected override Task NavigateToFirstViewModel(object hint = null)
         {
-            var _taskService = Mvx.IoCProvider.Resolve<ITaskService>();
-
-            if (CrossSecureStorage.Current.GetValue(SecureConstant.status) == "True")
-            {
-                User user = new User();
-                Task.Factory.StartNew(async() =>
-                {
-                    user = await _taskService.CheckAccountAccess(CrossSecureStorage.Current.GetValue(SecureConstant.login), CrossSecureStorage.Current.GetValue(SecureConstant.password));
-                }).ContinueWith(task =>
-                {
-                    return NavigationService.Navigate<MainViewModel, int>(user.Id);
-                }, TaskScheduler.FromCurrentSynchronizationContext());
-            }
-            return  NavigationService.Navigate<LoginViewModel>();
+            
+            return  NavigationService.Navigate<MainViewModel>();
 
         }
     }

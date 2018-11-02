@@ -32,9 +32,8 @@ namespace TestProject.Core.ViewModels
             }
             set
             {
-                _resultModel = value;
+                SetProperty(ref _resultModel, value);
                 RaisePropertyChanged(() => UserTask);
-                RaisePropertyChanged(() => TitleEnableStatus);
             }
         }
 
@@ -89,6 +88,7 @@ namespace TestProject.Core.ViewModels
             }
         }
 
+
         public IMvxAsyncCommand DeleteUserTaskCommand
         {
             get
@@ -132,7 +132,9 @@ namespace TestProject.Core.ViewModels
                         Id = UserTask.Changes.Id,
                         Note= UserTask.Changes.Note,
                         Status = UserTask.Changes.Status,
-                        Title = UserTask.Changes.Title
+                        Title = UserTask.Changes.Title,
+                        ImagePath = UserTask.Changes.ImagePath,
+                        UserId = UserTask.Changes.UserId
                     };
                     await _navigationService.Close<ResultModel>(this, _resultModel);
                 });
@@ -170,7 +172,8 @@ namespace TestProject.Core.ViewModels
                 Id = parameter.Changes.Id,
                 Title = parameter.Changes.Title,
                 Note = parameter.Changes.Note,
-                Status = parameter.Changes.Status
+                Status = parameter.Changes.Status,
+                ImagePath = parameter.Changes.ImagePath
             };
         }
     }
