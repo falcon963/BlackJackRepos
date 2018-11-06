@@ -49,8 +49,13 @@ namespace TestProject.Droid.Views
                 Bitmap bmImg = BitmapFactory.DecodeFile(ViewModel.UserTask.Changes.ImagePath);
                 _imageView.SetImageBitmap(bmImg);
             }
+            if (ViewModel.UserTask.Changes.ImagePath == null)
+            {
+                Bitmap bmImg = BitmapFactory.DecodeResource(Context.Resources, Resource.Drawable.placeholder);
+                _imageView.SetImageBitmap(bmImg);
+            }
 
-            _imageView.Click += OnAddPhotoClicked;
+                _imageView.Click += OnAddPhotoClicked;
             _linearLayout.Click += delegate { HideSoftKeyboard(); };
             _toolbar.Click += delegate { HideSoftKeyboard(); };
 

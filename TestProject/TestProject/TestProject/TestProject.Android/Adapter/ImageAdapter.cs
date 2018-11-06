@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using DE.Hdodenhof.CircleImageView;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.Views;
 using TestProject.Core.Models;
@@ -35,8 +36,12 @@ namespace TestProject.Droid
 
             var source = ItemsSource.Cast<UserTask>().ToList()[position];
 
-            var imageView = view.FindViewById<ImageView>(Resource.Id.tasklist_image); 
+            var imageView = view.FindViewById<TestProject.Droid.Controls.CircleImageView>(Resource.Id.tasklist_image); 
             Bitmap bmImg = BitmapFactory.DecodeFile(source.ImagePath);
+            if(bmImg == null)
+            {
+                bmImg = BitmapFactory.DecodeResource(Context.Resources ,Resource.Drawable.placeholder);
+            }
             imageView.SetImageBitmap(bmImg);
 
             return view;

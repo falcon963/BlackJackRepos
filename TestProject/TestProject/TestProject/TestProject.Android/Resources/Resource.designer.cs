@@ -63,6 +63,17 @@ namespace TestProject.Droid
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahText = global::TestProject.Droid.Resource.Styleable.ProgressWheel_ahText;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextColor = global::TestProject.Droid.Resource.Styleable.ProgressWheel_ahTextColor;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextSize = global::TestProject.Droid.Resource.Styleable.ProgressWheel_ahTextSize;
+			global::DE.Hdodenhof.CircleImageView.Resource.Attribute.civ_border_color = global::TestProject.Droid.Resource.Attribute.civ_border_color;
+			global::DE.Hdodenhof.CircleImageView.Resource.Attribute.civ_border_overlay = global::TestProject.Droid.Resource.Attribute.civ_border_overlay;
+			global::DE.Hdodenhof.CircleImageView.Resource.Attribute.civ_border_width = global::TestProject.Droid.Resource.Attribute.civ_border_width;
+			global::DE.Hdodenhof.CircleImageView.Resource.Attribute.civ_circle_background_color = global::TestProject.Droid.Resource.Attribute.civ_circle_background_color;
+			global::DE.Hdodenhof.CircleImageView.Resource.Attribute.civ_fill_color = global::TestProject.Droid.Resource.Attribute.civ_fill_color;
+			global::DE.Hdodenhof.CircleImageView.Resource.Styleable.CircleImageView = global::TestProject.Droid.Resource.Styleable.CircleImageView;
+			global::DE.Hdodenhof.CircleImageView.Resource.Styleable.CircleImageView_civ_border_color = global::TestProject.Droid.Resource.Styleable.CircleImageView_civ_border_color;
+			global::DE.Hdodenhof.CircleImageView.Resource.Styleable.CircleImageView_civ_border_overlay = global::TestProject.Droid.Resource.Styleable.CircleImageView_civ_border_overlay;
+			global::DE.Hdodenhof.CircleImageView.Resource.Styleable.CircleImageView_civ_border_width = global::TestProject.Droid.Resource.Styleable.CircleImageView_civ_border_width;
+			global::DE.Hdodenhof.CircleImageView.Resource.Styleable.CircleImageView_civ_circle_background_color = global::TestProject.Droid.Resource.Styleable.CircleImageView_civ_circle_background_color;
+			global::DE.Hdodenhof.CircleImageView.Resource.Styleable.CircleImageView_civ_fill_color = global::TestProject.Droid.Resource.Styleable.CircleImageView_civ_fill_color;
 			global::MvvmCross.Resource.Attribute.MvxBind = global::TestProject.Droid.Resource.Attribute.MvxBind;
 			global::MvvmCross.Resource.Attribute.MvxDropDownItemTemplate = global::TestProject.Droid.Resource.Attribute.MvxDropDownItemTemplate;
 			global::MvvmCross.Resource.Attribute.MvxGroupItemTemplate = global::TestProject.Droid.Resource.Attribute.MvxGroupItemTemplate;
@@ -4355,41 +4366,41 @@ namespace TestProject.Droid
 			// aapt resource value: 0x7f010040
 			public const int adjustable = 2130772032;
 			
-			// aapt resource value: 0x7f01019f
-			public const int ahBarColor = 2130772383;
-			
-			// aapt resource value: 0x7f0101a7
-			public const int ahBarLength = 2130772391;
-			
-			// aapt resource value: 0x7f0101a6
-			public const int ahBarWidth = 2130772390;
-			
 			// aapt resource value: 0x7f0101a4
-			public const int ahCircleColor = 2130772388;
+			public const int ahBarColor = 2130772388;
 			
-			// aapt resource value: 0x7f0101a3
-			public const int ahDelayMillis = 2130772387;
+			// aapt resource value: 0x7f0101ac
+			public const int ahBarLength = 2130772396;
+			
+			// aapt resource value: 0x7f0101ab
+			public const int ahBarWidth = 2130772395;
+			
+			// aapt resource value: 0x7f0101a9
+			public const int ahCircleColor = 2130772393;
+			
+			// aapt resource value: 0x7f0101a8
+			public const int ahDelayMillis = 2130772392;
+			
+			// aapt resource value: 0x7f0101aa
+			public const int ahRadius = 2130772394;
 			
 			// aapt resource value: 0x7f0101a5
-			public const int ahRadius = 2130772389;
+			public const int ahRimColor = 2130772389;
 			
-			// aapt resource value: 0x7f0101a0
-			public const int ahRimColor = 2130772384;
+			// aapt resource value: 0x7f0101a6
+			public const int ahRimWidth = 2130772390;
+			
+			// aapt resource value: 0x7f0101a7
+			public const int ahSpinSpeed = 2130772391;
 			
 			// aapt resource value: 0x7f0101a1
-			public const int ahRimWidth = 2130772385;
+			public const int ahText = 2130772385;
 			
 			// aapt resource value: 0x7f0101a2
-			public const int ahSpinSpeed = 2130772386;
+			public const int ahTextColor = 2130772386;
 			
-			// aapt resource value: 0x7f01019c
-			public const int ahText = 2130772380;
-			
-			// aapt resource value: 0x7f01019d
-			public const int ahTextColor = 2130772381;
-			
-			// aapt resource value: 0x7f01019e
-			public const int ahTextSize = 2130772382;
+			// aapt resource value: 0x7f0101a3
+			public const int ahTextSize = 2130772387;
 			
 			// aapt resource value: 0x7f0100d5
 			public const int alertDialogButtonGroupStyle = 2130772181;
@@ -4531,6 +4542,21 @@ namespace TestProject.Droid
 			
 			// aapt resource value: 0x7f0100e0
 			public const int checkedTextViewStyle = 2130772192;
+			
+			// aapt resource value: 0x7f01019d
+			public const int civ_border_color = 2130772381;
+			
+			// aapt resource value: 0x7f01019e
+			public const int civ_border_overlay = 2130772382;
+			
+			// aapt resource value: 0x7f01019c
+			public const int civ_border_width = 2130772380;
+			
+			// aapt resource value: 0x7f0101a0
+			public const int civ_circle_background_color = 2130772384;
+			
+			// aapt resource value: 0x7f01019f
+			public const int civ_fill_color = 2130772383;
 			
 			// aapt resource value: 0x7f010110
 			public const int closeIcon = 2130772240;
@@ -6609,26 +6635,26 @@ namespace TestProject.Droid
 			// aapt resource value: 0x7f020057
 			public const int avd_hide_password = 2130837591;
 			
-			// aapt resource value: 0x7f02007b
-			public const int avd_hide_password_1 = 2130837627;
-			
 			// aapt resource value: 0x7f02007c
-			public const int avd_hide_password_2 = 2130837628;
+			public const int avd_hide_password_1 = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
-			public const int avd_hide_password_3 = 2130837629;
+			public const int avd_hide_password_2 = 2130837629;
+			
+			// aapt resource value: 0x7f02007e
+			public const int avd_hide_password_3 = 2130837630;
 			
 			// aapt resource value: 0x7f020058
 			public const int avd_show_password = 2130837592;
 			
-			// aapt resource value: 0x7f02007e
-			public const int avd_show_password_1 = 2130837630;
-			
 			// aapt resource value: 0x7f02007f
-			public const int avd_show_password_2 = 2130837631;
+			public const int avd_show_password_1 = 2130837631;
 			
 			// aapt resource value: 0x7f020080
-			public const int avd_show_password_3 = 2130837632;
+			public const int avd_show_password_2 = 2130837632;
+			
+			// aapt resource value: 0x7f020081
+			public const int avd_show_password_3 = 2130837633;
 			
 			// aapt resource value: 0x7f020059
 			public const int design_bottom_navigation_item_background = 2130837593;
@@ -6687,11 +6713,11 @@ namespace TestProject.Droid
 			// aapt resource value: 0x7f02006b
 			public const int notification_icon_background = 2130837611;
 			
-			// aapt resource value: 0x7f020079
-			public const int notification_template_icon_bg = 2130837625;
-			
 			// aapt resource value: 0x7f02007a
-			public const int notification_template_icon_low_bg = 2130837626;
+			public const int notification_template_icon_bg = 2130837626;
+			
+			// aapt resource value: 0x7f02007b
+			public const int notification_template_icon_low_bg = 2130837627;
 			
 			// aapt resource value: 0x7f02006c
 			public const int notification_tile_bg = 2130837612;
@@ -6700,37 +6726,40 @@ namespace TestProject.Droid
 			public const int notify_panel_notification_icon_bg = 2130837613;
 			
 			// aapt resource value: 0x7f02006e
-			public const int reg = 2130837614;
+			public const int placeholder = 2130837614;
 			
 			// aapt resource value: 0x7f02006f
-			public const int roundedbg = 2130837615;
+			public const int reg = 2130837615;
 			
 			// aapt resource value: 0x7f020070
-			public const int roundedbgdark = 2130837616;
+			public const int roundedbg = 2130837616;
 			
 			// aapt resource value: 0x7f020071
-			public const int shadow = 2130837617;
+			public const int roundedbgdark = 2130837617;
 			
 			// aapt resource value: 0x7f020072
-			public const int shadow_gradient = 2130837618;
+			public const int shadow = 2130837618;
 			
 			// aapt resource value: 0x7f020073
-			public const int shield = 2130837619;
+			public const int shadow_gradient = 2130837619;
 			
 			// aapt resource value: 0x7f020074
-			public const int shield_reg = 2130837620;
+			public const int shield = 2130837620;
 			
 			// aapt resource value: 0x7f020075
-			public const int splash_screen = 2130837621;
+			public const int shield_reg = 2130837621;
 			
 			// aapt resource value: 0x7f020076
-			public const int tooltip_frame_dark = 2130837622;
+			public const int splash_screen = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int tooltip_frame_light = 2130837623;
+			public const int tooltip_frame_dark = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int user = 2130837624;
+			public const int tooltip_frame_light = 2130837624;
+			
+			// aapt resource value: 0x7f020079
+			public const int user = 2130837625;
 			
 			static Drawable()
 			{
@@ -9985,6 +10014,28 @@ namespace TestProject.Droid
 			// aapt resource value: 3
 			public const int CheckBoxPreference_summaryOn = 3;
 			
+			public static int[] CircleImageView = new int[] {
+					2130772380,
+					2130772381,
+					2130772382,
+					2130772383,
+					2130772384};
+			
+			// aapt resource value: 1
+			public const int CircleImageView_civ_border_color = 1;
+			
+			// aapt resource value: 2
+			public const int CircleImageView_civ_border_overlay = 2;
+			
+			// aapt resource value: 0
+			public const int CircleImageView_civ_border_width = 0;
+			
+			// aapt resource value: 4
+			public const int CircleImageView_civ_circle_background_color = 4;
+			
+			// aapt resource value: 3
+			public const int CircleImageView_civ_fill_color = 3;
+			
 			public static int[] CollapsingToolbarLayout = new int[] {
 					2130772039,
 					2130772290,
@@ -10972,18 +11023,18 @@ namespace TestProject.Droid
 			public const int PreferenceTheme_yesNoPreferenceStyle = 9;
 			
 			public static int[] ProgressWheel = new int[] {
-					2130772380,
-					2130772381,
-					2130772382,
-					2130772383,
-					2130772384,
 					2130772385,
 					2130772386,
 					2130772387,
 					2130772388,
 					2130772389,
 					2130772390,
-					2130772391};
+					2130772391,
+					2130772392,
+					2130772393,
+					2130772394,
+					2130772395,
+					2130772396};
 			
 			// aapt resource value: 3
 			public const int ProgressWheel_ahBarColor = 3;
