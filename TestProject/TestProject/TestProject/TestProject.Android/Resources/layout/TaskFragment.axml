@@ -22,6 +22,7 @@
 		android:imeOptions="actionGo"
 		android:layout_height="wrap_content"
 		android:layout_marginTop = "10dp"
+		android:padding="10dp"
 		android:layout_marginBottom="10dp"
 		android:background="@drawable/shadow_gradient"
 		android:layout_marginLeft="@dimen/design_snackbar_padding_horizontal"
@@ -51,8 +52,12 @@
 			android:id="@+id/image_view"
 			android:minHeight="90dp"
 			android:minWidth="90dp"
-			android:layout_height="180dp"
-			android:layout_width="120dp"/>
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:maxHeight="280dp"
+			android:maxWidth="220dp"
+			android:adjustViewBounds="true"
+			android:scaleType="centerCrop"/>
 			</LinearLayout>
 		<RelativeLayout
 			android:layout_height="wrap_content"

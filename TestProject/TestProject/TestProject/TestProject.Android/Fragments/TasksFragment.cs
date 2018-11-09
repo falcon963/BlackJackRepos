@@ -9,6 +9,7 @@ using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
@@ -34,6 +35,15 @@ namespace TestProject.Droid.Fragments
             ImageAdapter adapter = new ImageAdapter(this.Activity, (MvxAndroidBindingContext)BindingContext, listView);
             listView.Adapter = adapter;
             return view;
+        }
+
+
+        public override void OnDestroyView()
+        {
+            InputMethodManager inputManager = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+            var currentFocus = Activity.CurrentFocus;
+            inputManager.HideSoftInputFromWindow(currentFocus.WindowToken, 0);
+            base.OnDestroyView();
         }
     }
 }

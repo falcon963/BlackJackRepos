@@ -100,6 +100,7 @@ namespace TestProject.Droid.Controls
                 Canvas canvas = new Canvas(bitmap);
                 drawable.SetBounds(0, 0, canvas.Width, canvas.Height);
                 drawable.Draw(canvas);
+                bitmap.Recycle();
                 return bitmap;
             }
             catch (Exception e)

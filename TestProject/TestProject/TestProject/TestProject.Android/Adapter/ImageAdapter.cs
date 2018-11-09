@@ -6,6 +6,7 @@ using System.Text;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -21,6 +22,7 @@ namespace TestProject.Droid
     {
         private MvxListView listView;
         private Context _context;
+        private Bitmap _bitmap;
 
         public ImageAdapter(Activity context, IMvxAndroidBindingContext bindingContext, MvxListView tableView) : base(context, bindingContext)
         {
@@ -36,15 +38,66 @@ namespace TestProject.Droid
 
             var source = ItemsSource.Cast<UserTask>().ToList()[position];
 
-            var imageView = view.FindViewById<TestProject.Droid.Controls.CircleImageView>(Resource.Id.tasklist_image); 
-            Bitmap bmImg = BitmapFactory.DecodeFile(source.ImagePath);
-            if(bmImg == null)
+            var imageView = view.FindViewById<TestProject.Droid.Controls.CircleImageView>(Resource.Id.tasklist_image);
+            var taskView = view.FindViewById<LinearLayout>(Resource.Id.list_fragment);
+            var divider = view.FindViewById<View>(Resource.Id.divider);
+            listView.DividerHeight = 0;
+            if (ItemsSource.Cast<UserTask>().ToList().Count == position+1)
             {
-                bmImg = BitmapFactory.DecodeResource(Context.Resources ,Resource.Drawable.placeholder);
+                divider.Visibility = ViewStates.Invisible;
             }
-            imageView.SetImageBitmap(bmImg);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.InSampleSize = CalculateInSampleSize(options, 60, 60);
+
+            try
+            {
+                _bitmap = BitmapFactory.DecodeFile(source.ImagePath, options);
+                imageView.SetImageBitmap(_bitmap);
+            }
+            catch (Java.Lang.OutOfMemoryError)
+            {
+                System.GC.Collect();
+                try
+                {
+                    _bitmap = BitmapFactory.DecodeFile(source.ImagePath, options);
+                    imageView.SetImageBitmap(_bitmap);
+                }
+                catch (Java.Lang.OutOfMemoryError)
+                {
+                    
+                }
+            }
+            if (_bitmap == null)
+            {
+                imageView.SetImageResource(Resource.Drawable.placeholder);
+            }                
 
             return view;
+        }
+
+        public static int CalculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight)
+        {
+
+            int height = options.OutHeight;
+            int width = options.OutWidth;
+            int inSampleSize = 1;
+
+            if (height > reqHeight || width > reqWidth)
+            {
+
+                int halfHeight = height / 2;
+                int halfWidth = width / 2;
+
+
+                while ((halfHeight / inSampleSize) >= reqHeight
+                        && (halfWidth / inSampleSize) >= reqWidth)
+                {
+                    inSampleSize *= 2;
+                }
+            }
+
+            return inSampleSize;
         }
     }
 }

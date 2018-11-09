@@ -5,4 +5,5 @@
   <color name="colorAccent">#ffffff</color>
   <color name="white">#FFFFFF</color>
   <color name="blue">#185eb2</color>
+  <drawable name="transperent_color">#00000000</drawable>
 </resources>
