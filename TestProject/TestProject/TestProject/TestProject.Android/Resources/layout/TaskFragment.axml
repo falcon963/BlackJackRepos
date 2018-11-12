@@ -6,15 +6,20 @@
 	android:id="@+id/task_linearlayout"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-		android:theme="@style/AppToolbar"
-	android:background="#455A64">
+	android:theme="@style/AppToolbar"
+	android:background="#FBC02D">
+	<include
+		layout="@layout/fragment_toolbar"/>
+	<ScrollView
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:isScrollContainer="false">
 	<LinearLayout
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="#FBC02D">
-		<include
-		layout="@layout/fragment_toolbar"/>
 	<EditText
 		android:id="@+id/text_title"
 		android:layout_width="match_parent"
@@ -44,21 +49,17 @@
 		android:imeOptions="actionGo"
 		android:inputType="textMultiLine"
 		local:MvxBind="Text UserTask.Changes.Note"/>
-		<LinearLayout
-		android:layout_height="180dp"
-		android:layout_width="120dp"
+		<RelativeLayout
+		android:layout_height="340dp"
+		android:layout_width="340dp"
         android:layout_gravity="center">
-		<ImageView
-			android:id="@+id/image_view"
-			android:minHeight="90dp"
-			android:minWidth="90dp"
-			android:layout_width="wrap_content"
-			android:layout_height="match_parent"
-			android:maxHeight="280dp"
-			android:maxWidth="220dp"
-			android:adjustViewBounds="true"
-			android:scaleType="centerCrop"/>
-			</LinearLayout>
+			<ImageView
+				android:id="@+id/image_view"
+				android:layout_height="335dp"
+				android:layout_width="335dp"
+				android:scaleType="centerCrop"
+				android:layout_centerInParent = "true"/>
+			</RelativeLayout>
 		<RelativeLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent">
@@ -106,4 +107,5 @@
 		local:MvxBind="Click DeleteUserTaskCommand"/>
 			</RelativeLayout>
 	</LinearLayout>
+	</ScrollView>
 </LinearLayout>

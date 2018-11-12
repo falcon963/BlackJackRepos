@@ -275,6 +275,12 @@ namespace TestProject.Droid.Views
             }
         }
 
+        public void ShowInputMethod()
+        {
+            InputMethodManager methodManager = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+            methodManager.ToggleSoftInput(ShowFlags.Forced, HideSoftInputFlags.ImplicitOnly);
+        }
+
         public override void OnDestroyView()
         {
             InputMethodManager inputManager = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);

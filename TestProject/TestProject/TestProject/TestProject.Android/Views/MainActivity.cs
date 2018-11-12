@@ -38,6 +38,8 @@ namespace TestProject.Droid.Views
 
             UserDialogs.Init(this);
 
+            Window.SetSoftInputMode(Android.Views.SoftInput.AdjustResize);
+
             SetContentView(Resource.Layout.MainActivity);
 
             DrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
