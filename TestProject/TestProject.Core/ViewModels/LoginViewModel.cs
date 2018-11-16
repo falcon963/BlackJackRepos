@@ -55,14 +55,7 @@ namespace TestProject.Core.ViewModels
             {
                 SetProperty(ref _login, value);
                 User.Login = _login;
-                if (String.IsNullOrEmpty(User.Login) && String.IsNullOrEmpty(User.Password))
-                {
-                    EnableStatus = false;
-                }
-                if (!String.IsNullOrEmpty(User.Login) && !String.IsNullOrEmpty(User.Password))
-                {
-                    EnableStatus = true;
-                }
+                EnableStatusCheck();
             }
         }
 
@@ -76,14 +69,7 @@ namespace TestProject.Core.ViewModels
             {
                 SetProperty(ref _password, value);
                 User.Password = _password;
-                if (String.IsNullOrEmpty(User.Login) && String.IsNullOrEmpty(User.Password))
-                {
-                    EnableStatus = false;
-                }
-                if (!String.IsNullOrEmpty(User.Login) && !String.IsNullOrEmpty(User.Password))
-                {
-                    EnableStatus = true;
-                }
+                EnableStatusCheck();
             }
         }
 
@@ -140,6 +126,18 @@ namespace TestProject.Core.ViewModels
             }
         }
 
+        public void EnableStatusCheck()
+        {
+            if (String.IsNullOrEmpty(User.Login) && String.IsNullOrEmpty(User.Password))
+            {
+                EnableStatus = false;
+            }
+            if (!String.IsNullOrEmpty(User.Login) && !String.IsNullOrEmpty(User.Password))
+            {
+                EnableStatus = true;
+            }
+        }
+
         #region Commands
 
         public IMvxAsyncCommand LoginCommand
@@ -148,16 +146,29 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    if (await _taskService.CheckAccountAccess(User.Login, User.Password) != null)
+                    var account = await _taskService.CheckAccountAccess(User.Login, User.Password);
+
+                    if (account != null)
                     {
-                        User = await _taskService.CheckAccountAccess(User.Login, User.Password);
-                        var taskToNavigate = new ResultModel {Changes = new UserTask { UserId = User.Id } };
+                        User = account;
+                        var taskToNavigate = new ResultModel
+                        {
+                            Changes = new UserTask
+                            {
+                                UserId = User.Id
+                            }
+                        };
                         await _navigationService.Navigate<TaskListViewModel, ResultModel>(taskToNavigate);
                         await _navigationService.Close(this);
                     }
-                    if((await _taskService.CheckAccountAccess(User.Login, User.Password) == null))
+                    if((account == null))
                     {
-                        var alert = UserDialogs.Instance.Alert(new AlertConfig { Message = "Wrong data, account not found!", OkText = "Ok", Title = "Account not found" });
+                        UserDialogs.Instance.Alert(new AlertConfig
+                        {
+                            Message = MessengeFields.WrongData,
+                            OkText = MessengeFields.OkText,
+                            Title = MessengeFields.AccountNotFound
+                        });
                         return;
                     }
                 });
@@ -170,15 +181,26 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () => 
                 {
-                    if (!(await _taskService.CheckValidLogin(User.Login)))
+                    var valid = await _taskService.CheckValidLogin(User.Login);
+                    if (!valid)
                     {
-                        var alert = UserDialogs.Instance.Alert(new AlertConfig { Message = "Login already use!", OkText = "Ok", Title = "Login use" });
+                        var alert = UserDialogs.Instance.Alert(new AlertConfig
+                        {
+                            Message = MessengeFields.Login,
+                            OkText = MessengeFields.OkText,
+                            Title = MessengeFields.LoginUse
+                        });
                         return;
                     }
-                    if ((await _taskService.CheckValidLogin(User.Login)))
+                    if (valid)
                     {
                         await _taskService.CreateUser(User);
-                        var alert = UserDialogs.Instance.Alert(new AlertConfig { Message = "Registrate successful!", OkText = "Ok", Title = "Success!" });
+                        var alert = UserDialogs.Instance.Alert(new AlertConfig
+                        {
+                            Message = MessengeFields.Registrate,
+                            OkText = MessengeFields.OkText,
+                            Title = MessengeFields.Success
+                        });
                     }
                 });
             }

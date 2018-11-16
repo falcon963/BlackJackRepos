@@ -32,14 +32,25 @@ namespace TestProject.Core.ViewModels
             {
                     return new MvxAsyncCommand(async () =>
                     {
-                        if (CrossSecureStorage.Current.GetValue(SecureConstant.status) == "True")
+                        var value = CrossSecureStorage.Current.GetValue(SecureConstant.status);
+                        if (value == "True")
                         {
                             User user = new User();
-                            user = await _taskService.CheckAccountAccess(CrossSecureStorage.Current.GetValue(SecureConstant.login), CrossSecureStorage.Current.GetValue(SecureConstant.password));
-                            var taskToNavigate = new ResultModel { Changes = new UserTask { UserId = user.Id } };
-                            await _navigationService.Navigate<TaskListViewModel, ResultModel>(taskToNavigate);
+                            var login = CrossSecureStorage.Current.GetValue(SecureConstant.login);
+                            var password = CrossSecureStorage.Current.GetValue(SecureConstant.password);
+                            user = await _taskService.CheckAccountAccess(login, password);
+                            if(user == null)
+                            {
+                                CrossSecureStorage.Current.SetValue(SecureConstant.status, false.ToString());
+                                await _navigationService.Navigate<LoginViewModel>();
+                            }
+                            if (user != null)
+                            {
+                                var taskToNavigate = new ResultModel { Changes = new UserTask { UserId = user.Id } };
+                                await _navigationService.Navigate<TaskListViewModel, ResultModel>(taskToNavigate);
+                            }
                         }
-                        if (CrossSecureStorage.Current.GetValue(SecureConstant.status) != "True")
+                        if (value != "True")
                         {
                             await _navigationService.Navigate<LoginViewModel>();
                         }

@@ -185,6 +185,7 @@
     <Compile Include="Views\BaseFragment.cs" />
     <Compile Include="Views\LoginFragment.cs" />
     <Compile Include="Views\MainActivity.cs" />
+    <Compile Include="Views\MenuFragment.cs" />
     <Compile Include="Views\TaskFragment.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -321,6 +322,29 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\TransparentLayout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MenuFragment.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\navigation_drawer.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MenuItemList.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ListItemMenuFragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

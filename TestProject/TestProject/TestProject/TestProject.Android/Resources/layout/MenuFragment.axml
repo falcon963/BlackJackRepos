@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MvvmCross.Platforms.Android.Binding.Views.MvxListView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:local="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/navigation_view"
+	android:layout_height="match_parent"
+	android:layout_width="match_parent"
+	android:fitsSystemWindows="true"
+	android:background="#d6d6d6"
+	local:itemTextColor="#1e1e1c"
+	local:itemIconTint="#f7df09"
+	android:scrollbars="vertical"
+	local:MvxItemTemplate="@layout/listitemmenufragment"
+	local:MvxBind="ItemsSource MenuItems; ItemClick ItemSelectCommand"/>

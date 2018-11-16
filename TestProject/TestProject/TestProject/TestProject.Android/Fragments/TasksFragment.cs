@@ -34,9 +34,10 @@ namespace TestProject.Droid.Fragments
             listView = view.FindViewById<MvxListView>(Resource.Id.task_recycler_view);
             ImageAdapter adapter = new ImageAdapter(this.Activity, (MvxAndroidBindingContext)BindingContext, listView);
             listView.Adapter = adapter;
+            ViewModel.ShowMenuCommand.Execute(null);
             return view;
         }
-
+ 
 
         public override void OnDestroyView()
         {

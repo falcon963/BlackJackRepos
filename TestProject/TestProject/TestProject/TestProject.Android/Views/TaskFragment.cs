@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,6 +22,7 @@ using MvvmCross.Platforms.Android.Binding.Views;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.ViewModels;
 using TestProject.Core.Interfaces;
+using Android.Support.V7.Widget;
 
 namespace TestProject.Droid.Views
 {
@@ -33,7 +33,7 @@ namespace TestProject.Droid.Views
         protected override int FragmentId => Resource.Layout.TaskFragment;
 
         private LinearLayout _linearLayout;
-        private Toolbar _toolbar;
+        private Android.Support.V7.Widget.Toolbar _toolbar;
         private ImageView _imageView;
         private static readonly Int32 REQUEST_CAMERA = 0;
         private static readonly Int32 SELECT_FILE = 1;
@@ -56,7 +56,7 @@ namespace TestProject.Droid.Views
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
             _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.task_linearlayout);
-            _toolbar = view.FindViewById<Toolbar>(Resource.Id.fragment_toolbar);
+            _toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.fragment_toolbar);
             _imageView = view.FindViewById<ImageView>(Resource.Id.image_view);
             _imageView.Click += OnAddPhotoClicked;
             _linearLayout.Click += delegate { HideSoftKeyboard(); };
@@ -219,7 +219,7 @@ namespace TestProject.Droid.Views
 
         void OnAddPhotoClicked(object sender, EventArgs e)
         {
-            var popup = new PopupMenu(Activity, _imageView);
+            var popup = new Android.Support.V7.Widget.PopupMenu(Activity, _imageView);
             popup.Menu.Add("Camera");
             popup.Menu.Add("Gallery");
             popup.Menu.Add("Cancel");
@@ -227,7 +227,7 @@ namespace TestProject.Droid.Views
             popup.Show();
         }
 
-        private void OnMenuItemClicked(object sender, PopupMenu.MenuItemClickEventArgs e)
+        private void OnMenuItemClicked(object sender, Android.Support.V7.Widget.PopupMenu.MenuItemClickEventArgs e)
         {
             var label = e.Item.TitleFormatted.ToString();
 

@@ -20,7 +20,7 @@ namespace TestProject.Core.ViewModels
         private readonly IMvxNavigationService _navigationService;
         private ITaskService _taskService;
         private bool _isRefreshing;
-        private Int32 _userId;
+        private ResultModel _userTask;
         private readonly IUserDialogs _userDialogs;
 
         private MvxObservableCollection<UserTask> _listOfTasks;
@@ -31,6 +31,19 @@ namespace TestProject.Core.ViewModels
             _navigationService = navigationService;
             _userDialogs = userDialogs;
             _listOfTasks = new MvxObservableCollection<UserTask>();
+            ListOfTasks = new MvxObservableCollection<UserTask>();
+        }
+
+        public ResultModel UserTask
+        {
+            get
+            {
+                return _userTask;
+            }
+            set
+            {
+                _userTask = value;
+            }
         }
 
         public override  Task Initialize()
@@ -50,7 +63,7 @@ namespace TestProject.Core.ViewModels
 
         public async Task<MvxObservableCollection<UserTask>> UserTaskInitialize()
         {
-            var list = await _taskService.GetTasksAsync(_userId);
+            var list = await _taskService.GetTasksAsync(UserTask.Changes.UserId);
             foreach (var item in list)
             {
                 _listOfTasks.Add(item);
@@ -97,7 +110,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async() =>
                 {
-                    var result = await _taskService.GetTasksAsync(_userId);
+                    var result = await _taskService.GetTasksAsync(UserTask.Changes.UserId);
                 });
             }
         }
@@ -110,7 +123,7 @@ namespace TestProject.Core.ViewModels
                 {
                     task = new ResultModel
                     {
-                        Changes = new UserTask {UserId = _userId},
+                        Changes = new UserTask {UserId = UserTask.Changes.UserId},
                         Result = Enum.UserTaskResult.Save
                     };
                     var result = await _navigationService.Navigate<TaskViewModel, ResultModel, ResultModel>(task);
@@ -120,7 +133,7 @@ namespace TestProject.Core.ViewModels
                     }
                     if (result.Result == Enum.UserTaskResult.Save)
                     {
-                        ListOfTasks.Add(task.Changes);
+                        ListOfTasks.Add(result.Changes);
                     }
                 });
 
@@ -135,7 +148,7 @@ namespace TestProject.Core.ViewModels
                 {
                     IsRefreshing = true;
 
-                    var result = await _taskService.RefreshUserTasks(_userId);
+                    var result = await _taskService.RefreshUserTasks(UserTask.Changes.UserId);
 
                     ListOfTasks = new MvxObservableCollection<UserTask>(result);
 
@@ -151,7 +164,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxCommand<UserTask>(async (UserTask task) =>
                 {
-                    var taskToNavigate = new ResultModel { Result = Enum.UserTaskResult.Update, Changes = new UserTask {Id=task.Id, Note=task.Note,Title=task.Title, Status=task.Status, UserId = _userId, ImagePath = task.ImagePath} };
+                    var taskToNavigate = new ResultModel { Result = Enum.UserTaskResult.Update, Changes = new UserTask {Id=task.Id, Note=task.Note,Title=task.Title, Status=task.Status, UserId = UserTask.Changes.UserId, ImagePath = task.ImagePath} };
 
                     var result = await _navigationService.Navigate<TaskViewModel, ResultModel, ResultModel>(taskToNavigate);
                     if (result == null)
@@ -175,39 +188,29 @@ namespace TestProject.Core.ViewModels
                 });
             }
         }
-
-        public IMvxCommand LogOutCommand
+/// <summary>
+/// 
+/// </summary>
+       public IMvxCommand ShowMenuCommand
         {
             get
             {
-                return new MvxCommand(async() =>
+                return new MvxCommand(() =>
                 {
-                    var logOut = await _userDialogs.ConfirmAsync(new ConfirmConfig
-                    {
-                        Title = "Alert Messege",
-                        Message = "Do you want logout?",
-                        OkText = "Yes",
-                        CancelText = "No"
-                    });
-                    if (logOut)
-                    {
-                        CrossSecureStorage.Current.DeleteKey(SecureConstant.status);
-                        await _navigationService.Navigate<LoginViewModel>();
-                    }
-                    if (!logOut)
-                    {
-                        return;
-                    }
+                    _navigationService.Navigate<MenuViewModel, TaskListViewModel>(this);
                 });
+
             }
         }
-        
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
         #endregion
 
         public override void Prepare(ResultModel model)
         {
-            _userId = model.Changes.UserId;
+            UserTask = model;
         }
     }
 }

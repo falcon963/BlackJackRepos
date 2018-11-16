@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Toolbar
+<android.support.v7.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:local="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
 	android:theme="@style/AppToolbar"
 	android:background="#455A64"
-    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    local:layout_scrollFlags="scroll|enterAlways"
-    local:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+    android:layout_width="match_parent">
 	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
@@ -22,23 +20,14 @@
 			local:MvxBind="Click ShowTaskCommand"
 			android:layout_alignParentRight="true"
 			android:layout_marginRight="10dp" />
-		<ImageButton
-			android:id="@+id/button_exit"
-			android:layout_width="40dp"
-			android:layout_height="40dp"
-			android:background="@drawable/exit"
-			android:cropToPadding="false"
-			android:scaleType="fitXY"
-			local:MvxBind="Click LogOutCommand"
-			android:layout_alignParentLeft="true"
-			android:layout_marginLeft="10dp" />
 		<TextView
 			android:text="TaskyDrop"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_centerInParent="true"
 			android:fontWeight="800"
+			android:paddingRight="80dp"
 			android:textStyle="italic"
 			android:textColor="#FFFF"/>
 	</RelativeLayout>
-</Toolbar>
+</android.support.v7.widget.Toolbar>

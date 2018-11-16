@@ -20,9 +20,11 @@ namespace TestProject.Droid.Views
 {
     public abstract class BaseFragment : MvxFragment
     {
-       private Android.Widget.Toolbar _toolbar;
+       private Toolbar _toolbar;
 
-       protected abstract Int32 FragmentId { get; }
+       private MvxActionBarDrawerToggle _drawerToggle;
+
+        protected abstract Int32 FragmentId { get; }
 
         public MvxAppCompatActivity ParentActivity
         {
@@ -36,13 +38,21 @@ namespace TestProject.Droid.Views
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var view = this.BindingInflate(FragmentId, null);
-            _toolbar = view.FindViewById<Android.Widget.Toolbar>(Resource.Id.toolbar);
-
-            //if(_toolbar != null)
-            //{
-            //    ParentActivity.SetSupportActionBar(_toolbar);
-            //    ParentActivity.SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-            //}
+            _toolbar = view.FindViewById<Toolbar>(Resource.Id.toolbar);
+            if (_toolbar != null)
+            {
+                ParentActivity.SetSupportActionBar(_toolbar);
+                ParentActivity.SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+                _drawerToggle = new MvxActionBarDrawerToggle(
+                    Activity,                               
+                    ((MainActivity)ParentActivity).DrawerLayout,  
+                    _toolbar,                              
+                    Resource.String.drawer_open,            
+                    Resource.String.drawer_close            
+                );
+                _drawerToggle.DrawerOpened += (object sender, ActionBarDrawerEventArgs e) => ((MainActivity)Activity)?.HideSoftKeyboard();
+                ((MainActivity)ParentActivity).DrawerLayout.AddDrawerListener(_drawerToggle);
+            }
 
             return view;
         }
@@ -50,11 +60,15 @@ namespace TestProject.Droid.Views
         public override void OnConfigurationChanged(Configuration newConfig)
         {
             base.OnConfigurationChanged(newConfig);
+            if (_toolbar != null)
+                _drawerToggle.OnConfigurationChanged(newConfig);
         }
 
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
+            if (_toolbar != null)
+                _drawerToggle.SyncState();
         }
 
     }

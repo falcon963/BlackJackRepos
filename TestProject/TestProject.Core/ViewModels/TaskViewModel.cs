@@ -68,7 +68,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async() =>
                 {
-                    if(UserTask.Changes.Note != _userTaskDublicate.Note || UserTask.Changes.Title != _userTaskDublicate.Title|| UserTask.Changes.Status != _userTaskDublicate.Status)
+                    if(UserTask.Changes.Note != _userTaskDublicate.Note || UserTask.Changes.Title != _userTaskDublicate.Title || UserTask.Changes.Status != _userTaskDublicate.Status)
                     {
                         var goBack = await _userDialogs.ConfirmAsync(new ConfirmConfig
                         {
@@ -125,8 +125,7 @@ namespace TestProject.Core.ViewModels
                         var alert = UserDialogs.Instance.Alert(new AlertConfig { Message = "You can't save task when field is empty!", OkText = "Ok", Title = "System Alert" });
                         return;
                     }
-                    var result = await SaveTask(UserTask.Changes);
-                    
+
                     _resultModel.Changes = new UserTask
                     {
                         Id = UserTask.Changes.Id,
@@ -136,6 +135,7 @@ namespace TestProject.Core.ViewModels
                         ImagePath = UserTask.Changes.ImagePath,
                         UserId = UserTask.Changes.UserId
                     };
+                    await SaveTask(UserTask.Changes);
                     await _navigationService.Close<ResultModel>(this, _resultModel);
                 });
             }
