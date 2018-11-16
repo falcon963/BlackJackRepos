@@ -17,6 +17,7 @@ using Android.Support.V4.Widget;
 using Android.Support.V4.View;
 using Android.Views.InputMethods;
 using Acr.UserDialogs;
+using Android.Graphics;
 
 namespace TestProject.Droid.Views
 {
@@ -43,6 +44,8 @@ namespace TestProject.Droid.Views
             SetContentView(Resource.Layout.MainActivity);
 
             DrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+
+            DrawerLayout.SetScrimColor(Color.Transparent);
 
             if(bundle == null)
             {

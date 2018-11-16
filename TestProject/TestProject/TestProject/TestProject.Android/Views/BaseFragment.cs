@@ -60,7 +60,7 @@ namespace TestProject.Droid.Views
         public override void OnConfigurationChanged(Configuration newConfig)
         {
             base.OnConfigurationChanged(newConfig);
-            if (_toolbar != null)
+              if (_toolbar != null)
                 _drawerToggle.OnConfigurationChanged(newConfig);
         }
 

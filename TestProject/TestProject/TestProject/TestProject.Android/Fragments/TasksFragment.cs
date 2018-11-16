@@ -17,6 +17,7 @@ using MvvmCross.Platforms.Android.Binding.Views;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.ViewModels;
 using TestProject.Droid.Views;
+using Android.Support.V7.Widget;
 
 namespace TestProject.Droid.Fragments
 {
@@ -27,11 +28,13 @@ namespace TestProject.Droid.Fragments
         protected override int FragmentId => Resource.Layout.TasksFragmentLayout;
 
         MvxListView listView;
+        Android.Support.V7.Widget.Toolbar _toolbar;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
             listView = view.FindViewById<MvxListView>(Resource.Id.task_recycler_view);
+            _toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             ImageAdapter adapter = new ImageAdapter(this.Activity, (MvxAndroidBindingContext)BindingContext, listView);
             listView.Adapter = adapter;
             ViewModel.ShowMenuCommand.Execute(null);

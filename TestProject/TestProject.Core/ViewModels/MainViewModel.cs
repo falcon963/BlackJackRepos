@@ -18,11 +18,13 @@ namespace TestProject.Core.ViewModels
 
         private readonly ITaskService _taskService;
 
+
         public MainViewModel(IMvxNavigationService navigationService, ITaskService taskService)
         {
             _navigationService = navigationService;
             _taskService = taskService;
         }
+
 
         #region Commands
 

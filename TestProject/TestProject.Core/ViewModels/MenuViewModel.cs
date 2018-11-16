@@ -120,7 +120,6 @@ namespace TestProject.Core.ViewModels
         public override void Prepare(TaskListViewModel parameter)
         {
             _taskList = parameter;
-            
         }
     }
 }

@@ -36,6 +36,6 @@ namespace TestProject.Droid.Views
             _navigationView = view.FindViewById<MvxListView>(Resource.Id.navigation_view);
 
             return view;
-        }    
+        }
     }
 }
