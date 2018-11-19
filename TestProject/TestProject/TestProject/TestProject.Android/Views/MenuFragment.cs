@@ -21,7 +21,7 @@ using TestProject.Core.ViewModels;
 
 namespace TestProject.Droid.Views
 {
-    [MvxFragmentPresentation(typeof(MainViewModel), Resource.Id.navigation_frame)]
+    [MvxFragmentPresentation(typeof(MainViewModel), Resource.Id.navigation_frame, IsCacheableFragment = false)]
     [Register("testproject.droid.views.MenuView")]
     public class MenuFragment : BaseFragment<MenuViewModel>
     {
@@ -34,7 +34,7 @@ namespace TestProject.Droid.Views
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
             _navigationView = view.FindViewById<MvxListView>(Resource.Id.navigation_view);
-
+            _navigationView.DividerHeight = 0;
             return view;
         }
     }

@@ -32,6 +32,9 @@ namespace TestProject.Droid.Views
     {
         protected override int FragmentId => Resource.Layout.TaskFragment;
 
+        private Button _buttonSave;
+        private Button _buttonDelete;
+        private ImageButton _buttonBack;
         private LinearLayout _linearLayout;
         private Android.Support.V7.Widget.Toolbar _toolbar;
         private ImageView _imageView;
@@ -59,6 +62,7 @@ namespace TestProject.Droid.Views
             _toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.fragment_toolbar);
             _imageView = view.FindViewById<ImageView>(Resource.Id.image_view);
             _imageView.Click += OnAddPhotoClicked;
+            Activity.FindViewById<Android.Support.V4.Widget.DrawerLayout>(Resource.Id.drawer_layout).CloseDrawers();
             _linearLayout.Click += delegate { HideSoftKeyboard(); };
             _toolbar.Click += delegate { HideSoftKeyboard(); };
             if (ViewModel.UserTask.Changes.ImagePath != null)
@@ -84,27 +88,27 @@ namespace TestProject.Droid.Views
                     }
                 }
             }
-                if (ViewModel.UserTask.Changes.ImagePath == null)
+            if (ViewModel.UserTask.Changes.ImagePath == null)
+            {
+                try
                 {
+                    _bitmap = BitmapFactory.DecodeResource(Context.Resources, Resource.Drawable.placeholder);
+                    _imageView.SetImageBitmap(_bitmap);
+                }
+                catch (Java.Lang.OutOfMemoryError)
+                {
+                    System.GC.Collect();
                     try
                     {
                         _bitmap = BitmapFactory.DecodeResource(Context.Resources, Resource.Drawable.placeholder);
                         _imageView.SetImageBitmap(_bitmap);
-                }
+                    }
                     catch (Java.Lang.OutOfMemoryError)
                     {
-                        System.GC.Collect();
-                        try
-                        {
-                            _bitmap = BitmapFactory.DecodeResource(Context.Resources, Resource.Drawable.placeholder);
-                            _imageView.SetImageBitmap(_bitmap);
-                        }
-                        catch (Java.Lang.OutOfMemoryError)
-                        {
 
-                        }
                     }
                 }
+            }
 
             return view;
         }
@@ -112,10 +116,10 @@ namespace TestProject.Droid.Views
         public override void OnActivityResult(int requestCode, int resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
-            
 
 
-            if (resultCode == -1 &&  requestCode == 0)
+
+            if (resultCode == -1 && requestCode == 0)
             {
                 Bitmap bitmap = BitmapFactory.DecodeFile(ImageUri.Path);
 
@@ -182,10 +186,10 @@ namespace TestProject.Droid.Views
                     }
                     catch (Java.Lang.OutOfMemoryError)
                     { }
-                    }
-
                 }
-            if(resultCode == 0)
+
+            }
+            if (resultCode == 0)
             {
 
             }
@@ -209,15 +213,14 @@ namespace TestProject.Droid.Views
 
         public String GetRealPathFromURI(Android.Net.Uri contentUri)
         {
-                String[] proj = { Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data };
-                var cursor = this.Activity.ContentResolver.Query(contentUri, proj, null, null, null);
-                int column_index = cursor.GetColumnIndexOrThrow(Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data);
-                cursor.MoveToFirst();
-                return cursor.GetString(column_index);   
+            String[] proj = { Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data };
+            var cursor = this.Activity.ContentResolver.Query(contentUri, proj, null, null, null);
+            int column_index = cursor.GetColumnIndexOrThrow(Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data);
+            cursor.MoveToFirst();
+            return cursor.GetString(column_index);
         }
 
-
-        void OnAddPhotoClicked(object sender, EventArgs e)
+        public void OnAddPhotoClicked(object sender, EventArgs e)
         {
             var popup = new Android.Support.V7.Widget.PopupMenu(Activity, _imageView);
             popup.Menu.Add("Camera");

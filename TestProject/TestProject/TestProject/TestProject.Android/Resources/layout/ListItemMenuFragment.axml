@@ -4,12 +4,26 @@
 	android:id="@+id/menu_list"
 	android:layout_height="match_parent"
 	android:minHeight="60dp"
-	android:layout_width="match_parent">
+	android:layout_width="match_parent"
+	android:background="#00695C">
+	<RelativeLayout
+		android:layout_height="match_parent"
+		android:minHeight="60dp"
+		android:layout_width="match_parent"
+		android:background="#00695C">
 	<TextView
 		android:id="@+id/task_name"
-		android:layout_centerVertical="true"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:paddingTop="20dp"
 		android:paddingLeft="40dp"
+		android:textColor="#ffff"
 		local:MvxBind="Text ItemTitle"/>
+	<View 
+	  android:id="@+id/tile_divider"
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+	  android:layout_alignParentBottom="true"
+      android:background="#ffff"/>
+		</RelativeLayout>
 </LinearLayout>

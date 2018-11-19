@@ -21,7 +21,7 @@ using Android.Support.V7.Widget;
 
 namespace TestProject.Droid.Fragments
 {
-    [MvxFragmentPresentation(typeof(MainViewModel), Resource.Id.content_frame, IsCacheableFragment = true)]
+    [MvxFragmentPresentation(typeof(MainViewModel), Resource.Id.content_frame, IsCacheableFragment = false)]
     [Register("testProject.droid.fragments.TasksFragment")]
     public class TasksFragment : BaseFragment<TaskListViewModel>
     {
@@ -40,7 +40,6 @@ namespace TestProject.Droid.Fragments
             ViewModel.ShowMenuCommand.Execute(null);
             return view;
         }
- 
 
         public override void OnDestroyView()
         {

@@ -45,8 +45,6 @@ namespace TestProject.Droid.Views
 
             DrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
 
-            DrawerLayout.SetScrimColor(Color.Transparent);
-
             if(bundle == null)
             {
                 ViewModel.ShowMenuCommand.Execute(null);
