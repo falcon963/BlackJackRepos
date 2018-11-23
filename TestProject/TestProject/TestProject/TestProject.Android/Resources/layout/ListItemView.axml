@@ -4,31 +4,30 @@
 	xmlns:local="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/list_fragment"
 	android:layout_height="match_parent"
-	android:minHeight="60dp"
+	android:minHeight="@dimen/item_minheight"
 	android:layout_width="match_parent">
 <RelativeLayout
 	android:layout_height="wrap_content"
-	android:minHeight="60dp"
 	android:layout_width="match_parent">
 		<LinearLayout
-		android:layout_height="55dp"
-		android:layout_width="55dp"
+		android:layout_height="match_parent"
+		android:layout_width="match_parent"
 		android:layout_centerVertical="true">
 	<TestProject.Droid.Controls.CircleImageView
 		android:id="@+id/tasklist_image"
-		android:layout_height="55dp"
-		android:layout_width="55dp"
+		android:layout_height="@dimen/circleimageview_diameter"
+		android:layout_width="@dimen/circleimageview_diameter"
 		android:layout_alignParentLeft="true"
-		android:paddingLeft="10dp"/>
+		android:paddingLeft="@dimen/edit_text_margin"/>
 		</LinearLayout>
 	<TextView
 		android:id="@+id/task_name"
 		android:layout_centerVertical="true"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:paddingLeft="40dp"
-		android:layout_marginRight="30dp"
-		android:layout_marginLeft="30dp"
+		android:paddingLeft="@dimen/text_view_padding_listitem"
+		android:layout_marginRight="@dimen/margin_dimen"
+		android:layout_marginLeft="@dimen/margin_dimen"
 		local:MvxBind="Text Title"/>
 	<CheckBox
 		android:focusable="false"
@@ -42,7 +41,7 @@
 		<View
 		android:id="@+id/divider"
 		android:layout_width="match_parent"
-		android:layout_height="1dp"
+		android:layout_height="@dimen/divider_height"
 		android:layout_alignParentBottom="true"
 		android:background="#000"/>
 </RelativeLayout>

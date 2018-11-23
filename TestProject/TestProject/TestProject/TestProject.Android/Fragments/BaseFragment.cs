@@ -15,8 +15,9 @@ using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Droid.Support.V4;
 using Android.Content.Res;
 using Android.Support.V7.Widget;
+using TestProject.Droid.Views;
 
-namespace TestProject.Droid.Views
+namespace TestProject.Droid.Fragments
 {
     public abstract class BaseFragment : MvxFragment
     {

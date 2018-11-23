@@ -4,6 +4,7 @@ using Android.Support.Design.Widget;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Widget;
+using MvvmCross.Converters;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Droid.Support.V7.RecyclerView;
@@ -11,6 +12,7 @@ using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Presenters;
 using MvvmCross.ViewModels;
 using TestProject.Core;
+using TestProject.Droid.Converter;
 
 namespace TestProject.Droid
 {
@@ -32,6 +34,7 @@ namespace TestProject.Droid
             typeof(Android.Support.V7.Widget.SwitchCompat).Assembly,
             typeof(LinearLayout).Assembly,
             typeof(CheckedTextView).Assembly,
+            typeof(MvxValueConverter).Assembly
         };
 
 
@@ -47,6 +50,12 @@ namespace TestProject.Droid
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
             return base.CreateApp();
+        }
+
+        protected override void FillValueConverters(IMvxValueConverterRegistry registry)
+        {
+            base.FillValueConverters(registry);
+            registry.AddOrOverwrite("Color", new ColorValueConverter());
         }
     }
 }

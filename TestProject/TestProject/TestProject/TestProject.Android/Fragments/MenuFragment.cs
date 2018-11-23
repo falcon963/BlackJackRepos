@@ -19,10 +19,10 @@ using MvvmCross.Platforms.Android.Binding.Views;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.ViewModels;
 
-namespace TestProject.Droid.Views
+namespace TestProject.Droid.Fragments
 {
-    [MvxFragmentPresentation(typeof(MainViewModel), Resource.Id.navigation_frame, IsCacheableFragment = false)]
-    [Register("testproject.droid.views.MenuView")]
+    [MvxFragmentPresentation(typeof(MainViewModel), Resource.Id.navigation_frame)]
+    [Register("testproject.droid.fragments.MenuView")]
     public class MenuFragment : BaseFragment<MenuViewModel>
     {
         private MvxListView _navigationView;
@@ -36,6 +36,11 @@ namespace TestProject.Droid.Views
             _navigationView = view.FindViewById<MvxListView>(Resource.Id.navigation_view);
             _navigationView.DividerHeight = 0;
             return view;
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
         }
     }
 }

@@ -104,6 +104,17 @@ namespace TestProject.Core.ViewModels
 
         #region Commands
 
+        public IMvxAsyncCommand GetLocationCommand
+        {
+            get
+            {
+                return new MvxAsyncCommand(async() =>
+                {
+                    await _navigationService.Navigate<UserLocationViewModel>();
+                });
+            }
+        }
+
         public IMvxAsyncCommand TakeTasksCommand
         {
             get
@@ -188,9 +199,8 @@ namespace TestProject.Core.ViewModels
                 });
             }
         }
-/// <summary>
-/// 
-/// </summary>
+
+
        public IMvxCommand ShowMenuCommand
         {
             get
@@ -202,10 +212,7 @@ namespace TestProject.Core.ViewModels
 
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="model"></param>
+
         #endregion
 
         public override void Prepare(ResultModel model)

@@ -4,38 +4,30 @@
     android:id="@+id/login_linearlayout"
     android:orientation="vertical"
     android:layout_width="match_parent"
-	android:background="#455A64"
+	local:MvxBind="Background Color(LoginColor)"
     android:layout_height="match_parent">
 	<EditText
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:background="#FFFF"
-		android:layout_marginTop="120dp"
+		style="@style/EditTextLogin"
+		android:layout_marginTop="@dimen/login_imagebutton_margin"
 		android:maxLength="30"
 		android:singleLine="true"
-		android:layout_marginLeft="15dp"
-		android:layout_marginRight="15dp"
 		local:MvxBind="Text Login"/>
 	<EditText
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+		style="@style/EditTextLogin"
 		android:password="true"
-		android:background="#FFFF"
-		android:layout_marginTop="15dp"
+		android:layout_marginTop="@dimen/login_page_margin"
 		android:singleLine="true"
 		android:maxLength="40"
-		android:layout_marginLeft="15dp"
-		android:layout_marginRight="15dp"
 		local:MvxBind="Text Password"/>
 	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="15dp"
-		android:layout_marginBottom="15dp">
+		android:layout_marginTop="@dimen/login_page_margin"
+		android:layout_marginBottom="@dimen/login_page_margin">
 		<CheckBox
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="10dp"
+			android:layout_marginLeft="@dimen/edit_text_margin"
 			android:layout_alignParentLeft="true"
 			local:MvxBind="Checked RememberMeStatus; Enabled EnableStatus"/>
 
@@ -52,18 +44,16 @@
 		android:layout_width = "wrap_content"
 		android:layout_height = "wrap_content">
 		<ImageButton
-			android:layout_width="50dp"
-			android:layout_height="50dp"
+			style="@style/ImageButtonLogin"
 			android:layout_alignParentRight="true"
 			local:MvxBind="Click RegistrationCommand; Enabled EnableStatus"
 			android:background="@drawable/user"
-			android:layout_marginRight="120.0dp" />
+			android:layout_marginRight="@dimen/login_imagebutton_margin"/>
 		<ImageButton
+			style="@style/ImageButtonLogin"
 			android:layout_alignParentLeft="true"
 			local:MvxBind="Click LoginCommand; Enabled EnableStatus"
-			android:layout_width="50dp"
-			android:layout_height="50dp"
 			android:background="@drawable/reg"
-			android:layout_marginLeft="120.0dp" />
+			android:layout_marginLeft="@dimen/login_imagebutton_margin" />
 	</RelativeLayout>
 </LinearLayout>

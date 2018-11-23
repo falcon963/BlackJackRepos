@@ -1,21 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <resources>
-<style name="Theme.Splash" parent="AppTheme.Base">
-  <item name="android:windowNoTitle">true</item>
-  <item name="android:windowFullscreen">true</item>
-</style>
+  <style name="Theme.Splash" parent="AppTheme.Base">
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowFullscreen">true</item>
+  </style>
   <style name="AppTheme" parent="AppTheme.Base"/>
-<style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
-  <item name="android:windowNoTitle">true</item>
-  <item name="android:windowActionBar">false</item>
-</style>
+  <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowActionBar">false</item>
+  </style>
   <style name="AppToolbar" parent="Theme.AppCompat.Light.NoActionBar">
     <item name="android:windowNoTitle">true</item>
     <item name="android:windowActionBar">true</item>
   </style>
-  <style name="Toolbar" parent="Theme.AppCompat.Light.NoActionBar">
+  <style name="EditTextTaskDetails">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_marginBottom">@dimen/edit_text_margin</item>
+    <item name="android:padding">@dimen/edit_text_margin</item>
+    <item name="android:imeOptions">actionGo</item>
+    <item name="android:layout_marginLeft">@dimen/design_snackbar_padding_horizontal</item>
+    <item name="android:layout_marginRight">@dimen/design_snackbar_padding_horizontal</item>
+    <item name="android:background">@drawable/shadow_gradient</item>
+  </style>
+  <style name="EditTextLogin">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_marginLeft">@dimen/login_page_margin</item>
+    <item name="android:layout_marginRight">@dimen/login_page_margin</item>
+    <item name="android:background">#ffff</item>
+  </style>
+  <style name="ButtonTaskDetails">
+    <item name="android:layout_width">170dp</item>
+    <item name="android:backgroundTint">#ffff</item>
+    <item name="android:layout_height">wrap_content</item>
+  </style>
+  <style name="ImageButtonLogin">
+    <item name="android:layout_width">@dimen/login_imagebutton</item>
+    <item name="android:layout_height">@dimen/login_imagebutton</item>
+    <item name="android:backgroundTint">#ffff</item>
+    <item name="android:layout_height">wrap_content</item>
+  </style>
+  <style name="Toolbar" parent="AppTheme">
     <item name="android:windowNoTitle">true</item>
     <item name="android:windowActionBar">false</item>
-    <item name="android:layout_height">?attr/actionBarSize</item>
+    <item name="android:background">@color/toolbarColor</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_width">match_parent</item>
   </style>
-</resources>
+  </resources>

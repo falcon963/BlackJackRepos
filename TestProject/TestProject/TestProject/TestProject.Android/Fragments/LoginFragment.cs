@@ -18,10 +18,10 @@ using Android.Support.V4.View;
 using Android.Views.InputMethods;
 using Acr.UserDialogs;
 
-namespace TestProject.Droid.Views
+namespace TestProject.Droid.Fragments
 {
     [MvxFragmentPresentation(typeof(MainViewModel), Resource.Id.login_frame)]
-    [Register("testproject.droid.views.LoginFragment")]
+    [Register("testproject.droid.fragments.LoginFragment")]
     public class LoginFragment : BaseFragment<LoginViewModel>
     {
 

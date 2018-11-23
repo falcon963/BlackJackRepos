@@ -7,7 +7,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:theme="@style/AppToolbar"
-	android:background="#FBC02D">
+	local:MvxBind="Background Color(ColorTheme)">
 	<include
 		layout="@layout/fragment_toolbar"/>
 	<ScrollView
@@ -19,44 +19,28 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="#FBC02D">
-	<EditText
-		android:id="@+id/text_title"
-		android:layout_width="match_parent"
+	local:MvxBind="Background Color(ColorTheme)">
+    <EditText
+		style="@style/EditTextTaskDetails"
 		android:singleLine="true"
-		android:imeOptions="actionGo"
-		android:layout_height="wrap_content"
-		android:layout_marginTop = "10dp"
-		android:padding="10dp"
-		android:layout_marginBottom="10dp"
-		android:background="@drawable/shadow_gradient"
-		android:layout_marginLeft="@dimen/design_snackbar_padding_horizontal"
-		android:layout_marginRight="@dimen/design_snackbar_padding_horizontal"
+		android:layout_marginTop="@dimen/login_page_margin"
 		android:maxLength="40"
 		local:MvxBind="Text UserTask.Changes.Title; Enabled TitleEnableStatus"/>
 	<EditText
-		android:id="@+id/text_note"
-		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		android:padding="10dp"
-		android:layout_marginBottom="10dp"
+		style="@style/EditTextTaskDetails"
 		android:minLines="1"
 		android:maxLines="10"
-		android:background="@drawable/shadow_gradient"
-		android:layout_marginLeft="@dimen/design_snackbar_padding_horizontal"
-		android:layout_marginRight="@dimen/design_snackbar_padding_horizontal"
 		android:scrollbars="vertical"
-		android:imeOptions="actionGo"
 		android:inputType="textMultiLine"
 		local:MvxBind="Text UserTask.Changes.Note"/>
 		<RelativeLayout
-		android:layout_height="340dp"
-		android:layout_width="340dp"
+		android:layout_height="@dimen/taskdetails_imagelayout"
+		android:layout_width="@dimen/taskdetails_imagelayout"
         android:layout_gravity="center">
 			<ImageView
 				android:id="@+id/image_view"
-				android:layout_height="335dp"
-				android:layout_width="335dp"
+				android:layout_height="@dimen/taskdetails_image"
+				android:layout_width="@dimen/taskdetails_image"
 				android:scaleType="centerCrop"
 				android:layout_centerInParent = "true"/>
 			</RelativeLayout>
@@ -64,45 +48,36 @@
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent">
 			<Switch
-				android:id="@+id/task_switch"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:paddingLeft="20dp"
+				android:paddingLeft="@dimen/swich_padding"
 				android:layout_alignParentLeft="true"
 				local:MvxBind="Checked UserTask.Changes.Status"/>
 			<TextView
 				android:text="Done"
 				android:textColor="#000000"
 				android:layout_width="160dp"
-				android:layout_height="40dp"
+				android:layout_height="@dimen/taskdetails_textview_height"
 				android:layout_centerInParent="true"
-				android:id="@+id/switch_text"
 				android:layout_toRightOf="@+id/task_switch"
 				android:gravity="center|fill_horizontal"
-				android:paddingBottom="15dp"
-				android:textSize="20dp" />
+				android:paddingBottom="@dimen/login_page_margin"
+				android:textSize="@dimen/text_size" />
 		</RelativeLayout>
 
 	<RelativeLayout
 		    android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
-			<Button
-				android:id="@+id/button_save"
-				android:layout_height="wrap_content"
-				android:layout_alignParentLeft="true"
-				android:text="Save"
-				
-				android:backgroundTint="#ffff"
-				local:MvxBind="Click SaveUserTaskCommand"
-				android:layout_marginLeft="7.5dp"
-				android:layout_width="170dp"/>
 	<Button
-		android:id="@+id/button_delete"
-		android:layout_width="170dp"
-		android:layout_marginRight="7.5dp"
-		android:layout_height="wrap_content"
+		style="@style/ButtonTaskDetails"
+		android:layout_alignParentLeft="true"
+		android:text="Save"
+		local:MvxBind="Click SaveUserTaskCommand"
+		android:layout_marginLeft="@dimen/taskdetails_margin"/>
+	<Button
+		style="@style/ButtonTaskDetails"
+		android:layout_marginRight="@dimen/taskdetails_margin"
 		android:layout_alignParentRight="true"
-		android:backgroundTint="#ffff"
 		android:text="Delete"
 		local:MvxBind="Click DeleteUserTaskCommand"/>
 			</RelativeLayout>

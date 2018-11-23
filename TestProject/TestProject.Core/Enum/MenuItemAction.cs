@@ -7,6 +7,7 @@ namespace TestProject.Core.Enum
     public enum MenuItemAction
     {
         AddTask,
-        Logout
+        Logout,
+        Location
     }
 }

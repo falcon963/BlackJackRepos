@@ -21,7 +21,7 @@ using Android.Support.V7.Widget;
 
 namespace TestProject.Droid.Fragments
 {
-    [MvxFragmentPresentation(typeof(MainViewModel), Resource.Id.content_frame, IsCacheableFragment = false)]
+    [MvxFragmentPresentation(typeof(MainViewModel), Resource.Id.content_frame, false)]
     [Register("testProject.droid.fragments.TasksFragment")]
     public class TasksFragment : BaseFragment<TaskListViewModel>
     {
@@ -35,6 +35,7 @@ namespace TestProject.Droid.Fragments
             var view = base.OnCreateView(inflater, container, savedInstanceState);
             listView = view.FindViewById<MvxListView>(Resource.Id.task_recycler_view);
             _toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            Activity.FindViewById<Android.Support.V4.Widget.DrawerLayout>(Resource.Id.drawer_layout).CloseDrawers();
             ImageAdapter adapter = new ImageAdapter(this.Activity, (MvxAndroidBindingContext)BindingContext, listView);
             listView.Adapter = adapter;
             ViewModel.ShowMenuCommand.Execute(null);

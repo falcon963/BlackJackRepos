@@ -24,17 +24,13 @@ using TestProject.Core.ViewModels;
 using TestProject.Core.Interfaces;
 using Android.Support.V7.Widget;
 
-namespace TestProject.Droid.Views
+namespace TestProject.Droid.Fragments
 {
     [MvxFragmentPresentation(typeof(MainViewModel), Resource.Id.content_frame, true)]
-    [Register("testproject.droid.views.TaskFragment")]
+    [Register("testproject.droid.fragments.TaskFragment")]
     public class TaskFragment : BaseFragment<TaskViewModel>
     {
         protected override int FragmentId => Resource.Layout.TaskFragment;
-
-        private Button _buttonSave;
-        private Button _buttonDelete;
-        private ImageButton _buttonBack;
         private LinearLayout _linearLayout;
         private Android.Support.V7.Widget.Toolbar _toolbar;
         private ImageView _imageView;
@@ -62,7 +58,6 @@ namespace TestProject.Droid.Views
             _toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.fragment_toolbar);
             _imageView = view.FindViewById<ImageView>(Resource.Id.image_view);
             _imageView.Click += OnAddPhotoClicked;
-            Activity.FindViewById<Android.Support.V4.Widget.DrawerLayout>(Resource.Id.drawer_layout).CloseDrawers();
             _linearLayout.Click += delegate { HideSoftKeyboard(); };
             _toolbar.Click += delegate { HideSoftKeyboard(); };
             if (ViewModel.UserTask.Changes.ImagePath != null)
@@ -77,15 +72,6 @@ namespace TestProject.Droid.Views
                 catch (Java.Lang.OutOfMemoryError)
                 {
                     System.GC.Collect();
-                    try
-                    {
-                        _bitmap = BitmapFactory.DecodeFile(ViewModel.UserTask.Changes.ImagePath, options);
-                        _imageView.SetImageBitmap(_bitmap);
-                    }
-                    catch (Java.Lang.OutOfMemoryError)
-                    {
-
-                    }
                 }
             }
             if (ViewModel.UserTask.Changes.ImagePath == null)
@@ -98,15 +84,6 @@ namespace TestProject.Droid.Views
                 catch (Java.Lang.OutOfMemoryError)
                 {
                     System.GC.Collect();
-                    try
-                    {
-                        _bitmap = BitmapFactory.DecodeResource(Context.Resources, Resource.Drawable.placeholder);
-                        _imageView.SetImageBitmap(_bitmap);
-                    }
-                    catch (Java.Lang.OutOfMemoryError)
-                    {
-
-                    }
                 }
             }
 

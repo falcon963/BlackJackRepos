@@ -11,6 +11,7 @@ using TestProject.Core.Interfaces;
 using MvvmCross;
 using TestProject.Core.Enum;
 using Acr.UserDialogs;
+using MvvmCross.UI;
 
 namespace TestProject.Core.ViewModels
 {
@@ -23,6 +24,8 @@ namespace TestProject.Core.ViewModels
         private Boolean _beEnable;
         private readonly IUserDialogs _userDialogs;
         private UserTask _userTaskDublicate;
+
+        public MvxColor ColorTheme { get; set; }
 
         public ResultModel UserTask
         {
@@ -37,6 +40,7 @@ namespace TestProject.Core.ViewModels
             }
         }
 
+
         public TaskViewModel(IMvxNavigationService navigationService, ITaskService taskService, IUserDialogs userDialogs)
         {
             _resultModel = new ResultModel();
@@ -44,6 +48,7 @@ namespace TestProject.Core.ViewModels
             _navigationService = navigationService;
             _taskService = taskService;
             _userDialogs = userDialogs;
+            ColorTheme = new MvxColor(251, 192, 45);
         }
 
         public override Task Initialize()

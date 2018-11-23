@@ -4,4 +4,5 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 	<string name="app_name">TestProject.Droid</string>
+  <string name="google_maps_key">AIzaSyC_8F6TxN4KjA7ATKiZ6_tOnLfKsadHv4c</string>
 </resources>

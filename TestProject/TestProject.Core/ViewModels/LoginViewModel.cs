@@ -10,6 +10,7 @@ using Acr.UserDialogs;
 using System.Threading.Tasks;
 using Plugin.SecureStorage;
 using TestProject.Core.Constant;
+using MvvmCross.UI;
 
 namespace TestProject.Core.ViewModels
 {
@@ -29,6 +30,20 @@ namespace TestProject.Core.ViewModels
 
         private String _password;
 
+        private MvxColor _color;
+
+        public MvxColor LoginColor
+        {
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                SetProperty(ref _color, value);
+            }
+        }
+
         User _user;
 
         public LoginViewModel(IMvxNavigationService navigationService, ILoginService loginService, ITaskService taskService)
@@ -36,6 +51,7 @@ namespace TestProject.Core.ViewModels
             _loginService = loginService;
             _navigationService = navigationService;
             _taskService = taskService;
+            LoginColor = new MvxColor(251, 192, 45);
             _user = new User();
             if (CrossSecureStorage.Current.GetValue(SecureConstant.status) == "True")
             {
@@ -56,6 +72,7 @@ namespace TestProject.Core.ViewModels
                 SetProperty(ref _login, value);
                 User.Login = _login;
                 EnableStatusCheck();
+                LoginColor = new MvxColor(21, 206, 234);
             }
         }
 
@@ -70,6 +87,7 @@ namespace TestProject.Core.ViewModels
                 SetProperty(ref _password, value);
                 User.Password = _password;
                 EnableStatusCheck();
+                LoginColor = new MvxColor(28, 21, 234);
             }
         }
 

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <dimen name="edit_text_margin">10dp</dimen>
+  <dimen name="login_page_margin">15dp</dimen>
+  <dimen name="login_imagebutton_margin">120dp</dimen>
+  <dimen name="login_imagebutton">50dp</dimen>
+  <dimen name="swich_padding">20dp</dimen>
+  <dimen name="textview_listitemmenu_padding">20dp</dimen>
+  <dimen name="taskdetails_imagelayout">340dp</dimen>
+  <dimen name="taskdetails_image">335dp</dimen>
+  <dimen name="taskdetails_margin">7.5dp</dimen>
+  <dimen name="taskdetails_textview_height">40dp</dimen>
+  <dimen name="margin_dimen">30dp</dimen>
+  <dimen name="item_minheight">60dp</dimen>
+  <dimen name="text_size">20sp</dimen>
+  <dimen name="text_view_padding_listitem">40dp</dimen>
+  <dimen name="toolbar_imagebutton">40dp</dimen>
+  <dimen name="divider_height">1dp</dimen>
+  <dimen name="circleimageview_diameter">55dp</dimen>
+</resources>
+  

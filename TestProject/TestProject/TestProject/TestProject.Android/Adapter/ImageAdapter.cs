@@ -57,15 +57,6 @@ namespace TestProject.Droid
             catch (Java.Lang.OutOfMemoryError)
             {
                 System.GC.Collect();
-                try
-                {
-                    _bitmap = BitmapFactory.DecodeFile(source.ImagePath, options);
-                    imageView.SetImageBitmap(_bitmap);
-                }
-                catch (Java.Lang.OutOfMemoryError)
-                {
-                    
-                }
             }
             if (_bitmap == null)
             {

@@ -3,26 +3,25 @@
 	xmlns:local="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/menu_list"
 	android:layout_height="match_parent"
-	android:minHeight="60dp"
+	android:minHeight="@dimen/item_minheight"
 	android:layout_width="match_parent"
 	android:background="#00695C">
 	<RelativeLayout
 		android:layout_height="match_parent"
-		android:minHeight="60dp"
 		android:layout_width="match_parent"
 		android:background="#00695C">
 	<TextView
 		android:id="@+id/task_name"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:paddingTop="20dp"
-		android:paddingLeft="40dp"
+		android:paddingTop="@dimen/textview_listitemmenu_padding"
+		android:paddingLeft="@dimen/text_view_padding_listitem"
 		android:textColor="#ffff"
 		local:MvxBind="Text ItemTitle"/>
 	<View 
 	  android:id="@+id/tile_divider"
       android:layout_width="match_parent"
-      android:layout_height="1dp"
+      android:layout_height="@dimen/divider_height"
 	  android:layout_alignParentBottom="true"
       android:background="#ffff"/>
 		</RelativeLayout>

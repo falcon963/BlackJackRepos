@@ -52,7 +52,8 @@ namespace TestProject.Core.ViewModels
             _menuItems = new MvxObservableCollection<MenuItem>()
             {
                 new MenuItem { ItemAction = Enum.MenuItemAction.AddTask, ItemTitle = "New task" },
-                new MenuItem { ItemAction = Enum.MenuItemAction.Logout, ItemTitle = "Logout" }
+                new MenuItem { ItemAction = Enum.MenuItemAction.Logout, ItemTitle = "Logout" },
+                new MenuItem { ItemAction = Enum.MenuItemAction.Location, ItemTitle = "Map"}
             };
         }
 
@@ -83,19 +84,6 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public IMvxCommand AddTaskCommand
-        {
-            get
-            {
-                return new MvxAsyncCommand(async () =>
-                {
-                    await _navigationService.Navigate<TaskViewModel>();
-                    await _navigationService.Close(this);
-                });
-
-            }
-        }
-
         public IMvxCommand<MenuItem> ItemSelectCommand
         {
             get
@@ -111,6 +99,10 @@ namespace TestProject.Core.ViewModels
                     if(action == Enum.MenuItemAction.Logout)
                     {
                         LogOutCommand.Execute();
+                    }
+                    if(action == Enum.MenuItemAction.Location)
+                    {
+                        _taskList.GetLocationCommand.Execute(null);
                         _navigationService.Close(this);
                     }
                 });
@@ -121,5 +113,6 @@ namespace TestProject.Core.ViewModels
         {
             _taskList = parameter;
         }
+
     }
 }
