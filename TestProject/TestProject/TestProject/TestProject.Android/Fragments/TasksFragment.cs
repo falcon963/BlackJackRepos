@@ -18,6 +18,7 @@ using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.ViewModels;
 using TestProject.Droid.Views;
 using Android.Support.V7.Widget;
+using System.ComponentModel;
 
 namespace TestProject.Droid.Fragments
 {
@@ -32,6 +33,7 @@ namespace TestProject.Droid.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
             var view = base.OnCreateView(inflater, container, savedInstanceState);
             listView = view.FindViewById<MvxListView>(Resource.Id.task_recycler_view);
             _toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
@@ -40,6 +42,15 @@ namespace TestProject.Droid.Fragments
             listView.Adapter = adapter;
             ViewModel.ShowMenuCommand.Execute(null);
             return view;
+        }
+
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ListOfTasks")
+            {
+                ImageAdapter adapter = new ImageAdapter(this.Activity, (MvxAndroidBindingContext)BindingContext, listView);
+                listView.Adapter = adapter;
+            }
         }
 
         public override void OnDestroyView()

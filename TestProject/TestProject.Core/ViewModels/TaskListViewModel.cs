@@ -66,9 +66,9 @@ namespace TestProject.Core.ViewModels
             var list = await _taskService.GetTasksAsync(UserTask.Changes.UserId);
             foreach (var item in list)
             {
-                _listOfTasks.Add(item);
+                ListOfTasks.Add(item);
             }
-            return _listOfTasks;
+            return ListOfTasks;
         }
 
         public virtual bool IsRefreshing
@@ -110,7 +110,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async() =>
                 {
-                    await _navigationService.Navigate<UserLocationViewModel>();
+                   await _navigationService.Navigate<UserLocationViewModel>();
                 });
             }
         }
@@ -145,6 +145,7 @@ namespace TestProject.Core.ViewModels
                     if (result.Result == Enum.UserTaskResult.Save)
                     {
                         ListOfTasks.Add(result.Changes);
+                        RefreshTaskCommand.Execute();
                     }
                 });
 

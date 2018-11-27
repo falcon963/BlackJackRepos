@@ -20,6 +20,8 @@ namespace TestProject.Core.ViewModels
             _navigationService = navigationService;
             _watcher = watcher;
             _watcher.Start(new MvxLocationOptions(), OnLocation, OnError);
+            Latitude = _watcher.CurrentLocation.Coordinates.Latitude;
+            Longitude = _watcher.CurrentLocation.Coordinates.Longitude;
         }
 
         private void OnError(MvxLocationError error)

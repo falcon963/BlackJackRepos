@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Gms.Maps;
@@ -24,15 +25,20 @@ namespace TestProject.Droid.Fragments
     {
         protected override int FragmentId => Resource.Layout.UserLocationFragment;
 
+
+
         private GoogleMap _googleMap;
 
         private LinearLayout _linearLayout;
 
         private MapView _mapView;
 
+        private Object thisLock = new Object();
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
             _mapView = view.FindViewById<MapView>(Resource.Id.googlemap);
@@ -46,33 +52,75 @@ namespace TestProject.Droid.Fragments
             return view;
         }
 
-        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Latitude")
-            {
-                _googleMap.MyLocationEnabled = true;
-                var lat = ViewModel.Latitude;
-                var lng = ViewModel.Longitude;
-                LatLng latlng = new LatLng(lat, lng);
-                CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
-                _googleMap.MoveCamera(camera);
-            }
-        }
 
         public void OnMapReady(GoogleMap googleMap)
         {
             this._googleMap = googleMap;
             _googleMap.MapType = GoogleMap.MapTypeNormal;
             _googleMap.UiSettings.MyLocationButtonEnabled = true;
-            _googleMap.MyLocationEnabled = true;
-            var lat = ViewModel.Latitude;
-            var lng = ViewModel.Longitude;
-            LatLng latlng = new LatLng(lat, lng);
+            _googleMap.UiSettings.ZoomControlsEnabled = true;
+           // _googleMap.MyLocationEnabled = true;
+            LatLng latlng = new LatLng(ViewModel.Latitude, ViewModel.Longitude);
             CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
             _googleMap.MoveCamera(camera);
             _googleMap.BuildingsEnabled = true;
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.SetPosition(latlng);
+            markerOptions.SetTitle("My located");
+            BitmapDescriptor mapIcon = BitmapDescriptorFactory.FromResource(Resource.Drawable.icons8_location_off_30);
+            markerOptions.SetIcon(mapIcon);
+            _googleMap.AddMarker(markerOptions);
+            GetRandomLocation(latlng, 80);
         }
-        
+
+
+        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Latitude")
+            {
+                LatLng latlng = new LatLng(ViewModel.Latitude, ViewModel.Longitude);
+                CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
+                _googleMap.MoveCamera(camera);
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.SetPosition(latlng);
+                markerOptions.SetTitle("My located");
+                BitmapDescriptor mapIcon = BitmapDescriptorFactory.FromResource(Resource.Drawable.icons8_location_off_30);
+                markerOptions.SetIcon(mapIcon);
+                _googleMap.AddMarker(markerOptions);
+            }
+        }
+
+
+        public void GetRandomLocation(LatLng point, Int32 radius)
+        {
+                for (Int32 i = 0; i < 5; i++)
+                {
+                    Thread.Sleep(10);
+                    Double x0 = point.Latitude;
+                    Double y0 = point.Longitude;
+
+                    Random random = new Random();
+
+                    Double radiusInDegrees = radius / 111000f;
+
+                    Double u = random.NextDouble();
+                    Double v = random.NextDouble();
+                    Double w = radiusInDegrees * Math.Sqrt(u);
+                    Double t = 2 * Math.PI * v;
+                    Double x = w * Math.Cos(t);
+                    Double y = w * Math.Sin(t);
+
+                    Double new_x = x / Math.Cos(y0);
+
+                    Double foundLatitude = new_x + x0;
+                    Double foundLongitude = y + y0;
+                    LatLng randomLatLng = new LatLng(foundLatitude, foundLongitude);
+                    MarkerOptions markerRandomOptions = new MarkerOptions();
+                    markerRandomOptions.SetPosition(randomLatLng);
+                    _googleMap.AddMarker(markerRandomOptions);
+                }
+        }
+
 
         public override void OnResume()
         {
