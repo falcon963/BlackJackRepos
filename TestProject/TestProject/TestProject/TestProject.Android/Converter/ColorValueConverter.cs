@@ -8,7 +8,8 @@ using MvvmCross.UI;
 
 namespace TestProject.Droid.Converter
 {
-    public class ColorValueConverter: MvxValueConverter<MvxColor, ColorDrawable>
+    public class ColorValueConverter
+        : MvxValueConverter<MvxColor, ColorDrawable>
     {
         protected override ColorDrawable Convert(MvxColor value, Type targetType, object parameter, CultureInfo culture)
         { 

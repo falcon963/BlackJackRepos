@@ -14,7 +14,8 @@ using MvvmCross.UI;
 
 namespace TestProject.Core.ViewModels
 {
-    public class LoginViewModel : BaseViewModel
+    public class LoginViewModel 
+        : BaseViewModel
     {
         private readonly IMvxNavigationService _navigationService;
 
@@ -146,11 +147,13 @@ namespace TestProject.Core.ViewModels
 
         public void EnableStatusCheck()
         {
-            if (String.IsNullOrEmpty(User.Login) && String.IsNullOrEmpty(User.Password))
+            if (String.IsNullOrEmpty(User.Login) 
+                && String.IsNullOrEmpty(User.Password))
             {
                 EnableStatus = false;
             }
-            if (!String.IsNullOrEmpty(User.Login) && !String.IsNullOrEmpty(User.Password))
+            if (!String.IsNullOrEmpty(User.Login) 
+                && !String.IsNullOrEmpty(User.Password))
             {
                 EnableStatus = true;
             }

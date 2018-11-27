@@ -19,7 +19,8 @@ using TestProject.Droid.Views;
 
 namespace TestProject.Droid.Fragments
 {
-    public abstract class BaseFragment : MvxFragment
+    public abstract class BaseFragment
+        : MvxFragment
     {
        private Toolbar _toolbar;
 
@@ -39,7 +40,9 @@ namespace TestProject.Droid.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var view = this.BindingInflate(FragmentId, null);
+
             _toolbar = view.FindViewById<Toolbar>(Resource.Id.toolbar);
+
             if (_toolbar != null)
             {
                 ParentActivity.SetSupportActionBar(_toolbar);
@@ -51,7 +54,9 @@ namespace TestProject.Droid.Fragments
                     Resource.String.drawer_open,            
                     Resource.String.drawer_close            
                 );
+
                 _drawerToggle.DrawerOpened += (object sender, ActionBarDrawerEventArgs e) => ((MainActivity)Activity)?.HideSoftKeyboard();
+
                 ((MainActivity)ParentActivity).DrawerLayout.AddDrawerListener(_drawerToggle);
             }
 
@@ -61,6 +66,7 @@ namespace TestProject.Droid.Fragments
         public override void OnConfigurationChanged(Configuration newConfig)
         {
             base.OnConfigurationChanged(newConfig);
+
               if (_toolbar != null)
                 _drawerToggle.OnConfigurationChanged(newConfig);
         }
@@ -68,13 +74,15 @@ namespace TestProject.Droid.Fragments
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
+
             if (_toolbar != null)
                 _drawerToggle.SyncState();
         }
 
     }
 
-    public  abstract class BaseFragment<TViewModel> : BaseFragment where TViewModel : class, IMvxViewModel
+    public  abstract class BaseFragment<TViewModel> 
+        : BaseFragment where TViewModel : class, IMvxViewModel
     {
         public new TViewModel ViewModel
         {

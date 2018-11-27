@@ -5,7 +5,8 @@ using System.Text;
 
 namespace TestProject.Core.ViewModels
 {
-    public abstract class BaseViewModel : MvxViewModel
+    public abstract class BaseViewModel 
+        : MvxViewModel
     {
         protected BaseViewModel()
         {
@@ -13,14 +14,16 @@ namespace TestProject.Core.ViewModels
 
     }
 
-    public abstract class BaseViewModel<TParameter, TResult> : MvxViewModel<TParameter, TResult>
+    public abstract class BaseViewModel<TParameter, TResult> 
+        : MvxViewModel<TParameter, TResult>
     {
         protected BaseViewModel()
         {
         }
     }
 
-    public abstract class BaseViewModel<TParameter> : MvxViewModel<TParameter>
+    public abstract class BaseViewModel<TParameter> 
+        : MvxViewModel<TParameter>
     {
         protected BaseViewModel()
         {

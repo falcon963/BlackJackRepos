@@ -1,15 +1,20 @@
-﻿using SQLite;
-using LocalDataAccess.Droid;
-using System.IO;
-using TestProject.Core.Interfaces;
-using TestProject.Core.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace LocalDataAccess.Droid
+using Foundation;
+using UIKit;
+using TestProject.Core.Interfaces;
+using SQLite;
+using System.IO;
+
+namespace TestProject.iOS.Database
 {
-    public class DatabaseConnection_Android 
+    public class DatabaseConnection_IOS
         : IDatabaseConnectionService
     {
-        public DatabaseConnection_Android()
+        public DatabaseConnection_IOS()
         {
             var database = DbConnection();
         }
@@ -18,8 +23,8 @@ namespace LocalDataAccess.Droid
         {
             var dbName = "TaskyDB.db3";
             var path = Path.Combine(System.Environment.
-              GetFolderPath(System.Environment.
-              SpecialFolder.Personal), dbName);
+            GetFolderPath(System.Environment.
+            SpecialFolder.Personal), dbName);
             return new SQLiteAsyncConnection(path);
         }
     }

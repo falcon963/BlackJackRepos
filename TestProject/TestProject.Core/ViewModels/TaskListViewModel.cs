@@ -15,7 +15,8 @@ using Acr.UserDialogs;
 
 namespace TestProject.Core.ViewModels
 {
-    public class TaskListViewModel: BaseViewModel<ResultModel>
+    public class TaskListViewModel
+        : BaseViewModel<ResultModel>
         {
         private readonly IMvxNavigationService _navigationService;
         private ITaskService _taskService;
@@ -27,11 +28,11 @@ namespace TestProject.Core.ViewModels
 
         public TaskListViewModel(IMvxNavigationService navigationService, ITaskService taskService, IUserDialogs userDialogs)
         {
-            _taskService = taskService;
-            _navigationService = navigationService;
-            _userDialogs = userDialogs;
             _listOfTasks = new MvxObservableCollection<UserTask>();
             ListOfTasks = new MvxObservableCollection<UserTask>();
+            _navigationService = navigationService;
+            _taskService = taskService;
+            _userDialogs = userDialogs;
         }
 
         public ResultModel UserTask
@@ -73,7 +74,10 @@ namespace TestProject.Core.ViewModels
 
         public virtual bool IsRefreshing
         {
-            get { return _isRefreshing; }
+            get
+            {
+                return _isRefreshing;
+            }
             set
             {
                 _isRefreshing = value;
@@ -134,7 +138,10 @@ namespace TestProject.Core.ViewModels
                 {
                     task = new ResultModel
                     {
-                        Changes = new UserTask {UserId = UserTask.Changes.UserId},
+                        Changes = new UserTask
+                        {
+                            UserId = UserTask.Changes.UserId
+                        },
                         Result = Enum.UserTaskResult.Save
                     };
                     var result = await _navigationService.Navigate<TaskViewModel, ResultModel, ResultModel>(task);
@@ -176,7 +183,19 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxCommand<UserTask>(async (UserTask task) =>
                 {
-                    var taskToNavigate = new ResultModel { Result = Enum.UserTaskResult.Update, Changes = new UserTask {Id=task.Id, Note=task.Note,Title=task.Title, Status=task.Status, UserId = UserTask.Changes.UserId, ImagePath = task.ImagePath} };
+                    var taskToNavigate = new ResultModel
+                    {
+                        Result = Enum.UserTaskResult.Update,
+                        Changes = new UserTask
+                        {
+                            Id = task.Id,
+                            Note = task.Note,
+                            Title = task.Title,
+                            Status = task.Status,
+                            UserId = UserTask.Changes.UserId,
+                            ImagePath = task.ImagePath
+                        }
+                    };
 
                     var result = await _navigationService.Navigate<TaskViewModel, ResultModel, ResultModel>(taskToNavigate);
                     if (result == null)
@@ -185,7 +204,9 @@ namespace TestProject.Core.ViewModels
                     }
                     if(result.Result == Enum.UserTaskResult.Delete)
                     {
-                        var delete = ListOfTasks.Select(p => p).Where(p => p.Id == result.Changes.Id).FirstOrDefault();
+                        var delete = ListOfTasks.Select(p => p)
+                        .Where(p => p.Id == result.Changes.Id)
+                        .FirstOrDefault();
                         ListOfTasks.Remove(delete);
                     }
                     if(result.Result == Enum.UserTaskResult.UnChangeunchanged)
@@ -194,7 +215,9 @@ namespace TestProject.Core.ViewModels
                     }
                     if (result.Result == Enum.UserTaskResult.Update)
                     {
-                        var modelToUpdate = ListOfTasks.Select(p => p).Where(p => p.Id == result.Changes.Id).FirstOrDefault();
+                        var modelToUpdate = ListOfTasks.Select(p => p)
+                        .Where(p => p.Id == result.Changes.Id)
+                        .FirstOrDefault();
                         ListOfTasks[ListOfTasks.IndexOf(modelToUpdate)] = result.Changes;
                     }
                 });

@@ -20,17 +20,22 @@ using Acr.UserDialogs;
 
 namespace TestProject.Droid.Fragments
 {
-    [MvxFragmentPresentation(typeof(MainViewModel), Resource.Id.login_frame)]
+    [MvxFragmentPresentation(
+        typeof(MainViewModel), 
+        Resource.Id.login_frame)]
     [Register("testproject.droid.fragments.LoginFragment")]
-    public class LoginFragment : BaseFragment<LoginViewModel>
+    public class LoginFragment 
+        : BaseFragment<LoginViewModel>
     {
 
         protected override int FragmentId => Resource.Layout.LoginFragment;
+
         private LinearLayout _linearLayout;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
+
             _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.login_linearlayout);
 
             _linearLayout.Click += delegate { HideSoftKeyboard(); };

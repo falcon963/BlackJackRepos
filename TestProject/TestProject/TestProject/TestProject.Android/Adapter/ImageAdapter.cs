@@ -24,28 +24,31 @@ namespace TestProject.Droid
         private Context _context;
         private Bitmap _bitmap;
 
-        public ImageAdapter(Activity context, IMvxAndroidBindingContext bindingContext, MvxListView tableView) : base(context, bindingContext)
+        public ImageAdapter(Activity context, IMvxAndroidBindingContext bindingContext, MvxListView tableView) 
+            : base(context, bindingContext)
         {
             listView = tableView;
             _context = context;
         }
 
 
-        protected override View GetView(int position, View convertView, ViewGroup parent, int templateId)
+        protected override View GetView(
+            int position, View convertView, ViewGroup parent, int templateId)
 
         {
             var view = base.GetView(position, convertView, parent, templateId);
-
             var source = ItemsSource.Cast<UserTask>().ToList()[position];
-
             var imageView = view.FindViewById<TestProject.Droid.Controls.CircleImageView>(Resource.Id.tasklist_image);
             var taskView = view.FindViewById<LinearLayout>(Resource.Id.list_fragment);
             var divider = view.FindViewById<View>(Resource.Id.divider);
+
             listView.DividerHeight = 0;
+
             if (ItemsSource.Cast<UserTask>().ToList().Count == position+1)
             {
                 divider.Visibility = ViewStates.Invisible;
             }
+
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.InSampleSize = CalculateInSampleSize(options, 60, 60);
 
@@ -66,15 +69,15 @@ namespace TestProject.Droid
             return view;
         }
 
-        public static int CalculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight)
+        public static int CalculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
         {
 
             int height = options.OutHeight;
             int width = options.OutWidth;
             int inSampleSize = 1;
 
-            if (height > reqHeight || width > reqWidth)
+            if (height > reqHeight
+                || width > reqWidth)
             {
 
                 int halfHeight = height / 2;

@@ -19,20 +19,19 @@ using TestProject.Core.ViewModels;
 
 namespace TestProject.Droid.Fragments
 {
-    [MvxFragmentPresentation(typeof(MainViewModel), Resource.Id.content_frame, true)]
+    [MvxFragmentPresentation(
+        typeof(MainViewModel),
+        Resource.Id.content_frame,
+        true)]
     [Register("testproject.droid.fragments.UserLocationFragment")]
-    public class UserLocationFragment : BaseFragment<UserLocationViewModel>, IOnMapReadyCallback
+    public class UserLocationFragment 
+        : BaseFragment<UserLocationViewModel>,
+        IOnMapReadyCallback
     {
         protected override int FragmentId => Resource.Layout.UserLocationFragment;
 
-
-
         private GoogleMap _googleMap;
-
-        private LinearLayout _linearLayout;
-
         private MapView _mapView;
-
         private Object thisLock = new Object();
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -49,6 +48,7 @@ namespace TestProject.Droid.Fragments
             {
                 _mapView.GetMapAsync(this);
             }
+
             return view;
         }
 
@@ -56,20 +56,27 @@ namespace TestProject.Droid.Fragments
         public void OnMapReady(GoogleMap googleMap)
         {
             this._googleMap = googleMap;
+
             _googleMap.MapType = GoogleMap.MapTypeNormal;
             _googleMap.UiSettings.MyLocationButtonEnabled = true;
             _googleMap.UiSettings.ZoomControlsEnabled = true;
-           // _googleMap.MyLocationEnabled = true;
+            _googleMap.BuildingsEnabled = true;
+
+            // _googleMap.MyLocationEnabled = true;
             LatLng latlng = new LatLng(ViewModel.Latitude, ViewModel.Longitude);
             CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
+
             _googleMap.MoveCamera(camera);
-            _googleMap.BuildingsEnabled = true;
+
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.SetPosition(latlng);
             markerOptions.SetTitle("My located");
+
             BitmapDescriptor mapIcon = BitmapDescriptorFactory.FromResource(Resource.Drawable.icons8_location_off_30);
             markerOptions.SetIcon(mapIcon);
+
             _googleMap.AddMarker(markerOptions);
+
             GetRandomLocation(latlng, 80);
         }
 
@@ -81,11 +88,14 @@ namespace TestProject.Droid.Fragments
                 LatLng latlng = new LatLng(ViewModel.Latitude, ViewModel.Longitude);
                 CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
                 _googleMap.MoveCamera(camera);
+
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.SetPosition(latlng);
                 markerOptions.SetTitle("My located");
+
                 BitmapDescriptor mapIcon = BitmapDescriptorFactory.FromResource(Resource.Drawable.icons8_location_off_30);
                 markerOptions.SetIcon(mapIcon);
+
                 _googleMap.AddMarker(markerOptions);
             }
         }
@@ -96,10 +106,10 @@ namespace TestProject.Droid.Fragments
                 for (Int32 i = 0; i < 5; i++)
                 {
                     Thread.Sleep(10);
+                    Random random = new Random();
+
                     Double x0 = point.Latitude;
                     Double y0 = point.Longitude;
-
-                    Random random = new Random();
 
                     Double radiusInDegrees = radius / 111000f;
 
@@ -114,6 +124,7 @@ namespace TestProject.Droid.Fragments
 
                     Double foundLatitude = new_x + x0;
                     Double foundLongitude = y + y0;
+
                     LatLng randomLatLng = new LatLng(foundLatitude, foundLongitude);
                     MarkerOptions markerRandomOptions = new MarkerOptions();
                     markerRandomOptions.SetPosition(randomLatLng);

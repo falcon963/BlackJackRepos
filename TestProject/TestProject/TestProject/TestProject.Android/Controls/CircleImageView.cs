@@ -17,7 +17,8 @@ using TestProject.Core.Enum;
 
 namespace TestProject.Droid.Controls
 {
-    public class CircleImageView : ImageView
+    public class CircleImageView 
+        : ImageView
     {
         private static readonly int DEF_PRESS_HIGHLIGHT_COLOR = 0x32000000;
 
@@ -33,21 +34,14 @@ namespace TestProject.Droid.Controls
         private RectF _bitmapDrawBounds;
         private RectF _strokeBounds;
 
-        public CircleImageView(Context context) : base(context)
+        public CircleImageView(Context context) 
+            : base(context)
         {
         }
 
-        public CircleImageView(Context context, IAttributeSet attrs) : base(context, attrs)
+        public CircleImageView(Context context, IAttributeSet attrs) 
+            : base(context, attrs)
         {
-            int strokeColor = Color.Transparent;
-            int highlightColor = DEF_PRESS_HIGHLIGHT_COLOR;
-
-            if (attrs != null)
-            {
-                TypedArray a = context.ObtainStyledAttributes(attrs, Resource.Styleable.CircleImageView, 0, 0);
-
-                a.Recycle();
-            }
 
             _shaderMatrix = new Matrix();
             _bitmapPaint = new Paint();
@@ -55,20 +49,34 @@ namespace TestProject.Droid.Controls
             _strokeBounds = new RectF();
             _bitmapDrawBounds = new RectF();
 
+            int strokeColor = Color.Transparent;
+            int highlightColor = DEF_PRESS_HIGHLIGHT_COLOR;
+
+            if (attrs != null)
+            {
+                TypedArray a = context.ObtainStyledAttributes(
+                    attrs, Resource.Styleable.CircleImageView, 0, 0);
+
+                a.Recycle();
+            }
+
             _Initialized = true;
 
             SetupBitmap();
         }
 
-        public CircleImageView(Context context, IAttributeSet attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
+        public CircleImageView(Context context, IAttributeSet attrs, int defStyleAttr)
+            : base(context, attrs, defStyleAttr)
         {
         }
 
-        public CircleImageView(Context context, IAttributeSet attrs, int defStyleAttr, int defStyleRes) : base(context, attrs, defStyleAttr, defStyleRes)
+        public CircleImageView(Context context, IAttributeSet attrs, int defStyleAttr, int defStyleRes)
+            : base(context, attrs, defStyleAttr, defStyleRes)
         {
         }
 
-        protected CircleImageView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
+        protected CircleImageView(IntPtr javaReference, JniHandleOwnership transfer)
+            : base(javaReference, transfer)
         {
         }
 
@@ -90,11 +98,13 @@ namespace TestProject.Droid.Controls
 
                 if (drawable is ColorDrawable)
                 {
-                    bitmap = Bitmap.CreateBitmap(drawable.IntrinsicWidth, drawable.IntrinsicHeight, Bitmap.Config.Argb8888);
+                    bitmap = Bitmap.CreateBitmap(
+                        drawable.IntrinsicWidth, drawable.IntrinsicHeight, Bitmap.Config.Argb8888);
                 }
                 else
                 {
-                    bitmap = Bitmap.CreateBitmap(drawable.IntrinsicWidth, drawable.IntrinsicHeight, Bitmap.Config.Argb8888);
+                    bitmap = Bitmap.CreateBitmap(
+                        drawable.IntrinsicWidth, drawable.IntrinsicHeight, Bitmap.Config.Argb8888);
                 }
 
                 Canvas canvas = new Canvas(bitmap);
@@ -134,8 +144,9 @@ namespace TestProject.Droid.Controls
         private Boolean IsInCircle(float x, float y)
         {
             double distance = Math.Sqrt(
-                    Math.Pow(_bitmapDrawBounds.CenterX() - x, 2) + Math.Pow(_bitmapDrawBounds.CenterY() - y, 2)
-            );
+                    Math.Pow(_bitmapDrawBounds.CenterX() - x, 2) + 
+                    Math.Pow(_bitmapDrawBounds.CenterY() - y, 2));
+
             return distance <= (_bitmapDrawBounds.Width() / 2);
         }
 
@@ -181,6 +192,7 @@ namespace TestProject.Droid.Controls
             base.OnSizeChanged(w, h, oldw, oldh);
 
             float halfStrokeWidth = _strokePaint.StrokeWidth / 2f;
+
             UpdateCircleDrawBounds(_bitmapDrawBounds);
             _strokeBounds.Set(_bitmapDrawBounds);
             _strokeBounds.Inset(halfStrokeWidth, halfStrokeWidth);
@@ -192,9 +204,10 @@ namespace TestProject.Droid.Controls
         {
             float contentWidth = Width - PaddingLeft - PaddingRight;
             float contentHeight = Height - PaddingTop - PaddingBottom;
-
+            float diameter = Math.Min(contentWidth, contentHeight);
             float left = PaddingLeft;
             float top = PaddingTop;
+
             if (contentWidth > contentHeight)
             {
                 left += (contentWidth - contentHeight) / 2f;
@@ -204,7 +217,6 @@ namespace TestProject.Droid.Controls
                 top += (contentHeight - contentWidth) / 2f;
             }
 
-            float diameter = Math.Min(contentWidth, contentHeight);
             bounds.Set(left, top, left + diameter, top + diameter);
         }
 

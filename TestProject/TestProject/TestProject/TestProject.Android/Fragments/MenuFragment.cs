@@ -21,12 +21,15 @@ using TestProject.Core.ViewModels;
 
 namespace TestProject.Droid.Fragments
 {
-    [MvxFragmentPresentation(typeof(MainViewModel), Resource.Id.navigation_frame)]
+    [MvxFragmentPresentation(
+        typeof(MainViewModel),
+        Resource.Id.navigation_frame)]
     [Register("testproject.droid.fragments.MenuView")]
-    public class MenuFragment : BaseFragment<MenuViewModel>
+    public class MenuFragment 
+        : BaseFragment<MenuViewModel>
     {
         private MvxListView _navigationView;
-        private ImageView _iconMenu;
+
         protected override int FragmentId => Resource.Layout.MenuFragment;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

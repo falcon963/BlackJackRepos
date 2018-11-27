@@ -12,7 +12,8 @@ using TestProject.Core.Constant;
 
 namespace TestProject.Core.ViewModels
 {
-    public class MainViewModel : BaseViewModel
+    public class MainViewModel
+        : BaseViewModel
     {
         private readonly IMvxNavigationService _navigationService;
 
@@ -48,7 +49,13 @@ namespace TestProject.Core.ViewModels
                             }
                             if (user != null)
                             {
-                                var taskToNavigate = new ResultModel { Changes = new UserTask { UserId = user.Id } };
+                                var taskToNavigate = new ResultModel
+                                {
+                                    Changes = new UserTask
+                                    {
+                                        UserId = user.Id
+                                    }
+                                };
                                 await _navigationService.Navigate<TaskListViewModel, ResultModel>(taskToNavigate);
                             }
                         }

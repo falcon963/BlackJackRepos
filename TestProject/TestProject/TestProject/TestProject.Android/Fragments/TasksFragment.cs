@@ -22,9 +22,13 @@ using System.ComponentModel;
 
 namespace TestProject.Droid.Fragments
 {
-    [MvxFragmentPresentation(typeof(MainViewModel), Resource.Id.content_frame, false)]
+    [MvxFragmentPresentation(
+        typeof(MainViewModel),
+        Resource.Id.content_frame,
+        false)]
     [Register("testProject.droid.fragments.TasksFragment")]
-    public class TasksFragment : BaseFragment<TaskListViewModel>
+    public class TasksFragment
+        : BaseFragment<TaskListViewModel>
     {
         protected override int FragmentId => Resource.Layout.TasksFragmentLayout;
 
@@ -34,13 +38,16 @@ namespace TestProject.Droid.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+
             var view = base.OnCreateView(inflater, container, savedInstanceState);
+
             listView = view.FindViewById<MvxListView>(Resource.Id.task_recycler_view);
             _toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             Activity.FindViewById<Android.Support.V4.Widget.DrawerLayout>(Resource.Id.drawer_layout).CloseDrawers();
             ImageAdapter adapter = new ImageAdapter(this.Activity, (MvxAndroidBindingContext)BindingContext, listView);
             listView.Adapter = adapter;
             ViewModel.ShowMenuCommand.Execute(null);
+
             return view;
         }
 

@@ -12,7 +12,8 @@ using System.Threading.Tasks;
 
 namespace TestProject.Core.ViewModels
 {
-    public class MenuViewModel: BaseViewModel<TaskListViewModel>
+    public class MenuViewModel
+        : BaseViewModel<TaskListViewModel>
     {
         private readonly IMvxNavigationService _navigationService;
         private readonly IUserDialogs _userDialogs;
@@ -51,9 +52,21 @@ namespace TestProject.Core.ViewModels
             _userDialogs = userDialogs;
             _menuItems = new MvxObservableCollection<MenuItem>()
             {
-                new MenuItem { ItemAction = Enum.MenuItemAction.AddTask, ItemTitle = "New task" },
-                new MenuItem { ItemAction = Enum.MenuItemAction.Logout, ItemTitle = "Logout" },
-                new MenuItem { ItemAction = Enum.MenuItemAction.Location, ItemTitle = "Map"}
+                new MenuItem
+                {
+                    ItemAction = Enum.MenuItemAction.AddTask,
+                    ItemTitle = "New task"
+                },
+                new MenuItem
+                {
+                    ItemAction = Enum.MenuItemAction.Logout,
+                    ItemTitle = "Logout"
+                },
+                new MenuItem
+                {
+                    ItemAction = Enum.MenuItemAction.Location,
+                    ItemTitle = "Map"
+                }
             };
         }
 

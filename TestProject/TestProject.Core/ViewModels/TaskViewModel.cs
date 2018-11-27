@@ -15,13 +15,13 @@ using MvvmCross.UI;
 
 namespace TestProject.Core.ViewModels
 {
-    public class TaskViewModel : BaseViewModel<ResultModel, ResultModel>
+    public class TaskViewModel
+        : BaseViewModel<ResultModel, ResultModel>
     {
 
         private readonly IMvxNavigationService _navigationService;
         private readonly ITaskService _taskService;
         private ResultModel _resultModel;
-        private Boolean _beEnable;
         private readonly IUserDialogs _userDialogs;
         private UserTask _userTaskDublicate;
 
@@ -73,7 +73,9 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async() =>
                 {
-                    if(UserTask.Changes.Note != _userTaskDublicate.Note || UserTask.Changes.Title != _userTaskDublicate.Title || UserTask.Changes.Status != _userTaskDublicate.Status)
+                    if(UserTask.Changes.Note != _userTaskDublicate.Note
+                    || UserTask.Changes.Title != _userTaskDublicate.Title 
+                    || UserTask.Changes.Status != _userTaskDublicate.Status)
                     {
                         var goBack = await _userDialogs.ConfirmAsync(new ConfirmConfig
                         {
@@ -125,9 +127,16 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    if(String.IsNullOrEmpty(UserTask.Changes.Title) || String.IsNullOrEmpty(UserTask.Changes.Note))
+                    if(String.IsNullOrEmpty(UserTask.Changes.Title) 
+                    || String.IsNullOrEmpty(UserTask.Changes.Note))
                     {
-                        var alert = UserDialogs.Instance.Alert(new AlertConfig { Message = "You can't save task when field is empty!", OkText = "Ok", Title = "System Alert" });
+                        var alert = UserDialogs.Instance.Alert(
+                            new AlertConfig
+                            {
+                                Message = "You can't save task when field is empty!",
+                                OkText = "Ok",
+                                Title = "System Alert"
+                            });
                         return;
                     }
 

@@ -26,11 +26,15 @@ using Android.Support.V7.Widget;
 
 namespace TestProject.Droid.Fragments
 {
-    [MvxFragmentPresentation(typeof(MainViewModel), Resource.Id.content_frame, true)]
+    [MvxFragmentPresentation(
+        typeof(MainViewModel),
+        Resource.Id.content_frame,
+        true)]
     [Register("testproject.droid.fragments.TaskFragment")]
-    public class TaskFragment : BaseFragment<TaskViewModel>
+    public class TaskFragment 
+        : BaseFragment<TaskViewModel>
     {
-        protected override int FragmentId => Resource.Layout.TaskFragment;
+       
         private LinearLayout _linearLayout;
         private Android.Support.V7.Widget.Toolbar _toolbar;
         private ImageView _imageView;
@@ -38,6 +42,8 @@ namespace TestProject.Droid.Fragments
         private static readonly Int32 SELECT_FILE = 1;
         private Bitmap _bitmap;
         private Android.Net.Uri _uriImage;
+
+        protected override int FragmentId => Resource.Layout.TaskFragment;
 
         public Android.Net.Uri ImageUri
         {
@@ -54,12 +60,15 @@ namespace TestProject.Droid.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
+
             _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.task_linearlayout);
             _toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.fragment_toolbar);
             _imageView = view.FindViewById<ImageView>(Resource.Id.image_view);
+
             _imageView.Click += OnAddPhotoClicked;
             _linearLayout.Click += delegate { HideSoftKeyboard(); };
             _toolbar.Click += delegate { HideSoftKeyboard(); };
+
             if (ViewModel.UserTask.Changes.ImagePath != null)
             {
                 BitmapFactory.Options options = new BitmapFactory.Options();
@@ -115,7 +124,8 @@ namespace TestProject.Droid.Fragments
                     ViewModel.UserTask.Changes.ImagePath = ImageUri.Path;
                 }
             }
-            if (resultCode == -1 && requestCode == 1)
+            if (resultCode == -1 
+                && requestCode == 1)
             {
                 var sdCardPath = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
                 string name = "Test_Project_" + System.DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
@@ -143,26 +153,6 @@ namespace TestProject.Droid.Fragments
                 }
                 catch (Java.Lang.OutOfMemoryError) {
                     System.GC.Collect();
-                    try
-                    {
-                        using (MemoryStream writer = new MemoryStream())
-                        {
-                            bitmap.Compress(Bitmap.CompressFormat.Jpeg, 40, writer);
-                            Java.IO.File resizeUri = GetPhotoFileUri("Test_Project_" + System.DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_resize" + ".jpg");
-                            Java.IO.File resizeFile = new Java.IO.File(resizeUri.Path);
-                            resizeFile.CreateNewFile();
-                            FileOutputStream fos = new FileOutputStream(resizeFile);
-                            fos.Write(writer.ToArray());
-                            fos.Close();
-                            BitmapFactory.Options options = new BitmapFactory.Options();
-                            options.InSampleSize = 3;
-                            Bitmap _bitmap = BitmapFactory.DecodeFile(resizeUri.Path, options);
-                            _imageView.SetImageBitmap(_bitmap);
-                            ViewModel.UserTask.Changes.ImagePath = resizeUri.Path;
-                        }
-                    }
-                    catch (Java.Lang.OutOfMemoryError)
-                    { }
                 }
 
             }
@@ -246,11 +236,13 @@ namespace TestProject.Droid.Fragments
             {
                 view.Background.SetCallback(null);
             }
-            if (view is ViewGroup) {
+            if (view is ViewGroup)
+            {
                 for (int i = 0; i < ((ViewGroup)view).ChildCount; i++)
                 {
                     UnbindDrawables(((ViewGroup)view).GetChildAt(i));
                 }
+
                 ((ViewGroup)view).RemoveAllViews();
             }
         }
