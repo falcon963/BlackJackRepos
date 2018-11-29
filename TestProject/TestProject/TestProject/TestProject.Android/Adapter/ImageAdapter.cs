@@ -9,9 +9,11 @@ using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using DE.Hdodenhof.CircleImageView;
+using MvvmCross.Droid.Support.V7.RecyclerView;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.Views;
 using TestProject.Core.Models;
@@ -42,7 +44,6 @@ namespace TestProject.Droid
             var taskView = view.FindViewById<LinearLayout>(Resource.Id.list_fragment);
             var divider = view.FindViewById<View>(Resource.Id.divider);
 
-            listView.DividerHeight = 0;
 
             if (ItemsSource.Cast<UserTask>().ToList().Count == position+1)
             {

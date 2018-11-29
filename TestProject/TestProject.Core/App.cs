@@ -19,7 +19,7 @@ namespace TestProject.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            Mvx.IoCProvider.RegisterSingleton<IUserDialogs>(() => UserDialogs.Instance);
+            Mvx.IoCProvider.RegisterSingleton(() => UserDialogs.Instance);
             RegisterCustomAppStart<AppStart>();
         }
     }

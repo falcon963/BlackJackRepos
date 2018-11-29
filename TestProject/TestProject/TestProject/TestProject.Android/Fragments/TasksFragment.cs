@@ -19,6 +19,8 @@ using TestProject.Core.ViewModels;
 using TestProject.Droid.Views;
 using Android.Support.V7.Widget;
 using System.ComponentModel;
+using Android.Support.V7.Widget.Helper;
+using TestProject.Droid.Adapter;
 
 namespace TestProject.Droid.Fragments
 {
@@ -32,7 +34,9 @@ namespace TestProject.Droid.Fragments
     {
         protected override int FragmentId => Resource.Layout.TasksFragmentLayout;
 
-        MvxListView listView;
+        private MvxListView _listView;
+        private RecyclerView _recycleView;
+     
         Android.Support.V7.Widget.Toolbar _toolbar;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -40,12 +44,18 @@ namespace TestProject.Droid.Fragments
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 
             var view = base.OnCreateView(inflater, container, savedInstanceState);
+            var itemTouchHelper = new ItemTouchHelper(new SwipeItemDelete());
 
-            listView = view.FindViewById<MvxListView>(Resource.Id.task_recycler_view);
+            _recycleView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
+            _listView = view.FindViewById<MvxListView>(Resource.Id.task_recycler_view);
             _toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+
             Activity.FindViewById<Android.Support.V4.Widget.DrawerLayout>(Resource.Id.drawer_layout).CloseDrawers();
-            ImageAdapter adapter = new ImageAdapter(this.Activity, (MvxAndroidBindingContext)BindingContext, listView);
-            listView.Adapter = adapter;
+            var adapter = new ImageAdapter(this.Activity, (MvxAndroidBindingContext)BindingContext, _listView);
+
+            _listView.Adapter = adapter;
+            itemTouchHelper.AttachToRecyclerView(_recycleView);
+
             ViewModel.ShowMenuCommand.Execute(null);
 
             return view;
@@ -55,8 +65,8 @@ namespace TestProject.Droid.Fragments
         {
             if (e.PropertyName == "ListOfTasks")
             {
-                ImageAdapter adapter = new ImageAdapter(this.Activity, (MvxAndroidBindingContext)BindingContext, listView);
-                listView.Adapter = adapter;
+                ImageAdapter adapter = new ImageAdapter(this.Activity, (MvxAndroidBindingContext)BindingContext, _listView);
+                _listView.Adapter = adapter;
             }
         }
 

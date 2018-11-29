@@ -56,8 +56,8 @@ namespace TestProject.Core.ViewModels
             _user = new User();
             if (CrossSecureStorage.Current.GetValue(SecureConstant.status) == "True")
             {
-                Login = CrossSecureStorage.Current.GetValue(SecureConstant.login);
-                Password = CrossSecureStorage.Current.GetValue(SecureConstant.password);
+                Login = CrossSecureStorage.Current.GetValue(SecureConstant.Login);
+                Password = CrossSecureStorage.Current.GetValue(SecureConstant.Password);
                 _rememberMe = Boolean.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.status));
             }
         }
@@ -72,7 +72,7 @@ namespace TestProject.Core.ViewModels
             {
                 SetProperty(ref _login, value);
                 User.Login = _login;
-                EnableStatusCheck();
+                CheckEnableStatus();
                 LoginColor = new MvxColor(21, 206, 234);
             }
         }
@@ -87,7 +87,7 @@ namespace TestProject.Core.ViewModels
             {
                 SetProperty(ref _password, value);
                 User.Password = _password;
-                EnableStatusCheck();
+                CheckEnableStatus();
                 LoginColor = new MvxColor(28, 21, 234);
             }
         }
@@ -145,7 +145,7 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public void EnableStatusCheck()
+        public void CheckEnableStatus()
         {
             if (String.IsNullOrEmpty(User.Login) 
                 && String.IsNullOrEmpty(User.Password))

@@ -36,7 +36,7 @@
 			android:layout_height="wrap_content"
 			android:layout_alignParentLeft="true"
 			android:paddingLeft="45dp"
-			android:textColor="#FFFF"
+			android:textColor="@color/white"
 			android:text="Remember me"
 			android:layout_centerInParent ="true"/>
 	</RelativeLayout>

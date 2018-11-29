@@ -183,7 +183,9 @@ namespace TestProject.Droid.Fragments
             String[] proj = { Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data };
             var cursor = this.Activity.ContentResolver.Query(contentUri, proj, null, null, null);
             int column_index = cursor.GetColumnIndexOrThrow(Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data);
+
             cursor.MoveToFirst();
+
             return cursor.GetString(column_index);
         }
 

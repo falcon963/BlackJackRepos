@@ -3,8 +3,11 @@
   <color name="colorPrimary">#2288b7</color>
   <color name="colorPrimaryDark">#0e2b9e</color>
   <color name="colorAccent">#ffffff</color>
-  <color name="white">#FFFFFF</color>
+  <color name="white">#FFFF</color>
   <color name="blue">#185eb2</color>
+  <color name="emerald">#00695C</color>
+  <color name="black">#000</color>
+  <color name="yellow">#FBC02D</color>
   <color name="toolbarColor">#455A64</color>
   <drawable name="transperent_color">#00000000</drawable>
 </resources>

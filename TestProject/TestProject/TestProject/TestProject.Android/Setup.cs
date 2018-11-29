@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using Acr.UserDialogs;
 using Android.Support.Design.Widget;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Widget;
+using MvvmCross;
 using MvvmCross.Converters;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Support.V7.AppCompat;
@@ -16,8 +18,7 @@ using TestProject.Droid.Converter;
 
 namespace TestProject.Droid
 {
-    public class Setup 
-        : MvxAppCompatSetup<TestProject.Core.App>
+    public class Setup : MvxAppCompatSetup<TestProject.Core.App>
     {
         protected override IEnumerable<Assembly> AndroidViewAssemblies => new List<Assembly>(base.AndroidViewAssemblies)
         {
@@ -58,5 +59,6 @@ namespace TestProject.Droid
             base.FillValueConverters(registry);
             registry.AddOrOverwrite("Color", new ColorValueConverter());
         }
+
     }
 }

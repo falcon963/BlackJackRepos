@@ -194,12 +194,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapter\SwipeDeleteAdapter.cs" />
+    <Compile Include="Adapter\SwipeItemDelete.cs" />
+    <Compile Include="Adapter\TasksRecyclerViewAdapter.cs" />
     <Compile Include="Converter\ColorValueConverter.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Controls\CircleImageView.cs" />
-    <Compile Include="Database\DatabaseConnection_Android.cs" />
+    <Compile Include="Database\DatabaseConnectionService.cs" />
     <Compile Include="Fragments\TasksFragment.cs" />
-    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Adapter\ImageAdapter.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />

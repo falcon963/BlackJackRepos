@@ -11,10 +11,10 @@ using System.IO;
 
 namespace TestProject.iOS.Database
 {
-    public class DatabaseConnection_IOS
+    public class DatabaseConnectionService
         : IDatabaseConnectionService
     {
-        public DatabaseConnection_IOS()
+        public DatabaseConnectionService()
         {
             var database = DbConnection();
         }

@@ -5,24 +5,24 @@
 	android:layout_height="match_parent"
 	android:minHeight="@dimen/item_minheight"
 	android:layout_width="match_parent"
-	android:background="#00695C">
+	android:background="@color/emerald">
 	<RelativeLayout
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
-		android:background="#00695C">
+		android:background="@color/emerald">
 	<TextView
 		android:id="@+id/task_name"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:paddingTop="@dimen/textview_listitemmenu_padding"
 		android:paddingLeft="@dimen/text_view_padding_listitem"
-		android:textColor="#ffff"
+		android:textColor="@color/white"
 		local:MvxBind="Text ItemTitle"/>
 	<View 
 	  android:id="@+id/tile_divider"
       android:layout_width="match_parent"
       android:layout_height="@dimen/divider_height"
 	  android:layout_alignParentBottom="true"
-      android:background="#ffff"/>
+      android:background="@color/white"/>
 		</RelativeLayout>
 </LinearLayout>

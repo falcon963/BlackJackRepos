@@ -6,9 +6,9 @@
 	android:layout_height="match_parent"
 	android:layout_width="match_parent"
 	android:fitsSystemWindows="true"
-	android:background="#00695C"
-	local:itemTextColor="#1e1e1c"
-	local:itemIconTint="#f7df09"
+	android:background="@color/emerald"
+	local:itemTextColor="@color/black"
+	local:itemIconTint="@color/yellow"
 	android:scrollbars="vertical"
 	local:MvxItemTemplate="@layout/listitemmenufragment"
 	local:MvxBind="ItemsSource MenuItems; ItemClick ItemSelectCommand"/>

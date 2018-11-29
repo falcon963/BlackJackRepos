@@ -27,8 +27,7 @@ namespace TestProject.Droid.Views
         Label = "TaskList Project",
         Theme = "@style/AppTheme",
         LaunchMode = LaunchMode.SingleTop,
-        Name = "testProject.droid.views.MainActivity"
-        )]
+        Name = "testProject.droid.views.MainActivity")]
     public class MainActivity : MvxAppCompatActivity<MainViewModel>
     {
         public DrawerLayout DrawerLayout { get; set; }
@@ -44,6 +43,7 @@ namespace TestProject.Droid.Views
             SetContentView(Resource.Layout.MainActivity);
 
             DrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+
             DrawerLayout.SetScrimColor(Color.Transparent);
 
             if(bundle == null)
@@ -75,7 +75,9 @@ namespace TestProject.Droid.Views
         public void HideSoftKeyboard()
         {
             if (CurrentFocus == null)
+            {
                 return;
+            }
 
             InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(InputMethodService);
             inputMethodManager.HideSoftInputFromWindow(CurrentFocus.WindowToken, 0);

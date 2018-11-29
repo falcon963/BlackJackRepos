@@ -158,12 +158,6 @@ namespace TestProject.Core.ViewModels
         #endregion
 
 
-        private Task<UserTask> GetUserTask()
-        {
-            var result = _taskService.GetTaskAsync(_resultModel.Changes.Id);
-            return result;
-        }
-
         private Task<Int32> SaveTask(UserTask userTask)
         {
             var result = _taskService.SaveTaskAsync(userTask);

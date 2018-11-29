@@ -6,8 +6,8 @@ namespace TestProject.Core.Constant
 {
     public struct SecureConstant
     {
-        public const String password = "Password";
-        public const String login = "Login";
+        public const String Password = "Password";
+        public const String Login = "Login";
         public const String status = "Status";
     }
 }

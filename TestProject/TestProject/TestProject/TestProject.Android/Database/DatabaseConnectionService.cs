@@ -6,10 +6,10 @@ using TestProject.Core.Models;
 
 namespace LocalDataAccess.Droid
 {
-    public class DatabaseConnection_Android 
+    public class DatabaseConnectionService
         : IDatabaseConnectionService
     {
-        public DatabaseConnection_Android()
+        public DatabaseConnectionService()
         {
             var database = DbConnection();
         }

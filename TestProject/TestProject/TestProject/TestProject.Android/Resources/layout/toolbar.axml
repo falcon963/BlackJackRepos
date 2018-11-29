@@ -15,6 +15,6 @@
 			android:fontWeight="800"
 			android:paddingRight="80dp"
 			android:textStyle="italic"
-			android:textColor="#FFFF"/>
+			android:textColor="@color/white"/>
 	</RelativeLayout>
 </android.support.v7.widget.Toolbar>

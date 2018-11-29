@@ -7,6 +7,7 @@ using TestProject.Core.Interfaces;
 using SQLite;
 using System.Linq;
 using MvvmCross;
+using TestProject.Core.ViewModels;
 
 namespace TestProject.Core.Services
 {
@@ -22,15 +23,16 @@ namespace TestProject.Core.Services
             database.CreateTableAsync<User>();
         }
 
+        public void SwipeTaskDelete(TaskListViewModel item)
+        {
+            database.DeleteAsync(item);
+        }
+
         public async Task<List<UserTask>> GetTasksAsync(Int32 id)
         {
             return await database.Table<UserTask>().Where(i => i.UserId == id).ToListAsync();
         }
 
-        public async Task<UserTask> GetTaskAsync(Int32 id)
-        {
-            return await database.Table<UserTask>().Where(i => i.UserId == id).FirstOrDefaultAsync();
-        }
 
         public async Task<Int32> SaveTaskAsync(UserTask userTask)
         {

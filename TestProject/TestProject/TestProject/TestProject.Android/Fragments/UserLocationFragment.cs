@@ -36,7 +36,6 @@ namespace TestProject.Droid.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
@@ -62,7 +61,6 @@ namespace TestProject.Droid.Fragments
             _googleMap.UiSettings.ZoomControlsEnabled = true;
             _googleMap.BuildingsEnabled = true;
 
-            // _googleMap.MyLocationEnabled = true;
             LatLng latlng = new LatLng(ViewModel.Latitude, ViewModel.Longitude);
             CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
 
@@ -80,25 +78,6 @@ namespace TestProject.Droid.Fragments
             GetRandomLocation(latlng, 80);
         }
 
-
-        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Latitude")
-            {
-                LatLng latlng = new LatLng(ViewModel.Latitude, ViewModel.Longitude);
-                CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
-                _googleMap.MoveCamera(camera);
-
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.SetPosition(latlng);
-                markerOptions.SetTitle("My located");
-
-                BitmapDescriptor mapIcon = BitmapDescriptorFactory.FromResource(Resource.Drawable.icons8_location_off_30);
-                markerOptions.SetIcon(mapIcon);
-
-                _googleMap.AddMarker(markerOptions);
-            }
-        }
 
 
         public void GetRandomLocation(LatLng point, Int32 radius)

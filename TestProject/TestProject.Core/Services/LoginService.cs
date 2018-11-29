@@ -13,11 +13,9 @@ namespace TestProject.Core.Services
     public class LoginService: ILoginService
     {
 
-        private ITaskService _taskService;
-
-        public LoginService(ITaskService taskService)
+        public LoginService()
         {
-            _taskService = taskService;
+
         }
 
         public String HashPassword(String password)
@@ -35,8 +33,8 @@ namespace TestProject.Core.Services
 
         public void SetLoginAndPassword(String login, String password)
         {
-            CrossSecureStorage.Current.SetValue(SecureConstant.login, login);
-            CrossSecureStorage.Current.SetValue(SecureConstant.password, password);
+            CrossSecureStorage.Current.SetValue(SecureConstant.Login, login);
+            CrossSecureStorage.Current.SetValue(SecureConstant.Password, password);
 
         }
     }

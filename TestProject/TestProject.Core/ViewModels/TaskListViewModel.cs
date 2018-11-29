@@ -108,6 +108,17 @@ namespace TestProject.Core.ViewModels
 
         #region Commands
 
+        public IMvxCommand DeleteTaskCommand
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    _taskService.SwipeTaskDelete(this);
+                });
+            }
+        }
+
         public IMvxAsyncCommand GetLocationCommand
         {
             get
@@ -144,7 +155,7 @@ namespace TestProject.Core.ViewModels
                         },
                         Result = Enum.UserTaskResult.Save
                     };
-                    var result = await _navigationService.Navigate<TaskViewModel, ResultModel, ResultModel>(task);
+                    ResultModel result = await _navigationService.Navigate<TaskViewModel, ResultModel, ResultModel>(task);
                     if (result == null)
                     {
                         return;

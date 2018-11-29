@@ -39,8 +39,8 @@ namespace TestProject.Core.ViewModels
                         if (value == "True")
                         {
                             User user = new User();
-                            var login = CrossSecureStorage.Current.GetValue(SecureConstant.login);
-                            var password = CrossSecureStorage.Current.GetValue(SecureConstant.password);
+                            var login = CrossSecureStorage.Current.GetValue(SecureConstant.Login);
+                            var password = CrossSecureStorage.Current.GetValue(SecureConstant.Password);
                             user = await _taskService.CheckAccountAccess(login, password);
                             if(user == null)
                             {
