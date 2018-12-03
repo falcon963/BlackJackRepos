@@ -27,7 +27,8 @@ namespace TestProject.Droid.Adapter
             Image = itemView.FindViewById<CircleImageView>(Resource.Id.tasklist_image);
             CheckBox = itemView.FindViewById<CheckBox>(Resource.Id.list_checkbox);
 
-            itemView.Click += (sender, e) => listener(base.Position);
+            itemView.Click += (sender, e) => listener(obj: base.Position);
+
         }
     }
 }

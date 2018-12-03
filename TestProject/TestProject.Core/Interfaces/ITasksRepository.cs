@@ -14,6 +14,6 @@ namespace TestProject.Core.Interfaces
         Int32 SaveUserTaskAsync(UserTask userTask);
         Int32 DeleteUserTaskAsync(UserTask userTask);
         List<Int32> RefreshUserTasks(Int32 id);
-        void SwipeTaskDelete(TaskListViewModel item);
+        void SwipeTaskDelete(UserTask item);
     }
 }

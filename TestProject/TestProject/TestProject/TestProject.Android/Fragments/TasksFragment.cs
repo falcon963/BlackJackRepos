@@ -21,6 +21,7 @@ using Android.Support.V7.Widget;
 using System.ComponentModel;
 using Android.Support.V7.Widget.Helper;
 using TestProject.Droid.Adapter;
+using TestProject.Core.Models;
 
 namespace TestProject.Droid.Fragments
 {
@@ -34,8 +35,10 @@ namespace TestProject.Droid.Fragments
     {
         protected override int FragmentId => Resource.Layout.TasksFragmentLayout;
 
-        private MvxListView _listView;
-     
+        private RecyclerView _recyclerView;
+        private RecyclerView.LayoutManager _layoutManager;
+        private RecyclerImageAdapter _imageAdapter;
+
         Android.Support.V7.Widget.Toolbar _toolbar;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -43,15 +46,29 @@ namespace TestProject.Droid.Fragments
             ViewModel.ListOfTasks.CollectionChanged += ViewModel_CollectionChanged;
 
             var view = base.OnCreateView(inflater, container, savedInstanceState);
-            var itemTouchHelper = new ItemTouchHelper(new SwipeItemDelete());
 
-            _listView = view.FindViewById<MvxListView>(Resource.Id.task_recycler_view);
+
+            _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.task_recycler_view);
             _toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 
             Activity.FindViewById<Android.Support.V4.Widget.DrawerLayout>(Resource.Id.drawer_layout).CloseDrawers();
-            var adapter = new ImageAdapter(this.Activity, (MvxAndroidBindingContext)BindingContext, _listView);
 
-            _listView.Adapter = adapter;
+            ItemTouchHelper.Callback callback = new MyItemTouchHelper();
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+            itemTouchHelper.AttachToRecyclerView(_recyclerView);
+
+
+            _layoutManager = new LinearLayoutManager(Context);
+
+
+            _recyclerView.SetLayoutManager(_layoutManager);
+
+
+            _imageAdapter = new RecyclerImageAdapter(ViewModel.ListOfTasks.ToList());
+
+            _imageAdapter.ItemClick += OnItemClick;
+
+            _recyclerView.SetAdapter(_imageAdapter);
 
             ViewModel.ShowMenuCommand.Execute(null);
 
@@ -62,8 +79,9 @@ namespace TestProject.Droid.Fragments
         {
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
-                ImageAdapter adapter = new ImageAdapter(this.Activity, (MvxAndroidBindingContext)BindingContext, _listView);
-                _listView.Adapter = adapter;
+                _imageAdapter = new RecyclerImageAdapter(ViewModel.ListOfTasks.ToList());
+
+                _recyclerView.SetAdapter(_imageAdapter);
             }
         }
 
@@ -75,5 +93,17 @@ namespace TestProject.Droid.Fragments
             base.OnDestroyView();
         }
 
+        void OnSwipe(object sender, int position)
+        {
+            UserTask task = ViewModel.ListOfTasks[position];
+            ViewModel.DeleteTaskCommand.Execute(task);
+            ViewModel.ListOfTasks.Remove(task);
+        }
+
+
+        void OnItemClick(object sender, int position)
+        {
+            ViewModel.ItemSelectedCommand.Execute(ViewModel.ListOfTasks[position]);
+        }
     }
 }

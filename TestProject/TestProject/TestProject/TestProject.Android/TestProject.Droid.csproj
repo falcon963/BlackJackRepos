@@ -195,11 +195,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapter\MyItemTouchHelper.cs" />
     <Compile Include="Adapter\RecyclerImageAdapter.cs" />
-    <Compile Include="Adapter\ViewHolder.cs" />
+    <Compile Include="Adapter\ImageViewHolder.cs" />
     <Compile Include="Converter\ColorValueConverter.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Controls\CircleImageView.cs" />
+    <Compile Include="CustomEvents\MySwipeEvent.cs" />
     <Compile Include="Database\DatabaseConnectionService.cs" />
     <Compile Include="Fragments\TasksFragment.cs" />
     <Compile Include="Adapter\ImageAdapter.cs" />

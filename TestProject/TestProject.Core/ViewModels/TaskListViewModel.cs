@@ -118,13 +118,13 @@ namespace TestProject.Core.ViewModels
 
         #region Commands
 
-        public IMvxCommand DeleteTaskCommand
+        public IMvxCommand<UserTask> DeleteTaskCommand
         {
             get
             {
-                return new MvxCommand(() =>
+                return new MvxCommand<UserTask>((task) =>
                 {
-                    _taskService.SwipeTaskDelete(this);
+                    _taskService.SwipeTaskDelete(task);
                 });
             }
         }

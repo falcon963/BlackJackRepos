@@ -23,7 +23,7 @@ namespace TestProject.Core.Services
             _dbConnection = new SqliteAppConnection(connectionService);
         }
 
-        public void SwipeTaskDelete(TaskListViewModel item)
+        public void SwipeTaskDelete(UserTask item)
         {
             _dbConnection.Database.Delete(item);
         }
