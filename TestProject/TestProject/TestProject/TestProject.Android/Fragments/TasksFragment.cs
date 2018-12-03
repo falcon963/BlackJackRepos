@@ -35,18 +35,16 @@ namespace TestProject.Droid.Fragments
         protected override int FragmentId => Resource.Layout.TasksFragmentLayout;
 
         private MvxListView _listView;
-        private RecyclerView _recycleView;
      
         Android.Support.V7.Widget.Toolbar _toolbar;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+            ViewModel.ListOfTasks.CollectionChanged += ViewModel_CollectionChanged;
 
             var view = base.OnCreateView(inflater, container, savedInstanceState);
             var itemTouchHelper = new ItemTouchHelper(new SwipeItemDelete());
 
-            _recycleView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
             _listView = view.FindViewById<MvxListView>(Resource.Id.task_recycler_view);
             _toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 
@@ -54,16 +52,15 @@ namespace TestProject.Droid.Fragments
             var adapter = new ImageAdapter(this.Activity, (MvxAndroidBindingContext)BindingContext, _listView);
 
             _listView.Adapter = adapter;
-            itemTouchHelper.AttachToRecyclerView(_recycleView);
 
             ViewModel.ShowMenuCommand.Execute(null);
 
             return view;
         }
 
-        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void ViewModel_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (e.PropertyName == "ListOfTasks")
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
                 ImageAdapter adapter = new ImageAdapter(this.Activity, (MvxAndroidBindingContext)BindingContext, _listView);
                 _listView.Adapter = adapter;
@@ -77,5 +74,6 @@ namespace TestProject.Droid.Fragments
             inputManager.HideSoftInputFromWindow(currentFocus.WindowToken, 0);
             base.OnDestroyView();
         }
+
     }
 }

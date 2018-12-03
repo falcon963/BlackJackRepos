@@ -85,7 +85,7 @@ namespace TestProject.Core.ViewModels
                     });
                     if (logOut)
                     {
-                        CrossSecureStorage.Current.DeleteKey(SecureConstant.status);
+                        CrossSecureStorage.Current.DeleteKey(SecureConstant.Status);
                         await _navigationService.Navigate<LoginViewModel>();
                         await _navigationService.Close(this);
                     }
@@ -97,17 +97,17 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public IMvxCommand<MenuItem> ItemSelectCommand
+        public IMvxAsyncCommand<MenuItem> ItemSelectCommand
         {
             get
             {
-                return new MvxCommand<MenuItem>((item) =>
+                return new MvxAsyncCommand<MenuItem>(async(item) =>
                 {
                     var action = item.ItemAction;
                     if (action == Enum.MenuItemAction.AddTask)
                     {
                         _taskList.ShowTaskCommand.Execute(null);
-                        _navigationService.Close(this);
+                        await _navigationService.Close(this);
                     }
                     if(action == Enum.MenuItemAction.Logout)
                     {
@@ -116,7 +116,7 @@ namespace TestProject.Core.ViewModels
                     if(action == Enum.MenuItemAction.Location)
                     {
                         _taskList.GetLocationCommand.Execute(null);
-                        _navigationService.Close(this);
+                        await _navigationService.Close(this);
                     }
                 });
             }

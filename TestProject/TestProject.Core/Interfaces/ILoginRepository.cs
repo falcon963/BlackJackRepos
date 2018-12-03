@@ -6,8 +6,11 @@ using TestProject.Core.Models;
 
 namespace TestProject.Core.Interfaces
 {
-    public interface ILoginService
+    public interface ILoginRepository
     {
         void SetLoginAndPassword(String login, String password);
+        User CheckAccountAccess(String login, String password);
+        Boolean CheckValidLogin(String login);
+        Boolean CreateUser(User user);
     }
 }

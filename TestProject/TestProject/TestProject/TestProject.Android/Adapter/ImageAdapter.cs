@@ -22,14 +22,14 @@ namespace TestProject.Droid
 {
     public class ImageAdapter : MvxAdapter<UserTask>
     {
-        private MvxListView listView;
+        private MvxListView _listView;
         private Context _context;
         private Bitmap _bitmap;
 
         public ImageAdapter(Activity context, IMvxAndroidBindingContext bindingContext, MvxListView tableView) 
             : base(context, bindingContext)
         {
-            listView = tableView;
+            _listView = tableView;
             _context = context;
         }
 
@@ -44,6 +44,7 @@ namespace TestProject.Droid
             var taskView = view.FindViewById<LinearLayout>(Resource.Id.list_fragment);
             var divider = view.FindViewById<View>(Resource.Id.divider);
 
+            _listView.DividerHeight = 0;
 
             if (ItemsSource.Cast<UserTask>().ToList().Count == position+1)
             {
@@ -70,6 +71,11 @@ namespace TestProject.Droid
             return view;
         }
 
+        public override int GetPosition(object item)
+        {
+            return base.GetPosition(item);
+        }
+
         public static int CalculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
         {
 
@@ -94,5 +100,7 @@ namespace TestProject.Droid
 
             return inSampleSize;
         }
+
+        
     }
 }

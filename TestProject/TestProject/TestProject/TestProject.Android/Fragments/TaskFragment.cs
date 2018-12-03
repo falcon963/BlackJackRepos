@@ -69,6 +69,19 @@ namespace TestProject.Droid.Fragments
             _linearLayout.Click += delegate { HideSoftKeyboard(); };
             _toolbar.Click += delegate { HideSoftKeyboard(); };
 
+            if (ViewModel.UserTask.Changes.ImagePath == null)
+            {
+                try
+                {
+                    _bitmap = BitmapFactory.DecodeResource(Context.Resources, Resource.Drawable.placeholder);
+                    _imageView.SetImageBitmap(_bitmap);
+                }
+                catch (Java.Lang.OutOfMemoryError)
+                {
+                    System.GC.Collect();
+                }
+            }
+
             if (ViewModel.UserTask.Changes.ImagePath != null)
             {
                 BitmapFactory.Options options = new BitmapFactory.Options();
@@ -83,18 +96,7 @@ namespace TestProject.Droid.Fragments
                     System.GC.Collect();
                 }
             }
-            if (ViewModel.UserTask.Changes.ImagePath == null)
-            {
-                try
-                {
-                    _bitmap = BitmapFactory.DecodeResource(Context.Resources, Resource.Drawable.placeholder);
-                    _imageView.SetImageBitmap(_bitmap);
-                }
-                catch (Java.Lang.OutOfMemoryError)
-                {
-                    System.GC.Collect();
-                }
-            }
+            
 
             return view;
         }
@@ -253,6 +255,16 @@ namespace TestProject.Droid.Fragments
         {
             InputMethodManager methodManager = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
             methodManager.ToggleSoftInput(ShowFlags.Forced, HideSoftInputFlags.ImplicitOnly);
+        }
+
+        public override void OnPause()
+        {
+            base.OnPause();
+        }
+
+        public override void OnResume()
+        {
+            base.OnResume();
         }
 
         public override void OnDestroyView()

@@ -6,6 +6,6 @@ namespace TestProject.Core.Interfaces
 {
     public interface IDatabaseConnectionService
     {
-        SQLite.SQLiteAsyncConnection DbConnection();
+        SQLite.SQLiteConnection DbConnection();
     }
 }

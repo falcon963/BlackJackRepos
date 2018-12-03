@@ -12,15 +12,18 @@ using MvvmCross;
 using TestProject.Core.Enum;
 using Acr.UserDialogs;
 using MvvmCross.UI;
+using Plugin.SecureStorage;
+using TestProject.Core.Constant;
+using System.Threading;
 
 namespace TestProject.Core.ViewModels
 {
     public class TaskViewModel
-        : BaseViewModel<ResultModel, ResultModel>
+        : BaseViewModel<Int32, ResultModel>
     {
 
         private readonly IMvxNavigationService _navigationService;
-        private readonly ITaskService _taskService;
+        private readonly ITasksRepository _taskService;
         private ResultModel _resultModel;
         private readonly IUserDialogs _userDialogs;
         private UserTask _userTaskDublicate;
@@ -36,18 +39,21 @@ namespace TestProject.Core.ViewModels
             set
             {
                 SetProperty(ref _resultModel, value);
-                RaisePropertyChanged(() => UserTask);
             }
         }
 
 
-        public TaskViewModel(IMvxNavigationService navigationService, ITaskService taskService, IUserDialogs userDialogs)
+        public TaskViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs)
         {
-            _resultModel = new ResultModel();
-            _resultModel.Changes = new UserTask();
-            _navigationService = navigationService;
             _taskService = taskService;
             _userDialogs = userDialogs;
+            _navigationService = navigationService;
+            _resultModel = new ResultModel();
+            _resultModel.Changes = new UserTask();
+            _resultModel.Result = new UserTaskResult();
+            UserTask = new ResultModel();
+            UserTask.Changes = new UserTask();
+            UserTask.Result = new UserTaskResult();
             ColorTheme = new MvxColor(251, 192, 45);
         }
 
@@ -89,8 +95,8 @@ namespace TestProject.Core.ViewModels
                             return;
                         }
                     }
-                    _resultModel.Result = Enum.UserTaskResult.UnChangeunchanged;
-                    await _navigationService.Close<ResultModel>(this, _resultModel);
+                    UserTask.Result = Enum.UserTaskResult.UnChangeunchanged;
+                    await _navigationService.Close<ResultModel>(this, UserTask);
                 });
             }
         }
@@ -114,9 +120,9 @@ namespace TestProject.Core.ViewModels
                         return;
                     }
 
-                    var result = await DeleteUserTask();
-                    _resultModel.Result = Enum.UserTaskResult.Delete;
-                    await _navigationService.Close<ResultModel>(this, _resultModel);
+                    var result = DeleteUserTask(UserTask.Changes);
+                    UserTask.Result = Enum.UserTaskResult.Delete;
+                    await _navigationService.Close<ResultModel>(this, UserTask);
                 });
             }
         }
@@ -140,17 +146,10 @@ namespace TestProject.Core.ViewModels
                         return;
                     }
 
-                    _resultModel.Changes = new UserTask
-                    {
-                        Id = UserTask.Changes.Id,
-                        Note= UserTask.Changes.Note,
-                        Status = UserTask.Changes.Status,
-                        Title = UserTask.Changes.Title,
-                        ImagePath = UserTask.Changes.ImagePath,
-                        UserId = UserTask.Changes.UserId
-                    };
-                    await SaveTask(UserTask.Changes);
-                    await _navigationService.Close<ResultModel>(this, _resultModel);
+                    UserTask.Changes.UserId = Int32.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.UserId));
+                    SaveTask(UserTask.Changes);
+                    UserTask.Result = Enum.UserTaskResult.Save;
+                    await _navigationService.Close<ResultModel>(this, UserTask);
                 });
             }
         }
@@ -158,31 +157,60 @@ namespace TestProject.Core.ViewModels
         #endregion
 
 
-        private Task<Int32> SaveTask(UserTask userTask)
+        private Int32 SaveTask(UserTask userTask)
         {
-            var result = _taskService.SaveTaskAsync(userTask);
+            var result = _taskService.SaveUserTaskAsync(userTask);
             return result;
         }
 
-        private Task<Int32> DeleteUserTask()
+        private Int32 DeleteUserTask(UserTask userTask)
         {
-            var result = _taskService.DeleteTaskAsync(_resultModel.Changes);
+            var result = _taskService.DeleteUserTaskAsync(userTask);
             return result;
         }
 
-        public override void Prepare(ResultModel parameter)
+        private UserTask GetTask(Int32 taskId)
         {
-            UserTask = parameter;
+            return _taskService.GetUserTaskAsync(taskId);
+        }
 
-            _userTaskDublicate = new UserTask
+        public override void Prepare(Int32 taskId)
+        {
+            UserTask task = GetTask(taskId);
+
+            if (task != null)
             {
-                UserId = parameter.Changes.UserId,
-                Id = parameter.Changes.Id,
-                Title = parameter.Changes.Title,
-                Note = parameter.Changes.Note,
-                Status = parameter.Changes.Status,
-                ImagePath = parameter.Changes.ImagePath
-            };
+                UserTask.Changes = new UserTask
+                {
+                    Id = task.Id,
+                    UserId = task.UserId,
+                    ImagePath = task.ImagePath,
+                    Note = task.Note,
+                    Title = task.Title,
+                    Status = task.Status
+                };
+
+                _userTaskDublicate = new UserTask
+                {
+                    Id = task.Id,
+                    UserId = task.Id,
+                    ImagePath = task.ImagePath,
+                    Note = task.Note,
+                    Title = task.Title,
+                    Status = task.Status
+                };
+            }
+
+            if(task == null)
+            {
+                UserTask = new ResultModel
+                {
+                    Changes = new UserTask(),
+                    Result = new UserTaskResult()
+                };
+                _userTaskDublicate = new UserTask();
+            }
+            
         }
     }
 }

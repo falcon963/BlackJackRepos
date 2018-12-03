@@ -19,9 +19,9 @@ namespace TestProject.Core.ViewModels
     {
         private readonly IMvxNavigationService _navigationService;
 
-        private readonly ILoginService _loginService;
+        private readonly ILoginRepository _loginService;
 
-        private readonly ITaskService _taskService;
+        private readonly ITasksRepository _taskService;
 
         private Boolean _rememberMe;
 
@@ -47,18 +47,18 @@ namespace TestProject.Core.ViewModels
 
         User _user;
 
-        public LoginViewModel(IMvxNavigationService navigationService, ILoginService loginService, ITaskService taskService)
+        public LoginViewModel(IMvxNavigationService navigationService, ILoginRepository loginService, ITasksRepository taskService)
         {
             _loginService = loginService;
             _navigationService = navigationService;
             _taskService = taskService;
             LoginColor = new MvxColor(251, 192, 45);
             _user = new User();
-            if (CrossSecureStorage.Current.GetValue(SecureConstant.status) == "True")
+            if (CrossSecureStorage.Current.GetValue(SecureConstant.Status) == "True")
             {
                 Login = CrossSecureStorage.Current.GetValue(SecureConstant.Login);
                 Password = CrossSecureStorage.Current.GetValue(SecureConstant.Password);
-                _rememberMe = Boolean.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.status));
+                _rememberMe = Boolean.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.Status));
             }
         }
 
@@ -115,12 +115,12 @@ namespace TestProject.Core.ViewModels
                 _rememberMe = value;
                 if (_rememberMe == true)
                 {
-                    CrossSecureStorage.Current.SetValue(SecureConstant.status, "True");
+                    CrossSecureStorage.Current.SetValue(SecureConstant.Status, "True");
                     _loginService.SetLoginAndPassword(Login, Password);
                 }
                 if (_rememberMe == false)
                 {
-                    CrossSecureStorage.Current.DeleteKey(SecureConstant.status);
+                    CrossSecureStorage.Current.DeleteKey(SecureConstant.Status);
                 }
             }
         }
@@ -137,11 +137,11 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public Task<Boolean> CheckLogin
+        public Boolean CheckLogin
         {
             get
             {
-                return _taskService.CheckValidLogin(User.Login);
+                return _loginService.CheckValidLogin(User.Login);
             }
         }
 
@@ -167,19 +167,12 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    var account = await _taskService.CheckAccountAccess(User.Login, User.Password);
+                    var account = _loginService.CheckAccountAccess(User.Login, User.Password);
 
                     if (account != null)
                     {
-                        User = account;
-                        var taskToNavigate = new ResultModel
-                        {
-                            Changes = new UserTask
-                            {
-                                UserId = User.Id
-                            }
-                        };
-                        await _navigationService.Navigate<TaskListViewModel, ResultModel>(taskToNavigate);
+                        CrossSecureStorage.Current.SetValue(SecureConstant.UserId, account.Id.ToString());
+                        await _navigationService.Navigate<TaskListViewModel>();
                         await _navigationService.Close(this);
                     }
                     if((account == null))
@@ -202,7 +195,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () => 
                 {
-                    var valid = await _taskService.CheckValidLogin(User.Login);
+                    var valid = _loginService.CheckValidLogin(User.Login);
                     if (!valid)
                     {
                         var alert = UserDialogs.Instance.Alert(new AlertConfig
@@ -215,7 +208,7 @@ namespace TestProject.Core.ViewModels
                     }
                     if (valid)
                     {
-                        await _taskService.CreateUser(User);
+                        _loginService.CreateUser(User);
                         var alert = UserDialogs.Instance.Alert(new AlertConfig
                         {
                             Message = MessengeFields.Registrate,

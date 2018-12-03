@@ -17,13 +17,13 @@ namespace TestProject.Core.ViewModels
     {
         private readonly IMvxNavigationService _navigationService;
 
-        private readonly ITaskService _taskService;
+        private readonly ILoginRepository _loginService;
 
 
-        public MainViewModel(IMvxNavigationService navigationService, ITaskService taskService)
+        public MainViewModel(IMvxNavigationService navigationService, ILoginRepository loginService)
         {
             _navigationService = navigationService;
-            _taskService = taskService;
+            _loginService = loginService;
         }
 
 
@@ -35,28 +35,22 @@ namespace TestProject.Core.ViewModels
             {
                     return new MvxAsyncCommand(async () =>
                     {
-                        var value = CrossSecureStorage.Current.GetValue(SecureConstant.status);
+                        var value = CrossSecureStorage.Current.GetValue(SecureConstant.Status);
                         if (value == "True")
                         {
                             User user = new User();
                             var login = CrossSecureStorage.Current.GetValue(SecureConstant.Login);
                             var password = CrossSecureStorage.Current.GetValue(SecureConstant.Password);
-                            user = await _taskService.CheckAccountAccess(login, password);
+                            user = _loginService.CheckAccountAccess(login, password);
                             if(user == null)
                             {
-                                CrossSecureStorage.Current.SetValue(SecureConstant.status, false.ToString());
+                                CrossSecureStorage.Current.SetValue(SecureConstant.Status, false.ToString());
                                 await _navigationService.Navigate<LoginViewModel>();
                             }
                             if (user != null)
                             {
-                                var taskToNavigate = new ResultModel
-                                {
-                                    Changes = new UserTask
-                                    {
-                                        UserId = user.Id
-                                    }
-                                };
-                                await _navigationService.Navigate<TaskListViewModel, ResultModel>(taskToNavigate);
+                                CrossSecureStorage.Current.SetValue(SecureConstant.UserId, user.Id.ToString());
+                                await _navigationService.Navigate<TaskListViewModel>();
                             }
                         }
                         if (value != "True")

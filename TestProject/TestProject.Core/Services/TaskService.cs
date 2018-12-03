@@ -8,69 +8,56 @@ using SQLite;
 using System.Linq;
 using MvvmCross;
 using TestProject.Core.ViewModels;
+using TestProject.Core.DBConnection;
+using System.Threading;
 
 namespace TestProject.Core.Services
 {
-    public class TaskService : ITaskService 
+    public class TaskService : ITasksRepository 
     {
 
-        private SQLiteAsyncConnection database;
+        private readonly SqliteAppConnection _dbConnection;
 
         public TaskService(IDatabaseConnectionService connectionService)
         {
-            database = connectionService.DbConnection();
-            database.CreateTableAsync<UserTask>();
-            database.CreateTableAsync<User>();
+            _dbConnection = new SqliteAppConnection(connectionService);
         }
 
         public void SwipeTaskDelete(TaskListViewModel item)
         {
-            database.DeleteAsync(item);
+            _dbConnection.Database.Delete(item);
         }
 
-        public async Task<List<UserTask>> GetTasksAsync(Int32 id)
+        public List<Int32> GetUserTasksIdAsync(Int32 userId)
         {
-            return await database.Table<UserTask>().Where(i => i.UserId == id).ToListAsync();
+            List<UserTask> listOfTasks = _dbConnection.Database.Table<UserTask>().Where(i => i.UserId == userId).ToList();
+            List<Int32> listId = listOfTasks.Select(i => i.Id).ToList();
+            return listId;
         }
 
-
-        public async Task<Int32> SaveTaskAsync(UserTask userTask)
+        public UserTask GetUserTaskAsync(Int32 taskId)
         {
-            return userTask.Id != 0 ? await database.UpdateAsync(userTask) : await database.InsertAsync(userTask);
+            return _dbConnection.Database.Table<UserTask>().Where(i => i.Id == taskId).FirstOrDefault();
         }
 
-        public async Task<Int32> DeleteTaskAsync(UserTask userTask)
+        public Int32 SaveUserTaskAsync(UserTask userTask)
         {
-            return await database.DeleteAsync(userTask);
+            if(userTask.Id != 0)
+            {
+                return _dbConnection.Database.Update(userTask);
+            }
+            return _dbConnection.Database.Insert(userTask);
         }
 
-        public async Task<List<UserTask>> RefreshUserTasks(Int32 id)
+        public Int32 DeleteUserTaskAsync(UserTask userTask)
         {
-            return await GetTasksAsync(id);
+            return _dbConnection.Database.Delete(userTask);
         }
 
-        public async Task<User> CheckAccountAccess(String login, String password)
+        public List<Int32> RefreshUserTasks(Int32 userId)
         {
-            var user = await database.Table<User>().Where(v => v.Login == login && v.Password == password).FirstOrDefaultAsync();
-
-            return user;
+            return GetUserTasksIdAsync(userId);
         }
-
-        public async Task<Boolean> CheckValidLogin(String login)
-        {
-
-            var result = await database.Table<User>().Where(v => v.Login == login).FirstOrDefaultAsync();
-
-            return result == null ? true : false;
-
-        }
-
-        public async Task<Boolean> CreateUser(User user)
-        {
-            await database.InsertAsync(user);
-            return await database.Table<User>().Where(v => v.Login == user.Login && v.Password == user.Password).FirstAsync() != null ? true : false;
-        }
-
 
     }
 }

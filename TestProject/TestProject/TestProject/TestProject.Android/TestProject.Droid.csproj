@@ -127,6 +127,7 @@
       <HintPath>..\..\..\packages\SQLitePCLRaw.provider.e_sqlite3.android.1.1.11\lib\MonoAndroid\SQLitePCLRaw.provider.e_sqlite3.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.Android.Arch.Core.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -194,9 +195,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adapter\SwipeDeleteAdapter.cs" />
-    <Compile Include="Adapter\SwipeItemDelete.cs" />
-    <Compile Include="Adapter\TasksRecyclerViewAdapter.cs" />
+    <Compile Include="Adapter\RecyclerImageAdapter.cs" />
+    <Compile Include="Adapter\ViewHolder.cs" />
     <Compile Include="Converter\ColorValueConverter.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Controls\CircleImageView.cs" />

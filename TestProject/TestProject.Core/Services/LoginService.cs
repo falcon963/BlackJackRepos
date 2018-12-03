@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 using TestProject.Core.Constant;
 using TestProject.Core.Interfaces;
 using TestProject.Core.Models;
+using TestProject.Core.DBConnection;
 
 namespace TestProject.Core.Services
 {
-    public class LoginService: ILoginService
+    public class LoginService: ILoginRepository
     {
+        private readonly SqliteAppConnection _dbConnection;
 
-        public LoginService()
+        public LoginService(IDatabaseConnectionService connectionService)
         {
-
+            _dbConnection = new SqliteAppConnection(connectionService);
         }
 
         public String HashPassword(String password)
@@ -36,6 +38,33 @@ namespace TestProject.Core.Services
             CrossSecureStorage.Current.SetValue(SecureConstant.Login, login);
             CrossSecureStorage.Current.SetValue(SecureConstant.Password, password);
 
+        }
+
+        public User CheckAccountAccess(String login, String password)
+        {
+            User user = _dbConnection.Database.Table<User>().Where(v => v.Login == login && v.Password == password).FirstOrDefault();
+
+            return user;
+        }
+
+        public Boolean CheckValidLogin(String login)
+        {
+
+            User result = _dbConnection.Database.Table<User>().Where(v => v.Login == login).FirstOrDefault();
+
+            return result == null ? true : false;
+
+        }
+
+        public Boolean CreateUser(User user)
+        {
+            _dbConnection.Database.Insert(user);
+            User getingUser = _dbConnection.Database.Table<User>().Where(v => v.Login == user.Login && v.Password == user.Password).First();
+            if (getingUser != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -8,6 +8,7 @@ namespace TestProject.Core.Constant
     {
         public const String Password = "Password";
         public const String Login = "Login";
-        public const String status = "Status";
+        public const String Status = "Status";
+        public const String UserId = "UserId";
     }
 }
