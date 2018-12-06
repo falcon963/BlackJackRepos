@@ -39,6 +39,7 @@ namespace TestProject.Droid.Fragments
         private RecyclerView.LayoutManager _layoutManager;
         private RecyclerImageAdapter _imageAdapter;
 
+
         Android.Support.V7.Widget.Toolbar _toolbar;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -53,19 +54,14 @@ namespace TestProject.Droid.Fragments
 
             Activity.FindViewById<Android.Support.V4.Widget.DrawerLayout>(Resource.Id.drawer_layout).CloseDrawers();
 
-            ItemTouchHelper.Callback callback = new MyItemTouchHelper();
-            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-            itemTouchHelper.AttachToRecyclerView(_recyclerView);
-
+            SetupRecyclerView(view);
 
             _layoutManager = new LinearLayoutManager(Context);
 
-
             _recyclerView.SetLayoutManager(_layoutManager);
 
-
             _imageAdapter = new RecyclerImageAdapter(ViewModel.ListOfTasks.ToList());
-
+  
             _imageAdapter.ItemClick += OnItemClick;
 
             _recyclerView.SetAdapter(_imageAdapter);
@@ -78,6 +74,12 @@ namespace TestProject.Droid.Fragments
         private void ViewModel_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                _imageAdapter = new RecyclerImageAdapter(ViewModel.ListOfTasks.ToList());
+
+                _recyclerView.SetAdapter(_imageAdapter);
+            }
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
             {
                 _imageAdapter = new RecyclerImageAdapter(ViewModel.ListOfTasks.ToList());
 
@@ -104,6 +106,25 @@ namespace TestProject.Droid.Fragments
         void OnItemClick(object sender, int position)
         {
             ViewModel.ItemSelectedCommand.Execute(ViewModel.ListOfTasks[position]);
+        }
+
+        private void SetupRecyclerView(View view)
+        {
+            RecyclerView recyclerView = view.FindViewById<RecyclerView>(Resource.Id.task_recycler_view);
+
+            recyclerView.SetLayoutManager(new LinearLayoutManager(Context, LinearLayoutManager.Vertical, false));
+            recyclerView.SetAdapter(_imageAdapter);
+
+            var callback = new MyItemTouchHelper(this);
+            callback.RightClick += (sender, position) =>
+            {
+                UserTask task = ViewModel.ListOfTasks[position];
+                ViewModel.DeleteTaskCommand.Execute(task);
+                ViewModel.ListOfTasks.Remove(task);
+            };
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+            itemTouchHelper.AttachToRecyclerView(_recyclerView);
+            _recyclerView.AddItemDecoration(new ButtonDecoration(callback));
         }
     }
 }

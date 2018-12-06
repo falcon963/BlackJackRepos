@@ -23,6 +23,7 @@ using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.ViewModels;
 using TestProject.Core.Interfaces;
 using Android.Support.V7.Widget;
+using Android;
 
 namespace TestProject.Droid.Fragments
 {

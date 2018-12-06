@@ -18,20 +18,14 @@ namespace TestProject.Core.ViewModels
         : BaseViewModel
     {
         private readonly IMvxNavigationService _navigationService;
-
         private readonly ILoginRepository _loginService;
-
         private readonly ITasksRepository _taskService;
-
         private Boolean _rememberMe;
-
         private Boolean _checkBoxStatus;
-
         private String _login;
-
         private String _password;
-
         private MvxColor _color;
+        private User _user;
 
         public MvxColor LoginColor
         {
@@ -45,7 +39,7 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        User _user;
+        
 
         public LoginViewModel(IMvxNavigationService navigationService, ILoginRepository loginService, ITasksRepository taskService)
         {
@@ -189,33 +183,13 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public IMvxAsyncCommand RegistrationCommand
+        public IMvxAsyncCommand GoRegistrationPageCommand
         {
             get
             {
-                return new MvxAsyncCommand(async () => 
+                return new MvxAsyncCommand(async () =>
                 {
-                    var valid = _loginService.CheckValidLogin(User.Login);
-                    if (!valid)
-                    {
-                        var alert = UserDialogs.Instance.Alert(new AlertConfig
-                        {
-                            Message = MessengeFields.Login,
-                            OkText = MessengeFields.OkText,
-                            Title = MessengeFields.LoginUse
-                        });
-                        return;
-                    }
-                    if (valid)
-                    {
-                        _loginService.CreateUser(User);
-                        var alert = UserDialogs.Instance.Alert(new AlertConfig
-                        {
-                            Message = MessengeFields.Registrate,
-                            OkText = MessengeFields.OkText,
-                            Title = MessengeFields.Success
-                        });
-                    }
+                   await _navigationService.Navigate<RegistrationViewModel>();
                 });
             }
         }

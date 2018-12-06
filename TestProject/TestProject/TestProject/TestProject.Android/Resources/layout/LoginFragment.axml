@@ -41,19 +41,19 @@
 			android:layout_centerInParent ="true"/>
 	</RelativeLayout>
 	<RelativeLayout
-		android:layout_width = "wrap_content"
+		android:layout_width = "match_parent"
 		android:layout_height = "wrap_content">
-		<ImageButton
-			style="@style/ImageButtonLogin"
-			android:layout_alignParentRight="true"
-			local:MvxBind="Click RegistrationCommand; Enabled EnableStatus"
-			android:background="@drawable/user"
-			android:layout_marginRight="@dimen/login_imagebutton_margin"/>
-		<ImageButton
-			style="@style/ImageButtonLogin"
-			android:layout_alignParentLeft="true"
-			local:MvxBind="Click LoginCommand; Enabled EnableStatus"
-			android:background="@drawable/reg"
-			android:layout_marginLeft="@dimen/login_imagebutton_margin" />
+		<Button
+			style="@style/LoginPageButton"
+			android:layout_alignParentLeft = "true"
+			android:layout_marginLeft="90dp"
+			android:text="Login"
+			local:MvxBind="Click LoginCommand; Enabled EnableStatus" />
+		<Button
+			style="@style/LoginPageButton"
+			android:layout_marginRight="90dp"
+			android:layout_alignParentRight = "true"
+			android:text="New User"
+			local:MvxBind="Click GoRegistrationPageCommand" />
 	</RelativeLayout>
 </LinearLayout>

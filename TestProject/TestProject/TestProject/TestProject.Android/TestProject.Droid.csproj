@@ -195,14 +195,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapter\ButtonDecoration.cs" />
     <Compile Include="Adapter\MyItemTouchHelper.cs" />
     <Compile Include="Adapter\RecyclerImageAdapter.cs" />
     <Compile Include="Adapter\ImageViewHolder.cs" />
     <Compile Include="Converter\ColorValueConverter.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Controls\CircleImageView.cs" />
-    <Compile Include="CustomEvents\MySwipeEvent.cs" />
     <Compile Include="Database\DatabaseConnectionService.cs" />
+    <Compile Include="Fragments\RegistrationFragment.cs" />
     <Compile Include="Fragments\TasksFragment.cs" />
     <Compile Include="Adapter\ImageAdapter.cs" />
     <Compile Include="MainApplication.cs" />
@@ -391,6 +392,16 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icons8_location_off_30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\RegistrationFragment.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\registration_toolbar.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\..\packages\Xamarin.Android.Support.Annotations.27.0.2.1\build\MonoAndroid81\Xamarin.Android.Support.Annotations.targets" Condition="Exists('..\..\..\packages\Xamarin.Android.Support.Annotations.27.0.2.1\build\MonoAndroid81\Xamarin.Android.Support.Annotations.targets')" />

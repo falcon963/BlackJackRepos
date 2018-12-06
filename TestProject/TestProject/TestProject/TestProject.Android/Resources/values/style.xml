@@ -48,4 +48,18 @@
     <item name="android:layout_height">wrap_content</item>
     <item name="android:layout_width">match_parent</item>
   </style>
+  <style name="RegistrationTextField">
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:singleLine">true</item>
+    <item name="android:maxLength">40</item>
+    <item name="android:background">#ffff</item>
+    <item name="android:layout_marginLeft">@dimen/login_page_margin</item>
+    <item name="android:layout_marginRight">@dimen/login_page_margin</item>
+  </style>
+  <style name="LoginPageButton">
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_marginLeft">@dimen/login_page_margin</item> 
+  </style>
   </resources>

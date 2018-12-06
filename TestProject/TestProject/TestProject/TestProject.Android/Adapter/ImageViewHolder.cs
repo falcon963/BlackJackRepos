@@ -20,12 +20,14 @@ namespace TestProject.Droid.Adapter
         public TextView Text { get; private set; }
         public CircleImageView Image { get; private set; }
         public CheckBox CheckBox { get; private set; }
+        public View Divider { get; private set; }
 
         public ImageViewHolder(View itemView, Action<Int32> listener): base(itemView)
         {
             Text = itemView.FindViewById<TextView>(Resource.Id.task_name);
             Image = itemView.FindViewById<CircleImageView>(Resource.Id.tasklist_image);
             CheckBox = itemView.FindViewById<CheckBox>(Resource.Id.list_checkbox);
+            Divider = itemView.FindViewById<View>(Resource.Id.divider);
 
             itemView.Click += (sender, e) => listener(obj: base.Position);
 

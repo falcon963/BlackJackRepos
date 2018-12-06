@@ -5,6 +5,8 @@
 	android:id="@+id/list_fragment"
 	android:layout_height="wrap_content"
 	android:minHeight="@dimen/item_minheight"
+	android:background="@color/yellow"
+	android:paddingTop="5dp"
 	android:layout_width="match_parent">
 <RelativeLayout
 	android:layout_height="wrap_content"

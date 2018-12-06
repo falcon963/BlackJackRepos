@@ -236,6 +236,17 @@ namespace TestProject.Core.ViewModels
             }
         }
 
+        public IMvxAsyncCommand UserLogoutCommand
+        {
+            get
+            {
+                return new MvxAsyncCommand(async() =>
+                {
+                    await _navigationService.Close(this);
+                });
+            }
+        }
+
         #endregion
 
     }

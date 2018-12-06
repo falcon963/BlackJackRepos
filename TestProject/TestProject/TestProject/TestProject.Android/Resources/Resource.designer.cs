@@ -7287,8 +7287,8 @@ namespace TestProject.Droid
 			// aapt resource value: 0x7f0c000a
 			public const int ghost_view = 2131492874;
 			
-			// aapt resource value: 0x7f0c00dc
-			public const int googlemap = 2131493084;
+			// aapt resource value: 0x7f0c00de
+			public const int googlemap = 2131493086;
 			
 			// aapt resource value: 0x7f0c0005
 			public const int home = 2131492869;
@@ -7317,8 +7317,8 @@ namespace TestProject.Droid
 			// aapt resource value: 0x7f0c006b
 			public const int image = 2131492971;
 			
-			// aapt resource value: 0x7f0c00d5
-			public const int image_view = 2131493077;
+			// aapt resource value: 0x7f0c00d7
+			public const int image_view = 2131493079;
 			
 			// aapt resource value: 0x7f0c00c8
 			public const int info = 2131493064;
@@ -7380,8 +7380,8 @@ namespace TestProject.Droid
 			// aapt resource value: 0x7f0c00b8
 			public const int mapToolbar = 2131493048;
 			
-			// aapt resource value: 0x7f0c00de
-			public const int masked = 2131493086;
+			// aapt resource value: 0x7f0c00e0
+			public const int masked = 2131493088;
 			
 			// aapt resource value: 0x7f0c00c1
 			public const int media_actions = 2131493057;
@@ -7389,8 +7389,8 @@ namespace TestProject.Droid
 			// aapt resource value: 0x7f0c00a7
 			public const int menu_list = 2131493031;
 			
-			// aapt resource value: 0x7f0c00db
-			public const int message = 2131493083;
+			// aapt resource value: 0x7f0c00dd
+			public const int message = 2131493085;
 			
 			// aapt resource value: 0x7f0c003e
 			public const int middle = 2131492926;
@@ -7401,14 +7401,14 @@ namespace TestProject.Droid
 			// aapt resource value: 0x7f0c0035
 			public const int multiply = 2131492917;
 			
+			// aapt resource value: 0x7f0c00e3
+			public const int nav_addtask = 2131493091;
+			
 			// aapt resource value: 0x7f0c00e1
-			public const int nav_addtask = 2131493089;
+			public const int nav_items = 2131493089;
 			
-			// aapt resource value: 0x7f0c00df
-			public const int nav_items = 2131493087;
-			
-			// aapt resource value: 0x7f0c00e0
-			public const int nav_logout = 2131493088;
+			// aapt resource value: 0x7f0c00e2
+			public const int nav_logout = 2131493090;
 			
 			// aapt resource value: 0x7f0c00b7
 			public const int navigation_frame = 2131493047;
@@ -7458,8 +7458,14 @@ namespace TestProject.Droid
 			// aapt resource value: 0x7f0c0081
 			public const int radio = 2131492993;
 			
-			// aapt resource value: 0x7f0c00d8
-			public const int refresher = 2131493080;
+			// aapt resource value: 0x7f0c00da
+			public const int refresher = 2131493082;
+			
+			// aapt resource value: 0x7f0c00d5
+			public const int registration_linearlayout = 2131493077;
+			
+			// aapt resource value: 0x7f0c00d4
+			public const int registration_toolbar = 2131493076;
 			
 			// aapt resource value: 0x7f0c0056
 			public const int right = 2131492950;
@@ -7605,23 +7611,23 @@ namespace TestProject.Droid
 			// aapt resource value: 0x7f0c0019
 			public const int tag_transition_group = 2131492889;
 			
-			// aapt resource value: 0x7f0c00d4
-			public const int task_linearlayout = 2131493076;
+			// aapt resource value: 0x7f0c00d6
+			public const int task_linearlayout = 2131493078;
 			
 			// aapt resource value: 0x7f0c00a8
 			public const int task_name = 2131493032;
 			
-			// aapt resource value: 0x7f0c00d9
-			public const int task_recycler_view = 2131493081;
+			// aapt resource value: 0x7f0c00db
+			public const int task_recycler_view = 2131493083;
 			
-			// aapt resource value: 0x7f0c00d6
-			public const int task_switch = 2131493078;
+			// aapt resource value: 0x7f0c00d8
+			public const int task_switch = 2131493080;
 			
 			// aapt resource value: 0x7f0c00ab
 			public const int tasklist_image = 2131493035;
 			
-			// aapt resource value: 0x7f0c00d7
-			public const int taskslist = 2131493079;
+			// aapt resource value: 0x7f0c00d9
+			public const int taskslist = 2131493081;
 			
 			// aapt resource value: 0x7f0c0023
 			public const int terrain = 2131492899;
@@ -7665,8 +7671,8 @@ namespace TestProject.Droid
 			// aapt resource value: 0x7f0c007b
 			public const int title_template = 2131492987;
 			
-			// aapt resource value: 0x7f0c00da
-			public const int toolbar = 2131493082;
+			// aapt resource value: 0x7f0c00dc
+			public const int toolbar = 2131493084;
 			
 			// aapt resource value: 0x7f0c004b
 			public const int top = 2131492939;
@@ -7704,8 +7710,8 @@ namespace TestProject.Droid
 			// aapt resource value: 0x7f0c0016
 			public const int view_offset_helper = 2131492886;
 			
-			// aapt resource value: 0x7f0c00dd
-			public const int visible = 2131493085;
+			// aapt resource value: 0x7f0c00df
+			public const int visible = 2131493087;
 			
 			// aapt resource value: 0x7f0c0028
 			public const int wide = 2131492904;
@@ -8001,34 +8007,40 @@ namespace TestProject.Droid
 			public const int preference_widget_switch_compat = 2130968650;
 			
 			// aapt resource value: 0x7f04004b
-			public const int select_dialog_item_material = 2130968651;
+			public const int registration_toolbar = 2130968651;
 			
 			// aapt resource value: 0x7f04004c
-			public const int select_dialog_multichoice_material = 2130968652;
+			public const int RegistrationFragment = 2130968652;
 			
 			// aapt resource value: 0x7f04004d
-			public const int select_dialog_singlechoice_material = 2130968653;
+			public const int select_dialog_item_material = 2130968653;
 			
 			// aapt resource value: 0x7f04004e
-			public const int SplashScreen = 2130968654;
+			public const int select_dialog_multichoice_material = 2130968654;
 			
 			// aapt resource value: 0x7f04004f
-			public const int support_simple_spinner_dropdown_item = 2130968655;
+			public const int select_dialog_singlechoice_material = 2130968655;
 			
 			// aapt resource value: 0x7f040050
-			public const int TaskFragment = 2130968656;
+			public const int SplashScreen = 2130968656;
 			
 			// aapt resource value: 0x7f040051
-			public const int TasksFragmentLayout = 2130968657;
+			public const int support_simple_spinner_dropdown_item = 2130968657;
 			
 			// aapt resource value: 0x7f040052
-			public const int toolbar = 2130968658;
+			public const int TaskFragment = 2130968658;
 			
 			// aapt resource value: 0x7f040053
-			public const int tooltip = 2130968659;
+			public const int TasksFragmentLayout = 2130968659;
 			
 			// aapt resource value: 0x7f040054
-			public const int UserLocationFragment = 2130968660;
+			public const int toolbar = 2130968660;
+			
+			// aapt resource value: 0x7f040055
+			public const int tooltip = 2130968661;
+			
+			// aapt resource value: 0x7f040056
+			public const int UserLocationFragment = 2130968662;
 			
 			static Layout()
 			{
@@ -8814,6 +8826,9 @@ namespace TestProject.Droid
 			// aapt resource value: 0x7f0d0194
 			public const int ImageButtonLogin = 2131558804;
 			
+			// aapt resource value: 0x7f0d0197
+			public const int LoginPageButton = 2131558807;
+			
 			// aapt resource value: 0x7f0d002b
 			public const int Platform_AppCompat = 2131558443;
 			
@@ -8894,6 +8909,9 @@ namespace TestProject.Droid
 			
 			// aapt resource value: 0x7f0d000c
 			public const int PreferenceThemeOverlay = 2131558412;
+			
+			// aapt resource value: 0x7f0d0196
+			public const int RegistrationTextField = 2131558806;
 			
 			// aapt resource value: 0x7f0d0038
 			public const int RtlOverlay_DialogWindowTitle_AppCompat = 2131558456;

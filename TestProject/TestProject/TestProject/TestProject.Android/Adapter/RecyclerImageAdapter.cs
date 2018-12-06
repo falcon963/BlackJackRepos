@@ -34,15 +34,14 @@ namespace TestProject.Droid.Adapter
         }
 
         public override RecyclerView.ViewHolder 
-            OnCreateViewHolder(ViewGroup parent, int viewType)
+            OnCreateViewHolder(ViewGroup parent, Int32 viewType)
         {
             View itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.ListItemView, parent, false);
-
             ImageViewHolder holder = new ImageViewHolder(itemView, OnClick);
             return holder;
         }
 
-        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
+        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, Int32 position)
         {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.InSampleSize = CalculateInSampleSize(options, 60, 60);
@@ -66,35 +65,41 @@ namespace TestProject.Droid.Adapter
             {
                 System.GC.Collect();
             }
-            
+
+            if (_tasksList.ToList().Count == position + 1)
+            {
+                viewHolder.Divider.Visibility = ViewStates.Invisible;
+            }
+
             viewHolder.Text.Text = _tasksList[position].Title;
             viewHolder.CheckBox.Checked = _tasksList[position].Status;
+            
         }
 
-        public override int ItemCount
+        public override Int32 ItemCount
         {
             get { return _tasksList.Count; }
         }
 
-        public void OnClick(int position)
+        public void OnClick(Int32 position)
         {
             ItemClick?.Invoke(this, position);
         }
 
 
-        public static int CalculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
+        public static Int32 CalculateInSampleSize(BitmapFactory.Options options, Int32 reqWidth, Int32 reqHeight)
         {
 
-            int height = options.OutHeight;
-            int width = options.OutWidth;
-            int inSampleSize = 1;
+            Int32 height = options.OutHeight;
+            Int32 width = options.OutWidth;
+            Int32 inSampleSize = 1;
 
             if (height > reqHeight
                 || width > reqWidth)
             {
 
-                int halfHeight = height / 2;
-                int halfWidth = width / 2;
+                Int32 halfHeight = height / 2;
+                Int32 halfWidth = width / 2;
 
 
                 while ((halfHeight / inSampleSize) >= reqHeight
