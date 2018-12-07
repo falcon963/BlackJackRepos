@@ -9,17 +9,53 @@
 	android:id="@+id/registration_linearlayout">
 	<include 
 		layout="@layout/registration_toolbar"/>
-	<EditText
-		style="@style/RegistrationTextField"
-		android:layout_marginTop="@dimen/login_imagebutton_margin"
+	<ScrollView
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:isScrollContainer="false">
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+	<TextView
+		android:layout_marginTop="80dp"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingLeft="15dp"
+		android:text="Login:"
 	/>
 	<EditText
 		style="@style/RegistrationTextField"
 		android:layout_marginTop="@dimen/login_page_margin"
+		local:MvxBind="Text Login"
+	/>
+	<TextView
+		android:layout_marginTop="@dimen/login_page_margin"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingLeft="15dp"
+		android:text="Password:"
 	/>
 	<EditText
 		style="@style/RegistrationTextField"
 		android:layout_marginTop="@dimen/login_page_margin"
+		android:password="true"
+		local:MvxBind="Background Color(ValidateColor); Text Password"
+	/>
+	<TextView
+		android:layout_marginTop="@dimen/login_page_margin"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingLeft="15dp"
+		android:text="Confirm password:"
+	/>
+	<EditText
+		style="@style/RegistrationTextField"
+		android:layout_marginTop="@dimen/login_page_margin"
+		android:password="true"
+		local:MvxBind="Background Color(ValidateColor); Text PasswordRevise"
+		
 	/>
 	<RelativeLayout
 		android:layout_width="match_parent"
@@ -33,4 +69,6 @@
 			local:MvxBind="Click RegistrationCommand; Enabled EnableStatus"
 		/>
 	</RelativeLayout>
+			</LinearLayout>
+		</ScrollView>
 </LinearLayout>

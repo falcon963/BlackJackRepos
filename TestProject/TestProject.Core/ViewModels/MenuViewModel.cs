@@ -9,6 +9,7 @@ using TestProject.Core.Constant;
 using TestProject.Core.Models;
 using MvvmCross.ViewModels;
 using System.Threading.Tasks;
+using TestProject.Core.Interfaces;
 
 namespace TestProject.Core.ViewModels
 {
@@ -20,6 +21,7 @@ namespace TestProject.Core.ViewModels
         private ResultModel _userTask;
         private MvxObservableCollection<MenuItem> _menuItems;
         private TaskListViewModel _taskList;
+        private User _userProfile;
 
         public ResultModel UserTask
         {
@@ -30,6 +32,18 @@ namespace TestProject.Core.ViewModels
             set
             {
                 _userTask = value;
+            }
+        }
+
+        public User Profile
+        {
+            get
+            {
+                return _userProfile;
+            }
+            set
+            {
+                SetProperty(ref _userProfile, value);
             }
         }
 
@@ -46,10 +60,12 @@ namespace TestProject.Core.ViewModels
         }
 
 
-        public MenuViewModel(IMvxNavigationService navigationService, IUserDialogs userDialogs)
+        public MenuViewModel(IMvxNavigationService navigationService, IUserDialogs userDialogs, ILoginRepository loginService)
         {
             _navigationService = navigationService;
             _userDialogs = userDialogs;
+            Int32 userId = Int32.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.UserId));
+            Profile = loginService.TakeProfile(userId);
             _menuItems = new MvxObservableCollection<MenuItem>()
             {
                 new MenuItem
@@ -122,6 +138,20 @@ namespace TestProject.Core.ViewModels
                 });
             }
         }
+
+
+        public IMvxAsyncCommand OpenProfileCommand
+        {
+            get
+            {
+                return new MvxAsyncCommand(async() =>
+                {
+                    _taskList.OpenProfileCommand.Execute(null);
+                    await _navigationService.Close(this);
+                });
+            }
+        }
+
 
         public override void Prepare(TaskListViewModel parameter)
         {

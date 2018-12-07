@@ -24,27 +24,47 @@ namespace TestProject.Core.ViewModels
         private Boolean _checkBoxStatus;
         private User _user;
 
-        private MvxColor _color;
+        private MvxColor _backgroundColor;
+        private MvxColor _passwordFieldColor;
+
+        
+
+        public RegistrationViewModel(IMvxNavigationService navigationService, ILoginRepository loginService)
+        {
+            LoginColor = new MvxColor(251, 192, 45);
+            ValidateColor = new MvxColor(241, 241, 241);
+            _navigationService = navigationService;
+            _loginService = loginService;
+            _user = new User();
+        }
+
+        #region MvxColor
 
         public MvxColor LoginColor
         {
             get
             {
-                return _color;
+                return _backgroundColor;
             }
             set
             {
-                SetProperty(ref _color, value);
+                SetProperty(ref _backgroundColor, value);
             }
         }
 
-        public RegistrationViewModel(IMvxNavigationService navigationService, ILoginRepository loginService)
+        public MvxColor ValidateColor
         {
-            LoginColor = new MvxColor(251, 192, 45);
-            _navigationService = navigationService;
-            _loginService = loginService;
-            _user = new User();
+            get
+            {
+                return _passwordFieldColor;
+            }
+            set
+            {
+                SetProperty(ref _passwordFieldColor, value);
+            }
         }
+
+        #endregion
 
         public User User
         {
@@ -83,6 +103,18 @@ namespace TestProject.Core.ViewModels
                 SetProperty(ref _password, value);
                 User.Password = _password;
                 CheckEnableStatus();
+                if (Password == PasswordRevise)
+                {
+                    ValidateColor = new MvxColor(54, 255, 47);
+                }
+                if (Password != PasswordRevise)
+                {
+                    ValidateColor = new MvxColor(201, 18, 18);
+                }
+                if (String.IsNullOrEmpty(Password) && String.IsNullOrEmpty(PasswordRevise))
+                {
+                    ValidateColor = new MvxColor(241, 241, 241);
+                }
             }
         }
 
@@ -94,9 +126,20 @@ namespace TestProject.Core.ViewModels
             }
             set
             {
-                SetProperty(ref _password, value);
-                User.Password = _password;
+                SetProperty(ref _passwordRevise, value);
                 CheckEnableStatus();
+                if(Password == PasswordRevise)
+                {
+                    ValidateColor = new MvxColor(54, 255, 47);
+                }
+                if(Password != PasswordRevise)
+                {
+                    ValidateColor = new MvxColor(201, 18, 18);
+                }
+                if(String.IsNullOrEmpty(Password) && String.IsNullOrEmpty(PasswordRevise))
+                {
+                    ValidateColor = new MvxColor(241, 241, 241);
+                }
             }
         }
 
@@ -116,7 +159,13 @@ namespace TestProject.Core.ViewModels
             {
                 EnableStatus = false;
             }
+            if (Password == PasswordRevise)
+            {
+                EnableStatus = true;
+            }
         }
+
+        
 
         public Boolean EnableStatus
         {

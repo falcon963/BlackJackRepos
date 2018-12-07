@@ -1,14 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<MvvmCross.Platforms.Android.Binding.Views.MvxListView
-	xmlns:android="http://schemas.android.com/apk/res/android"
+    <!-- The navigation drawer -->
+    <RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:local="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/navigation_view"
-	android:layout_height="match_parent"
-	android:layout_width="match_parent"
-	android:fitsSystemWindows="true"
 	android:background="@color/emerald"
-	local:itemTextColor="@color/black"
-	local:itemIconTint="@color/yellow"
-	android:scrollbars="vertical"
-	local:MvxItemTemplate="@layout/listitemmenufragment"
-	local:MvxBind="ItemsSource MenuItems; ItemClick ItemSelectCommand"/>
+	android:layout_height="match_parent"
+	android:layout_width="280dp"
+	android:fitsSystemWindows="true"
+	android:layout_gravity="start"
+	android:scrollbars="vertical">
+ 
+        <!-- Profile Box -->
+ 
+        <RelativeLayout
+            android:id="@+id/profileBox"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/material_blue_grey_800"
+            android:padding="8dp"
+			local:MvxBind="Click OpenProfileCommand">
+ 
+            <TestProject.Droid.Controls.CircleImageView
+                android:id="@+id/avatar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+				android:src="@drawable/placeholder"
+                android:layout_marginTop="15dp"/>
+ 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/avatar"
+                android:orientation="vertical" >
+ 
+                <TextView
+                    android:id="@+id/userName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+					local:MvxBind="Text Profile.Login"/>
+ 
+                <TextView
+                    android:id="@+id/desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="4dp"
+                    android:text="View Profile"
+                    android:textColor="#fff"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </RelativeLayout>
+ 
+        <!-- List of Actions (pages) -->
+        <MvvmCross.Platforms.Android.Binding.Views.MvxListView
+			android:layout_marginTop="100dp"
+			android:id="@+id/mvxListView_menuItem"
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:background="@color/emerald"
+			local:itemTextColor="@color/black"
+			local:itemIconTint="@color/yellow"
+			local:MvxItemTemplate="@layout/listitemmenufragment"
+			local:MvxBind="ItemsSource MenuItems; ItemClick ItemSelectCommand"/>
+ 
+    </RelativeLayout>

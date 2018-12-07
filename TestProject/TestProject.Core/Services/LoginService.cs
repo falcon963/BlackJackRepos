@@ -66,5 +66,24 @@ namespace TestProject.Core.Services
             }
             return false;
         }
+
+        public User TakeProfile(Int32 userId)
+        {
+            User profile = _dbConnection.Database.Table<User>().Where( u => u.Id == userId).FirstOrDefault();
+            return profile;
+        }
+
+        public void ChangePassword(Int32 userId, String password)
+        {
+            User user = _dbConnection.Database.Table<User>().Where(u => u.Id == userId).FirstOrDefault();
+            user.Password = password;
+            _dbConnection.Database.Update(user);
+        }
+        public void ChangeImage(Int32 userId, String imagePath)
+        {
+            User user = _dbConnection.Database.Table<User>().Where(u => u.Id == userId).FirstOrDefault();
+            user.ImagePath = imagePath;
+            _dbConnection.Database.Update(user);
+        }
     }
 }

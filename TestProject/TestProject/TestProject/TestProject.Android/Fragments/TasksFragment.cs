@@ -36,7 +36,6 @@ namespace TestProject.Droid.Fragments
         protected override int FragmentId => Resource.Layout.TasksFragmentLayout;
 
         private RecyclerView _recyclerView;
-        private RecyclerView.LayoutManager _layoutManager;
         private RecyclerImageAdapter _imageAdapter;
 
 
@@ -54,17 +53,9 @@ namespace TestProject.Droid.Fragments
 
             Activity.FindViewById<Android.Support.V4.Widget.DrawerLayout>(Resource.Id.drawer_layout).CloseDrawers();
 
-            SetupRecyclerView(view);
+            _imageAdapter = new RecyclerImageAdapter(this);
 
-            _layoutManager = new LinearLayoutManager(Context);
-
-            _recyclerView.SetLayoutManager(_layoutManager);
-
-            _imageAdapter = new RecyclerImageAdapter(ViewModel.ListOfTasks.ToList());
-  
-            _imageAdapter.ItemClick += OnItemClick;
-
-            _recyclerView.SetAdapter(_imageAdapter);
+            SetupRecyclerView();
 
             ViewModel.ShowMenuCommand.Execute(null);
 
@@ -75,15 +66,15 @@ namespace TestProject.Droid.Fragments
         {
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
-                _imageAdapter = new RecyclerImageAdapter(ViewModel.ListOfTasks.ToList());
+                _imageAdapter = new RecyclerImageAdapter(this);
 
-                _recyclerView.SetAdapter(_imageAdapter);
+                SetupRecyclerView();
             }
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
             {
-                _imageAdapter = new RecyclerImageAdapter(ViewModel.ListOfTasks.ToList());
+                _imageAdapter = new RecyclerImageAdapter(this);
 
-                _recyclerView.SetAdapter(_imageAdapter);
+                SetupRecyclerView();
             }
         }
 
@@ -108,23 +99,17 @@ namespace TestProject.Droid.Fragments
             ViewModel.ItemSelectedCommand.Execute(ViewModel.ListOfTasks[position]);
         }
 
-        private void SetupRecyclerView(View view)
+        private void SetupRecyclerView()
         {
-            RecyclerView recyclerView = view.FindViewById<RecyclerView>(Resource.Id.task_recycler_view);
-
-            recyclerView.SetLayoutManager(new LinearLayoutManager(Context, LinearLayoutManager.Vertical, false));
-            recyclerView.SetAdapter(_imageAdapter);
-
-            var callback = new MyItemTouchHelper(this);
-            callback.RightClick += (sender, position) =>
-            {
-                UserTask task = ViewModel.ListOfTasks[position];
-                ViewModel.DeleteTaskCommand.Execute(task);
-                ViewModel.ListOfTasks.Remove(task);
-            };
+            _recyclerView.SetLayoutManager(new LinearLayoutManager(Context));
+       
+            var callback = new MyItemTouchHelper(this, _imageAdapter);
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
             itemTouchHelper.AttachToRecyclerView(_recyclerView);
-            _recyclerView.AddItemDecoration(new ButtonDecoration(callback));
+            AnimationDecoratorHelper animationDecorator = new AnimationDecoratorHelper();
+            _recyclerView.AddItemDecoration(animationDecorator);
+
+           _recyclerView.SetAdapter(_imageAdapter);
         }
     }
 }

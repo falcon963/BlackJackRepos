@@ -113,7 +113,7 @@ namespace TestProject.Droid.Controls
                 bitmap.Recycle();
                 return bitmap;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

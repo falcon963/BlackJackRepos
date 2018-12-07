@@ -195,7 +195,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adapter\ButtonDecoration.cs" />
+    <Compile Include="Adapter\AnimationDecoratorHelper.cs" />
     <Compile Include="Adapter\MyItemTouchHelper.cs" />
     <Compile Include="Adapter\RecyclerImageAdapter.cs" />
     <Compile Include="Adapter\ImageViewHolder.cs" />
@@ -203,6 +203,7 @@
     <Compile Include="App.cs" />
     <Compile Include="Controls\CircleImageView.cs" />
     <Compile Include="Database\DatabaseConnectionService.cs" />
+    <Compile Include="Fragments\ProfileFragment.cs" />
     <Compile Include="Fragments\RegistrationFragment.cs" />
     <Compile Include="Fragments\TasksFragment.cs" />
     <Compile Include="Adapter\ImageAdapter.cs" />
@@ -400,6 +401,25 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\registration_toolbar.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icons8_cancel_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icons8_trash_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icons8_broom_50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ProfileFragment.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ProfileToolbar.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
@@ -18,6 +19,7 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.Views;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.ViewModels;
+using TestProject.Droid.Controls;
 
 namespace TestProject.Droid.Fragments
 {
@@ -29,6 +31,8 @@ namespace TestProject.Droid.Fragments
         : BaseFragment<MenuViewModel>
     {
         private MvxListView _navigationView;
+        private CircleImageView _avatar;
+        private Bitmap _bitmap;
 
         protected override int FragmentId => Resource.Layout.MenuFragment;
 
@@ -36,8 +40,39 @@ namespace TestProject.Droid.Fragments
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-            _navigationView = view.FindViewById<MvxListView>(Resource.Id.navigation_view);
+            _navigationView = view.FindViewById<MvxListView>(Resource.Id.mvxListView_menuItem);
             _navigationView.DividerHeight = 0;
+            _avatar = view.FindViewById<CircleImageView>(Resource.Id.avatar);
+            String imagePath = ViewModel.Profile.ImagePath;
+
+            if (imagePath == null)
+            {
+                try
+                {
+                    _bitmap = BitmapFactory.DecodeResource(Context.Resources, Resource.Drawable.placeholder);
+                    _avatar.SetImageBitmap(_bitmap);
+                }
+                catch (Java.Lang.OutOfMemoryError)
+                {
+                    System.GC.Collect();
+                }
+            }
+
+            if (imagePath != null)
+            {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.InSampleSize = 3;
+                try
+                {
+                    _bitmap = BitmapFactory.DecodeFile(imagePath, options);
+                    _avatar.SetImageBitmap(_bitmap);
+                }
+                catch (Java.Lang.OutOfMemoryError)
+                {
+                    System.GC.Collect();
+                }
+            }
+
             return view;
         }
 

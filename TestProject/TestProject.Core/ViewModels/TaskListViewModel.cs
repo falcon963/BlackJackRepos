@@ -224,7 +224,19 @@ namespace TestProject.Core.ViewModels
         }
 
 
-       public IMvxCommand ShowMenuCommand
+        public IMvxAsyncCommand OpenProfileCommand
+        {
+            get
+            {
+                return new MvxAsyncCommand(async() =>
+                {
+                    await _navigationService.Navigate<UserProfileViewModel>();
+                });
+            }
+        }
+
+
+        public IMvxCommand ShowMenuCommand
         {
             get
             {
