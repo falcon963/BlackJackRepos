@@ -47,7 +47,6 @@ namespace TestProject.Droid.Fragments
 
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.task_recycler_view);
             _toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 
@@ -64,18 +63,10 @@ namespace TestProject.Droid.Fragments
 
         private void ViewModel_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
-            {
-                _imageAdapter = new RecyclerImageAdapter(this);
-
-                SetupRecyclerView();
-            }
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
-            {
-                _imageAdapter = new RecyclerImageAdapter(this);
-
-                SetupRecyclerView();
-            }
+            _imageAdapter.Tasks = ViewModel.ListOfTasks.ToList();
+            SetupRecyclerView();
+            _imageAdapter.NotifyDataSetChanged();
+            _recyclerView.Invalidate();
         }
 
         public override void OnDestroyView()
@@ -102,14 +93,15 @@ namespace TestProject.Droid.Fragments
         private void SetupRecyclerView()
         {
             _recyclerView.SetLayoutManager(new LinearLayoutManager(Context));
-       
-            var callback = new MyItemTouchHelper(this, _imageAdapter);
+            _recyclerView.HasFixedSize = true;
+            _recyclerView.SetAdapter(_imageAdapter);
+
+            ItemTouchHelper.Callback callback = new MyItemTouchHelper(this, _imageAdapter);
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
             itemTouchHelper.AttachToRecyclerView(_recyclerView);
             AnimationDecoratorHelper animationDecorator = new AnimationDecoratorHelper();
-            _recyclerView.AddItemDecoration(animationDecorator);
 
-           _recyclerView.SetAdapter(_imageAdapter);
+            _recyclerView.AddItemDecoration(animationDecorator);
         }
     }
 }

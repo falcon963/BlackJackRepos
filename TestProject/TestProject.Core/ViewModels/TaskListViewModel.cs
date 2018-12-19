@@ -172,17 +172,31 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public IMvxAsyncCommand RefreshTaskCommand
+        public IMvxCommand RefreshTaskCommand
         {
             get
             {
-                return new MvxAsyncCommand(async () =>
+                return new MvxCommand(() =>
                 {
                     IsRefreshing = true;
 
-                    ListOfTasks.RemoveRange(0, ListOfTasks.Count);
-                    await Initialize();
-                    
+                    Int32 userId = Int32.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.UserId));
+                    List<Int32> list = _taskService.GetUserTasksIdAsync(userId);
+                    var listTasks = new List<UserTask>();
+                    foreach (var item in list)
+                    {
+                        var task = _taskService.GetUserTaskAsync(item);
+                        listTasks.Add(new UserTask
+                        {
+                            Id = task.Id,
+                            UserId = task.UserId,
+                            ImagePath = task.ImagePath,
+                            Title = task.Title,
+                            Status = task.Status
+                        });
+                    }
+                    ListOfTasks.ReplaceWith(listTasks);
+
                     IsRefreshing = false;
                 });
 

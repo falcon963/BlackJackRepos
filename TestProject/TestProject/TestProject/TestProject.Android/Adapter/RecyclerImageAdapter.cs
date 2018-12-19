@@ -29,19 +29,34 @@ namespace TestProject.Droid.Adapter
     public class RecyclerImageAdapter 
         : RecyclerView.Adapter
     {
-        public List<UserTask> _tasksList;
-        public List<UserTask> _tasksListPendingRemoval;
+        private List<UserTask> _tasksList;
+        private List<UserTask> _tasksListPendingRemoval;
         public event EventHandler<Int32> ItemClick;
         private readonly Int32 PENDING_REMOVAL_TIMEOUT = 3000;
+        private TasksFragment _tasksFragment;
 
         private Handler _handler = new Handler();
         Dictionary<UserTask, Action> _pendingRunnables = new Dictionary<UserTask, Action>();
 
+        public List<UserTask> Tasks
+        {
+            get
+            {
+                return _tasksList;
+            }
+            set
+            {
+                _tasksList = value;
+            }
+        }
+
         public RecyclerImageAdapter(TasksFragment view)
         {
             this.ItemClick += (sender, e) => { view.ViewModel.ItemSelectedCommand.Execute(view.ViewModel.ListOfTasks[e]); };
-            _tasksList = view.ViewModel.ListOfTasks.ToList();
+            Tasks = view.ViewModel.ListOfTasks.ToList();
             _tasksListPendingRemoval = new List<UserTask>();
+            this.NotifyDataSetChanged();
+            _tasksFragment = view;
         }
 
         public override RecyclerView.ViewHolder 
@@ -56,7 +71,7 @@ namespace TestProject.Droid.Adapter
         {
             ImageViewHolder viewHolder = holder as ImageViewHolder;
 
-            UserTask item = _tasksList[position];
+            UserTask item = Tasks[position];
 
             Boolean contains = _tasksListPendingRemoval.Contains(item);
 
@@ -78,7 +93,7 @@ namespace TestProject.Droid.Adapter
                         _handler.RemoveCallbacks(pendingRemovalRunnable);
                     }
                     _tasksListPendingRemoval.Remove(item);
-                    NotifyItemChanged(_tasksList.IndexOf(item));
+                    NotifyItemChanged(Tasks.IndexOf(item));
                 };
             }
             if(!contains)
@@ -93,7 +108,7 @@ namespace TestProject.Droid.Adapter
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.InSampleSize = CalculateInSampleSize(options, 60, 60);
-            var imagePath = _tasksList[position].ImagePath;
+            var imagePath = Tasks[position].ImagePath;
             var bitmap = BitmapFactory.DecodeFile(imagePath, options);
 
             
@@ -114,54 +129,58 @@ namespace TestProject.Droid.Adapter
                 System.GC.Collect();
             }
 
-            if (_tasksList.ToList().Count == position + 1)
+            if (_tasksFragment.ViewModel.ListOfTasks.ToList().Count == position + 1)
             {
                 viewHolder.Divider.Visibility = ViewStates.Invisible;
             }
 
-            viewHolder.Text.Text = _tasksList[position].Title;
-            viewHolder.CheckBox.Checked = _tasksList[position].Status;
+            viewHolder.Text.Text = Tasks[position].Title;
+            viewHolder.CheckBox.Checked = Tasks[position].Status;
             
         }
 
         public void PendingRemoval(Int32 position)
         {
-            UserTask item = _tasksList[position];
+            UserTask item = Tasks[position];
             if (!_tasksListPendingRemoval.Contains(item))
             {
                 _tasksListPendingRemoval.Add(item);
                 NotifyItemChanged(position);
-                Action action = () => { Remove(position); };
+                Action action = () => { Remove(Tasks.IndexOf(item)); };
                 _handler.PostDelayed(action, PENDING_REMOVAL_TIMEOUT);
-                _handler.RemoveCallbacks(action);
                 _pendingRunnables.Add(item, action);
             }
         }
 
         public void Remove(Int32 position)
         {
-            UserTask item = _tasksList[position];
+            UserTask item = Tasks[position];
             if (_tasksListPendingRemoval.Contains(item))
             {
                 _tasksListPendingRemoval.Remove(item);
             }
-            if (_tasksList.Contains(item))
+            if (Tasks.Contains(item))
             {
-                _tasksList.Remove(item);
+                UserTask task = _tasksFragment.ViewModel.ListOfTasks[position];
+                _tasksFragment.ViewModel.DeleteTaskCommand.Execute(task);
+                _tasksFragment.ViewModel.ListOfTasks.Remove(task);
+                Tasks.Remove(item);
                 NotifyItemChanged(position);
+                NotifyItemRangeChanged(position, Tasks.Count);
             }
         }
 
         public Boolean IsPendingRemoval(int position)
         {
-            UserTask item = _tasksList[position];
+            UserTask item = Tasks[position];
             return _tasksListPendingRemoval.Contains(item);
         }
 
-        public override Int32 ItemCount
+        public override int ItemCount
         {
-            get { return _tasksList.Count; }
+            get { return Tasks.Count; }
         }
+
 
         public void OnClick(Int32 position)
         {
