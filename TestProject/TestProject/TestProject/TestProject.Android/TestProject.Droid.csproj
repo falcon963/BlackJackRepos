@@ -206,7 +206,6 @@
     <Compile Include="Fragments\ProfileFragment.cs" />
     <Compile Include="Fragments\RegistrationFragment.cs" />
     <Compile Include="Fragments\TasksFragment.cs" />
-    <Compile Include="Adapter\ImageAdapter.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

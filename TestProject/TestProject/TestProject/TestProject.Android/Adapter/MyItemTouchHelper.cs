@@ -28,11 +28,7 @@ namespace TestProject.Droid.Adapter
         private TasksFragment _view;
         private Boolean swipeBack = false;
         private ButtonState buttonShowedState = ButtonState.Gone;
-        private readonly Single buttonWidth = 230;
-        private RecyclerView.ViewHolder currentItemViewHolder = null;
-        private RectF buttonInstance = null;
         public EventHandler<Int32> RightClick;
-        private RectF _rightButton;
 
         private RecyclerImageAdapter _adapter;
         private Drawable background;
