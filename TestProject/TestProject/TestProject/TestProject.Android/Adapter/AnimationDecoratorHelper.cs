@@ -23,7 +23,7 @@ namespace TestProject.Droid.Adapter
 
         private void Init()
         {
-            _background = new ColorDrawable(Color.Red);
+            _background = new ColorDrawable(new Color(251, 192, 45));
             _initiated = true;
         }
 

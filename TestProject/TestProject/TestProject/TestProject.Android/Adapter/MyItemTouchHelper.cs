@@ -38,8 +38,8 @@ namespace TestProject.Droid.Adapter
 
         private void Init()
         {
-            background = new ColorDrawable(Color.Red);
-            xMark = ContextCompat.GetDrawable(_view.Context, Resource.Drawable.icons8_broom_50);
+            background = new ColorDrawable(new Color(251, 192, 45));
+            xMark = ContextCompat.GetDrawable(_view.Context, Resource.Drawable.delete);
             xMark.SetColorFilter(Color.White, PorterDuff.Mode.DstAtop);
             xMarkMargin = (Int32)_view.Context.Resources.GetDimension(Resource.Dimension.ic_clear_margin);
             _initiated = true;

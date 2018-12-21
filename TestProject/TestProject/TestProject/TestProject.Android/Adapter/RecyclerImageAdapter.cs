@@ -77,7 +77,7 @@ namespace TestProject.Droid.Adapter
 
             if (contains)
             {
-                viewHolder.ItemView.SetBackgroundColor(Color.Red);
+                viewHolder.ItemView.SetBackgroundColor(new Color(251, 192, 45));
                 viewHolder.CheckBox.Visibility = ViewStates.Gone;
                 viewHolder.Image.Visibility = ViewStates.Gone;
                 viewHolder.Text.Visibility = ViewStates.Gone;
@@ -129,18 +129,6 @@ namespace TestProject.Droid.Adapter
             catch (Java.Lang.OutOfMemoryError)
             {
                 System.GC.Collect();
-                if(BitmapFactory.DecodeFile(imagePath, options) == null)
-                {
-                    var bitmap = BitmapFactory.DecodeFile(imagePath, options);
-                    if (bitmap != null)
-                    {
-                        viewHolder.Image.SetImageBitmap(bitmap);
-                    }
-                    if (bitmap == null)
-                    {
-                        viewHolder.Image.SetImageResource(Resource.Drawable.placeholder);
-                    }
-                }
             }
 
             if (_tasksFragment.ViewModel.ListOfTasks.ToList().Count == position + 1)
