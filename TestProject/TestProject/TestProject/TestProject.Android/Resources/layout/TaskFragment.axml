@@ -79,7 +79,7 @@
 		android:layout_marginRight="@dimen/taskdetails_margin"
 		android:layout_alignParentRight="true"
 		android:text="Delete"
-		local:MvxBind="Click DeleteUserTaskCommand"/>
+		local:MvxBind="Click DeleteUserTaskCommand; Enabled DeleteButtonStutus"/>
 			</RelativeLayout>
 	</LinearLayout>
 	</ScrollView>

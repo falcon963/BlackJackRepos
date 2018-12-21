@@ -71,6 +71,14 @@ namespace TestProject.Core.ViewModels
             }
         }
 
+        public Boolean DeleteButtonStutus
+        {
+            get
+            {
+                return (UserTask.Changes.Id == 0) ? false : true;
+            }
+        }
+
         #region Commands
 
         public IMvxAsyncCommand ShowMenuCommand

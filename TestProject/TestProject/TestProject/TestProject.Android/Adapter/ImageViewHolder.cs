@@ -21,7 +21,7 @@ namespace TestProject.Droid.Adapter
         public CircleImageView Image { get; private set; }
         public CheckBox CheckBox { get; private set; }
         public View Divider { get; private set; }
-        public Button UndoButton { get; private set; }
+        public Button DeleteButton { get; private set; }
 
         public ImageViewHolder(View itemView, Action<Int32> listener): base(itemView)
         {
@@ -29,7 +29,7 @@ namespace TestProject.Droid.Adapter
             Image = itemView.FindViewById<CircleImageView>(Resource.Id.tasklist_image);
             CheckBox = itemView.FindViewById<CheckBox>(Resource.Id.list_checkbox);
             Divider = itemView.FindViewById<View>(Resource.Id.divider);
-            UndoButton = itemView.FindViewById<Button>(Resource.Id.undoButton);
+            DeleteButton = itemView.FindViewById<Button>(Resource.Id.undoButton);
 
             itemView.Click += (sender, e) => listener(obj: base.AdapterPosition);
         }

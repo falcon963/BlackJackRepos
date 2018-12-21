@@ -83,8 +83,8 @@ namespace TestProject.Droid.Adapter
                 viewHolder.Text.Visibility = ViewStates.Gone;
                 viewHolder.Divider.Visibility = ViewStates.Gone;
                 viewHolder.ItemView.SetOnClickListener(null);
-                viewHolder.UndoButton.Visibility = ViewStates.Visible;
-                viewHolder.UndoButton.Click += (sender, e) =>
+                viewHolder.DeleteButton.Visibility = ViewStates.Visible;
+                viewHolder.DeleteButton.Click += (sender, e) =>
                 {
                     Action pendingRemovalRunnable = _pendingRunnables.GetValueOrDefault(item);
                     _pendingRunnables.Remove(item);
@@ -92,8 +92,10 @@ namespace TestProject.Droid.Adapter
                     {
                         _handler.RemoveCallbacks(pendingRemovalRunnable);
                     }
-                    _tasksListPendingRemoval.Remove(item);
-                    NotifyItemChanged(Tasks.IndexOf(item));
+                    UserTask task = _tasksFragment.ViewModel.ListOfTasks[position];
+                    _tasksFragment.ViewModel.DeleteTaskCommand.Execute(task);
+                    _tasksFragment.ViewModel.ListOfTasks.Remove(task);
+                    Tasks.Remove(item);
                 };
             }
             if(!contains)
@@ -102,19 +104,19 @@ namespace TestProject.Droid.Adapter
                 viewHolder.CheckBox.Visibility = ViewStates.Visible;
                 viewHolder.Image.Visibility = ViewStates.Visible;
                 viewHolder.Text.Visibility = ViewStates.Visible;
-                viewHolder.UndoButton.Visibility = ViewStates.Gone;
-                viewHolder.UndoButton.SetOnContextClickListener(null);
+                viewHolder.DeleteButton.Visibility = ViewStates.Gone;
+                viewHolder.DeleteButton.SetOnContextClickListener(null);
             }
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.InSampleSize = CalculateInSampleSize(options, 60, 60);
             var imagePath = Tasks[position].ImagePath;
-            var bitmap = BitmapFactory.DecodeFile(imagePath, options);
-
+           
             
 
             try
             {
+                var bitmap = BitmapFactory.DecodeFile(imagePath, options);
                 if (bitmap != null)
                 {
                     viewHolder.Image.SetImageBitmap(bitmap);
@@ -127,6 +129,18 @@ namespace TestProject.Droid.Adapter
             catch (Java.Lang.OutOfMemoryError)
             {
                 System.GC.Collect();
+                if(BitmapFactory.DecodeFile(imagePath, options) == null)
+                {
+                    var bitmap = BitmapFactory.DecodeFile(imagePath, options);
+                    if (bitmap != null)
+                    {
+                        viewHolder.Image.SetImageBitmap(bitmap);
+                    }
+                    if (bitmap == null)
+                    {
+                        viewHolder.Image.SetImageResource(Resource.Drawable.placeholder);
+                    }
+                }
             }
 
             if (_tasksFragment.ViewModel.ListOfTasks.ToList().Count == position + 1)
@@ -148,7 +162,10 @@ namespace TestProject.Droid.Adapter
                 NotifyItemChanged(position);
                 Action action = () => { Remove(Tasks.IndexOf(item)); };
                 _handler.PostDelayed(action, PENDING_REMOVAL_TIMEOUT);
-                _pendingRunnables.Add(item, action);
+                if (!_pendingRunnables.ContainsKey(item))
+                {
+                    _pendingRunnables.Add(item, action);
+                }
             }
         }
 
@@ -161,10 +178,6 @@ namespace TestProject.Droid.Adapter
             }
             if (Tasks.Contains(item))
             {
-                UserTask task = _tasksFragment.ViewModel.ListOfTasks[position];
-                _tasksFragment.ViewModel.DeleteTaskCommand.Execute(task);
-                _tasksFragment.ViewModel.ListOfTasks.Remove(task);
-                Tasks.Remove(item);
                 NotifyItemChanged(position);
                 NotifyItemRangeChanged(position, Tasks.Count);
             }

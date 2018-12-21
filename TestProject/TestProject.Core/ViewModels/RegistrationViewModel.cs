@@ -2,6 +2,7 @@
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.UI;
+using Plugin.SecureStorage;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -107,10 +108,6 @@ namespace TestProject.Core.ViewModels
                 {
                     ValidateColor = new MvxColor(54, 255, 47);
                 }
-                if (Password != PasswordRevise)
-                {
-                    ValidateColor = new MvxColor(201, 18, 18);
-                }
                 if (String.IsNullOrEmpty(Password) && String.IsNullOrEmpty(PasswordRevise))
                 {
                     ValidateColor = new MvxColor(241, 241, 241);
@@ -132,11 +129,7 @@ namespace TestProject.Core.ViewModels
                 {
                     ValidateColor = new MvxColor(54, 255, 47);
                 }
-                if(Password != PasswordRevise)
-                {
-                    ValidateColor = new MvxColor(201, 18, 18);
-                }
-                if(String.IsNullOrEmpty(Password) && String.IsNullOrEmpty(PasswordRevise))
+                if(String.IsNullOrEmpty(Password) && String.IsNullOrEmpty(PasswordRevise) || String.IsNullOrWhiteSpace(Password) && String.IsNullOrWhiteSpace(PasswordRevise) || Password != PasswordRevise)
                 {
                     ValidateColor = new MvxColor(241, 241, 241);
                 }
@@ -151,7 +144,8 @@ namespace TestProject.Core.ViewModels
                 EnableStatus = false;
             }
             if (!String.IsNullOrEmpty(User.Login)
-                && !String.IsNullOrEmpty(User.Password))
+                && !String.IsNullOrEmpty(User.Password)
+                && !String.IsNullOrWhiteSpace(User.Password))
             {
                 EnableStatus = true;
             }
@@ -159,9 +153,15 @@ namespace TestProject.Core.ViewModels
             {
                 EnableStatus = false;
             }
-            if (Password == PasswordRevise)
+            if (Password == PasswordRevise 
+                && !String.IsNullOrEmpty(User.Password) 
+                && !String.IsNullOrWhiteSpace(User.Password))
             {
                 EnableStatus = true;
+            }
+            if (String.IsNullOrWhiteSpace(User.Login))
+            {
+                EnableStatus = false;
             }
         }
 
@@ -215,6 +215,7 @@ namespace TestProject.Core.ViewModels
                             OkText = MessengeFields.OkText,
                             Title = MessengeFields.Success
                         });
+                        await _navigationService.Close(this);
                     }
                 });
             }

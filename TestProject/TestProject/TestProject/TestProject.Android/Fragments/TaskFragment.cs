@@ -120,6 +120,7 @@ namespace TestProject.Droid.Fragments
                     FileOutputStream fos = new FileOutputStream(resizeFile);
                     fos.Write(writer.ToArray());
                     fos.Close();
+                    fos.Dispose();
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     options.InSampleSize = 3;
                     Bitmap _bitmap = BitmapFactory.DecodeFile(ImageUri.Path, options);
@@ -147,6 +148,7 @@ namespace TestProject.Droid.Fragments
                         FileOutputStream fos = new FileOutputStream(resizeFile);
                         fos.Write(writer.ToArray());
                         fos.Close();
+                        fos.Dispose();
                         BitmapFactory.Options options = new BitmapFactory.Options();
                         options.InSampleSize = 3;
                         Bitmap _bitmap = BitmapFactory.DecodeFile(resizeUri.Path, options);

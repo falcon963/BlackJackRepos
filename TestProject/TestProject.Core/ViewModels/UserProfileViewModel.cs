@@ -61,13 +61,21 @@ namespace TestProject.Core.ViewModels
                 CheckEnableStatus();
                 if (OldPassword != Profile.Password)
                 {
-                    OldPasswordFieldColor = new MvxColor(201, 18, 18);
+                    OldPasswordFieldColor = new MvxColor(241, 241, 241);
                 }
-                if(OldPassword == Profile.Password)
+                if(OldPassword == Profile.Password && !String.IsNullOrEmpty(OldPassword) && !String.IsNullOrWhiteSpace(OldPassword))
                 {
                     OldPasswordFieldColor = new MvxColor(54, 255, 47);
                 }
                 if (String.IsNullOrEmpty(OldPassword))
+                {
+                    OldPasswordFieldColor = new MvxColor(241, 241, 241);
+                }
+                if (String.IsNullOrWhiteSpace(OldPassword))
+                {
+                    OldPasswordFieldColor = new MvxColor(241, 241, 241);
+                }
+                if (String.IsNullOrWhiteSpace(NewPassword))
                 {
                     OldPasswordFieldColor = new MvxColor(241, 241, 241);
                 }
@@ -86,15 +94,19 @@ namespace TestProject.Core.ViewModels
                 CheckEnableStatus();
                 if (NewPassword == ConfirmPassword
                     && !String.IsNullOrEmpty(NewPassword)
-                    && !String.IsNullOrEmpty(ConfirmPassword))
+                    && !String.IsNullOrWhiteSpace(NewPassword))
                 {
                     ConfirmColor = new MvxColor(54, 255, 47);
                 }
                 if(NewPassword != ConfirmPassword)
                 {
-                    ConfirmColor = new MvxColor(201, 18, 18);
+                    ConfirmColor = new MvxColor(241, 241, 241);
                 }
                 if (String.IsNullOrEmpty(NewPassword) && String.IsNullOrEmpty(ConfirmPassword))
+                {
+                    ConfirmColor = new MvxColor(241, 241, 241);
+                }
+                if (String.IsNullOrWhiteSpace(NewPassword) && String.IsNullOrWhiteSpace(ConfirmPassword))
                 {
                     ConfirmColor = new MvxColor(241, 241, 241);
                 }
@@ -112,14 +124,14 @@ namespace TestProject.Core.ViewModels
                 SetProperty(ref _confirmPassword, value);
                 CheckEnableStatus();
                 if (NewPassword == ConfirmPassword
-                    && !String.IsNullOrEmpty(NewPassword)
-                    && !String.IsNullOrEmpty(ConfirmPassword))
+                    && !String.IsNullOrEmpty(ConfirmPassword)
+                    && !String.IsNullOrWhiteSpace(ConfirmPassword))
                 {
                     ConfirmColor = new MvxColor(54, 255, 47);
                 }
                 if (NewPassword != ConfirmPassword)
                 {
-                    ConfirmColor = new MvxColor(201, 18, 18);
+                    ConfirmColor = new MvxColor(241, 241, 241);
                 }
                 if (String.IsNullOrEmpty(NewPassword) && String.IsNullOrEmpty(ConfirmPassword))
                 {
@@ -224,7 +236,10 @@ namespace TestProject.Core.ViewModels
             if (OldPassword == Profile.Password
                     && NewPassword == ConfirmPassword
                     && !String.IsNullOrEmpty(NewPassword)
-                    && !String.IsNullOrEmpty(ConfirmPassword))
+                    && !String.IsNullOrEmpty(ConfirmPassword)
+                    && !String.IsNullOrWhiteSpace(NewPassword)
+                    && !String.IsNullOrWhiteSpace(OldPassword)
+                    && !String.IsNullOrWhiteSpace(ConfirmPassword))
             {
                 PassChangeEneble = true;
             }
