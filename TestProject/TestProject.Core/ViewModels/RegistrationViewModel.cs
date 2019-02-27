@@ -28,7 +28,9 @@ namespace TestProject.Core.ViewModels
         private MvxColor _backgroundColor;
         private MvxColor _passwordFieldColor;
 
-        
+        private readonly IUserDialogs _userDialogs;
+
+
 
         public RegistrationViewModel(IMvxNavigationService navigationService, ILoginRepository loginService)
         {
@@ -196,6 +198,32 @@ namespace TestProject.Core.ViewModels
                 return new MvxAsyncCommand(async () =>
                 {
                     var valid = _loginService.CheckValidLogin(User.Login);
+                    if (String.IsNullOrEmpty(User.Login)
+                        || String.IsNullOrEmpty(User.Password)
+                        || String.IsNullOrWhiteSpace(User.Password)
+                        || String.IsNullOrWhiteSpace(User.Login)
+                        && Password == PasswordRevise)
+                    {
+                        var alert = UserDialogs.Instance.Alert(
+                            new AlertConfig
+                            {
+                                Message = "You can't registrate when field is empty!",
+                                OkText = "Ok",
+                                Title = "Empty field"
+                            });
+                        return;
+                    }
+                    if(Password != PasswordRevise)
+                    {
+                        var alert = UserDialogs.Instance.Alert(
+                            new AlertConfig
+                            {
+                                Message = "Wrong Password confirm!",
+                                OkText = "Ok",
+                                Title = "Wrong password"
+                            });
+                        return;
+                    }
                     if (!valid)
                     {
                         var alert = UserDialogs.Instance.Alert(new AlertConfig

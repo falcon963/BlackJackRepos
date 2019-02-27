@@ -18,16 +18,18 @@
     <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Igor Shumakova (C5BZ29VCZP)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchFastDev>true</MtouchFastDev>
     <MtouchProfiling>true</MtouchProfiling>
     <IOSDebuggerPort>62624</IOSDebuggerPort>
     <MtouchLink>None</MtouchLink>
-    <MtouchArch>x86_64</MtouchArch>
-    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchArch>i386, x86_64</MtouchArch>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
+    <CodesignProvision>Anuitex Uniq Development Provision</CodesignProvision>
+    <DeviceSpecificBuild>true</DeviceSpecificBuild>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>pdbonly</DebugType>
@@ -73,12 +75,28 @@
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <IOSDebuggerPort>33656</IOSDebuggerPort>
-    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchLink>None</MtouchLink>
     <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <AppExtensionDebugBundleId />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Acr.Support.iOS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Acr.Support.2.1.0\lib\Xamarin.iOS10\Acr.Support.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.UserDialogs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Acr.UserDialogs.6.4.1\lib\Xamarin.iOS10\Acr.UserDialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.UserDialogs.Interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Acr.UserDialogs.6.4.1\lib\Xamarin.iOS10\Acr.UserDialogs.Interface.dll</HintPath>
+    </Reference>
     <Reference Include="MvvmCross, Version=6.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MvvmCross.6.2.2\lib\xamarinios10\MvvmCross.dll</HintPath>
     </Reference>
@@ -93,6 +111,21 @@
     </Reference>
     <Reference Include="MvvmCross.Plugin.Location, Version=6.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MvvmCross.Plugin.Location.6.2.2\lib\xamarinios10\MvvmCross.Plugin.Location.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.SecureStorage, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\sameerIOTApps.Plugin.SecureStorage.2.5.0\lib\Xamarin.iOS10\Plugin.SecureStorage.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.SecureStorage.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\sameerIOTApps.Plugin.SecureStorage.2.5.0\lib\Xamarin.iOS10\Plugin.SecureStorage.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Settings, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Xam.Plugins.Settings.3.1.1\lib\Xamarin.iOS10\Plugin.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Settings.Abstractions, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Xam.Plugins.Settings.3.1.1\lib\Xamarin.iOS10\Plugin.Settings.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Splat.1.6.2\lib\Xamarin.iOS10\Splat.dll</HintPath>
     </Reference>
     <Reference Include="SQLite-net, Version=1.5.231.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\sqlite-net-pcl.1.5.231\lib\netstandard1.1\SQLite-net.dll</HintPath>
@@ -112,53 +145,179 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
+    <Reference Include="Xamarin-Sidebar-Unified, Version=1.0.6492.38920, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SidebarNavigation.1.9.4\lib\Xamarin.iOS10\Xamarin-Sidebar-Unified.dll</HintPath>
+    </Reference>
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icons8_iconIos_120px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icons8_iconIos_120px1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icons8_iconIos_180px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icons8_iconIos_40px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icons8_iconIos_58px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icons8_iconIos_60px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icons8_iconIos_80px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icons8_iconIos_87px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\icons8_iconIos_120px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\icons8_iconIos_80px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Images.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Menu_ic.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Menu_ic.imageset\icon_menu.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Menu_ic.imageset\icon_menu1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Adapter\" />
-    <Folder Include="Resources\" />
+    <Folder Include="ViewControllers\" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="LaunchScreen.storyboard" />
-    <InterfaceDefinition Include="Main.storyboard" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
+    <None Include="Info.plist">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
+    <InterfaceDefinition Include="Views\Cells\ContentNavigateCell.xib" />
+    <InterfaceDefinition Include="Views\Cells\ContentTasksCell.xib" />
+    <InterfaceDefinition Include="Views\RegistrationView.xib">
+      <SubType>Designer</SubType>
+    </InterfaceDefinition>
+    <InterfaceDefinition Include="Views\LoginView.xib">
+      <SubType>Designer</SubType>
+    </InterfaceDefinition>
+    <InterfaceDefinition Include="Views\ProfileView.xib">
+      <SubType>Designer</SubType>
+    </InterfaceDefinition>
+    <InterfaceDefinition Include="Views\TasksListView.xib">
+      <SubType>Designer</SubType>
+    </InterfaceDefinition>
+    <InterfaceDefinition Include="Views\TaskDetailsView.xib">
+      <SubType>Designer</SubType>
+    </InterfaceDefinition>
+    <InterfaceDefinition Include="Views\MenuView.xib">
+      <SubType>Designer</SubType>
+    </InterfaceDefinition>
+    <InterfaceDefinition Include="Views\MenuRootView.xib">
+      <SubType>Designer</SubType>
+    </InterfaceDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\ColorConverter.cs" />
+    <Compile Include="Converters\UIColorValueConverter.cs" />
     <Compile Include="CustomControls\CircleImageView.cs" />
     <Compile Include="Database\DatabaseConnectionService.cs" />
-    <Compile Include="Fragments\LoginFragment.cs" />
-    <Compile Include="Fragments\MapFragment.cs" />
-    <Compile Include="Fragments\MenuFragment.cs" />
-    <Compile Include="Fragments\TaskFragment.cs" />
-    <Compile Include="Fragments\TasksListFragment.cs" />
+    <Compile Include="CustomControls\BaseView.cs" />
+    <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="MenuViewController.cs" />
+    <Compile Include="MenuViewController.designer.cs">
+      <DependentUpon>MenuViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MenuRootView.cs" />
+    <Compile Include="Views\MenuRootView.designer.cs">
+      <DependentUpon>MenuRootView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PresentationAttributs\HumburgerMenuModePresentationAttribute.cs" />
+    <Compile Include="Source\MenuItemSource.cs" />
+    <Compile Include="Source\TasksListSource.cs" />
+    <Compile Include="Views\BaseMenuView.cs" />
+    <Compile Include="Views\Cells\BaseTableViewCell.cs" />
+    <Compile Include="Views\Cells\ContentCell.cs" />
+    <Compile Include="Views\Cells\ContentCell.designer.cs">
+      <DependentUpon>ContentCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cells\ContentNavigateCell.cs" />
+    <Compile Include="Views\Cells\ContentNavigateCell.designer.cs">
+      <DependentUpon>ContentNavigateCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cells\ContentTasksCell.cs" />
+    <Compile Include="Views\Cells\ContentTasksCell.designer.cs">
+      <DependentUpon>ContentTasksCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MenuView.cs" />
+    <Compile Include="Views\MenuView.designer.cs">
+      <DependentUpon>MenuView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProfileView.cs" />
+    <Compile Include="Views\ProfileView.designer.cs">
+      <DependentUpon>ProfileView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoginView.cs" />
+    <Compile Include="Views\LoginView.designer.cs">
+      <DependentUpon>LoginView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RegistrationView.cs" />
+    <Compile Include="Views\RegistrationView.designer.cs">
+      <DependentUpon>RegistrationView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="MvxBindings\NetworkIndicatorTargetBinding.cs" />
     <Compile Include="Setup.cs" />
-    <Compile Include="ViewController.cs" />
-    <Compile Include="ViewController.designer.cs">
-      <DependentUpon>ViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\MainView.cs" />
+    <Compile Include="Views\TaskDetailsView.cs" />
+    <Compile Include="Views\TaskDetailsView.designer.cs">
+      <DependentUpon>TaskDetailsView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TasksListView.cs" />
+    <Compile Include="Views\TasksListView.designer.cs">
+      <DependentUpon>TasksListView.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\TestProject.Core\TestProject.Core.csproj">
       <Project>{0e73de40-f3e4-41bc-be15-2a75b4285170}</Project>
       <Name>TestProject.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cropped.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icons8_xbox_menu_filled_50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\back_to_50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\placeholder.png" />
   </ItemGroup>
   <Import Project="..\TestProject\TestProject.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

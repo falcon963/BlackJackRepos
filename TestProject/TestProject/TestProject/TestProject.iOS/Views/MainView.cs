@@ -1,38 +1,40 @@
-﻿using MvvmCross.Platforms.Ios.Presenters.Attributes;
+﻿using System;
+using System.Drawing;
+
+using CoreFoundation;
+using UIKit;
+using Foundation;
 using MvvmCross.Platforms.Ios.Views;
-using MvvmCross.Plugin.Color.Platforms.Ios;
-using System;
 using TestProject.Core.ViewModels;
-using TestProject.Core.Colors;
+using MvvmCross.Platforms.Ios.Presenters.Attributes;
 
 namespace TestProject.iOS.Views
 {
-    [MvxRootPresentation]
-    public class MainView
-        :MvxTabBarViewController<MainViewModel>
+    public class MainView : MvxViewController<MainViewModel>
     {
-        private Boolean _firstTimePresented = true;
-
         public MainView()
         {
-
         }
+
+        private bool _firstTimePresented = true;
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            TabBar.BarTintColor = AppColors.ColorTheme.ToNativeColor();
         }
 
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
 
+            NavigationController.NavigationBarHidden = true;
+
             if (_firstTimePresented)
             {
                 _firstTimePresented = false;
                 ViewModel.ShowMenuCommand.Execute();
+                ViewModel.CloseMain.Execute();
             }
         }
     }

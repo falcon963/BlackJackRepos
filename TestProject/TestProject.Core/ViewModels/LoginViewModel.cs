@@ -43,17 +43,17 @@ namespace TestProject.Core.ViewModels
 
         public LoginViewModel(IMvxNavigationService navigationService, ILoginRepository loginService, ITasksRepository taskService)
         {
-            _loginService = loginService;
-            _navigationService = navigationService;
-            _taskService = taskService;
-            LoginColor = new MvxColor(251, 192, 45);
-            _user = new User();
-            if (CrossSecureStorage.Current.GetValue(SecureConstant.Status) == "True")
-            {
-                Login = CrossSecureStorage.Current.GetValue(SecureConstant.Login);
-                Password = CrossSecureStorage.Current.GetValue(SecureConstant.Password);
-                _rememberMe = Boolean.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.Status));
-            }
+                _loginService = loginService;
+                _navigationService = navigationService;
+                _taskService = taskService;
+                LoginColor = new MvxColor(251, 192, 45);
+                _user = new User();
+                if (CrossSecureStorage.Current.GetValue(SecureConstant.Status) == "True")
+                {
+                    Login = CrossSecureStorage.Current.GetValue(SecureConstant.Login);
+                    Password = CrossSecureStorage.Current.GetValue(SecureConstant.Password);
+                    _rememberMe = Boolean.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.Status));
+                }      
         }
 
         public String Login
@@ -167,7 +167,7 @@ namespace TestProject.Core.ViewModels
                     {
                         CrossSecureStorage.Current.SetValue(SecureConstant.UserId, account.Id.ToString());
                         await _navigationService.Navigate<TaskListViewModel>();
-                        await _navigationService.Close(this);
+                        //await _navigationService.Close(this);
                     }
                     if((account == null))
                     {

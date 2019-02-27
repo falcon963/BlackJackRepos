@@ -18,7 +18,7 @@ namespace TestProject.iOS.MvxBindings
 
         }
 
-        public override MvxBindingMode DefaultMode => MvxBindingMode.TwoWay;
+        public override MvxBindingMode DefaultMode => MvxBindingMode.OneWay;
 
         public override Type TargetType => typeof(UIViewController);
 

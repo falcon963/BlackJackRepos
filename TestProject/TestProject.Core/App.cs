@@ -6,6 +6,8 @@ using MvvmCross.ViewModels;
 using TestProject.Core.ViewModels;
 using MvvmCross;
 using Acr.UserDialogs;
+using TestProject.Core.Interfaces;
+using TestProject.Core.Services;
 
 namespace TestProject.Core
 {

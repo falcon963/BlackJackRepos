@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TasksListView">
+            <connections>
+                <outlet property="view" destination="2" id="name-taskslistview"/>
+                <outlet property="TasksList" destination="308" id="name-outlet-308"/>
+                <outlet property="MenuView" destination="1014" id="name-outlet-1014"/>
+                <outlet property="RightMenuConstraint" destination="1020" id="name-outlet-1020"/>
+                <outlet property="LeftMenuConstraint" destination="2735" id="name-outlet-2735"/>
+                <outlet property="ContentScrollView" destination="305" id="name-outlet-305"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="2">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <subviews>
+                <view contentMode="scaleToFill" id="1014" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                    <rect key="frame" x="-414" y="53" width="416" height="682"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                </view>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="305" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                    <rect key="frame" x="0.0" y="52" width="414" height="684"/>
+                    <subviews>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="308" translatesAutoresizingMaskIntoConstraints="NO" ambiguous="YES">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="690"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </tableView>
+                    </subviews>
+                    <constraints>
+                        <constraint id="639" firstItem="308" firstAttribute="trailing" secondItem="305" secondAttribute="trailing"/>
+                        <constraint id="640" firstItem="308" firstAttribute="leading" secondItem="305" secondAttribute="leading"/>
+                        <constraint id="641" firstItem="308" firstAttribute="bottom" secondItem="305" secondAttribute="bottom"/>
+                    </constraints>
+                </scrollView>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="1011" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                    <rect key="frame" x="0.0" y="8" width="414" height="44"/>
+                    <items>
+                        <barButtonItem title="Item" id="1012" image="Menu_ic">
+                            <connections>
+                                <action selector="PressMenu:" destination="-1" id="1021"/>
+                            </connections>
+                        </barButtonItem>
+                    </items>
+                </toolbar>
+            </subviews>
+            <constraints>
+                <constraint id="635" firstItem="305" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
+                <constraint id="636" firstItem="305" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
+                <constraint id="637" firstItem="305" firstAttribute="bottom" secondItem="2" secondAttribute="bottom"/>
+                <constraint id="1018" firstItem="1014" firstAttribute="height" secondItem="305" secondAttribute="height"/>
+                <constraint id="1019" firstItem="1014" firstAttribute="width" secondItem="305" secondAttribute="width"/>
+                <constraint id="1020" firstItem="305" firstAttribute="bottom" secondItem="1014" secondAttribute="bottom"/>
+                <constraint id="2376" firstItem="1014" firstAttribute="top" secondItem="1011" secondAttribute="bottom"/>
+                <constraint id="2550" firstItem="1011" firstAttribute="top" secondItem="2" secondAttribute="top" constant="8"/>
+                <constraint id="2551" firstItem="1011" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
+                <constraint id="2552" firstItem="1011" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
+                <constraint id="2553" firstItem="1011" firstAttribute="bottom" secondItem="305" secondAttribute="top"/>
+                <constraint id="2735" firstItem="1014" firstAttribute="trailing" secondItem="305" secondAttribute="leading"/>
+            </constraints>
+            <point key="canvasLocation" x="7" y="-6"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Menu_ic" width="50" height="50"/>
+    </resources>
+</document>

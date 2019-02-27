@@ -64,8 +64,8 @@ namespace TestProject.Core.ViewModels
         {
             _navigationService = navigationService;
             _userDialogs = userDialogs;
-            Int32 userId = Int32.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.UserId));
-            Profile = loginService.TakeProfile(userId);
+            //Int32 userId = Int32.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.UserId));
+            //Profile = loginService.TakeProfile(userId);
             _menuItems = new MvxObservableCollection<MenuItem>()
             {
                 new MenuItem

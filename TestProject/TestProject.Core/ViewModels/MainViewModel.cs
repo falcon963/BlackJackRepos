@@ -55,9 +55,20 @@ namespace TestProject.Core.ViewModels
                         }
                         if (value != "True")
                         {
-                            await _navigationService.Navigate<LoginViewModel>();
+                                await _navigationService.Navigate<LoginViewModel>();
                         }
                     });
+            }
+        }
+
+        public IMvxAsyncCommand CloseMain
+        {
+            get
+            {
+                return new MvxAsyncCommand(async () =>
+                {
+                    await _navigationService.Close(this);
+                });
             }
         }
 

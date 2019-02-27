@@ -11,32 +11,51 @@ using TestProject.Core;
 using UIKit;
 using MvvmCross.Binding.Bindings.Target.Construction;
 using TestProject.iOS.MvxBindings;
+using MvvmCross.ViewModels;
+using MvvmCross.Navigation;
+using Acr.UserDialogs;
+using TestProject.Core.Interfaces;
+using TestProject.Core.Services;
 
 namespace TestProject.iOS
 {
     public class Setup
         : MvxIosSetup<App>
     {
-        protected override void InitializeFirstChance()
+        //protected override void InitializeFirstChance()
+        //{
+        //    base.InitializeFirstChance();
+        //}
+
+        //protected override void InitializeLastChance()
+        //{
+        //    base.InitializeLastChance();
+
+        //    var registry = Mvx.Resolve<IMvxTargetBindingFactoryRegistry>();
+        //    registry.RegisterFactory(new MvxCustomBindingFactory<UIViewController>("NetworkIndicator", (viewController) =>
+        //     new NetworkIndicatorTargetBinding(viewController)));
+        //}
+
+        //protected override IMvxIocOptions CreateIocOptions()
+        //{
+        //    return new MvxIocOptions
+        //    {
+        //        PropertyInjectorOptions = MvxPropertyInjectorOptions.MvxInject
+        //    };
+        //}
+
+        protected override void RegisterPresenter()
         {
-            base.InitializeFirstChance();
+            base.RegisterPresenter();
         }
 
-        protected override void InitializeLastChance()
+        protected override IMvxApplication CreateApp()
         {
-            base.InitializeLastChance();
-
-            var registry = Mvx.Resolve<IMvxTargetBindingFactoryRegistry>();
-            registry.RegisterFactory(new MvxCustomBindingFactory<UIViewController>("NetworkIndicator",
-                (viewController) => new NetworkIndicatorTargetBinding(viewController)));
-        }
-
-        protected override IMvxIocOptions CreateIocOptions()
-        {
-            return new MvxIocOptions
-            {
-                PropertyInjectorOptions = MvxPropertyInjectorOptions.MvxInject
-            };
+            CreatableTypes()
+                 .EndingWith("Service")
+                 .AsInterfaces()
+                 .RegisterAsLazySingleton();
+            return base.CreateApp();
         }
     }
 }

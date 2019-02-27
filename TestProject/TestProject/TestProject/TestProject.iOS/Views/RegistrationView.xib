@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RegistrationView">
+            <connections>
+                <outlet property="RegistrationButton" destination="533" id="name-outlet-533"/>
+                <outlet property="view" destination="2" id="view-name-registration"/>
+                <outlet property="LoginField" destination="291" id="name-outlet-291"/>
+                <outlet property="PasswordField" destination="298" id="name-outlet-298"/>
+                <outlet property="PasswordConfirmField" destination="305" id="name-outlet-305"/>
+                <outlet property="LoginView" destination="1727" id="name-outlet-1727"/>
+                <outlet property="PasswordView" destination="3635" id="name-outlet-3635"/>
+                <outlet property="ConfirmPasswordView" destination="6045" id="name-outlet-6045"/>
+                <outlet property="RegistrationScrollView" destination="278" id="name-outlet-278"/>
+                <outlet property="MainView" destination="2" id="name-outlet-2"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="2">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="278" misplaced="YES">
+                    <rect key="frame" x="0.0" y="45" width="414" height="691"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" id="6045" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                            <rect key="frame" x="34" y="281" width="347" height="80"/>
+                            <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirm password:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="392" misplaced="YES">
+                                    <rect key="frame" x="3" y="8" width="340" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="305" misplaced="YES">
+                                    <rect key="frame" x="3" y="37" width="340" height="30"/>
+                                    <nil key="textColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                </textField>
+                            </subviews>
+                            <constraints>
+                                <constraint id="7388" firstAttribute="height" constant="80"/>
+                                <constraint id="7490" firstItem="392" firstAttribute="top" secondItem="6045" secondAttribute="top" constant="8"/>
+                                <constraint id="7541" firstItem="305" firstAttribute="top" secondItem="392" secondAttribute="bottom" constant="8"/>
+                                <constraint id="7592" firstAttribute="bottom" secondItem="305" secondAttribute="bottom" constant="13"/>
+                                <constraint id="8581" firstItem="392" firstAttribute="width" secondItem="305" secondAttribute="width"/>
+                                <constraint id="10856" firstItem="305" firstAttribute="width" secondItem="6045" secondAttribute="width"/>
+                                <constraint id="24362" firstItem="392" firstAttribute="leading" secondItem="6045" secondAttribute="leading"/>
+                                <constraint id="24420" firstItem="305" firstAttribute="leading" secondItem="6045" secondAttribute="leading"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" id="3635" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                            <rect key="frame" x="37" y="193" width="340" height="80"/>
+                            <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
+                            <subviews>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="298" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="40" width="340" height="30"/>
+                                    <nil key="textColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                </textField>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="385" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="6" width="340" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <constraints>
+                                <constraint id="5075" firstItem="385" firstAttribute="top" secondItem="3635" secondAttribute="top" constant="6"/>
+                                <constraint id="5126" firstItem="298" firstAttribute="top" secondItem="385" secondAttribute="bottom" constant="13"/>
+                                <constraint id="5177" firstAttribute="bottom" secondItem="298" secondAttribute="bottom" constant="10"/>
+                                <constraint id="5228" firstItem="385" firstAttribute="width" secondItem="298" secondAttribute="width"/>
+                                <constraint id="5279" firstItem="298" firstAttribute="width" secondItem="3635" secondAttribute="width"/>
+                                <constraint id="7337" firstAttribute="height" constant="80"/>
+                                <constraint id="24130" firstItem="298" firstAttribute="leading" secondItem="3635" secondAttribute="leading"/>
+                                <constraint id="24188" firstItem="385" firstAttribute="leading" secondItem="3635" secondAttribute="leading"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" id="1727" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                            <rect key="frame" x="37" y="105" width="340" height="80"/>
+                            <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
+                            <subviews>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="291" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="42" width="340" height="30"/>
+                                    <nil key="textColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="378" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="8" width="340" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                    <nil key="highlightedColor"/>
+                                    <constraints/>
+                                </label>
+                            </subviews>
+                            <constraints>
+                                <constraint id="2779" firstItem="378" firstAttribute="width" secondItem="291" secondAttribute="width"/>
+                                <constraint id="2830" firstItem="291" firstAttribute="width" secondItem="1727" secondAttribute="width"/>
+                                <constraint id="2881" firstItem="291" firstAttribute="top" secondItem="378" secondAttribute="bottom" constant="13"/>
+                                <constraint id="2932" firstItem="378" firstAttribute="top" secondItem="1727" secondAttribute="top" constant="8"/>
+                                <constraint id="7286" firstAttribute="height" constant="80"/>
+                                <constraint id="24246" firstItem="291" firstAttribute="leading" secondItem="1727" secondAttribute="leading"/>
+                                <constraint id="24304" firstItem="378" firstAttribute="leading" secondItem="1727" secondAttribute="leading"/>
+                            </constraints>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="533" misplaced="YES">
+                            <rect key="frame" x="162" y="369" width="90" height="30"/>
+                            <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                            <state key="normal" title="Registrate">
+                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </state>
+                            <connections>
+                                <action selector="RegistratePress:" destination="-1" id="1068"/>
+                            </connections>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute keyPath="layer.cornerRadius" type="number">
+                                    <real key="value" value="5"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <constraints>
+                        <constraint id="2678" firstItem="1727" firstAttribute="width" secondItem="278" secondAttribute="width" multiplier="0.8"/>
+                        <constraint id="4974" firstItem="3635" firstAttribute="width" secondItem="278" secondAttribute="width" multiplier="0.8"/>
+                        <constraint id="5330" firstItem="3635" firstAttribute="top" secondItem="1727" secondAttribute="bottom" constant="8"/>
+                        <constraint id="5381" firstItem="1727" firstAttribute="top" secondItem="278" secondAttribute="top" constant="105"/>
+                        <constraint id="7084" firstItem="6045" firstAttribute="width" secondItem="278" secondAttribute="width" multiplier="0.8"/>
+                        <constraint id="7439" firstItem="6045" firstAttribute="top" secondItem="3635" secondAttribute="bottom" constant="8"/>
+                        <constraint id="7693" firstItem="533" firstAttribute="top" secondItem="6045" secondAttribute="bottom" constant="8"/>
+                        <constraint id="7744" firstItem="533" firstAttribute="centerX" secondItem="278" secondAttribute="centerX"/>
+                        <constraint id="10287" firstItem="6045" firstAttribute="centerX" secondItem="278" secondAttribute="centerX"/>
+                        <constraint id="17131" firstItem="1727" firstAttribute="centerX" secondItem="278" secondAttribute="centerX"/>
+                        <constraint id="17188" firstItem="3635" firstAttribute="centerX" secondItem="278" secondAttribute="centerX"/>
+                        <constraint id="17245" firstItem="6045" firstAttribute="centerX" secondItem="278" secondAttribute="centerX"/>
+                    </constraints>
+                </scrollView>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="423" misplaced="YES">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                    <items>
+                        <navigationItem title="Registration" id="424"/>
+                    </items>
+                </navigationBar>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint id="8834" firstItem="423" firstAttribute="width" secondItem="278" secondAttribute="width"/>
+                <constraint id="9322" firstItem="278" firstAttribute="top" secondItem="423" secondAttribute="bottom" constant="1"/>
+                <constraint id="9373" firstItem="278" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
+                <constraint id="9424" firstItem="278" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
+                <constraint id="9475" firstItem="278" firstAttribute="bottom" secondItem="2" secondAttribute="bottom"/>
+                <constraint id="9526" firstItem="423" firstAttribute="top" secondItem="2" secondAttribute="top"/>
+                <constraint id="9577" firstItem="423" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
+                <constraint id="9628" firstItem="423" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

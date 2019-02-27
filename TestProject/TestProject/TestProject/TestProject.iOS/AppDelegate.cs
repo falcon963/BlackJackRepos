@@ -1,4 +1,11 @@
 ﻿using Foundation;
+using MvvmCross.Platforms.Ios.Core;
+using MvvmCross.Plugin.Color.Platforms.Ios;
+using Plugin.SecureStorage;
+using System;
+using TestProject.Core;
+using TestProject.Core.Colors;
+using TestProject.iOS.Views;
 using UIKit;
 
 namespace TestProject.iOS
@@ -6,9 +13,11 @@ namespace TestProject.iOS
     // The UIApplicationDelegate for the application. This class is responsible for launching the
     // User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
     [Register("AppDelegate")]
-    public class AppDelegate : UIApplicationDelegate
+    public class AppDelegate : MvxApplicationDelegate<Setup, App>
     {
         // class-level declarations
+
+        public MenuRootView MenuRootView { get { return Window.RootViewController as MenuRootView; } }
 
         public override UIWindow Window
         {
@@ -18,10 +27,14 @@ namespace TestProject.iOS
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
-            // Override point for customization after application launch.
-            // If not required for your application you can safely delete this method
 
-            return true;
+            // SecureStorageImplementation.DefaultAccessible = Security.SecAccessible.Invalid;
+
+            var c = base.FinishedLaunching(application, launchOptions);
+
+            //  CustomizeAppearance();
+
+            return c;
         }
 
         public override void OnResignActivation(UIApplication application)
@@ -53,6 +66,33 @@ namespace TestProject.iOS
         public override void WillTerminate(UIApplication application)
         {
             // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
+        }
+
+        private void CustomizeAppearance()
+        {
+            UINavigationBar.Appearance.SetBackgroundImage(new UIImage(), UIBarPosition.Any, UIBarMetrics.Default);
+            UINavigationBar.Appearance.ShadowImage = new UIImage();
+
+            UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes()
+            {
+                TextColor = UIColor.White,
+                Font = UIFont.SystemFontOfSize(17f, UIFontWeight.Semibold)
+            });
+            UINavigationBar.Appearance.Translucent = false;
+            UINavigationBar.Appearance.BarTintColor = AppColors.ColorToolbar.ToNativeColor();
+            UINavigationBar.Appearance.TintColor = UIColor.White;
+            UINavigationBar.Appearance.BackgroundColor = AppColors.ColorTheme.ToNativeColor();
+            UINavigationBar.Appearance.BackIndicatorImage = new UIImage();
+
+            UITabBar.Appearance.BackgroundColor = AppColors.ColorTheme.ToNativeColor();
+            UITabBarItem.Appearance.SetTitleTextAttributes(new UITextAttributes()
+            {
+                TextColor = AppColors.TextColor.ToNativeColor()
+            }, UIControlState.Selected);
+
+            UITextField.Appearance.TintColor = AppColors.TextColor.ToNativeColor();
+            UITextView.Appearance.TintColor = AppColors.TextColor.ToNativeColor();
+            UIButton.Appearance.SetTitleColor(AppColors.TextColor.ToNativeColor(), UIControlState.Highlighted);
         }
     }
 }
