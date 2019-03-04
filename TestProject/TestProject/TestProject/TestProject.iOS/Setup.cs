@@ -10,7 +10,6 @@ using MvvmCross.Platforms.Ios.Core;
 using TestProject.Core;
 using UIKit;
 using MvvmCross.Binding.Bindings.Target.Construction;
-using TestProject.iOS.MvxBindings;
 using MvvmCross.ViewModels;
 using MvvmCross.Navigation;
 using Acr.UserDialogs;

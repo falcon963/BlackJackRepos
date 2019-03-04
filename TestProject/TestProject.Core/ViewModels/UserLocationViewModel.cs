@@ -6,48 +6,38 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using TestProject.Core.Interfaces;
 
 namespace TestProject.Core.ViewModels
 {
-    public class UserLocationViewModel: BaseViewModel
+    public class UserLocationViewModel
+        : BaseViewModel
     {
+
         private readonly IMvxNavigationService _navigationService;
 
-        private readonly IMvxLocationWatcher _watcher; 
-
-        public UserLocationViewModel(IMvxLocationWatcher watcher, IMvxNavigationService navigationService)
-        {
-            _navigationService = navigationService;
-            _watcher = watcher;
-            _watcher.Start(new MvxLocationOptions(), OnLocation, OnError);
-            Latitude = _watcher.CurrentLocation.Coordinates.Latitude;
-            Longitude = _watcher.CurrentLocation.Coordinates.Longitude;
-        }
-
-        private void OnError(MvxLocationError error)
-        {
-            
-        }
-
-        private void OnLocation(MvxGeoLocation location)
-        {
-            Latitude = location.Coordinates.Latitude;
-            Longitude = location.Coordinates.Longitude;
-        }
+        private readonly ILocationService _locationService;
 
         private Double _latitude;
+
+        private Double _longitude;
+
         public Double Latitude
         {
             get => _latitude;
             set => SetProperty(ref _latitude, value);
         }
 
-
-        private Double _longitude;
         public Double Longitude
         {
             get => _longitude;
             set => SetProperty(ref _longitude, value);
+        }
+
+        public UserLocationViewModel(ILocationService locationService, IMvxNavigationService navigationService)
+        {
+            _navigationService = navigationService;
+            _locationService = locationService;
         }
 
         #region Commands
@@ -59,8 +49,20 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async() =>
                 {
-                    _watcher.Stop();
+                    _locationService.Stop();
                     await _navigationService.Close(this);
+                });
+            }
+        }
+
+        public IMvxCommand GetLocated
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    _locationService.Start();
+                    _locationService.TryGetLatestLocation(out _latitude, out _longitude);
                 });
             }
         }

@@ -20,18 +20,6 @@ namespace TestProject.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.NSLayoutConstraint LeftMenuConstraint { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIView MenuView { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.NSLayoutConstraint RightMenuConstraint { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITableView TasksList { get; set; }
 
         [Action ("PressMenu:")]
@@ -43,21 +31,6 @@ namespace TestProject.iOS.Views
             if (ContentScrollView != null) {
                 ContentScrollView.Dispose ();
                 ContentScrollView = null;
-            }
-
-            if (LeftMenuConstraint != null) {
-                LeftMenuConstraint.Dispose ();
-                LeftMenuConstraint = null;
-            }
-
-            if (MenuView != null) {
-                MenuView.Dispose ();
-                MenuView = null;
-            }
-
-            if (RightMenuConstraint != null) {
-                RightMenuConstraint.Dispose ();
-                RightMenuConstraint = null;
             }
 
             if (TasksList != null) {

@@ -39,9 +39,9 @@ namespace TestProject.iOS.Views
             var set = this.CreateBindingSet<LoginView, LoginViewModel>();
             set.Bind(RegistrationButton).To(vm => vm.GoRegistrationPageCommand);
             set.Bind(LoginButton).To(vm => vm.LoginCommand);
-            set.Bind(LoginField).For(f => f.Text).To(vm => vm.Login);
-            set.Bind(PasswordField).For(f => f.Text).To(vm => vm.Password);
-            set.Bind(RememberSwitch).For(s => s.On).To(vm => vm.RememberMeStatus);
+            set.Bind(LoginField).To(vm => vm.Login);
+            set.Bind(PasswordField).To(vm => vm.Password);
+            set.Bind(RememberSwitch).To(vm => vm.RememberMeStatus);
 
             set.Apply();
 

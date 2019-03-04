@@ -1,11 +1,13 @@
 ﻿using CoreAnimation;
 using Foundation;
+using MonoTouch.SlideoutNavigation;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Presenters.Attributes;
 using MvvmCross.Platforms.Ios.Views;
 using MvvmCross.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using TestProject.Core.ViewModels;
 using TestProject.iOS.Source;
 using TestProject.iOS.Views.Cells;
@@ -13,6 +15,7 @@ using UIKit;
 
 namespace TestProject.iOS.Views
 {
+    [MvxModalPresentation(WrapInNavigationController = true)]
     public partial class TasksListView 
         : BaseMenuView<TaskListViewModel>
     {
@@ -20,8 +23,6 @@ namespace TestProject.iOS.Views
         public static NSString MyCellId = new NSString("ContentTasksCell");
 
         private Boolean _isMenuOpen = false;
-
-        private MenuView _menuView = new MenuView();
 
         private CATransition _transition  = new CATransition();
 
@@ -45,23 +46,21 @@ namespace TestProject.iOS.Views
         {
             base.ViewDidLoad();
 
-            _menuView.View.Frame = UIScreen.MainScreen.Bounds;
+           // _menuView.View.Frame = UIScreen.MainScreen.Bounds;
 
 
-           // _menuView.View.Bounds = new CoreGraphics.CGRect(_menuView.View.Frame.Width/2, )
+           //// _menuView.View.Bounds = new CoreGraphics.CGRect(_menuView.View.Frame.Width/2, )
 
-           // this.PresentViewControllerAsync(_menuView, true);
-            _isMenuOpen = true;
-            _menuView.View.Bounds = MenuView.Bounds;
-            this.AddChildViewController(_menuView);
-            this.MenuView.AddSubview(_menuView.View);
-            _menuView.DidMoveToParentViewController(this);
+           //// this.PresentViewControllerAsync(_menuView, true);
+           // _isMenuOpen = true;
+           // _menuView.View.Bounds = MenuView.Bounds;
+           //this.AddChildViewController(_menuView);
+           //this.TasksList.AddSubview(_menuView.View);
+           // _menuView.DidMoveToParentViewController(this);
 
             NavigationController.NavigationBarHidden = true;
 
             //ContentScrollView.AddSubview(MenuView);
-
-            TasksList.RegisterClassForCellReuse(typeof(ContentTasksCell), MyCellId);
 
             var source = new TasksListSource(TasksList, this);
 
@@ -73,14 +72,13 @@ namespace TestProject.iOS.Views
             set.Bind(refreshControl).For(r => r.RefreshCommand).To(vm => vm.RefreshTaskCommand);
             set.Apply();
 
-            this.AddBindings(new Dictionary<object, String>()
+            this.AddBindings(new Dictionary<object, String>
             {
                 { source, "ItemsSource ListOfTasks" }
             });
 
             TasksList.Source = source;
             TasksList.ReloadData();
-            //ViewModel.ShowMenuCommand.Execute();
         }
 
         partial void PressMenu(UIBarButtonItem sender)
@@ -104,43 +102,45 @@ namespace TestProject.iOS.Views
             //            _menuView.DidMoveToParentViewController(this);
             //         }
 
-            if (_isMenuOpen)
-            {
-                UIView.Animate(
-                   duration: 0.3,
-                   delay: 0,
-                   options: UIViewAnimationOptions.CurveEaseIn,
-                   animation: () =>
-                   {
-                       MenuView.Center = new CoreGraphics.CGPoint(-MenuView.Bounds.Width / 2, MenuView.Center.Y);
-                   },
-                   completion: () =>
-                   {
-                       MenuView.Center = MenuView.Center;
-                   }
-                   );
-                _isMenuOpen = false;
-                return;
-            }
-            if (!_isMenuOpen)
-            {
+            //if (_isMenuOpen)
+            //{
+            //    UIView.Animate(
+            //       duration: 0.3,
+            //       delay: 0,
+            //       options: UIViewAnimationOptions.CurveEaseIn,
+            //       animation: () =>
+            //       {
+            //           MenuView.Center = new CoreGraphics.CGPoint(-MenuView.Bounds.Width / 2, MenuView.Center.Y);
+            //       },
+            //       completion: () =>
+            //       {
+            //           MenuView.Center = MenuView.Center;
+            //       }
+            //       );
+            //    _isMenuOpen = false;
+            //    return;
+            //}
+            //if (!_isMenuOpen)
+            //{
 
-                UIView.Animate(
-                    duration: 0.3,
-                    delay: 0,
-                    options: UIViewAnimationOptions.CurveEaseIn,
-                    animation: () =>
-                    {
-                        MenuView.Center = new CoreGraphics.CGPoint(MenuView.Bounds.Width / 2, MenuView.Center.Y);
-                    },
-                    completion: () =>
-                    {
-                        MenuView.Center = MenuView.Center;
-                    }
-                    );
-                _isMenuOpen = true;
-                return;
-            }
+            //    UIView.Animate(
+            //        duration: 0.3,
+            //        delay: 0,
+            //        options: UIViewAnimationOptions.CurveEaseIn,
+            //        animation: () =>
+            //        {
+            //            MenuView.Center = new CoreGraphics.CGPoint(MenuView.Bounds.Width / 2, MenuView.Center.Y);
+            //        },
+            //        completion: () =>
+            //        {
+            //            MenuView.Center = MenuView.Center;
+            //        }
+            //        );
+            //    _isMenuOpen = true;
+            //    return;
+            //}
+            //NavigationController.PushViewController(new MenuView(), true);
+            ViewModel.ShowMenuCommand.Execute();
         }
 
     }

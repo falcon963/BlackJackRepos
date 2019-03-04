@@ -7,15 +7,22 @@
 using Foundation;
 using System;
 using System.CodeDom.Compiler;
-using UIKit;
 
-namespace TestProject.iOS.ViewControllers
+namespace TestProject.iOS
 {
-    [Register ("MenuViewController")]
-    partial class MenuViewController
+    [Register ("AppDelegate")]
+    partial class AppDelegate
     {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        MapKit.MKMapView MainMapView { get; set; }
+
         void ReleaseDesignerOutlets ()
         {
+            if (MainMapView != null) {
+                MainMapView.Dispose ();
+                MainMapView = null;
+            }
         }
     }
 }

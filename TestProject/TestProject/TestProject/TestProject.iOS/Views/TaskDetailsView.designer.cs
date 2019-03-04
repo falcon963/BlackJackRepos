@@ -16,7 +16,19 @@ namespace TestProject.iOS.Views
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIBarButtonItem BackButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton DeleteButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton ImageChoseButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIScrollView MainScrollView { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -38,19 +50,26 @@ namespace TestProject.iOS.Views
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UISwitch TaskStatus { get; set; }
 
-        [Action ("DeletePress:")]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        partial void DeletePress (UIKit.UIButton sender);
-
-        [Action ("SavePress:")]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        partial void SavePress (UIKit.UIButton sender);
-
         void ReleaseDesignerOutlets ()
         {
+            if (BackButton != null) {
+                BackButton.Dispose ();
+                BackButton = null;
+            }
+
             if (DeleteButton != null) {
                 DeleteButton.Dispose ();
                 DeleteButton = null;
+            }
+
+            if (ImageChoseButton != null) {
+                ImageChoseButton.Dispose ();
+                ImageChoseButton = null;
+            }
+
+            if (MainScrollView != null) {
+                MainScrollView.Dispose ();
+                MainScrollView = null;
             }
 
             if (SaveButton != null) {

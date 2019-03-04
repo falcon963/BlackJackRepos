@@ -152,6 +152,17 @@ namespace TestProject.Core.ViewModels
             }
         }
 
+        public IMvxAsyncCommand CloseMenu
+        {
+            get
+            {
+                return new MvxAsyncCommand(async () =>
+                {
+                    await _navigationService.Close(this);
+                });
+            }
+        }
+
 
         public override void Prepare(TaskListViewModel parameter)
         {

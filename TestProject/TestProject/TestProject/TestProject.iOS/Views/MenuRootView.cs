@@ -5,7 +5,7 @@ using System;
 
 namespace TestProject.iOS.Views
 {
-        public partial class MenuRootView
+    public partial class MenuRootView
                 : MvxViewController
         {
             public SidebarController SidebarController { get; private set; }
@@ -15,13 +15,19 @@ namespace TestProject.iOS.Views
 
             }
 
-            public override void ViewDidLoad()
+            public MenuRootView(IntPtr handle) : base(handle)
+            {
+            }
+
+        public override void ViewDidLoad()
             {
                 base.ViewDidLoad();
 
                 // create a slideout navigation controller with the top navigation controller and the menu view controller
                 SidebarController = new SidebarController(this, new TasksListView(), new MenuView());
-                SidebarController.MenuLocation = MenuLocations.Left;
-            }
+                SidebarController.HasShadowing = false;
+                SidebarController.MenuWidth = 220;
+                SidebarController.MenuLocation = MenuLocations.Right;
+        }
         }
 }

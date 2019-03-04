@@ -15,6 +15,9 @@
                 <outlet property="SaveButton" destination="283" id="name-outlet-283"/>
                 <outlet property="DeleteButton" destination="284" id="name-outlet-284"/>
                 <outlet property="TaskStatus" destination="280" id="name-outlet-280"/>
+                <outlet property="MainScrollView" destination="272" id="name-outlet-272"/>
+                <outlet property="ImageChoseButton" destination="63396" id="name-outlet-63396"/>
+                <outlet property="BackButton" destination="82951" id="name-outlet-82951"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -23,22 +26,29 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="272" translatesAutoresizingMaskIntoConstraints="NO" ambiguous="YES">
-                    <rect key="frame" x="0.0" y="46" width="414" height="690"/>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="272" translatesAutoresizingMaskIntoConstraints="NO" keyboardDismissMode="onDrag" pagingEnabled="YES" directionalLockEnabled="YES" alwaysBounceVertical="YES">
+                    <rect key="frame" x="0.0" y="58" width="414" height="678"/>
                     <subviews>
-                        <view contentMode="scaleToFill" id="14451" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" ambiguous="YES">
-                            <rect key="frame" x="37" y="523" width="340" height="45"/>
+                        <view contentMode="scaleToFill" id="14451" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                            <rect key="frame" x="41.5" y="523" width="331" height="45"/>
                             <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
                             <subviews>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="280" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" ambiguous="YES">
                                     <rect key="frame" x="8" y="7" width="51" height="31"/>
                                 </switch>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Done" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="281" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
-                                    <rect key="frame" x="67" y="7" width="273" height="31"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Done" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="281" translatesAutoresizingMaskIntoConstraints="NO">
+                                    <rect key="frame" x="67" y="7" width="99.5" height="31"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="highlightedColor" colorSpace="calibratedRGB" red="0" green="0" blue="0" alpha="1"/>
                                     <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="63396" translatesAutoresizingMaskIntoConstraints="NO">
+                                    <rect key="frame" x="172.5" y="7" width="99" height="31"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                    <state key="normal" title="ImageChange"/>
+                                    <connections/>
+                                </button>
                             </subviews>
                             <constraints>
                                 <constraint id="17509" firstAttribute="height" constant="45"/>
@@ -46,54 +56,53 @@
                                 <constraint id="17849" firstAttribute="bottom" secondItem="281" secondAttribute="bottom" constant="7"/>
                                 <constraint id="17934" firstItem="281" firstAttribute="leading" secondItem="280" secondAttribute="trailing" constant="10"/>
                                 <constraint id="18019" firstItem="280" firstAttribute="leading" secondItem="14451" secondAttribute="leading" constant="8"/>
-                                <constraint id="18104" firstItem="281" firstAttribute="width" secondItem="14451" secondAttribute="width" multiplier="0.7"/>
+                                <constraint id="18104" firstItem="281" firstAttribute="width" secondItem="14451" secondAttribute="width" multiplier="0.3"/>
+                                <constraint id="63397" firstItem="63396" firstAttribute="width" secondItem="281" secondAttribute="width"/>
+                                <constraint id="63398" firstItem="63396" firstAttribute="height" secondItem="281" secondAttribute="height"/>
+                                <constraint id="63399" firstItem="63396" firstAttribute="centerY" secondItem="14451" secondAttribute="centerY"/>
+                                <constraint id="63400" firstItem="63396" firstAttribute="leading" secondItem="281" secondAttribute="trailing" constant="6"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" id="10408" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" ambiguous="YES">
-                            <rect key="frame" x="37" y="573" width="340" height="60"/>
+                        <view contentMode="scaleToFill" id="10408" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                            <rect key="frame" x="62" y="573" width="290" height="80"/>
                             <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="283" translatesAutoresizingMaskIntoConstraints="NO">
-                                    <rect key="frame" x="49" y="15" width="90" height="30"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="283" translatesAutoresizingMaskIntoConstraints="NO" ambiguous="YES">
+                                    <rect key="frame" x="100" y="0.0" width="90" height="30"/>
                                     <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                     <state key="normal" title="Save"/>
-                                    <connections>
-                                        <action selector="SavePress:" destination="-1" id="285"/>
-                                    </connections>
+                                    <connections/>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="284" translatesAutoresizingMaskIntoConstraints="NO">
-                                    <rect key="frame" x="201" y="15" width="90" height="30"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="284" translatesAutoresizingMaskIntoConstraints="NO" ambiguous="YES">
+                                    <rect key="frame" x="100" y="38" width="90" height="30"/>
                                     <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                     <state key="normal" title="Delete"/>
-                                    <connections>
-                                        <action selector="DeletePress:" destination="-1" id="286"/>
-                                    </connections>
+                                    <connections/>
                                     <constraints>
                                         <constraint id="13773" firstAttribute="width" constant="90"/>
                                     </constraints>
                                 </button>
                             </subviews>
                             <constraints>
-                                <constraint id="13518" firstAttribute="height" constant="60"/>
-                                <constraint id="13603" firstItem="283" firstAttribute="top" secondItem="10408" secondAttribute="top" constant="15"/>
-                                <constraint id="13688" firstItem="283" firstAttribute="width" secondItem="284" secondAttribute="width"/>
-                                <constraint id="13858" firstItem="283" firstAttribute="leading" secondItem="10408" secondAttribute="leading" constant="49"/>
-                                <constraint id="13943" firstItem="284" firstAttribute="top" secondItem="10408" secondAttribute="top" constant="15"/>
-                                <constraint id="14028" firstItem="284" firstAttribute="leading" secondItem="283" secondAttribute="trailing" constant="62"/>
+                                <constraint id="22649" firstItem="283" firstAttribute="centerX" secondItem="10408" secondAttribute="centerX"/>
+                                <constraint id="22691" firstItem="284" firstAttribute="top" secondItem="283" secondAttribute="bottom" constant="8"/>
+                                <constraint id="22898" firstItem="284" firstAttribute="centerX" secondItem="10408" secondAttribute="centerX"/>
+                                <constraint id="22981" firstItem="283" firstAttribute="width" secondItem="284" secondAttribute="width"/>
+                                <constraint id="23064" firstAttribute="height" constant="80"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" id="7825" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" ambiguous="YES">
-                            <rect key="frame" x="37" y="99" width="340" height="60"/>
+                        <view contentMode="scaleToFill" id="7825" translatesAutoresizingMaskIntoConstraints="NO">
+                            <rect key="frame" x="41.5" y="99" width="331" height="60"/>
                             <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
                             <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Text" borderStyle="roundedRect" minimumFontSize="17" id="276" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" ambiguous="YES">
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="276" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" ambiguous="YES">
                                     <rect key="frame" x="0.0" y="29" width="340" height="30"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Note:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="279" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" ambiguous="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="340" height="21"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Note:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="279" translatesAutoresizingMaskIntoConstraints="NO" ambiguous="YES">
+                                    <rect key="frame" x="0.0" y="0.0" width="331" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                     <color key="highlightedColor" colorSpace="calibratedRGB" red="0" green="0" blue="0" alpha="1"/>
@@ -106,17 +115,17 @@
                                 <constraint id="9731" firstAttribute="height" constant="60"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" id="5606" translatesAutoresizingMaskIntoConstraints="NO" ambiguous="YES" misplaced="YES">
-                            <rect key="frame" x="37" y="21" width="340" height="60"/>
+                        <view contentMode="scaleToFill" id="5606" translatesAutoresizingMaskIntoConstraints="NO">
+                            <rect key="frame" x="41.5" y="21" width="331" height="60"/>
                             <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="278" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" ambiguous="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="340" height="21"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="278" translatesAutoresizingMaskIntoConstraints="NO" ambiguous="YES">
+                                    <rect key="frame" x="0.0" y="0.0" width="331" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="highlightedColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                     <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 </label>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Text" borderStyle="roundedRect" minimumFontSize="17" id="275" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" ambiguous="YES">
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="275" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" ambiguous="YES">
                                     <rect key="frame" x="0.0" y="29" width="340" height="30"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -130,11 +139,8 @@
                                 <constraint id="7655" firstAttribute="height" constant="60"/>
                             </constraints>
                         </view>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="277" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" ambiguous="YES">
-                            <rect key="frame" x="37" y="175" width="340" height="340"/>
-                            <constraints>
-                                <constraint id="10323" firstAttribute="height" constant="340"/>
-                            </constraints>
+                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="277" translatesAutoresizingMaskIntoConstraints="NO">
+                            <rect key="frame" x="41.5" y="175" width="331" height="339"/>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="1"/>
@@ -144,20 +150,41 @@
                         <constraint id="9054" firstItem="7825" firstAttribute="top" secondItem="5606" secondAttribute="bottom" constant="18"/>
                         <constraint id="9392" firstItem="7825" firstAttribute="width" secondItem="272" secondAttribute="width" multiplier="0.8"/>
                         <constraint id="9816" firstItem="277" firstAttribute="width" secondItem="272" secondAttribute="width" multiplier="0.8"/>
-                        <constraint id="13349" firstItem="10408" firstAttribute="width" secondItem="272" secondAttribute="width" multiplier="0.8"/>
+                        <constraint id="13349" firstItem="10408" firstAttribute="width" secondItem="272" secondAttribute="width" multiplier="0.7"/>
                         <constraint id="17340" firstItem="14451" firstAttribute="width" secondItem="272" secondAttribute="width" multiplier="0.8"/>
                         <constraint id="17594" firstItem="14451" firstAttribute="top" secondItem="277" secondAttribute="bottom" constant="8"/>
                         <constraint id="17679" firstItem="277" firstAttribute="top" secondItem="7825" secondAttribute="bottom" constant="16"/>
+                        <constraint id="19461" firstItem="277" firstAttribute="centerX" secondItem="272" secondAttribute="centerX"/>
+                        <constraint id="20176" firstItem="10408" firstAttribute="top" secondItem="14451" secondAttribute="bottom" constant="5"/>
+                        <constraint id="20218" firstItem="10408" firstAttribute="centerX" secondItem="272" secondAttribute="centerX"/>
+                        <constraint id="20260" firstItem="5606" firstAttribute="centerX" secondItem="272" secondAttribute="centerX"/>
+                        <constraint id="20302" firstItem="7825" firstAttribute="centerX" secondItem="272" secondAttribute="centerX"/>
+                        <constraint id="20344" firstItem="14451" firstAttribute="centerX" secondItem="272" secondAttribute="centerX"/>
+                        <constraint id="75208" firstItem="277" firstAttribute="height" secondItem="272" secondAttribute="height" multiplier="0.5"/>
                     </constraints>
                 </scrollView>
-                <navigationBar contentMode="scaleToFill" id="273" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                <navigationBar contentMode="scaleToFill" id="273" translatesAutoresizingMaskIntoConstraints="NO" backIndicatorImage="back_to_50.png" backIndicatorTransitionMaskImage="back_to_50.png">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                     <items>
-                        <navigationItem title="Title" id="274"/>
+                        <navigationItem title="Title" id="274">
+                            <barButtonItem key="leftBarButtonItem" title="Item" id="82951"/>
+                        </navigationItem>
                     </items>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </navigationBar>
             </subviews>
+            <constraints>
+                <constraint id="18708" firstItem="272" firstAttribute="top" secondItem="273" secondAttribute="bottom" constant="8"/>
+                <constraint id="18750" firstItem="272" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
+                <constraint id="18792" firstItem="272" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
+                <constraint id="19503" firstItem="273" firstAttribute="top" secondItem="2" secondAttribute="top"/>
+                <constraint id="19545" firstItem="273" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
+                <constraint id="19587" firstItem="273" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
+                <constraint id="29302" firstItem="272" firstAttribute="bottom" secondItem="2" secondAttribute="bottom"/>
+                <constraint id="74153" firstItem="272" firstAttribute="top" secondItem="273" secondAttribute="bottom" constant="8"/>
+            </constraints>
         </view>
     </objects>
+    <resources>
+        <image name="back_to_50.png" width="50" height="50"/>
+    </resources>
 </document>

@@ -13,11 +13,16 @@ namespace TestProject.iOS.Views
     public abstract class BaseMenuView<TParam>
         :MvxViewController<TParam> where TParam : MvxViewModel
     {
-        protected SidebarNavigation.SidebarController SidebarController
+
+        protected UIWindow Window
         {
             get
             {
-                return (UIApplication.SharedApplication.Delegate as AppDelegate).MenuRootView.SidebarController;
+                return (UIApplication.SharedApplication.Delegate as AppDelegate).Window;
+            }
+            set
+            {
+                (UIApplication.SharedApplication.Delegate as AppDelegate).Window = value;
             }
         }
 
@@ -26,9 +31,9 @@ namespace TestProject.iOS.Views
         }
 
 
-        public override void ViewDidLoad()
-        {
-            base.ViewDidLoad();
-        }
+        //public override void ViewDidLoad()
+        //{
+        //    base.ViewDidLoad();
+        //}
     }
 }

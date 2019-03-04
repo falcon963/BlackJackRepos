@@ -9,6 +9,7 @@ using MvvmCross.Binding.BindingContext;
 using MvvmCross.IoC;
 using MvvmCross.Navigation;
 using MvvmCross.Platforms.Ios.Views;
+using MvvmCross.Plugin.Location;
 using MvvmCross.ViewModels;
 using UIKit;
 
@@ -131,6 +132,11 @@ namespace TestProject.iOS
         { uISearchBar.Text = uISearchBar.Text + "";
             uISearchBar.TextChanged += (sender, args) => { uISearchBar.Text = ""; };
             uISearchBar.Placeholder = uISearchBar.Text = "";
+        }
+
+        public void Include(MvxGeoLocation mvxGeo)
+        {
+            
         }
 
     }

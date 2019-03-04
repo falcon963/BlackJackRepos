@@ -1,4 +1,5 @@
 ﻿using Foundation;
+using Google.Maps;
 using MvvmCross.Platforms.Ios.Core;
 using MvvmCross.Plugin.Color.Platforms.Ios;
 using Plugin.SecureStorage;
@@ -17,7 +18,7 @@ namespace TestProject.iOS
     {
         // class-level declarations
 
-        public MenuRootView MenuRootView { get { return Window.RootViewController as MenuRootView; } }
+        const String MapsApiKey = "AIzaSyCzfcYRYDcsR8nEAEcSJfPxtKpcVlBCq84";
 
         public override UIWindow Window
         {
@@ -27,12 +28,9 @@ namespace TestProject.iOS
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
-
-            // SecureStorageImplementation.DefaultAccessible = Security.SecAccessible.Invalid;
+            MapServices.ProvideAPIKey(MapsApiKey);
 
             var c = base.FinishedLaunching(application, launchOptions);
-
-            //  CustomizeAppearance();
 
             return c;
         }
@@ -66,33 +64,6 @@ namespace TestProject.iOS
         public override void WillTerminate(UIApplication application)
         {
             // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
-        }
-
-        private void CustomizeAppearance()
-        {
-            UINavigationBar.Appearance.SetBackgroundImage(new UIImage(), UIBarPosition.Any, UIBarMetrics.Default);
-            UINavigationBar.Appearance.ShadowImage = new UIImage();
-
-            UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes()
-            {
-                TextColor = UIColor.White,
-                Font = UIFont.SystemFontOfSize(17f, UIFontWeight.Semibold)
-            });
-            UINavigationBar.Appearance.Translucent = false;
-            UINavigationBar.Appearance.BarTintColor = AppColors.ColorToolbar.ToNativeColor();
-            UINavigationBar.Appearance.TintColor = UIColor.White;
-            UINavigationBar.Appearance.BackgroundColor = AppColors.ColorTheme.ToNativeColor();
-            UINavigationBar.Appearance.BackIndicatorImage = new UIImage();
-
-            UITabBar.Appearance.BackgroundColor = AppColors.ColorTheme.ToNativeColor();
-            UITabBarItem.Appearance.SetTitleTextAttributes(new UITextAttributes()
-            {
-                TextColor = AppColors.TextColor.ToNativeColor()
-            }, UIControlState.Selected);
-
-            UITextField.Appearance.TintColor = AppColors.TextColor.ToNativeColor();
-            UITextView.Appearance.TintColor = AppColors.TextColor.ToNativeColor();
-            UIButton.Appearance.SetTitleColor(AppColors.TextColor.ToNativeColor(), UIControlState.Highlighted);
         }
     }
 }

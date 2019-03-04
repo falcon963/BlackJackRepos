@@ -7,7 +7,7 @@
 		<integer>1</integer>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>8.0</string>
+	<string>9.0</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>CFBundleShortVersionString</key>
@@ -26,7 +26,19 @@
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to photos.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to the camera to take photos.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Need you location.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Need you location.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Need you location.</string>
 	<key>UIRequiresFullScreen</key>
-	<true/>
+	<false/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app needs access to photos.</string>
 </dict>
 </plist>

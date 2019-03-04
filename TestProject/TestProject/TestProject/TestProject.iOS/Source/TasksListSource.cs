@@ -26,7 +26,7 @@ namespace TestProject.iOS.Source
         {
             _view = view;
             DeselectAutomatically = true;
-            tableView.RegisterNibForCellReuse(UINib.FromName("ContentTasksCell", NSBundle.MainBundle), ContentTasksCell.Key);
+            tableView.RegisterNibForCellReuse(UINib.FromName("ContentTasksCell", NSBundle.MainBundle), cellIdentifier);
         }
 
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
@@ -40,12 +40,16 @@ namespace TestProject.iOS.Source
                     (cell as ContentTasksCell).UpdateCell(taskItem);
                 }
             }
+            cell.Layer.BorderColor = UIColor.Black.CGColor;
+            cell.Layer.BorderWidth = 1;
+            cell.Layer.CornerRadius = 8;
             return cell;
         }
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            base.RowSelected(tableView, indexPath);
+            var task = _view.ViewModel.ListOfTasks[indexPath.Row];
+            _view.ViewModel.ItemSelectedCommand.Execute(task);
         }
 
         public override UISwipeActionsConfiguration GetLeadingSwipeActionsConfiguration(UITableView tableView, NSIndexPath indexPath)
@@ -86,6 +90,28 @@ namespace TestProject.iOS.Source
             action.BackgroundColor = UIColor.Green;
 
             return action;
+        }
+
+        public override nint NumberOfSections(UITableView tableView)
+        {
+            return 1;
+        }
+
+        public override nint RowsInSection(UITableView tableview, nint section)
+        {
+            return _view.ViewModel.ListOfTasks.Count;
+        }
+
+        public override UIView GetViewForHeader(UITableView tableView, nint section)
+        {
+            var headerView = new UIView();
+            headerView.BackgroundColor = UIColor.Clear;
+            return headerView;
+        }
+
+        public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+        {
+            return 60;
         }
     }
 }

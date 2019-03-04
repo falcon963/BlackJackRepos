@@ -9,13 +9,6 @@ namespace TestProject.iOS.Views.Cells
 {
     public partial class ContentTasksCell : BaseTableViewCell
     {
-        public static readonly NSString Key = new NSString("ContentTasksCell");
-        public static readonly UINib Nib;
-
-        static ContentTasksCell()
-        {
-            Nib = UINib.FromName("ContentTasksCell", NSBundle.MainBundle);
-        }
 
         protected ContentTasksCell(IntPtr handle) : base(handle)
         {
