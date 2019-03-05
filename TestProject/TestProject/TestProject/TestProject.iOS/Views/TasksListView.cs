@@ -37,7 +37,7 @@ namespace TestProject.iOS.Views
 
         public TasksListView() : base("TasksListView", null)
         {
-            //TasksList.RegisterClassForCellReuse(typeof(ContentTasksCell), MyCellId);
+
         }
 
         #endregion
@@ -46,21 +46,7 @@ namespace TestProject.iOS.Views
         {
             base.ViewDidLoad();
 
-           // _menuView.View.Frame = UIScreen.MainScreen.Bounds;
-
-
-           //// _menuView.View.Bounds = new CoreGraphics.CGRect(_menuView.View.Frame.Width/2, )
-
-           //// this.PresentViewControllerAsync(_menuView, true);
-           // _isMenuOpen = true;
-           // _menuView.View.Bounds = MenuView.Bounds;
-           //this.AddChildViewController(_menuView);
-           //this.TasksList.AddSubview(_menuView.View);
-           // _menuView.DidMoveToParentViewController(this);
-
             NavigationController.NavigationBarHidden = true;
-
-            //ContentScrollView.AddSubview(MenuView);
 
             var source = new TasksListSource(TasksList, this);
 
@@ -70,6 +56,7 @@ namespace TestProject.iOS.Views
             var set = this.CreateBindingSet<TasksListView, TaskListViewModel>();
             set.Bind(refreshControl).For(r => r.IsRefreshing).To(vm => vm.IsRefreshing);
             set.Bind(refreshControl).For(r => r.RefreshCommand).To(vm => vm.RefreshTaskCommand);
+            set.Bind(MenuButton).To(vm => vm.ShowMenuCommand);
             set.Apply();
 
             this.AddBindings(new Dictionary<object, String>
@@ -79,68 +66,6 @@ namespace TestProject.iOS.Views
 
             TasksList.Source = source;
             TasksList.ReloadData();
-        }
-
-        partial void PressMenu(UIBarButtonItem sender)
-        {
-            //ViewModel.ShowMenuCommand.Execute();
-
-            //        if (_isMenuOpen)
-            //        {
-
-            //            _isMenuOpen = false;
-            //            _menuView.WillMoveToParentViewController(null);
-            //            _menuView.View.RemoveFromSuperview();
-            //            _menuView.RemoveFromParentViewController();
-
-            //}
-            //        else
-            //        {
-            //            _isMenuOpen = true;
-            //            this.AddChildViewController(_menuView);
-            //            this.View.AddSubview(_menuView.View);
-            //            _menuView.DidMoveToParentViewController(this);
-            //         }
-
-            //if (_isMenuOpen)
-            //{
-            //    UIView.Animate(
-            //       duration: 0.3,
-            //       delay: 0,
-            //       options: UIViewAnimationOptions.CurveEaseIn,
-            //       animation: () =>
-            //       {
-            //           MenuView.Center = new CoreGraphics.CGPoint(-MenuView.Bounds.Width / 2, MenuView.Center.Y);
-            //       },
-            //       completion: () =>
-            //       {
-            //           MenuView.Center = MenuView.Center;
-            //       }
-            //       );
-            //    _isMenuOpen = false;
-            //    return;
-            //}
-            //if (!_isMenuOpen)
-            //{
-
-            //    UIView.Animate(
-            //        duration: 0.3,
-            //        delay: 0,
-            //        options: UIViewAnimationOptions.CurveEaseIn,
-            //        animation: () =>
-            //        {
-            //            MenuView.Center = new CoreGraphics.CGPoint(MenuView.Bounds.Width / 2, MenuView.Center.Y);
-            //        },
-            //        completion: () =>
-            //        {
-            //            MenuView.Center = MenuView.Center;
-            //        }
-            //        );
-            //    _isMenuOpen = true;
-            //    return;
-            //}
-            //NavigationController.PushViewController(new MenuView(), true);
-            ViewModel.ShowMenuCommand.Execute();
         }
 
     }

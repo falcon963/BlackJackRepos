@@ -19,6 +19,9 @@ namespace TestProject.Core.ViewModels
     public class TaskListViewModel
         : BaseViewModel
         {
+
+        #region Fields
+
         private readonly IMvxNavigationService _navigationService;
         private readonly ITasksRepository _taskService;
         private bool _isRefreshing;
@@ -26,6 +29,8 @@ namespace TestProject.Core.ViewModels
         private readonly IUserDialogs _userDialogs;
 
         private MvxObservableCollection<UserTask> _listOfTasks;
+
+        #endregion
 
         public TaskListViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs)
         {
@@ -35,6 +40,8 @@ namespace TestProject.Core.ViewModels
             _taskService = taskService;
             _userDialogs = userDialogs;
         }
+
+        #region Propertys
 
         public ResultModel UserTask
         {
@@ -48,6 +55,33 @@ namespace TestProject.Core.ViewModels
             }
         }
 
+        public virtual bool IsRefreshing
+        {
+            get
+            {
+                return _isRefreshing;
+            }
+            set
+            {
+                _isRefreshing = value;
+                RaisePropertyChanged(() => IsRefreshing);
+            }
+        }
+
+        public MvxObservableCollection<UserTask> ListOfTasks
+        {
+            get
+            {
+                return _listOfTasks;
+            }
+            set
+            {
+                SetProperty(ref _listOfTasks, value);
+            }
+        }
+
+        #endregion
+
         public override  Task Initialize()
         {
             MvxObservableCollection<UserTask> result = new MvxObservableCollection<UserTask>();
@@ -56,10 +90,6 @@ namespace TestProject.Core.ViewModels
                 result = await UserTaskInitialize();
                 ListOfTasks = result;
             });
-            //).ContinueWith(task =>
-            //{
-            //    UserTaskProcess(result);
-            //}, TaskScheduler.FromCurrentSynchronizationContext());
             return base.Initialize();
         }
 
@@ -82,18 +112,7 @@ namespace TestProject.Core.ViewModels
             return ListOfTasks;
         }
 
-        public virtual bool IsRefreshing
-        {
-            get
-            {
-                return _isRefreshing;
-            }
-            set
-            {
-                _isRefreshing = value;
-                RaisePropertyChanged(() => IsRefreshing);
-            }
-        }
+        
 
         
         public void UserTaskProcess(List<UserTask> tasks)
@@ -102,19 +121,7 @@ namespace TestProject.Core.ViewModels
         }
 
 
-        public MvxObservableCollection<UserTask> ListOfTasks
-        {
-            get
-            {
-                return _listOfTasks;
-            }
-            set
-            {
-                SetProperty(ref _listOfTasks, value);
-            }
-        }
-
-        public MvxNotifyTask FetchTasksTask { get; private set; }
+       
 
         #region Commands
 

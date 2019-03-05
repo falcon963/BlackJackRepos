@@ -19,23 +19,15 @@ namespace TestProject.iOS.Views
 
             var set = this.CreateBindingSet<ProfileView, UserProfileViewModel>();
 
-            set.Bind(PasswordField).For(p => p.Text).To(vm => vm.OldPassword);
-            set.Bind(PasswordConfirmField).For(p => p.Text).To(vm => vm.ConfirmPassword);
-            set.Bind(NewPasswordField).For(p => p.Text).To(vm => vm.NewPassword);
-
+            set.Bind(PasswordField).To(vm => vm.OldPassword);
+            set.Bind(PasswordConfirmField).To(vm => vm.ConfirmPassword);
+            set.Bind(NewPasswordField).To(vm => vm.NewPassword);
+            set.Bind(BackButton).To(vm => vm.CloseProfileCommand);
+            set.Bind(SaveImageButton).To(vm => vm.SaveImageChangeCommand);
+            set.Bind(SaveNewPasswordButton).To(vm => vm.SavePasswordChangeCommand);
             set.Apply();
+
+            BackButton.Image = UIImage.FromFile("back_to_50.png");
         }
-
-        partial void SaveImagePress(UIButton sender)
-        {
-            ViewModel.SaveImageChangeCommand.Execute();
-        }
-
-        partial void SavePasswordPress(UIButton sender)
-        {
-            ViewModel.SavePasswordChangeCommand.Execute();
-        }
-
-
     }
 }

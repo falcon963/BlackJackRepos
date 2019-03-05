@@ -221,9 +221,7 @@
       <Visible>false</Visible>
     </ImageAsset>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Adapter\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Entitlements.plist" />
     <None Include="Info.plist">
@@ -253,9 +251,6 @@
     <InterfaceDefinition Include="Views\AppMapView.xib">
       <SubType>Designer</SubType>
     </InterfaceDefinition>
-    <InterfaceDefinition Include="Views\MenuRootView.xib">
-      <SubType>Designer</SubType>
-    </InterfaceDefinition>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Views\AppMapView.cs" />
@@ -268,11 +263,6 @@
     <Compile Include="CustomControls\BaseView.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Views\MainView.cs" />
-    <Compile Include="Views\MenuRootView.cs" />
-    <Compile Include="Views\MenuRootView.designer.cs">
-      <DependentUpon>MenuRootView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PresentationAttributs\HumburgerMenuModePresentationAttribute.cs" />
     <Compile Include="Source\MenuItemSource.cs" />
     <Compile Include="Source\TasksListSource.cs" />
     <Compile Include="Views\BaseMenuView.cs" />

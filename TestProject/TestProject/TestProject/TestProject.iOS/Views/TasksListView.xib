@@ -3,6 +3,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TasksListView">
@@ -10,6 +11,7 @@
                 <outlet property="view" destination="2" id="name-taskslistview"/>
                 <outlet property="TasksList" destination="308" id="name-outlet-308"/>
                 <outlet property="ContentScrollView" destination="305" id="name-outlet-305"/>
+                <outlet property="MenuButton" destination="1012" id="name-outlet-1012"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -18,23 +20,28 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="305" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="305" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" ambiguous="YES">
                     <rect key="frame" x="0.0" y="52" width="414" height="684"/>
                     <subviews>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="308" translatesAutoresizingMaskIntoConstraints="NO" ambiguous="YES">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="684"/>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="308" translatesAutoresizingMaskIntoConstraints="NO">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="783.5"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </tableView>
                     </subviews>
                     <constraints>
                         <constraint id="639" firstItem="308" firstAttribute="trailing" secondItem="305" secondAttribute="trailing"/>
                         <constraint id="640" firstItem="308" firstAttribute="leading" secondItem="305" secondAttribute="leading"/>
-                        <constraint id="641" firstItem="308" firstAttribute="bottom" secondItem="305" secondAttribute="bottom"/>
+                        <constraint id="2987" firstItem="308" firstAttribute="height" secondItem="305" secondAttribute="height" multiplier="0.94"/>
+                        <constraint id="2988" firstItem="308" firstAttribute="width" secondItem="305" secondAttribute="width"/>
+                        <constraint id="2989" firstItem="308" firstAttribute="top" secondItem="305" secondAttribute="top"/>
+                        <constraint id="2990" firstItem="308" firstAttribute="leading" secondItem="305" secondAttribute="leading"/>
+                        <constraint id="2991" firstItem="308" firstAttribute="trailing" secondItem="305" secondAttribute="trailing"/>
                     </constraints>
                 </scrollView>
                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="1011" translatesAutoresizingMaskIntoConstraints="NO">
-                    <rect key="frame" x="0.0" y="8" width="414" height="50"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                     <items>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="3480"/>
                         <barButtonItem title="Item" id="1012" image="Menu_ic">
                             <connections>
                                 <action selector="PressMenu:" destination="-1" id="1021"/>
@@ -47,10 +54,14 @@
                 <constraint id="635" firstItem="305" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
                 <constraint id="636" firstItem="305" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
                 <constraint id="637" firstItem="305" firstAttribute="bottom" secondItem="2" secondAttribute="bottom"/>
-                <constraint id="2550" firstItem="1011" firstAttribute="top" secondItem="2" secondAttribute="top" constant="8"/>
                 <constraint id="2551" firstItem="1011" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
                 <constraint id="2552" firstItem="1011" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
-                <constraint id="2553" firstItem="1011" firstAttribute="bottom" secondItem="305" secondAttribute="top"/>
+                <constraint id="2982" firstItem="1011" firstAttribute="width" secondItem="305" secondAttribute="width"/>
+                <constraint id="2983" firstItem="1011" firstAttribute="height" secondItem="305" secondAttribute="height" multiplier="0.06"/>
+                <constraint id="2984" firstAttribute="top" secondItem="1011" secondAttribute="top"/>
+                <constraint id="2985" firstItem="1011" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
+                <constraint id="2986" firstItem="1011" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
+                <constraint id="2992" firstItem="305" firstAttribute="bottom" secondItem="2" secondAttribute="bottom"/>
             </constraints>
             <point key="canvasLocation" x="7" y="-6"/>
         </view>

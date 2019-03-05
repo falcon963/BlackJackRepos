@@ -14,6 +14,9 @@ namespace TestProject.Core.ViewModels
     public class UserProfileViewModel
         :BaseViewModel
     {
+
+        #region Fields
+
         private User _profile;
         private readonly IMvxNavigationService _navigationService;
         private readonly ILoginRepository _loginService;
@@ -24,6 +27,8 @@ namespace TestProject.Core.ViewModels
         private bool _eneble;
         private MvxColor _oldPasswordFieldColor;
         private MvxColor _confirmColor;
+
+        #endregion
 
         public UserProfileViewModel(IMvxNavigationService navigationService, ILoginRepository loginService)
         {

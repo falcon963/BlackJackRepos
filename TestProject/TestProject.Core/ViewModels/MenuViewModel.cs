@@ -16,12 +16,18 @@ namespace TestProject.Core.ViewModels
     public class MenuViewModel
         : BaseViewModel<TaskListViewModel>
     {
+        #region Fields
+
         private readonly IMvxNavigationService _navigationService;
         private readonly IUserDialogs _userDialogs;
         private ResultModel _userTask;
         private MvxObservableCollection<MenuItem> _menuItems;
         private TaskListViewModel _taskList;
         private User _userProfile;
+
+        #endregion
+
+        #region Propertys
 
         public ResultModel UserTask
         {
@@ -59,6 +65,8 @@ namespace TestProject.Core.ViewModels
             }
         }
 
+        #endregion
+
 
         public MenuViewModel(IMvxNavigationService navigationService, IUserDialogs userDialogs, ILoginRepository loginService)
         {
@@ -85,6 +93,8 @@ namespace TestProject.Core.ViewModels
                 }
             };
         }
+
+        #region Commands
 
         public IMvxCommand LogOutCommand
         {
@@ -162,6 +172,8 @@ namespace TestProject.Core.ViewModels
                 });
             }
         }
+
+        #endregion
 
 
         public override void Prepare(TaskListViewModel parameter)

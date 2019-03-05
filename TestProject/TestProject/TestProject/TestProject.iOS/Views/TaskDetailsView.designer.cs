@@ -36,6 +36,10 @@ namespace TestProject.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView ScrollFrameView { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIImageView TaskImage { get; set; }
 
         [Outlet]
@@ -75,6 +79,11 @@ namespace TestProject.iOS.Views
             if (SaveButton != null) {
                 SaveButton.Dispose ();
                 SaveButton = null;
+            }
+
+            if (ScrollFrameView != null) {
+                ScrollFrameView.Dispose ();
+                ScrollFrameView = null;
             }
 
             if (TaskImage != null) {

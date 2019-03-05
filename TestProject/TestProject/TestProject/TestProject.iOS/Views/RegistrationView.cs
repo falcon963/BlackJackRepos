@@ -29,8 +29,6 @@ namespace TestProject.iOS.Views
         {
             base.ViewDidLoad();
 
-           // NavigationController.NavigationBarHidden = true;
-
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, HandleKeyboardDidHide);
 
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, HandleKeyboardDidShow);

@@ -21,12 +21,17 @@ namespace TestProject.Core.ViewModels
     public class TaskViewModel
         : BaseViewModel<Int32, ResultModel>
     {
+        #region Fields
 
         private readonly IMvxNavigationService _navigationService;
         private readonly ITasksRepository _taskService;
         private ResultModel _resultModel;
         private readonly IUserDialogs _userDialogs;
         private UserTask _userTaskDublicate;
+
+        #endregion
+
+        #region Propertys
 
         public MvxColor ColorTheme { get; set; }
 
@@ -41,6 +46,24 @@ namespace TestProject.Core.ViewModels
                 SetProperty(ref _resultModel, value);
             }
         }
+
+        public Boolean TitleEnableStatus
+        {
+            get
+            {
+                return String.IsNullOrEmpty(UserTask.Changes.Title);
+            }
+        }
+
+        public Boolean DeleteButtonStutus
+        {
+            get
+            {
+                return (UserTask.Changes.Id == 0) ? false : true;
+            }
+        }
+
+        #endregion
 
 
         public TaskViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs)
@@ -63,21 +86,7 @@ namespace TestProject.Core.ViewModels
         }
 
 
-        public Boolean TitleEnableStatus
-        {
-            get
-            {
-                return String.IsNullOrEmpty(UserTask.Changes.Title);
-            }
-        }
-
-        public Boolean DeleteButtonStutus
-        {
-            get
-            {
-                return (UserTask.Changes.Id == 0) ? false : true;
-            }
-        }
+        
 
         #region Commands
 
@@ -93,10 +102,10 @@ namespace TestProject.Core.ViewModels
                     {
                         var goBack = await _userDialogs.ConfirmAsync(new ConfirmConfig
                         {
-                            Title = "Alert Messege",
-                            Message = "If you go on TaskyDrop whithout save, you changes will be lose! Do you want this?",
-                            OkText = "Yes",
-                            CancelText = "No"
+                            Title = MessengeFields.AlertMessege,
+                            Message = MessengeFields.ChangeLoseMessege,
+                            OkText = MessengeFields.OkText,
+                            CancelText = MessengeFields.NoText
                         });
                         if (!goBack)
                         {
@@ -118,10 +127,10 @@ namespace TestProject.Core.ViewModels
                 {
                     var delete = await _userDialogs.ConfirmAsync(new ConfirmConfig
                     {
-                        Title = "Delete Messege",
-                        Message = "Do you want delete this task?",
-                        OkText = "Yes",
-                        CancelText = "No"
+                        Title = MessengeFields.AlertMessege,
+                        Message = MessengeFields.DeleteMessege,
+                        OkText = MessengeFields.OkText,
+                        CancelText = MessengeFields.NoText
                     });
                     if (!delete)
                     {
@@ -147,9 +156,9 @@ namespace TestProject.Core.ViewModels
                         var alert = UserDialogs.Instance.Alert(
                             new AlertConfig
                             {
-                                Message = "You can't save task when field is empty!",
-                                OkText = "Ok",
-                                Title = "System Alert"
+                                Message = MessengeFields.EmptyTaskFieldMessege,
+                                OkText = MessengeFields.OkText,
+                                Title = MessengeFields.AlertMessege
                             });
                         return;
                     }

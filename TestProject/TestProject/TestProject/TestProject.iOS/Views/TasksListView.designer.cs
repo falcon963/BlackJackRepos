@@ -20,6 +20,10 @@ namespace TestProject.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIBarButtonItem MenuButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITableView TasksList { get; set; }
 
         [Action ("PressMenu:")]
@@ -31,6 +35,11 @@ namespace TestProject.iOS.Views
             if (ContentScrollView != null) {
                 ContentScrollView.Dispose ();
                 ContentScrollView = null;
+            }
+
+            if (MenuButton != null) {
+                MenuButton.Dispose ();
+                MenuButton = null;
             }
 
             if (TasksList != null) {

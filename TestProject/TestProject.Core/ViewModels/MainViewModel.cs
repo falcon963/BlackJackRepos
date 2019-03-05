@@ -15,17 +15,19 @@ namespace TestProject.Core.ViewModels
     public class MainViewModel
         : BaseViewModel
     {
+        #region Fields
+
         private readonly IMvxNavigationService _navigationService;
 
         private readonly ILoginRepository _loginService;
 
+        #endregion
 
         public MainViewModel(IMvxNavigationService navigationService, ILoginRepository loginService)
         {
             _navigationService = navigationService;
             _loginService = loginService;
         }
-
 
         #region Commands
 

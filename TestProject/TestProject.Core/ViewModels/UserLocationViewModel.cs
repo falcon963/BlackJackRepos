@@ -13,6 +13,7 @@ namespace TestProject.Core.ViewModels
     public class UserLocationViewModel
         : BaseViewModel
     {
+        #region Fields
 
         private readonly IMvxNavigationService _navigationService;
 
@@ -21,6 +22,10 @@ namespace TestProject.Core.ViewModels
         private Double _latitude;
 
         private Double _longitude;
+
+        #endregion
+
+        #region Propertys
 
         public Double Latitude
         {
@@ -33,6 +38,8 @@ namespace TestProject.Core.ViewModels
             get => _longitude;
             set => SetProperty(ref _longitude, value);
         }
+
+        #endregion
 
         public UserLocationViewModel(ILocationService locationService, IMvxNavigationService navigationService)
         {

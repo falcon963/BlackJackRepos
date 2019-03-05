@@ -15,6 +15,8 @@ namespace TestProject.Core.ViewModels
     public class RegistrationViewModel
         : BaseViewModel
     {
+        #region Fields
+
         private readonly IMvxNavigationService _navigationService;
 
         private readonly ILoginRepository _loginService;
@@ -30,12 +32,13 @@ namespace TestProject.Core.ViewModels
 
         private readonly IUserDialogs _userDialogs;
 
+        #endregion
 
-
-        public RegistrationViewModel(IMvxNavigationService navigationService, ILoginRepository loginService)
+        public RegistrationViewModel(IMvxNavigationService navigationService, ILoginRepository loginService, IUserDialogs userDialogs)
         {
             LoginColor = new MvxColor(251, 192, 45);
             ValidateColor = new MvxColor(241, 241, 241);
+            _userDialogs = userDialogs;
             _navigationService = navigationService;
             _loginService = loginService;
             _user = new User();
@@ -68,6 +71,8 @@ namespace TestProject.Core.ViewModels
         }
 
         #endregion
+
+        #region Propertys
 
         public User User
         {
@@ -138,6 +143,28 @@ namespace TestProject.Core.ViewModels
             }
         }
 
+        public Boolean EnableStatus
+        {
+            get
+            {
+                return _checkBoxStatus;
+            }
+            set
+            {
+                SetProperty(ref _checkBoxStatus, value);
+            }
+        }
+
+        public Boolean CheckLogin
+        {
+            get
+            {
+                return _loginService.CheckValidLogin(User.Login);
+            }
+        }
+
+        #endregion
+
         public void CheckEnableStatus()
         {
             if (String.IsNullOrEmpty(User.Login)
@@ -167,28 +194,6 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        
-
-        public Boolean EnableStatus
-        {
-            get
-            {
-                return _checkBoxStatus;
-            }
-            set
-            {
-                SetProperty(ref _checkBoxStatus, value);
-            }
-        }
-
-        public Boolean CheckLogin
-        {
-            get
-            {
-                return _loginService.CheckValidLogin(User.Login);
-            }
-        }
-
         #region Commands
 
         public IMvxAsyncCommand RegistrationCommand
@@ -207,9 +212,9 @@ namespace TestProject.Core.ViewModels
                         var alert = UserDialogs.Instance.Alert(
                             new AlertConfig
                             {
-                                Message = "You can't registrate when field is empty!",
-                                OkText = "Ok",
-                                Title = "Empty field"
+                                Message = MessengeFields.EmptyFieldRegistrateMessege,
+                                OkText = MessengeFields.OkText,
+                                Title = MessengeFields.AlertMessege
                             });
                         return;
                     }
@@ -218,9 +223,9 @@ namespace TestProject.Core.ViewModels
                         var alert = UserDialogs.Instance.Alert(
                             new AlertConfig
                             {
-                                Message = "Wrong Password confirm!",
-                                OkText = "Ok",
-                                Title = "Wrong password"
+                                Message = MessengeFields.WrongPassword,
+                                OkText = MessengeFields.OkText,
+                                Title = MessengeFields.AlertMessege
                             });
                         return;
                     }
@@ -237,13 +242,21 @@ namespace TestProject.Core.ViewModels
                     if (valid)
                     {
                         _loginService.CreateUser(User);
-                        var alert = UserDialogs.Instance.Alert(new AlertConfig
+                        var alert = await _userDialogs.ConfirmAsync(new ConfirmConfig
                         {
                             Message = MessengeFields.Registrate,
                             OkText = MessengeFields.OkText,
-                            Title = MessengeFields.Success
+                            Title = MessengeFields.Success,
+                            CancelText = MessengeFields.NoText
                         });
-                        await _navigationService.Close(this);
+                        if (alert)
+                        {
+                            await _navigationService.Close(this);
+                        }
+                        if (!alert)
+                        {
+                            return;
+                        }
                     }
                 });
             }

@@ -17,6 +17,8 @@ namespace TestProject.Core.ViewModels
     public class LoginViewModel 
         : BaseViewModel
     {
+        #region Fields
+
         private readonly IMvxNavigationService _navigationService;
         private readonly ILoginRepository _loginService;
         private readonly ITasksRepository _taskService;
@@ -27,21 +29,10 @@ namespace TestProject.Core.ViewModels
         private MvxColor _color;
         private User _user;
 
-        public MvxColor LoginColor
-        {
-            get
-            {
-                return _color;
-            }
-            set
-            {
-                SetProperty(ref _color, value);
-            }
-        }
+        #endregion
 
-        
-
-        public LoginViewModel(IMvxNavigationService navigationService, ILoginRepository loginService, ITasksRepository taskService)
+        public LoginViewModel(IMvxNavigationService navigationService,
+            ILoginRepository loginService, ITasksRepository taskService)
         {
                 _loginService = loginService;
                 _navigationService = navigationService;
@@ -54,6 +45,20 @@ namespace TestProject.Core.ViewModels
                     Password = CrossSecureStorage.Current.GetValue(SecureConstant.Password);
                     _rememberMe = Boolean.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.Status));
                 }      
+        }
+
+        #region Propertys
+
+        public MvxColor LoginColor
+        {
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                SetProperty(ref _color, value);
+            }
         }
 
         public String Login
@@ -138,6 +143,8 @@ namespace TestProject.Core.ViewModels
                 return _loginService.CheckValidLogin(User.Login);
             }
         }
+
+        #endregion
 
         public void CheckEnableStatus()
         {

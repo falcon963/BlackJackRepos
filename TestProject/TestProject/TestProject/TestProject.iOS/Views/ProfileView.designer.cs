@@ -15,6 +15,10 @@ namespace TestProject.iOS.Views
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIBarButtonItem BackButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITextField NewPasswordField { get; set; }
 
         [Outlet]
@@ -47,6 +51,11 @@ namespace TestProject.iOS.Views
 
         void ReleaseDesignerOutlets ()
         {
+            if (BackButton != null) {
+                BackButton.Dispose ();
+                BackButton = null;
+            }
+
             if (NewPasswordField != null) {
                 NewPasswordField.Dispose ();
                 NewPasswordField = null;

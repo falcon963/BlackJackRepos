@@ -24,11 +24,11 @@
             <color key="backgroundColor" customColorSpace="sRGB" colorSpace="calibratedWhite" white="1" alpha="1"/>
             <subviews>
                 <view contentMode="scaleToFill" id="1031" translatesAutoresizingMaskIntoConstraints="NO">
-                    <rect key="frame" x="124" y="-0.5" width="290" height="736.5"/>
+                    <rect key="frame" x="124" y="0.0" width="290" height="736"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     <subviews>
-                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="1143" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="0.0" y="126.5" width="290" height="610"/>
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="1143" translatesAutoresizingMaskIntoConstraints="NO" ambiguous="YES">
+                            <rect key="frame" x="0.0" y="126" width="290" height="610"/>
                             <subviews>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="1364" translatesAutoresizingMaskIntoConstraints="NO">
                                     <rect key="frame" x="0.0" y="0.0" width="290" height="610"/>
@@ -38,10 +38,9 @@
                             <constraints>
                                 <constraint id="5960" firstItem="1364" firstAttribute="height" secondItem="1143" secondAttribute="height"/>
                                 <constraint id="5961" firstItem="1364" firstAttribute="width" secondItem="1143" secondAttribute="width"/>
-                                <constraint id="7848" firstItem="1364" firstAttribute="bottom" secondItem="1143" secondAttribute="bottom"/>
-                                <constraint id="7849" firstItem="1364" firstAttribute="trailing" secondItem="1143" secondAttribute="trailing"/>
-                                <constraint id="7850" firstItem="1364" firstAttribute="leading" secondItem="1143" secondAttribute="leading"/>
                                 <constraint id="13091" firstItem="1364" firstAttribute="top" secondItem="1143" secondAttribute="top"/>
+                                <constraint id="18402" firstAttribute="trailing" secondItem="1364" secondAttribute="trailing"/>
+                                <constraint id="18403" firstItem="1364" firstAttribute="leading" secondItem="1143" secondAttribute="leading"/>
                             </constraints>
                             <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                         </scrollView>
@@ -91,13 +90,15 @@
                         <constraint id="4482" firstItem="1143" firstAttribute="width" secondItem="1098" secondAttribute="width"/>
                         <constraint id="5750" firstItem="1143" firstAttribute="height" secondItem="1031" secondAttribute="height" multiplier="0.828"/>
                         <constraint id="7817" firstItem="1143" firstAttribute="top" secondItem="1098" secondAttribute="bottom"/>
-                        <constraint id="7826" firstItem="1143" firstAttribute="top" secondItem="1098" secondAttribute="bottom"/>
                         <constraint id="7827" firstItem="1143" firstAttribute="trailing" secondItem="1031" secondAttribute="trailing"/>
-                        <constraint id="7828" firstAttribute="bottom" secondItem="1143" secondAttribute="bottom"/>
-                        <constraint id="10570" firstItem="1143" firstAttribute="top" secondItem="1098" secondAttribute="bottom"/>
                         <constraint id="12420" firstItem="1098" firstAttribute="height" secondItem="1031" secondAttribute="height" multiplier="0.172"/>
-                        <constraint id="13629" firstItem="1143" firstAttribute="top" secondItem="1098" secondAttribute="bottom"/>
                         <constraint id="17736" firstItem="1098" firstAttribute="leading" secondItem="1031" secondAttribute="leading"/>
+                        <constraint id="18400" firstItem="1098" firstAttribute="top" secondItem="1031" secondAttribute="top"/>
+                        <constraint id="18401" firstAttribute="bottom" secondItem="1143" secondAttribute="bottom"/>
+                        <constraint id="18404" firstItem="1143" firstAttribute="top" secondItem="1098" secondAttribute="bottom"/>
+                        <constraint id="18405" firstAttribute="trailing" secondItem="1143" secondAttribute="trailing"/>
+                        <constraint id="18406" firstItem="1143" firstAttribute="leading" secondItem="1031" secondAttribute="leading"/>
+                        <constraint id="18407" firstAttribute="bottom" secondItem="1143" secondAttribute="bottom"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" id="7813" translatesAutoresizingMaskIntoConstraints="NO">
@@ -115,7 +116,7 @@
                 <constraint id="7843" firstItem="7813" firstAttribute="width" secondItem="2" secondAttribute="width" multiplier="0.3"/>
                 <constraint id="7845" firstItem="7813" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
                 <constraint id="7846" firstItem="7813" firstAttribute="top" secondItem="2" secondAttribute="top"/>
-                <constraint id="17890" firstItem="1031" firstAttribute="bottom" secondItem="2" secondAttribute="bottom"/>
+                <constraint id="18399" firstItem="1031" firstAttribute="bottom" secondItem="2" secondAttribute="bottom"/>
             </constraints>
         </view>
     </objects>
