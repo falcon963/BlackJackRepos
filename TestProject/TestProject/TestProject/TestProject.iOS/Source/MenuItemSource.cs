@@ -12,7 +12,8 @@ using UIKit;
 
 namespace TestProject.iOS.Source
 {
-    public class MenuItemSource : MvxTableViewSource
+    public class MenuItemSource 
+        : MvxTableViewSource
     {
         private static readonly NSString cellIdentifier = new NSString("ContentNavigateCell");
         private MenuView _view;
@@ -40,7 +41,7 @@ namespace TestProject.iOS.Source
                     (cell as ContentNavigateCell).UpdateCell(menuItem);
                 }
             }
-            cell.Layer.BorderColor = UIColor.Black.CGColor;
+            cell.Layer.BorderColor = UIColor.White.CGColor;
             cell.Layer.BorderWidth = 1;
             cell.Layer.CornerRadius = 8;
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
@@ -66,7 +67,12 @@ namespace TestProject.iOS.Source
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 60;
+            return 30;
+        }
+
+        public override nfloat GetHeightForHeader(UITableView tableView, nint section)
+        {
+            return 0;
         }
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)

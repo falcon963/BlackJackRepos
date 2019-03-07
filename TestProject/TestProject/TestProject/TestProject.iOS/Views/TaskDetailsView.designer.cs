@@ -20,6 +20,10 @@ namespace TestProject.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView ButtonView { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton DeleteButton { get; set; }
 
         [Outlet]
@@ -36,10 +40,6 @@ namespace TestProject.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIView ScrollFrameView { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIImageView TaskImage { get; set; }
 
         [Outlet]
@@ -48,17 +48,26 @@ namespace TestProject.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UITextField TaskNote { get; set; }
+        UIKit.UITextView TaskNote { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UISwitch TaskStatus { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UINavigationBar TaskToolbar { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
             if (BackButton != null) {
                 BackButton.Dispose ();
                 BackButton = null;
+            }
+
+            if (ButtonView != null) {
+                ButtonView.Dispose ();
+                ButtonView = null;
             }
 
             if (DeleteButton != null) {
@@ -81,11 +90,6 @@ namespace TestProject.iOS.Views
                 SaveButton = null;
             }
 
-            if (ScrollFrameView != null) {
-                ScrollFrameView.Dispose ();
-                ScrollFrameView = null;
-            }
-
             if (TaskImage != null) {
                 TaskImage.Dispose ();
                 TaskImage = null;
@@ -104,6 +108,11 @@ namespace TestProject.iOS.Views
             if (TaskStatus != null) {
                 TaskStatus.Dispose ();
                 TaskStatus = null;
+            }
+
+            if (TaskToolbar != null) {
+                TaskToolbar.Dispose ();
+                TaskToolbar = null;
             }
         }
     }

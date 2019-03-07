@@ -7,15 +7,26 @@ using UIKit;
 
 namespace TestProject.iOS.Views
 {
-    public partial class ProfileView : MvxViewController<UserProfileViewModel>
+    public partial class ProfileView : BaseMenuView<UserProfileViewModel>
     {
-        public ProfileView (IntPtr handle) : base (handle)
+        private UITapGestureRecognizer _tap;
+
+        public override UIScrollView ScrollView { get => base.ScrollView; set => base.ScrollView = value; }
+
+        public ProfileView () : base ("ProfileView", null)
         {
+            HideKeyboard(_tap);
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            ScrollView = MainScrollView;
+
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, HandleKeyboardDidHide);
+
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, HandleKeyboardDidShow);
 
             var set = this.CreateBindingSet<ProfileView, UserProfileViewModel>();
 
@@ -28,6 +39,16 @@ namespace TestProject.iOS.Views
             set.Apply();
 
             BackButton.Image = UIImage.FromFile("back_to_50.png");
+        }
+
+        public override void HandleKeyboardDidHide(NSNotification obj)
+        {
+            base.HandleKeyboardDidHide(obj);
+        }
+
+        public override void HandleKeyboardDidShow(NSNotification obj)
+        {
+            base.HandleKeyboardDidShow(obj);
         }
     }
 }

@@ -10,6 +10,7 @@ using TestProject.Core.Models;
 using MvvmCross.ViewModels;
 using System.Threading.Tasks;
 using TestProject.Core.Interfaces;
+using MvvmCross.UI;
 
 namespace TestProject.Core.ViewModels
 {
@@ -50,6 +51,22 @@ namespace TestProject.Core.ViewModels
             set
             {
                 SetProperty(ref _userProfile, value);
+            }
+        }
+
+        public MvxColor MainTheme
+        {
+            get
+            {
+                return MainTheme;
+            }
+        }
+
+        public MvxColor MenuColor
+        {
+            get
+            {
+                return new MvxColor(0, 105, 92);
             }
         }
 

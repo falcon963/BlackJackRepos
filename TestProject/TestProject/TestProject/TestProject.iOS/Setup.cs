@@ -15,6 +15,9 @@ using MvvmCross.Navigation;
 using Acr.UserDialogs;
 using TestProject.Core.Interfaces;
 using TestProject.Core.Services;
+using System.Reflection;
+using System.Collections;
+using MvvmCross.Plugin.Color;
 
 namespace TestProject.iOS
 {
@@ -46,6 +49,16 @@ namespace TestProject.iOS
         protected override void RegisterPresenter()
         {
             base.RegisterPresenter();
+        }
+
+        protected override IEnumerable<Assembly> ValueConverterAssemblies
+        {
+            get
+            {
+                var toReturn = base.ValueConverterAssemblies as IList;
+                toReturn.Add(typeof(MvxNativeColorValueConverter).Assembly);
+                return (List<Assembly>)toReturn;
+            }
         }
 
         protected override IMvxApplication CreateApp()

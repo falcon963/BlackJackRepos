@@ -10,24 +10,24 @@ using System.Drawing;
 namespace TestProject.iOS.Views
 {
     public partial class RegistrationView
-        :MvxViewController<RegistrationViewModel>
+        :BaseMenuView<RegistrationViewModel>
     {
 
         UITapGestureRecognizer _tap;
 
+        public override UIScrollView ScrollView { get => base.ScrollView; set => base.ScrollView = value; }
 
-        public RegistrationView(IntPtr handle) : base(handle)
-        {
-        }
 
         public RegistrationView() : base("RegistrationView", null)
         {
-            HideKeyboard();
+            HideKeyboard(_tap);
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            ScrollView = RegistrationScrollView;
 
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, HandleKeyboardDidHide);
 
@@ -38,31 +38,25 @@ namespace TestProject.iOS.Views
             set.Bind(LoginField).For(f => f.Text).To(vm => vm.Login);
             set.Bind(PasswordField).For(f => f.Text).To(vm => vm.Password);
             set.Bind(PasswordConfirmField).For(f => f.Text).To(vm => vm.PasswordRevise);
+            set.Bind(View).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion("NativeColor");
             set.Apply();
-            
+
+            AddShadow(LoginField);
+            AddShadow(PasswordField);
+            AddShadow(PasswordConfirmField);
+            AddShadow(RegistrationButton);
         }
 
-        private void HandleKeyboardDidShow(NSNotification obj)
+        public override void HandleKeyboardDidHide(NSNotification obj)
         {
-            RegistrationScrollView.ContentSize = new CoreGraphics.CGSize(View.Frame.Width, View.Frame.Height + UIKeyboard.FrameBeginFromNotification(obj).Height/2);
+            base.HandleKeyboardDidHide(obj);
         }
 
-        private void HandleKeyboardDidHide(NSNotification obj)
+        public override void HandleKeyboardDidShow(NSNotification obj)
         {
-            RegistrationScrollView.ContentSize = new CoreGraphics.CGSize(View.Frame.Width, View.Frame.Height - UIKeyboard.FrameBeginFromNotification(obj).Height/2);
+            base.HandleKeyboardDidShow(obj);
         }
 
-        public void HideKeyboard()
-        {
-            _tap = new UITapGestureRecognizer();
-            _tap.AddTarget(() =>
-            {
-                View.EndEditing(true);
-            });
-            _tap.CancelsTouchesInView = false;
-            View.AddGestureRecognizer(_tap);
-        }
-    
     }
 
 

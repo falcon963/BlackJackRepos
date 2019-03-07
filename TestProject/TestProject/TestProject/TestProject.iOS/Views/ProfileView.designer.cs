@@ -19,6 +19,10 @@ namespace TestProject.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIScrollView MainScrollView { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITextField NewPasswordField { get; set; }
 
         [Outlet]
@@ -54,6 +58,11 @@ namespace TestProject.iOS.Views
             if (BackButton != null) {
                 BackButton.Dispose ();
                 BackButton = null;
+            }
+
+            if (MainScrollView != null) {
+                MainScrollView.Dispose ();
+                MainScrollView = null;
             }
 
             if (NewPasswordField != null) {

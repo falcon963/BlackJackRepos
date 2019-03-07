@@ -16,6 +16,7 @@
                 <outlet property="ProfileImage" destination="300" id="name-outlet-300"/>
                 <outlet property="SaveImageButton" destination="302" id="name-outlet-302"/>
                 <outlet property="BackButton" destination="748" id="name-outlet-748"/>
+                <outlet property="MainScrollView" destination="301" id="name-outlet-301"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

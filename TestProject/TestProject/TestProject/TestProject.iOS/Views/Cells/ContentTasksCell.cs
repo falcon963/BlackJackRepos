@@ -7,7 +7,8 @@ using UIKit;
 
 namespace TestProject.iOS.Views.Cells
 {
-    public partial class ContentTasksCell : BaseTableViewCell
+    public partial class ContentTasksCell 
+        : BaseTableViewCell
     {
 
         protected ContentTasksCell(IntPtr handle) : base(handle)
@@ -17,7 +18,14 @@ namespace TestProject.iOS.Views.Cells
 
         public void UpdateCell(UserTask item)
         {
-            TaskImage.Image = UIImage.LoadFromData(item.ImagePath);
+            if (item.ImagePath != null)
+            {
+                TaskImage.Image = UIImage.LoadFromData(item.ImagePath);
+            }
+            if(item.ImagePath == null)
+            {
+                TaskImage.Image = UIImage.FromFile("placeholder.png");
+            }
             TaskName.Text = item.Title;
             TaskStatus.On = item.Status;
         }

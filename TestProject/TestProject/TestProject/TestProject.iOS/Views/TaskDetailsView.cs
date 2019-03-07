@@ -11,14 +11,20 @@ namespace TestProject.iOS.Views
     public partial class TaskDetailsView : BaseMenuView<TaskViewModel>
     {
 
+        private UITapGestureRecognizer _tap;
+
+        public override UIScrollView ScrollView { get => base.ScrollView; set => base.ScrollView = value; }
+
         public TaskDetailsView() : base("TaskDetailsView", null)
         {
-
+            HideKeyboard(_tap);
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            ScrollView = MainScrollView;
 
             var set = this.CreateBindingSet<TaskDetailsView, TaskViewModel>();
             set.Bind(TaskName).To(vm => vm.UserTask.Changes.Title);
@@ -29,7 +35,20 @@ namespace TestProject.iOS.Views
             set.Bind(SaveButton).To(vm => vm.SaveUserTaskCommand);
             set.Bind(NavigationItem.Title).To(vm => vm.UserTask.Changes.Title);
             set.Bind(BackButton).To(vm => vm.ShowMenuCommand);
+            set.Bind(View).For(v => v.BackgroundColor).To(vm => vm.ColorTheme).WithConversion("NativeColor");
             set.Apply();
+
+            AddShadow(TaskName);
+            AddShadow(TaskNote);
+            AddShadow(TaskImage);
+            AddShadow(DeleteButton);
+            AddShadow(SaveButton);
+            AddShadow(ImageChoseButton);
+            AddShadow(TaskStatus);
+
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, HandleKeyboardDidHide);
+
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, HandleKeyboardDidShow);
 
             var imagePath = ViewModel.UserTask.Changes.ImagePath;
             if (imagePath != null)
@@ -44,6 +63,8 @@ namespace TestProject.iOS.Views
 
             UITapGestureRecognizer imageButton = new UITapGestureRecognizer(ImageChose);
             ImageChoseButton.AddGestureRecognizer(imageButton);
+
+            this.AutomaticallyAdjustsScrollViewInsets = false;
         }
 
         private void ImageChose()
@@ -64,6 +85,8 @@ namespace TestProject.iOS.Views
             }));
 
             actionSheet.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null));
+            var viewController = this.Window.RootViewController;
+            imagePickerController.View.Frame = viewController.View.Frame;
             this.PresentViewController(actionSheet, true, null);
         }
 
@@ -84,6 +107,16 @@ namespace TestProject.iOS.Views
             TaskImage.Image = image;
 
             picker.DismissViewController(true, null);
+        }
+
+        public override void HandleKeyboardDidShow(NSNotification obj)
+        {
+            base.HandleKeyboardDidShow(obj);
+        }
+
+        public override void HandleKeyboardDidHide(NSNotification obj)
+        {
+            base.HandleKeyboardDidHide(obj);
         }
     }
 }

@@ -53,10 +53,13 @@ namespace TestProject.iOS.Views
             var refreshControl = new MvxUIRefreshControl();
             this.RefreshControl = refreshControl;
 
+
+
             var set = this.CreateBindingSet<TasksListView, TaskListViewModel>();
             set.Bind(refreshControl).For(r => r.IsRefreshing).To(vm => vm.IsRefreshing);
             set.Bind(refreshControl).For(r => r.RefreshCommand).To(vm => vm.RefreshTaskCommand);
             set.Bind(MenuButton).To(vm => vm.ShowMenuCommand);
+            set.Bind(TasksList).For(v => v.BackgroundColor).To(vm => vm.TasksListColor).WithConversion("NativeColor");
             set.Apply();
 
             this.AddBindings(new Dictionary<object, String>

@@ -40,7 +40,7 @@ namespace TestProject.iOS.Source
                     (cell as ContentTasksCell).UpdateCell(taskItem);
                 }
             }
-            cell.Layer.BorderColor = UIColor.Black.CGColor;
+            cell.Layer.BorderColor = UIColor.White.CGColor;
             cell.Layer.BorderWidth = 1;
             cell.Layer.CornerRadius = 8;
             return cell;

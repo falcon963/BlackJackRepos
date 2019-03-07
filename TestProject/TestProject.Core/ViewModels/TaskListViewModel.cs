@@ -13,6 +13,7 @@ using Plugin.SecureStorage;
 using TestProject.Core.Constant;
 using Acr.UserDialogs;
 using System.Reflection;
+using MvvmCross.UI;
 
 namespace TestProject.Core.ViewModels
 {
@@ -91,6 +92,14 @@ namespace TestProject.Core.ViewModels
                 ListOfTasks = result;
             });
             return base.Initialize();
+        }
+
+        public MvxColor TasksListColor
+        {
+            get
+            {
+                return new MvxColor(251, 192, 45);
+            }
         }
 
         public async Task<MvxObservableCollection<UserTask>> UserTaskInitialize()

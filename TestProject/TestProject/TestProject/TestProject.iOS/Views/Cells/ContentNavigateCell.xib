@@ -27,13 +27,13 @@
                     <constraint id="3693" firstItem="280" firstAttribute="width" secondItem="YTl-1W-gDM" secondAttribute="width"/>
                     <constraint id="4522" firstItem="280" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leading" constant="16"/>
                 </constraints>
-                <color key="backgroundColor" colorSpace="calibratedRGB" red="0.074509803921568626" green="0.611764705882353" blue="0.93333333333333335" alpha="1"/>
+                <color key="backgroundColor" colorSpace="calibratedRGB" red="0.062745098039215685" green="0.792156862745098" blue="0.48627450980392156" alpha="1"/>
             </tableViewCellContentView>
             <connections>
                 <outlet property="NavigatePageName" destination="280" id="name-outlet-280"/>
             </connections>
             <point key="canvasLocation" x="-192" y="-98"/>
-            <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
+            <color key="backgroundColor" colorSpace="calibratedRGB" red="0.062745098039215685" green="0.611764705882353" blue="0.3411764705882353" alpha="1"/>
         </tableViewCell>
     </objects>
 </document>
