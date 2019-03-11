@@ -40,9 +40,10 @@ namespace TestProject.iOS.Source
                     (cell as ContentTasksCell).UpdateCell(taskItem);
                 }
             }
-            cell.Layer.BorderColor = UIColor.White.CGColor;
+            cell.Layer.BorderColor = UIColor.Black.CGColor;
             cell.Layer.BorderWidth = 1;
             cell.Layer.CornerRadius = 8;
+            cell.SelectionStyle = UITableViewCellSelectionStyle.None;
             return cell;
         }
 
@@ -109,9 +110,15 @@ namespace TestProject.iOS.Source
             return headerView;
         }
 
+        public override nfloat GetHeightForHeader(UITableView tableView, nint section)
+        {
+            return 0;
+        }
+
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
             return 60;
         }
+
     }
 }

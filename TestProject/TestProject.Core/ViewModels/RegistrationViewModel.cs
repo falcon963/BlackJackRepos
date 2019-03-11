@@ -19,7 +19,7 @@ namespace TestProject.Core.ViewModels
 
         private readonly IMvxNavigationService _navigationService;
 
-        private readonly ILoginRepository _loginService;
+        private readonly ILoginService _loginService;
 
         private String _login;
         private String _password;
@@ -34,7 +34,7 @@ namespace TestProject.Core.ViewModels
 
         #endregion
 
-        public RegistrationViewModel(IMvxNavigationService navigationService, ILoginRepository loginService, IUserDialogs userDialogs)
+        public RegistrationViewModel(IMvxNavigationService navigationService, ILoginService loginService, IUserDialogs userDialogs)
         {
             LoginColor = new MvxColor(251, 192, 45);
             ValidateColor = new MvxColor(241, 241, 241);

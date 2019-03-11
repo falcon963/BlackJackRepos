@@ -18,7 +18,6 @@ using UIKit;
 
 namespace TestProject.iOS.Views
 {
-   // [MvxSidebarPresentation(MvxPanelEnum.Left, MvxPanelHintType.ResetRoot, false)]
     public partial class MenuView 
         : BaseMenuView<MenuViewModel>
     {
@@ -67,33 +66,30 @@ namespace TestProject.iOS.Views
             this.NavigationController.View.Layer.AddAnimation(transition, null);
 
             // profile load
-            //var profileImage = ViewModel.Profile.ImagePath;
-            //if (profileImage != null)
-            //{
-            //    UserProfileImage.Image = UIImage.LoadFromData(ViewModel.Profile.ImagePath);
-            //}
-            //if (profileImage == null)
-            //{
-            UserProfileImage.Image = UIImage.FromFile("placeholder.png");
+            String profileImage = ViewModel.Profile.ImagePath;
+            if (profileImage != null)
+            {
+                UserProfileImage.Image = UIImage.LoadFromData(ViewModel.Profile.ImagePath);
+            }
+            if (profileImage == null)
+            {
+                UserProfileImage.Image = UIImage.FromFile("placeholder.png");
+            }
             UserProfileImage.Layer.BorderWidth = 3;
             UserProfileImage.Layer.BorderColor = UIColor.White.CGColor;
-            CALayer profileImageCircle = UserProfileImage.Layer;
             UserProfileImage.Layer.MasksToBounds = true;
-            profileImageCircle.CornerRadius = 45;
-            //AddShadow(UserProfileImage);
-            //}
-            //UserProfileName.Text = ViewModel.Profile.Login;
-            //
-
-            ///
-            // MenuRightConstraint.Constant = -NavigationDrawer.Bounds.Width;
-            ///   
-
+            UserProfileName.Text = ViewModel.Profile.Login;   
         }
 
         private void CloseMenu()
         {
             ViewModel.CloseMenu.Execute();
+        }
+
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+            UserProfileImage.Layer.CornerRadius = UserProfileImage.Frame.Size.Height / 2;
         }
 
     }

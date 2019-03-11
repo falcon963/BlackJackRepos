@@ -13,6 +13,8 @@ namespace TestProject.iOS.Views
 
         private UITapGestureRecognizer _tap;
 
+        UIImagePickerController imagePickerController = new UIImagePickerController();
+
         public override UIScrollView ScrollView { get => base.ScrollView; set => base.ScrollView = value; }
 
         public TaskDetailsView() : base("TaskDetailsView", null)
@@ -69,7 +71,6 @@ namespace TestProject.iOS.Views
 
         private void ImageChose()
         {
-            var imagePickerController = new UIImagePickerController();
             imagePickerController.Delegate = this;
 
             var actionSheet = UIAlertController.Create("Photo Source", "Choose a source", UIAlertControllerStyle.ActionSheet);
@@ -82,12 +83,16 @@ namespace TestProject.iOS.Views
             actionSheet.AddAction(UIAlertAction.Create("Gallery", UIAlertActionStyle.Default, (actionCamera) =>
             {
                 imagePickerController.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
+
             }));
 
             actionSheet.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null));
+
             var viewController = this.Window.RootViewController;
             imagePickerController.View.Frame = viewController.View.Frame;
             this.PresentViewController(actionSheet, true, null);
+            imagePickerController.Canceled += Canceled;
+            imagePickerController.FinishedPickingMedia += FinishedPickingMedia;
         }
 
         public override void DidReceiveMemoryWarning()
@@ -95,18 +100,19 @@ namespace TestProject.iOS.Views
             base.DidReceiveMemoryWarning();
         }
 
-        public void Canceled(UIImagePickerController picker)
+        public void Canceled(object sender, EventArgs e)
         {
-            picker.DismissViewController(true, null);
+            imagePickerController.DismissViewController(true, null);
         }
 
-        public void FinishedPickingMedia(UIImagePickerController picker, NSDictionary info)
+        public void FinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
         {
-            var originalImage = new NSString("UIImagePickerControllerOriginalImage");
-            var image = (UIImage)info[originalImage];
-            TaskImage.Image = image;
-
-            picker.DismissViewController(true, null);
+            UIImage originalImage = e.Info[UIImagePickerController.OriginalImage] as UIImage;
+            if(originalImage != null)
+            {
+                TaskImage.Image = originalImage;
+            }
+            imagePickerController.DismissViewController(true, null);
         }
 
         public override void HandleKeyboardDidShow(NSNotification obj)

@@ -19,7 +19,7 @@ namespace TestProject.Core.ViewModels
 
         private User _profile;
         private readonly IMvxNavigationService _navigationService;
-        private readonly ILoginRepository _loginService;
+        private readonly ILoginService _loginService;
         private String _oldPassword;
         private String _newPassword;
         private String _confirmPassword;
@@ -30,7 +30,7 @@ namespace TestProject.Core.ViewModels
 
         #endregion
 
-        public UserProfileViewModel(IMvxNavigationService navigationService, ILoginRepository loginService)
+        public UserProfileViewModel(IMvxNavigationService navigationService, ILoginService loginService)
         {
             _navigationService = navigationService;
             _loginService = loginService;

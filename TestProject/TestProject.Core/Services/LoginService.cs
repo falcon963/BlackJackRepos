@@ -11,7 +11,7 @@ using TestProject.Core.DBConnection;
 
 namespace TestProject.Core.Services
 {
-    public class LoginService: ILoginRepository
+    public class LoginService: ILoginService
     {
         private readonly SqliteAppConnection _dbConnection;
 
@@ -69,7 +69,8 @@ namespace TestProject.Core.Services
 
         public User TakeProfile(Int32 userId)
         {
-            User profile = _dbConnection.Database.Table<User>().Where( u => u.Id == userId).FirstOrDefault();
+            //var users = _dbConnection.Database.Table<User>();
+            User profile = _dbConnection.Database.Table<User>().Where(u => u.Id == userId).FirstOrDefault();
             return profile;
         }
 

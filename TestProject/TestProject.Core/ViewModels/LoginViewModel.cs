@@ -20,8 +20,8 @@ namespace TestProject.Core.ViewModels
         #region Fields
 
         private readonly IMvxNavigationService _navigationService;
-        private readonly ILoginRepository _loginService;
-        private readonly ITasksRepository _taskService;
+        private readonly ILoginService _loginService;
+        private readonly ITasksService _taskService;
         private Boolean _rememberMe;
         private Boolean _checkBoxStatus;
         private String _login;
@@ -32,7 +32,7 @@ namespace TestProject.Core.ViewModels
         #endregion
 
         public LoginViewModel(IMvxNavigationService navigationService,
-            ILoginRepository loginService, ITasksRepository taskService)
+            ILoginService loginService, ITasksService taskService)
         {
                 _loginService = loginService;
                 _navigationService = navigationService;

@@ -4,6 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MenuView">
@@ -23,52 +24,56 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <color key="backgroundColor" customColorSpace="sRGB" colorSpace="calibratedWhite" white="1" alpha="1"/>
             <subviews>
-                <view contentMode="scaleToFill" id="1031" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                <view contentMode="scaleToFill" id="1031" translatesAutoresizingMaskIntoConstraints="NO">
                     <rect key="frame" x="0.0" y="-0.5" width="290" height="736.5"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="1098" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="0.0" y="0.0" width="290" height="127"/>
+                            <rect key="frame" x="0.0" y="0.0" width="290" height="162"/>
                             <color key="backgroundColor" colorSpace="calibratedRGB" red="0.803921568627451" green="0.803921568627451" blue="0.803921568627451" alpha="1"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="1409" translatesAutoresizingMaskIntoConstraints="NO">
-                                    <rect key="frame" x="8" y="19" width="116" height="88.5"/>
+                                    <rect key="frame" x="8" y="36" width="90" height="90"/>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute keyPath="layer.cornerRadius" type="number">
                                             <real key="value" value="60"/>
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
+                                    <constraints>
+                                        <constraint id="50055" firstAttribute="width" secondItem="1409" secondAttribute="height" multiplier="1:1"/>
+                                    </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1542" translatesAutoresizingMaskIntoConstraints="NO">
-                                    <rect key="frame" x="132" y="19" width="145" height="20.5"/>
+                                    <rect key="frame" x="106" y="29.5" width="144.5" height="24.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1565" translatesAutoresizingMaskIntoConstraints="NO" text="Profile">
-                                    <rect key="frame" x="132" y="47.5" width="145" height="20.5"/>
+                                    <rect key="frame" x="106" y="69" width="144.5" height="24"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
                             <constraints>
-                                <constraint id="1830" firstItem="1409" firstAttribute="width" secondItem="1098" secondAttribute="width" multiplier="0.4"/>
-                                <constraint id="1875" firstItem="1409" firstAttribute="height" secondItem="1098" secondAttribute="height" multiplier="0.7"/>
+                                <constraint id="1830" firstItem="1409" firstAttribute="width" secondItem="1098" secondAttribute="width" multiplier="0.31"/>
                                 <constraint id="1920" firstItem="1409" firstAttribute="leading" secondItem="1098" secondAttribute="leading" constant="8"/>
                                 <constraint id="1943" firstItem="1409" firstAttribute="centerY" secondItem="1098" secondAttribute="centerY"/>
                                 <constraint id="1989" firstItem="1542" firstAttribute="leading" secondItem="1409" secondAttribute="trailing" constant="8"/>
                                 <constraint id="2034" firstItem="1565" firstAttribute="leading" secondItem="1409" secondAttribute="trailing" constant="8"/>
-                                <constraint id="2057" firstItem="1565" firstAttribute="top" secondItem="1542" secondAttribute="bottom" constant="8"/>
-                                <constraint id="2080" firstItem="1542" firstAttribute="top" secondItem="1098" secondAttribute="top" constant="19"/>
                                 <constraint id="2193" firstItem="1542" firstAttribute="width" secondItem="1565" secondAttribute="width"/>
                                 <constraint id="2216" firstItem="1565" firstAttribute="width" secondItem="1098" secondAttribute="width" multiplier="0.5"/>
-                                <constraint id="2261" firstItem="1409" firstAttribute="top" secondItem="1098" secondAttribute="top" constant="19"/>
+                                <constraint id="48973" firstItem="1409" firstAttribute="centerY" secondItem="1098" secondAttribute="centerY"/>
+                                <constraint id="49613" firstItem="1565" firstAttribute="centerY" secondItem="1098" secondAttribute="centerY"/>
+                                <constraint id="49615" firstItem="1542" firstAttribute="height" secondItem="1098" secondAttribute="height" multiplier="0.15"/>
+                                <constraint id="49617" firstItem="1565" firstAttribute="top" secondItem="1542" secondAttribute="bottom" constant="15"/>
+                                <constraint id="49836" firstItem="1565" firstAttribute="height" secondItem="1098" secondAttribute="height" multiplier="0.15"/>
                             </constraints>
                             <color key="tintColor" colorSpace="calibratedRGB" red="1" green="0.6470588235294118" blue="0" alpha="1"/>
                         </view>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="1364" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
-                            <rect key="frame" x="0.0" y="127" width="290" height="610"/>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="1364" translatesAutoresizingMaskIntoConstraints="NO">
+                            <rect key="frame" x="0.0" y="162" width="290" height="574"/>
                             <color key="backgroundColor" colorSpace="calibratedWhite" white="0.666666666666667" alpha="1"/>
                         </tableView>
                     </subviews>
@@ -100,6 +105,7 @@
                 <constraint id="30291" firstItem="7813" firstAttribute="bottom" secondItem="2" secondAttribute="bottom"/>
                 <constraint id="35141" firstItem="1031" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
                 <constraint id="35287" firstItem="1031" firstAttribute="trailing" secondItem="7813" secondAttribute="leading"/>
+                <constraint id="49398" firstItem="1031" firstAttribute="height" secondItem="2" secondAttribute="height"/>
             </constraints>
         </view>
     </objects>

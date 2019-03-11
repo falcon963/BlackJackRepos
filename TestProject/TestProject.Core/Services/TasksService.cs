@@ -13,12 +13,12 @@ using System.Threading;
 
 namespace TestProject.Core.Services
 {
-    public class TaskService : ITasksRepository 
+    public class TasksService : ITasksService 
     {
 
         private readonly SqliteAppConnection _dbConnection;
 
-        public TaskService(IDatabaseConnectionService connectionService)
+        public TasksService(IDatabaseConnectionService connectionService)
         {
             _dbConnection = new SqliteAppConnection(connectionService);
         }

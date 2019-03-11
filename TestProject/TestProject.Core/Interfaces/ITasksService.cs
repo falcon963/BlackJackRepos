@@ -7,7 +7,7 @@ using TestProject.Core.ViewModels;
 
 namespace TestProject.Core.Interfaces
 {
-    public interface ITasksRepository
+    public interface ITasksService
     {
         List<Int32> GetUserTasksIdAsync(Int32 id);
         UserTask GetUserTaskAsync(Int32 taskId);

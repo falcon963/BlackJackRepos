@@ -24,7 +24,7 @@ namespace TestProject.Core.ViewModels
         #region Fields
 
         private readonly IMvxNavigationService _navigationService;
-        private readonly ITasksRepository _taskService;
+        private readonly ITasksService _taskService;
         private bool _isRefreshing;
         private ResultModel _userTask;
         private readonly IUserDialogs _userDialogs;
@@ -33,7 +33,7 @@ namespace TestProject.Core.ViewModels
 
         #endregion
 
-        public TaskListViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs)
+        public TaskListViewModel(IMvxNavigationService navigationService, ITasksService taskService, IUserDialogs userDialogs)
         {
             _listOfTasks = new MvxObservableCollection<UserTask>();
             ListOfTasks = new MvxObservableCollection<UserTask>();

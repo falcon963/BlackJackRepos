@@ -49,17 +49,14 @@ namespace TestProject.iOS.Views
             NavigationController.NavigationBarHidden = true;
 
             var source = new TasksListSource(TasksList, this);
-
             var refreshControl = new MvxUIRefreshControl();
             this.RefreshControl = refreshControl;
-
-
 
             var set = this.CreateBindingSet<TasksListView, TaskListViewModel>();
             set.Bind(refreshControl).For(r => r.IsRefreshing).To(vm => vm.IsRefreshing);
             set.Bind(refreshControl).For(r => r.RefreshCommand).To(vm => vm.RefreshTaskCommand);
             set.Bind(MenuButton).To(vm => vm.ShowMenuCommand);
-            set.Bind(TasksList).For(v => v.BackgroundColor).To(vm => vm.TasksListColor).WithConversion("NativeColor");
+            //set.Bind(TasksList).For(v => v.BackgroundColor).To(vm => vm.TasksListColor).WithConversion("NativeColor");
             set.Apply();
 
             this.AddBindings(new Dictionary<object, String>
@@ -69,7 +66,11 @@ namespace TestProject.iOS.Views
 
             TasksList.Source = source;
             TasksList.ReloadData();
+            TasksList.ScrollEnabled = false;
+            if(TasksList.ContentSize.Height > TasksList.VisibleSize.Height)
+            {
+                TasksList.ScrollEnabled = true;
+            }
         }
-
     }
 }

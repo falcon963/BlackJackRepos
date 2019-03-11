@@ -28,19 +28,14 @@ namespace TestProject.iOS.Views.Cells
             }
             TaskName.Text = item.Title;
             TaskStatus.On = item.Status;
+            TaskStatus.Enabled = false;
+
+            TaskImage.Layer.BorderWidth = 1;
+            TaskImage.Layer.BackgroundColor = UIColor.Black.CGColor;
+            TaskImage.Layer.MasksToBounds = true;
+            TaskImage.Layer.CornerRadius = TaskImage.Frame.Size.Width/2;
+            TaskImage.ClipsToBounds = true;
         }
-
-        //protected override void CreateView()
-        //{
-        //    base.CreateView();
-
-        //    this.DelayBind(() =>
-        //    {
-        //        // this.AddBindings(TaskName, "Text Title");
-        //        //this.AddBindings(CheckBox, "Checked Status");
-        //    });
-
-        //}
 
     }
 }

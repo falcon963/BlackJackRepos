@@ -19,11 +19,11 @@ namespace TestProject.Core.ViewModels
 
         private readonly IMvxNavigationService _navigationService;
 
-        private readonly ILoginRepository _loginService;
+        private readonly ILoginService _loginService;
 
         #endregion
 
-        public MainViewModel(IMvxNavigationService navigationService, ILoginRepository loginService)
+        public MainViewModel(IMvxNavigationService navigationService, ILoginService loginService)
         {
             _navigationService = navigationService;
             _loginService = loginService;

@@ -24,7 +24,7 @@ namespace TestProject.Core.ViewModels
         #region Fields
 
         private readonly IMvxNavigationService _navigationService;
-        private readonly ITasksRepository _taskService;
+        private readonly ITasksService _taskService;
         private ResultModel _resultModel;
         private readonly IUserDialogs _userDialogs;
         private UserTask _userTaskDublicate;
@@ -66,7 +66,7 @@ namespace TestProject.Core.ViewModels
         #endregion
 
 
-        public TaskViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs)
+        public TaskViewModel(IMvxNavigationService navigationService, ITasksService taskService, IUserDialogs userDialogs)
         {
             _taskService = taskService;
             _userDialogs = userDialogs;
