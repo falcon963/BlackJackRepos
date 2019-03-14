@@ -4,6 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileView">
@@ -29,43 +30,43 @@
                     <rect key="frame" x="0.0" y="44" width="414" height="692"/>
                     <subviews>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Text" borderStyle="roundedRect" minimumFontSize="17" id="293" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="41.5" y="119.5" width="331" height="24"/>
+                            <rect key="frame" x="41.5" y="42.5" width="331" height="24"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Text" borderStyle="roundedRect" minimumFontSize="17" id="294" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="41.5" y="183" width="331" height="24"/>
+                            <rect key="frame" x="41.5" y="106" width="331" height="24"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Text" borderStyle="roundedRect" minimumFontSize="17" id="295" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="41.5" y="248" width="331" height="24.5"/>
+                            <rect key="frame" x="41.5" y="171" width="331" height="24.5"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="296" translatesAutoresizingMaskIntoConstraints="NO" text="Password:">
-                            <rect key="frame" x="41.5" y="87" width="331" height="24.5"/>
+                            <rect key="frame" x="41.5" y="10" width="331" height="24.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password confirm:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="297" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="41.5" y="150.5" width="331" height="24.5"/>
+                            <rect key="frame" x="41.5" y="73.5" width="331" height="24.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <nil key="highlightedColor"/>
                             <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New password:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="298" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="41.5" y="216" width="331" height="24"/>
+                            <rect key="frame" x="41.5" y="139" width="331" height="24"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <nil key="highlightedColor"/>
                             <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="299" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="158.5" y="301.5" width="97" height="29"/>
+                            <rect key="frame" x="155.5" y="210.5" width="103.5" height="29"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                             <state key="normal" title="Save password"/>
@@ -73,27 +74,28 @@
                                 <action selector="SavePasswordPress:" destination="-1" id="305"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="300" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="41.5" y="351.5" width="331" height="346"/>
+                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="300" translatesAutoresizingMaskIntoConstraints="NO">
+                            <rect key="frame" x="41.5" y="254.5" width="331" height="331"/>
+                            <constraints>
+                                <constraint id="3642" firstAttribute="width" secondItem="300" secondAttribute="height" multiplier="1:1"/>
+                            </constraints>
                         </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="302" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
-                            <rect key="frame" x="147" y="706" width="120" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="302" translatesAutoresizingMaskIntoConstraints="NO">
+                            <rect key="frame" x="155.5" y="600.5" width="103.5" height="29"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                             <state key="normal" title="Save image"/>
                             <connections>
-                                <action selector="SaveImagePress:" destination="-1" id="306"/>
+                                <action selector="SaveImagePress:" destination="-1" id="3010" eventType="touchUpInside"/>
                             </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                     <constraints>
                         <constraint id="1201" firstItem="300" firstAttribute="width" secondItem="301" secondAttribute="width" multiplier="0.8"/>
-                        <constraint id="1202" firstItem="300" firstAttribute="height" secondItem="301" secondAttribute="height" multiplier="0.5"/>
                         <constraint id="1203" firstItem="300" firstAttribute="centerX" secondItem="301" secondAttribute="centerX"/>
-                        <constraint id="1204" firstItem="300" firstAttribute="top" secondItem="299" secondAttribute="bottom" constant="21"/>
-                        <constraint id="1205" firstItem="296" firstAttribute="top" secondItem="301" secondAttribute="top" constant="87"/>
+                        <constraint id="1204" firstItem="300" firstAttribute="top" secondItem="299" secondAttribute="bottom" constant="15"/>
+                        <constraint id="1205" firstItem="296" firstAttribute="top" secondItem="301" secondAttribute="top" constant="10"/>
                         <constraint id="1206" firstItem="296" firstAttribute="centerX" secondItem="301" secondAttribute="centerX"/>
                         <constraint id="1207" firstItem="296" firstAttribute="width" secondItem="301" secondAttribute="width" multiplier="0.8"/>
                         <constraint id="1209" firstItem="296" firstAttribute="height" secondItem="301" secondAttribute="height" multiplier="0.035"/>
@@ -117,8 +119,12 @@
                         <constraint id="1228" firstItem="295" firstAttribute="centerX" secondItem="301" secondAttribute="centerX"/>
                         <constraint id="1229" firstItem="295" firstAttribute="height" secondItem="294" secondAttribute="height"/>
                         <constraint id="1230" firstItem="295" firstAttribute="width" secondItem="294" secondAttribute="width"/>
-                        <constraint id="1231" firstItem="299" firstAttribute="top" secondItem="295" secondAttribute="bottom" constant="29"/>
+                        <constraint id="1231" firstItem="299" firstAttribute="top" secondItem="295" secondAttribute="bottom" constant="15"/>
                         <constraint id="1232" firstItem="299" firstAttribute="centerX" secondItem="301" secondAttribute="centerX"/>
+                        <constraint id="4441" firstItem="302" firstAttribute="centerX" secondItem="301" secondAttribute="centerX"/>
+                        <constraint id="4456" firstItem="302" firstAttribute="top" secondItem="300" secondAttribute="bottom" constant="15"/>
+                        <constraint id="4471" firstItem="299" firstAttribute="width" secondItem="301" secondAttribute="width" multiplier="0.25"/>
+                        <constraint id="4528" firstItem="302" firstAttribute="width" secondItem="299" secondAttribute="width"/>
                     </constraints>
                 </scrollView>
                 <navigationBar contentMode="scaleToFill" id="303" translatesAutoresizingMaskIntoConstraints="NO">
@@ -141,6 +147,7 @@
                 <constraint id="744" firstItem="301" firstAttribute="top" secondItem="303" secondAttribute="bottom"/>
                 <constraint id="745" firstItem="301" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
                 <constraint id="746" firstItem="301" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
+                <constraint id="5063" firstItem="301" firstAttribute="bottom" secondItem="2" secondAttribute="bottom"/>
             </constraints>
         </view>
     </objects>

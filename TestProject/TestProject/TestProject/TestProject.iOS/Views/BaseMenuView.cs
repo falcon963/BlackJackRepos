@@ -15,6 +15,10 @@ namespace TestProject.iOS.Views
     {
         public virtual UIScrollView ScrollView { get; set; }
 
+        private CGSize SizeScroll { get; set; }
+
+        private Boolean _scrollEnable;
+
         protected UIWindow Window
         {
             get
@@ -33,12 +37,24 @@ namespace TestProject.iOS.Views
 
         public virtual void HandleKeyboardDidShow(NSNotification obj)
         {
+            if(ScrollView.ContentSize.Height > View.Frame.Size.Height)
+            {
+                SizeScroll = ScrollView.ContentSize;
+                _scrollEnable = true;
+            }
             ScrollView.ContentSize = new CoreGraphics.CGSize(View.Frame.Width, View.Frame.Height + UIKeyboard.FrameBeginFromNotification(obj).Height / 2);
         }
 
         public virtual void HandleKeyboardDidHide(NSNotification obj)
         {
+            if (_scrollEnable)
+            {
+                ScrollView.ContentSize = SizeScroll;
+            }
+            if (!_scrollEnable)
+            {
             ScrollView.ContentSize = new CoreGraphics.CGSize(View.Frame.Width, View.Frame.Height - UIKeyboard.FrameBeginFromNotification(obj).Height / 2);
+            }
         }
 
         public void HideKeyboard(UITapGestureRecognizer tap)

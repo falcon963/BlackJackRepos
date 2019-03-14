@@ -58,6 +58,14 @@ namespace TestProject.iOS.Views
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UINavigationBar TaskToolbar { get; set; }
 
+        [Action ("PressImgButton:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void PressImgButton (UIKit.UIButton sender);
+
+        [Action ("PressSaveButton:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void PressSaveButton (UIKit.UIButton sender);
+
         void ReleaseDesignerOutlets ()
         {
             if (BackButton != null) {

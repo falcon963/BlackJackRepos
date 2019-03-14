@@ -18,6 +18,9 @@ using TestProject.Core.Services;
 using System.Reflection;
 using System.Collections;
 using MvvmCross.Plugin.Color;
+using MvvmCross.Converters;
+using TestProject.iOS.Converters;
+using MvvmCross.Binding.Binders;
 
 namespace TestProject.iOS
 {
@@ -29,14 +32,12 @@ namespace TestProject.iOS
         //    base.InitializeFirstChance();
         //}
 
-        //protected override void InitializeLastChance()
-        //{
-        //    base.InitializeLastChance();
+        protected override void InitializeLastChance()
+        {
+            base.InitializeLastChance();
 
-        //    var registry = Mvx.Resolve<IMvxTargetBindingFactoryRegistry>();
-        //    registry.RegisterFactory(new MvxCustomBindingFactory<UIViewController>("NetworkIndicator", (viewController) =>
-        //     new NetworkIndicatorTargetBinding(viewController)));
-        //}
+            var registry = Mvx.Resolve<IMvxValueConverterLookup>();
+        }
 
         //protected override IMvxIocOptions CreateIocOptions()
         //{
@@ -51,13 +52,24 @@ namespace TestProject.iOS
             base.RegisterPresenter();
         }
 
+        //protected override IEnumerable<Assembly> ValueConverterAssemblies
+        //{
+        //    get
+        //    {
+        //        var toReturn = base.ValueConverterAssemblies as IList;
+        //        toReturn.Add(typeof(ColorValueConverter).Assembly);
+        //        return (List<Assembly>)toReturn;
+        //    }
+        //}
+
         protected override IEnumerable<Assembly> ValueConverterAssemblies
         {
             get
             {
-                var toReturn = base.ValueConverterAssemblies as IList;
-                toReturn.Add(typeof(MvxNativeColorValueConverter).Assembly);
-                return (List<Assembly>)toReturn;
+                var assemblies = base.ValueConverterAssemblies;
+                var valueConverterAssemblies = assemblies as Assembly[] ?? assemblies.ToArray();
+                valueConverterAssemblies.ToList().Add(typeof(ColorValueConverter).Assembly);
+                return valueConverterAssemblies;
             }
         }
 

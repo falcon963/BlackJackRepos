@@ -56,21 +56,28 @@ namespace TestProject.iOS.Views
             set.Bind(refreshControl).For(r => r.IsRefreshing).To(vm => vm.IsRefreshing);
             set.Bind(refreshControl).For(r => r.RefreshCommand).To(vm => vm.RefreshTaskCommand);
             set.Bind(MenuButton).To(vm => vm.ShowMenuCommand);
-            //set.Bind(TasksList).For(v => v.BackgroundColor).To(vm => vm.TasksListColor).WithConversion("NativeColor");
+            set.Bind(source).For(x => x.ItemsSource).To(vm => vm.ListOfTasks);
+            set.Bind(source).For(x => x.SelectionChangedCommand).To(vm => vm.ItemSelectedCommand);            
+            //set.Bind(View).For(v => v.BackgroundColor).To(vm => vm.TasksListColor).WithConversion("NativeColor");
             set.Apply();
 
-            this.AddBindings(new Dictionary<object, String>
-            {
-                { source, "ItemsSource ListOfTasks" }
-            });
+            //this.AddBindings(new Dictionary<object, String>
+            //{
+            //    { source, "ItemsSource ListOfTasks" }
+            //});
 
             TasksList.Source = source;
+            TasksList.RegisterNibForCellReuse(UINib.FromName("ContentTasksCell", NSBundle.MainBundle), ContentTasksCell.Key);
+            TasksList.RowHeight = UITableView.AutomaticDimension;
+            //TasksList.ScrollEnabled = false;
+            //if (TasksList.ContentSize.Height > TasksList.VisibleSize.Height)
+            //{
+            //    TasksList.ScrollEnabled = true;
+            //}
             TasksList.ReloadData();
-            TasksList.ScrollEnabled = false;
-            if(TasksList.ContentSize.Height > TasksList.VisibleSize.Height)
-            {
-                TasksList.ScrollEnabled = true;
-            }
+
+            var myTabBar = new MainView();
+            Window.RootViewController = myTabBar;
         }
     }
 }

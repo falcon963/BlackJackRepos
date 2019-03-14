@@ -1,4 +1,5 @@
-﻿using MvvmCross.Commands;
+﻿using Acr.UserDialogs;
+using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.UI;
 using Plugin.SecureStorage;
@@ -227,6 +228,13 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxCommand(() =>
                 {
+                    var alert = UserDialogs.Instance.Alert(
+                            new AlertConfig
+                            {
+                                Message = MessengeFields.Success,
+                                OkText = MessengeFields.OkText,
+                                Title = MessengeFields.Success
+                            });
                     _loginService.ChangeImage(Profile.Id, Profile.ImagePath);
                 });
             }

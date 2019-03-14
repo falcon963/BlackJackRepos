@@ -49,7 +49,9 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                     <state key="normal" title="ImageChange"/>
-                                    <connections/>
+                                    <connections>
+                                        <action selector="PressImgButton:" destination="-1" id="125086" eventType="touchUpInside"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <constraints>
@@ -133,15 +135,17 @@
                             <rect key="frame" x="57" y="604" width="300" height="83"/>
                             <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="283" translatesAutoresizingMaskIntoConstraints="NO" ambiguous="YES">
-                                    <rect key="frame" x="105" y="0.0" width="90" height="33"/>
-                                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="283" translatesAutoresizingMaskIntoConstraints="NO">
+                                    <rect key="frame" x="105" y="-2.5" width="90" height="33"/>
+                                    <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                     <state key="normal" title="Save"/>
-                                    <connections/>
+                                    <connections>
+                                        <action selector="PressSaveButton:" destination="-1" id="125650" eventType="touchUpInside"/>
+                                    </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="284" translatesAutoresizingMaskIntoConstraints="NO" ambiguous="YES" misplaced="YES">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="284" translatesAutoresizingMaskIntoConstraints="NO">
                                     <rect key="frame" x="105" y="38" width="90" height="33.5"/>
-                                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                    <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                     <state key="normal" title="Delete"/>
                                     <connections/>
                                     <constraints>
@@ -157,6 +161,7 @@
                                 <constraint id="90595" firstItem="284" firstAttribute="height" secondItem="10408" secondAttribute="height" multiplier="0.4"/>
                                 <constraint id="121107" firstItem="284" firstAttribute="width" secondItem="10408" secondAttribute="width" multiplier="0.3"/>
                                 <constraint id="123164" firstItem="283" firstAttribute="centerX" secondItem="10408" secondAttribute="centerX"/>
+                                <constraint id="126567" firstAttribute="bottom" secondItem="284" secondAttribute="bottom" constant="11"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -187,7 +192,7 @@
                 <navigationBar contentMode="scaleToFill" id="273" translatesAutoresizingMaskIntoConstraints="NO" backIndicatorImage="back_to_50.png" backIndicatorTransitionMaskImage="back_to_50.png">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                     <items>
-                        <navigationItem title="Title" id="274">
+                        <navigationItem id="274">
                             <barButtonItem key="leftBarButtonItem" title="Item" id="82951"/>
                         </navigationItem>
                     </items>

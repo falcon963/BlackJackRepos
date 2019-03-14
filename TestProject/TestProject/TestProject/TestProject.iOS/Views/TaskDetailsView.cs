@@ -4,16 +4,21 @@ using MvvmCross.Platforms.Ios.Presenters.Attributes;
 using MvvmCross.Platforms.Ios.Views;
 using System;
 using TestProject.Core.ViewModels;
+using TestProject.iOS.Converters;
 using UIKit;
 
 namespace TestProject.iOS.Views
 {
-    public partial class TaskDetailsView : BaseMenuView<TaskViewModel>
+
+    public partial class TaskDetailsView 
+        : BaseMenuView<TaskViewModel>
     {
 
         private UITapGestureRecognizer _tap;
 
-        UIImagePickerController imagePickerController = new UIImagePickerController();
+
+
+        UIImagePickerController _imagePickerController = new UIImagePickerController();
 
         public override UIScrollView ScrollView { get => base.ScrollView; set => base.ScrollView = value; }
 
@@ -38,6 +43,7 @@ namespace TestProject.iOS.Views
             set.Bind(NavigationItem.Title).To(vm => vm.UserTask.Changes.Title);
             set.Bind(BackButton).To(vm => vm.ShowMenuCommand);
             set.Bind(View).For(v => v.BackgroundColor).To(vm => vm.ColorTheme).WithConversion("NativeColor");
+            set.Bind(TaskImage).To(vm => vm.UserTask.Changes.ImagePath).WithConversion(new ImageValueConverter());
             set.Apply();
 
             AddShadow(TaskName);
@@ -52,48 +58,21 @@ namespace TestProject.iOS.Views
 
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, HandleKeyboardDidShow);
 
-            var imagePath = ViewModel.UserTask.Changes.ImagePath;
-            if (imagePath != null)
-            {
-                TaskImage.Image = UIImage.LoadFromData(imagePath);
-            }
-            if(imagePath == null)
-            {
-                TaskImage.Image = UIImage.FromFile("placeholder.png");
-            }
+            
             BackButton.Image = UIImage.FromFile("back_to_50.png");
 
-            UITapGestureRecognizer imageButton = new UITapGestureRecognizer(ImageChose);
-            ImageChoseButton.AddGestureRecognizer(imageButton);
+            _imagePickerController.Delegate = this;
 
             this.AutomaticallyAdjustsScrollViewInsets = false;
         }
 
-        private void ImageChose()
+        partial void PressSaveButton(UIButton sender)
         {
-            imagePickerController.Delegate = this;
-
-            var actionSheet = UIAlertController.Create("Photo Source", "Choose a source", UIAlertControllerStyle.ActionSheet);
-
-            actionSheet.AddAction(UIAlertAction.Create("Camera", UIAlertActionStyle.Default, (actionCamera) =>
-            {
-                imagePickerController.SourceType = UIImagePickerControllerSourceType.Camera;
-            }));
-
-            actionSheet.AddAction(UIAlertAction.Create("Gallery", UIAlertActionStyle.Default, (actionCamera) =>
-            {
-                imagePickerController.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
-
-            }));
-
-            actionSheet.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null));
-
-            var viewController = this.Window.RootViewController;
-            imagePickerController.View.Frame = viewController.View.Frame;
-            this.PresentViewController(actionSheet, true, null);
-            imagePickerController.Canceled += Canceled;
-            imagePickerController.FinishedPickingMedia += FinishedPickingMedia;
+            var data = TaskImage.Image.AsJPEG();
+            ViewModel.UserTask.Changes.ImagePath = data.GetBase64EncodedString(NSDataBase64EncodingOptions.SixtyFourCharacterLineLength);
+            ViewModel.SaveUserTaskCommand.Execute();
         }
+
 
         public override void DidReceiveMemoryWarning()
         {
@@ -102,17 +81,68 @@ namespace TestProject.iOS.Views
 
         public void Canceled(object sender, EventArgs e)
         {
-            imagePickerController.DismissViewController(true, null);
+            _imagePickerController.DismissViewController(true, null);
         }
 
-        public void FinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
+        public void OpenCamera()
         {
-            UIImage originalImage = e.Info[UIImagePickerController.OriginalImage] as UIImage;
-            if(originalImage != null)
+            if (UIImagePickerController.IsSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
             {
-                TaskImage.Image = originalImage;
+                _imagePickerController.SourceType = UIImagePickerControllerSourceType.Camera;
+                _imagePickerController.AllowsEditing = true;
+                this.PresentViewController(_imagePickerController, true, null);
             }
-            imagePickerController.DismissViewController(true, null);
+            else
+            {
+                var alert = UIAlertController.Create("Warning", "You don't have camera", UIAlertControllerStyle.Alert);
+                alert.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Default, null));
+                this.PresentViewController(alert, true, null);
+            }
+        }
+
+
+
+        partial void PressImgButton(UIButton sender)
+        {
+            this.ImageChoseButton.UserInteractionEnabled = true;
+
+
+            var actionSheet = UIAlertController.Create("Photo Source", "Choose a source", UIAlertControllerStyle.ActionSheet);
+
+            actionSheet.AddAction(UIAlertAction.Create("Camera", UIAlertActionStyle.Default, (actionCamera) =>
+            {
+                OpenCamera();
+            }));
+
+            actionSheet.AddAction(UIAlertAction.Create("Gallery", UIAlertActionStyle.Default, (actionLibrary) =>
+            {
+                OpenLibrary();
+            }));
+
+            actionSheet.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null));
+
+            switch (UIDevice.CurrentDevice.UserInterfaceIdiom)
+            {
+                case UIUserInterfaceIdiom.Pad:
+                    actionSheet.PopoverPresentationController.SourceView = sender;
+                    actionSheet.PopoverPresentationController.SourceRect = sender.Bounds;
+                    actionSheet.PopoverPresentationController.PermittedArrowDirections = UIPopoverArrowDirection.Up;
+                    break;
+                default:
+                    break;
+            }
+
+            _imagePickerController.FinishedPickingMedia += Handle_FinishedPickingMedia;
+
+            this.PresentViewController(actionSheet, true, null);
+        }
+
+        public void OpenLibrary()
+        {
+            _imagePickerController.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
+            _imagePickerController.AllowsEditing = true;
+
+            this.PresentViewController(_imagePickerController, true, null);
         }
 
         public override void HandleKeyboardDidShow(NSNotification obj)
@@ -123,6 +153,18 @@ namespace TestProject.iOS.Views
         public override void HandleKeyboardDidHide(NSNotification obj)
         {
             base.HandleKeyboardDidHide(obj);
+        }
+
+        protected void Handle_FinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
+        {
+            UIImage originalImage = e.Info[UIImagePickerController.OriginalImage] as UIImage;
+
+            if (originalImage != null)
+            {
+                TaskImage.Image = originalImage;
+            }
+
+            _imagePickerController.DismissViewController(true, null);
         }
     }
 }

@@ -11,7 +11,7 @@ using UIKit;
 
 namespace TestProject.iOS.Converters
 {
-    public class UIColorValueConverter
+    public class ColorValueConverter
         : MvxValueConverter<MvxColor, UIColor>
     {
         protected override UIColor Convert(MvxColor value, Type targetType, object parameter, CultureInfo culture)

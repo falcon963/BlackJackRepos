@@ -72,7 +72,7 @@ namespace TestProject.Core.ViewModels
                 SetProperty(ref _login, value);
                 User.Login = _login;
                 CheckEnableStatus();
-                LoginColor = new MvxColor(21, 206, 234);
+                //LoginColor = new MvxColor(21, 206, 234);
             }
         }
 
@@ -87,7 +87,7 @@ namespace TestProject.Core.ViewModels
                 SetProperty(ref _password, value);
                 User.Password = _password;
                 CheckEnableStatus();
-                LoginColor = new MvxColor(28, 21, 234);
+                //LoginColor = new MvxColor(28, 21, 234);
             }
         }
 

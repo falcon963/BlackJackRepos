@@ -10,7 +10,9 @@ using MvvmCross.Platforms.Ios.Presenters.Attributes;
 
 namespace TestProject.iOS.Views
 {
-    public class MainView : MvxViewController<MainViewModel>
+    //[MvxRootPresentation]
+    public class MainView 
+        : MvxTabBarViewController<MainViewModel>
     {
         public MainView()
         {

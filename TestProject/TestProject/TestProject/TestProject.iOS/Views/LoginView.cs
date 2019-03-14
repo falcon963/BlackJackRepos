@@ -7,6 +7,7 @@ using UIKit;
 using MvvmCross.Platforms.Ios.Presenters.Attributes;
 using System.Drawing;
 using CoreGraphics;
+using TestProject.iOS.Converters;
 
 namespace TestProject.iOS.Views
 {
@@ -41,7 +42,10 @@ namespace TestProject.iOS.Views
             set.Bind(LoginField).To(vm => vm.Login);
             set.Bind(PasswordField).To(vm => vm.Password);
             set.Bind(RememberSwitch).To(vm => vm.RememberMeStatus);
-            set.Bind(View).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion("NativeColor");
+            //set.Bind(LoginScrollView).For("Visibility").To(vm => vm.LoginColor).WithConversion(new ColorValueConverter());
+            set.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion(new ColorValueConverter());
+            //set.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion("RGBA");
+            //set.Bind(View).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion(new ColorValueConverter());
             set.Apply();
 
             AddShadow(LoginField);

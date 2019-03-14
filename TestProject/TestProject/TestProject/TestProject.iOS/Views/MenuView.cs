@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using TestProject.Core.ViewModels;
+using TestProject.iOS.Converters;
 using TestProject.iOS.Source;
 using TestProject.iOS.Views.Cells;
 using UIKit;
@@ -44,16 +45,17 @@ namespace TestProject.iOS.Views
 
             var set = this.CreateBindingSet<MenuView, MenuViewModel>();
             set.Bind(NavigateList).For(v => v.BackgroundColor).To(vm => vm.MenuColor).WithConversion("NativeColor");
+            set.Bind(UserProfileImage).For(v => v.Image).To(vm => vm.Profile.ImagePath).WithConversion(new ImageValueConverter());
             //set.Bind(ProfileView).To(vm => vm.OpenProfileCommand);
             set.Apply();
 
-           
-
             UISwipeGestureRecognizer recognizer = new UISwipeGestureRecognizer(CloseMenu);
-            UITapGestureRecognizer tupRecognizer = new UITapGestureRecognizer(CloseMenu);
+            UITapGestureRecognizer tupRecognizerCloseMenu = new UITapGestureRecognizer(CloseMenu);
+            UITapGestureRecognizer tupRecognizerOpenProfile = new UITapGestureRecognizer(ProfileOpen);
             recognizer.Direction = UISwipeGestureRecognizerDirection.Right;
             View.AddGestureRecognizer(recognizer);
-            ShadowView.AddGestureRecognizer(tupRecognizer);
+            ProfileView.AddGestureRecognizer(tupRecognizerOpenProfile);
+            ShadowView.AddGestureRecognizer(tupRecognizerCloseMenu);
             this.AutomaticallyAdjustsScrollViewInsets = false;
             NavigateList.ScrollEnabled = false;
 
@@ -65,20 +67,15 @@ namespace TestProject.iOS.Views
 
             this.NavigationController.View.Layer.AddAnimation(transition, null);
 
-            // profile load
-            String profileImage = ViewModel.Profile.ImagePath;
-            if (profileImage != null)
-            {
-                UserProfileImage.Image = UIImage.LoadFromData(ViewModel.Profile.ImagePath);
-            }
-            if (profileImage == null)
-            {
-                UserProfileImage.Image = UIImage.FromFile("placeholder.png");
-            }
             UserProfileImage.Layer.BorderWidth = 3;
             UserProfileImage.Layer.BorderColor = UIColor.White.CGColor;
             UserProfileImage.Layer.MasksToBounds = true;
             UserProfileName.Text = ViewModel.Profile.Login;   
+        }
+
+        private void ProfileOpen()
+        {
+            ViewModel.OpenProfileCommand.Execute();
         }
 
         private void CloseMenu()

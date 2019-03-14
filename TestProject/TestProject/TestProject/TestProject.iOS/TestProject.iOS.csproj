@@ -43,8 +43,8 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchArch>ARM64</MtouchArch>
+    <MtouchLink>None</MtouchLink>
+    <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
@@ -79,9 +79,10 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <IOSDebuggerPort>33656</IOSDebuggerPort>
     <MtouchLink>None</MtouchLink>
-    <MtouchArch>ARM64</MtouchArch>
+    <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
+    <MtouchExtraArgs>-v -v -v -v</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <AppExtensionDebugBundleId />
@@ -253,11 +254,12 @@
     </InterfaceDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\ImageValueConverter.cs" />
     <Compile Include="Views\AppMapView.cs" />
     <Compile Include="Views\AppMapView.designer.cs">
       <DependentUpon>AppMapView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Converters\UIColorValueConverter.cs" />
+    <Compile Include="Converters\ColorValueConverter.cs" />
     <Compile Include="CustomControls\CircleImageView.cs" />
     <Compile Include="Database\DatabaseConnectionService.cs" />
     <Compile Include="CustomControls\BaseView.cs" />

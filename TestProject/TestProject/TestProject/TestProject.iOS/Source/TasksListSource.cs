@@ -13,7 +13,8 @@ using UIKit;
 
 namespace TestProject.iOS.Source
 {
-    public class TasksListSource: MvxTableViewSource
+    public class TasksListSource
+        : MvxTableViewSource
     {
 
         public String cellIdentifier = "ContentTasksCell";
@@ -26,31 +27,25 @@ namespace TestProject.iOS.Source
         {
             _view = view;
             DeselectAutomatically = true;
-            tableView.RegisterNibForCellReuse(UINib.FromName("ContentTasksCell", NSBundle.MainBundle), cellIdentifier);
+            //tableView.RegisterNibForCellReuse(UINib.FromName("ContentTasksCell", null), cellIdentifier);
         }
 
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
         {
-            var cell = new UITableViewCell();
-            if (tableView.DequeueReusableCell(cellIdentifier) is ContentTasksCell taskCell)
+            var cell = tableView.DequeueReusableCell(ContentTasksCell.Key) as ContentTasksCell;
+            if (cell == null)
             {
-                cell = taskCell;
-                if (item is UserTask taskItem)
-                {
-                    (cell as ContentTasksCell).UpdateCell(taskItem);
-                }
+                return new MvxTableViewCell();
             }
-            cell.Layer.BorderColor = UIColor.Black.CGColor;
-            cell.Layer.BorderWidth = 1;
-            cell.Layer.CornerRadius = 8;
+            //cell.Layer.BorderColor = UIColor.Black.CGColor;
+            //cell.Layer.BorderWidth = 1;
+            //cell.Layer.CornerRadius = 8;
+            if (item is UserTask taskItem)
+            {
+                (cell as ContentTasksCell).UpdateCell(taskItem);
+            }
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
             return cell;
-        }
-
-        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
-        {
-            var task = _view.ViewModel.ListOfTasks[indexPath.Row];
-            _view.ViewModel.ItemSelectedCommand.Execute(task);
         }
 
         public override UISwipeActionsConfiguration GetLeadingSwipeActionsConfiguration(UITableView tableView, NSIndexPath indexPath)
@@ -62,6 +57,17 @@ namespace TestProject.iOS.Source
 
             leadingSwipe.PerformsFirstActionWithFullSwipe = false;
             return leadingSwipe;
+        }
+
+        public override UISwipeActionsConfiguration GetTrailingSwipeActionsConfiguration(UITableView tableView, NSIndexPath indexPath)
+        {
+            var editAction = ContextualEditAction(indexPath.Row);
+            var deleteAction = ContextualDeleteAction(indexPath.Row);
+
+            var trailingSwipe = UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { editAction, deleteAction });
+
+            trailingSwipe.PerformsFirstActionWithFullSwipe = false;
+            return trailingSwipe;
         }
 
         public UIContextualAction ContextualDeleteAction(int row)
@@ -103,22 +109,32 @@ namespace TestProject.iOS.Source
             return _view.ViewModel.ListOfTasks.Count;
         }
 
-        public override UIView GetViewForHeader(UITableView tableView, nint section)
-        {
-            var headerView = new UIView();
-            headerView.BackgroundColor = UIColor.Clear;
-            return headerView;
-        }
+        //public override UIView GetViewForHeader(UITableView tableView, nint section)
+        //{
+        //    var headerView = new UIView();
+        //    headerView.BackgroundColor = UIColor.Clear;
+        //    return headerView;
+        //}
 
-        public override nfloat GetHeightForHeader(UITableView tableView, nint section)
-        {
-            return 0;
-        }
+        //public override nfloat GetHeightForHeader(UITableView tableView, nint section)
+        //{
+        //    return 0;
+        //}
 
-        public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
-        {
-            return 60;
-        }
+        //public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+        //{
+        //    return UITableView.AutomaticDimension;
+        //}
 
+        //public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        //{
+        //    var task = _view.ViewModel.ListOfTasks[indexPath.Row];
+        //    _view.ViewModel.ItemSelectedCommand.Execute(task);
+        //}
+
+        //public override nfloat EstimatedHeight(UITableView tableView, NSIndexPath indexPath)
+        //{
+        //    return 120;
+        //}
     }
 }

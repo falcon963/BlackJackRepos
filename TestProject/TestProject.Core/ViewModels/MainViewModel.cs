@@ -63,6 +63,18 @@ namespace TestProject.Core.ViewModels
             }
         }
 
+        //public IMvxAsyncCommand TabBarOpen
+        //{
+        //    get
+        //    {
+        //        return new MvxAsyncCommand(async () =>
+        //        {
+        //            await _navigationService.Navigate<TaskListViewModel>();
+        //            await _navigationService.Navigate<MenuViewModel>();
+        //        });
+        //    }
+        //}
+
         public IMvxAsyncCommand CloseMain
         {
             get

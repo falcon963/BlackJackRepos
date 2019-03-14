@@ -7,7 +7,7 @@ using UIKit;
 
 namespace TestProject.iOS.Views.Cells
 {
-    public partial class ContentNavigateCell : UITableViewCell
+    public partial class ContentNavigateCell : BaseTableViewCell
     {
         protected ContentNavigateCell(IntPtr handle) : base(handle)
         {
