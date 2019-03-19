@@ -14,12 +14,15 @@ using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Widget;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.Views;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
+using TestProject.Core.Models;
 using TestProject.Core.ViewModels;
 using TestProject.Droid.Controls;
+using TestProject.Droid.Views;
 
 namespace TestProject.Droid.Fragments
 {
@@ -43,6 +46,8 @@ namespace TestProject.Droid.Fragments
             _navigationView = view.FindViewById<MvxListView>(Resource.Id.mvxListView_menuItem);
             _navigationView.DividerHeight = 0;
             _avatar = view.FindViewById<CircleImageView>(Resource.Id.avatar);
+            _navigationView.ItemClick.CanExecuteChanged += (sender, e) => { ((MainActivity)Activity).DrawerLayout.CloseDrawers();  };
+
             String imagePath = ViewModel.Profile.ImagePath;
 
             if (imagePath == null)

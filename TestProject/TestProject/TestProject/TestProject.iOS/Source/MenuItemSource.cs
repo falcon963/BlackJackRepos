@@ -15,13 +15,11 @@ namespace TestProject.iOS.Source
     public class MenuItemSource 
         : MvxTableViewSource
     {
-        private static readonly NSString cellIdentifier = new NSString("ContentNavigateCell");
-        private MenuView _view;
+        public String cellIdentifier = "ContentNavigateCell";
 
-        public MenuItemSource(MenuView view, UITableView tableView) : base(tableView)
+        public MenuItemSource(UITableView tableView) : base(tableView)
         {
-            _view = view;
-            //DeselectAutomatically = true;
+            DeselectAutomatically = true;
             tableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
             tableView.RegisterNibForCellReuse(UINib.FromName("ContentNavigateCell", NSBundle.MainBundle), cellIdentifier);
         }
@@ -36,10 +34,6 @@ namespace TestProject.iOS.Source
             if (tableView.DequeueReusableCell(cellIdentifier) is ContentNavigateCell navigateCell)
             {
                 cell = navigateCell;
-                if (item is MenuItem menuItem)
-                {
-                    (cell as ContentNavigateCell).UpdateCell(menuItem);
-                }
             }
             cell.Layer.BorderColor = UIColor.White.CGColor;
             cell.Layer.BorderWidth = 1;
@@ -58,13 +52,6 @@ namespace TestProject.iOS.Source
             return 3;
         }
 
-        public override UIView GetViewForHeader(UITableView tableView, nint section)
-        {
-            var headerView = new UIView();
-            headerView.BackgroundColor = UIColor.Clear;
-            return headerView;
-        }
-
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
             return 30;
@@ -73,11 +60,6 @@ namespace TestProject.iOS.Source
         public override nfloat GetHeightForHeader(UITableView tableView, nint section)
         {
             return 0;
-        }
-
-        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
-        {
-            _view.ViewModel.ItemSelectCommand.Execute(_view.ViewModel.MenuItems[indexPath.Row]);
         }
     }
 }

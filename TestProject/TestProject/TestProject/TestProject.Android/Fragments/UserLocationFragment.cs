@@ -11,11 +11,13 @@ using Android.Gms.Maps.Model;
 using Android.Locations;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.ViewModels;
+using TestProject.Droid.Views;
 
 namespace TestProject.Droid.Fragments
 {
@@ -43,17 +45,22 @@ namespace TestProject.Droid.Fragments
 
             _mapView.OnCreate(savedInstanceState);
 
+            ParentActivity.SetSupportActionBar(Toolbar);
+
             if (_googleMap == null)
             {
                 _mapView.GetMapAsync(this);
             }
 
+            ((MainActivity)ParentActivity).DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
+
             return view;
         }
 
-
         public void OnMapReady(GoogleMap googleMap)
         {
+            ViewModel.GetLocated.Execute();
+
             this._googleMap = googleMap;
 
             _googleMap.MapType = GoogleMap.MapTypeNormal;
@@ -136,5 +143,13 @@ namespace TestProject.Droid.Fragments
             _mapView.OnLowMemory();
         }
 
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            if(item.ItemId == Resource.Id.home)
+            {
+                ViewModel.GoBackCommand.Execute();
+            }
+            return base.OnOptionsItemSelected(item);
+        }
     }
 }

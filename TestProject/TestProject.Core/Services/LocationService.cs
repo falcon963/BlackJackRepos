@@ -4,6 +4,7 @@ using MvvmCross.Plugin.Location;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TestProject.Core.Interfaces;
 
 namespace TestProject.Core.Services
@@ -32,7 +33,7 @@ namespace TestProject.Core.Services
 
         public void Start()
         {
-            Watcher.Start(new MvxLocationOptions() { Accuracy = MvxLocationAccuracy.Fine }, OnSuccess, OnError);
+            Watcher.Start(new MvxLocationOptions() { Accuracy = MvxLocationAccuracy.Coarse }, OnSuccess, OnError);
         }
 
         public void Stop()

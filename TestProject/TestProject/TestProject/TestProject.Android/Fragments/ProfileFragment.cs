@@ -10,12 +10,15 @@ using Android.Graphics;
 using Android.OS;
 using Android.Provider;
 using Android.Runtime;
+using Android.Support.V4.Widget;
+using Android.Support.V7.App;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
 using Java.IO;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.ViewModels;
+using TestProject.Droid.Views;
 
 namespace TestProject.Droid.Fragments
 {
@@ -28,7 +31,6 @@ namespace TestProject.Droid.Fragments
         : BaseFragment<UserProfileViewModel>
     {
         private LinearLayout _linearLayout;
-        private Android.Support.V7.Widget.Toolbar _toolbar;
         private ImageView _imageView;
         private static readonly Int32 REQUEST_CAMERA = 0;
         private static readonly Int32 SELECT_FILE = 1;
@@ -54,12 +56,12 @@ namespace TestProject.Droid.Fragments
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
             _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.profileLinearLayout);
-            _toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.profile_toolbar);
             _imageView = view.FindViewById<ImageView>(Resource.Id.profileImage_view);
+
+            ((MainActivity)ParentActivity).DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
 
             _imageView.Click += OnAddPhotoClicked;
             _linearLayout.Click += delegate { HideSoftKeyboard(); };
-            _toolbar.Click += delegate { HideSoftKeyboard(); };
 
             if (ViewModel.Profile.ImagePath == null)
             {

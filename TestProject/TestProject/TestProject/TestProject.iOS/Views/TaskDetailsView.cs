@@ -9,7 +9,7 @@ using UIKit;
 
 namespace TestProject.iOS.Views
 {
-
+    [MvxModalPresentation(WrapInNavigationController = true, ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve)]
     public partial class TaskDetailsView 
         : BaseMenuView<TaskViewModel>
     {
@@ -33,6 +33,8 @@ namespace TestProject.iOS.Views
 
             ScrollView = MainScrollView;
 
+            NavigationController.NavigationBarHidden = true;
+
             var set = this.CreateBindingSet<TaskDetailsView, TaskViewModel>();
             set.Bind(TaskName).To(vm => vm.UserTask.Changes.Title);
             set.Bind(TaskName).For(v => v.Enabled).To(vm => vm.TitleEnableStatus);
@@ -42,7 +44,7 @@ namespace TestProject.iOS.Views
             set.Bind(SaveButton).To(vm => vm.SaveUserTaskCommand);
             set.Bind(NavigationItem.Title).To(vm => vm.UserTask.Changes.Title);
             set.Bind(BackButton).To(vm => vm.ShowMenuCommand);
-            set.Bind(View).For(v => v.BackgroundColor).To(vm => vm.ColorTheme).WithConversion("NativeColor");
+            set.Bind(View).For(v => v.BackgroundColor).To(vm => vm.ColorTheme).WithConversion(new ColorValueConverter());
             set.Bind(TaskImage).To(vm => vm.UserTask.Changes.ImagePath).WithConversion(new ImageValueConverter());
             set.Apply();
 

@@ -130,7 +130,7 @@ namespace TestProject.Core.ViewModels
         }
 
 
-       
+
 
         #region Commands
 
@@ -141,17 +141,6 @@ namespace TestProject.Core.ViewModels
                 return new MvxCommand<UserTask>((task) =>
                 {
                     _taskService.SwipeTaskDelete(task);
-                });
-            }
-        }
-
-        public IMvxAsyncCommand GetLocationCommand
-        {
-            get
-            {
-                return new MvxAsyncCommand(async() =>
-                {
-                   await _navigationService.Navigate<UserLocationViewModel>();
                 });
             }
         }
@@ -172,9 +161,9 @@ namespace TestProject.Core.ViewModels
         {
             get
             {
-                return new MvxAsyncCommand(async() =>
+                return new MvxAsyncCommand(async () =>
                 {
-                    ResultModel result = await _navigationService.Navigate<TaskViewModel,  Int32, ResultModel>(0);
+                    ResultModel result = await _navigationService.Navigate<TaskViewModel, Int32, ResultModel>(0);
                     if (result == null)
                     {
                         return;
@@ -250,31 +239,6 @@ namespace TestProject.Core.ViewModels
                         ListOfTasks[ListOfTasks.IndexOf(modelToUpdate)] = result.Changes;
                     }
                 });
-            }
-        }
-
-
-        public IMvxAsyncCommand OpenProfileCommand
-        {
-            get
-            {
-                return new MvxAsyncCommand(async() =>
-                {
-                    await _navigationService.Navigate<UserProfileViewModel>();
-                });
-            }
-        }
-
-
-        public IMvxCommand ShowMenuCommand
-        {
-            get
-            {
-                return new MvxCommand(() =>
-                {
-                    _navigationService.Navigate<MenuViewModel, TaskListViewModel>(this);
-                });
-
             }
         }
 

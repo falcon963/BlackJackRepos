@@ -22,13 +22,15 @@ using System.ComponentModel;
 using Android.Support.V7.Widget.Helper;
 using TestProject.Droid.Adapter;
 using TestProject.Core.Models;
+using Android.Support.Design.Widget;
+using Android.Support.V7.App;
+using Android.Support.V4.Widget;
 
 namespace TestProject.Droid.Fragments
 {
     [MvxFragmentPresentation(
         typeof(MainViewModel),
-        Resource.Id.content_frame,
-        false)]
+        Resource.Id.content_frame)]
     [Register("testProject.droid.fragments.TasksFragment")]
     public class TasksFragment
         : BaseFragment<TaskListViewModel>
@@ -45,18 +47,22 @@ namespace TestProject.Droid.Fragments
         {
             ViewModel.ListOfTasks.CollectionChanged += ViewModel_CollectionChanged;
 
+            ShowHumburgerMenu = true;
+
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.task_recycler_view);
             _toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 
-            Activity.FindViewById<Android.Support.V4.Widget.DrawerLayout>(Resource.Id.drawer_layout).CloseDrawers();
+            var fabButton = view.FindViewById<FloatingActionButton>(Resource.Id.fab);
+            fabButton.Click += (sender, e) => { ViewModel.ShowTaskCommand.Execute(); };
+            fabButton.Show();
 
             _imageAdapter = new RecyclerImageAdapter(this);
 
             SetupRecyclerView();
 
-            ViewModel.ShowMenuCommand.Execute(null);
+            ((MainActivity)ParentActivity).DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeUnlocked);
 
             return view;
         }

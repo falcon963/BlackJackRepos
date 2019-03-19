@@ -164,9 +164,9 @@ namespace TestProject.Core.ViewModels
                     }
 
                     UserTask.Changes.UserId = Int32.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.UserId));
-                    SaveTask(UserTask.Changes);
-                    UserTask.Result = Enum.UserTaskResult.Save;
-                    await _navigationService.Close<ResultModel>(this, UserTask);
+                        SaveTask(UserTask.Changes);
+                        UserTask.Result = Enum.UserTaskResult.Save;
+                        await _navigationService.Close<ResultModel>(this, UserTask);             
                 });
             }
         }

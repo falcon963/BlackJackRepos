@@ -16,7 +16,7 @@ using TestProject.Core.ViewModels;
 namespace TestProject.Droid.Fragments
 {
     [MvxFragmentPresentation(
-        typeof(MainViewModel),
+        typeof(MainRegistrationViewModel),
         Resource.Id.login_frame, true)]
     [Register("testproject.droid.fragments.RegistrationFragment")]
     public class RegistrationFragment

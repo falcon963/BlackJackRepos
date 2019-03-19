@@ -37,43 +37,12 @@ namespace TestProject.Core.ViewModels
             {
                     return new MvxAsyncCommand(async () =>
                     {
-                        var value = CrossSecureStorage.Current.GetValue(SecureConstant.Status);
-                        if (value == "True")
-                        {
-                            User user = new User();
-                            var login = CrossSecureStorage.Current.GetValue(SecureConstant.Login);
-                            var password = CrossSecureStorage.Current.GetValue(SecureConstant.Password);
-                            user = _loginService.CheckAccountAccess(login, password);
-                            if(user == null)
-                            {
-                                CrossSecureStorage.Current.SetValue(SecureConstant.Status, false.ToString());
-                                await _navigationService.Navigate<LoginViewModel>();
-                            }
-                            if (user != null)
-                            {
-                                CrossSecureStorage.Current.SetValue(SecureConstant.UserId, user.Id.ToString());
-                                await _navigationService.Navigate<TaskListViewModel>();
-                            }
-                        }
-                        if (value != "True")
-                        {
-                                await _navigationService.Navigate<LoginViewModel>();
-                        }
+                        await _navigationService.Navigate<TaskListViewModel>();
+                        await _navigationService.Navigate<MenuViewModel>();
                     });
             }
         }
 
-        //public IMvxAsyncCommand TabBarOpen
-        //{
-        //    get
-        //    {
-        //        return new MvxAsyncCommand(async () =>
-        //        {
-        //            await _navigationService.Navigate<TaskListViewModel>();
-        //            await _navigationService.Navigate<MenuViewModel>();
-        //        });
-        //    }
-        //}
 
         public IMvxAsyncCommand CloseMain
         {

@@ -6,9 +6,11 @@ using CoreGraphics;
 using CoreLocation;
 using MvvmCross.Binding.BindingContext;
 using UIKit;
+using MvvmCross.Platforms.Ios.Presenters.Attributes;
 
 namespace TestProject.iOS.Views
 {
+    [MvxModalPresentation(WrapInNavigationController = true, ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve)]
     public partial class AppMapView
         : BaseMenuView<UserLocationViewModel>
     {
@@ -25,6 +27,8 @@ namespace TestProject.iOS.Views
             var set = this.CreateBindingSet<AppMapView, UserLocationViewModel>();
             set.Bind(BackButton).To(vm => vm.GoBackCommand);
             set.Apply();
+
+            NavigationController.NavigationBarHidden = true;
 
             ViewModel.GetLocated.Execute();
 

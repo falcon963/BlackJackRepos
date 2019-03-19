@@ -62,11 +62,11 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public IMvxCommand GetLocated
+        public IMvxAsyncCommand GetLocated
         {
             get
             {
-                return new MvxCommand(() =>
+                return new MvxAsyncCommand(async() =>
                 {
                     _locationService.Start();
                     _locationService.TryGetLatestLocation(out _latitude, out _longitude);

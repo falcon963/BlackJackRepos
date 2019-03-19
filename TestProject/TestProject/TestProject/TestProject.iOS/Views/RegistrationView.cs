@@ -6,6 +6,7 @@ using TestProject.Core.ViewModels;
 using UIKit;
 using MvvmCross.Platforms.Ios.Presenters.Attributes;
 using System.Drawing;
+using TestProject.iOS.Converters;
 
 namespace TestProject.iOS.Views
 {
@@ -38,7 +39,7 @@ namespace TestProject.iOS.Views
             set.Bind(LoginField).For(f => f.Text).To(vm => vm.Login);
             set.Bind(PasswordField).For(f => f.Text).To(vm => vm.Password);
             set.Bind(PasswordConfirmField).For(f => f.Text).To(vm => vm.PasswordRevise);
-            set.Bind(View).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion("NativeColor");
+            set.Bind(View).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion(new ColorValueConverter());
             set.Apply();
 
             AddShadow(LoginField);

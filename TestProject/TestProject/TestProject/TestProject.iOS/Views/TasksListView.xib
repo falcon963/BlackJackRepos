@@ -3,14 +3,14 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TasksListView">
             <connections>
                 <outlet property="view" destination="2" id="name-taskslistview"/>
-                <outlet property="MenuButton" destination="1012" id="name-outlet-1012"/>
                 <outlet property="TasksList" destination="308" id="name-outlet-308"/>
+                <outlet property="FabButton" destination="6524" id="name-outlet-6524"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -19,38 +19,62 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6524" translatesAutoresizingMaskIntoConstraints="NO">
+                    <rect key="frame" x="343" y="621" width="50" height="50"/>
+                    <state key="normal" title="Button" image="add_button_ios.png"/>
+                    <constraints>
+                        <constraint id="8919" firstAttribute="width" constant="50"/>
+                        <constraint id="9012" firstAttribute="width" secondItem="6524" secondAttribute="height" multiplier="1:1"/>
+                    </constraints>
+                </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="308" translatesAutoresizingMaskIntoConstraints="NO">
-                    <rect key="frame" x="0.0" y="51.5" width="414" height="684.5"/>
+                    <rect key="frame" x="0.0" y="52" width="414" height="636"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint id="5884" firstAttribute="width" secondItem="308" secondAttribute="height" multiplier="69:106"/>
+                    </constraints>
                 </tableView>
-                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="1011" translatesAutoresizingMaskIntoConstraints="NO">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="51.5"/>
+                <navigationBar contentMode="scaleToFill" id="5859" translatesAutoresizingMaskIntoConstraints="NO">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="48"/>
                     <items>
-                        <barButtonItem title="Item" id="1012" image="Menu_ic">
-                            <connections>
-                                <action selector="PressMenu:" destination="-1" id="1021"/>
-                            </connections>
-                        </barButtonItem>
+                        <navigationItem title="Title" id="5860"/>
                     </items>
-                </toolbar>
+                    <constraints>
+                        <constraint id="5865" firstAttribute="width" secondItem="5859" secondAttribute="height" multiplier="207:24"/>
+                    </constraints>
+                </navigationBar>
+                <tabBar contentMode="scaleToFill" id="5861" translatesAutoresizingMaskIntoConstraints="NO">
+                    <rect key="frame" x="0.0" y="688" width="414" height="48"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <items>
+                        <tabBarItem systemItem="favorites" id="5862"/>
+                        <tabBarItem systemItem="more" id="5863"/>
+                    </items>
+                </tabBar>
             </subviews>
             <constraints>
-                <constraint id="2551" firstItem="1011" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
-                <constraint id="2984" firstAttribute="top" secondItem="1011" secondAttribute="top"/>
-                <constraint id="2985" firstItem="1011" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
-                <constraint id="2986" firstItem="1011" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
-                <constraint id="3499" firstItem="308" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
-                <constraint id="3500" firstItem="308" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
-                <constraint id="4137" firstItem="1011" firstAttribute="width" secondItem="2" secondAttribute="width"/>
-                <constraint id="4173" firstItem="1011" firstAttribute="height" secondItem="2" secondAttribute="height" multiplier="0.07"/>
-                <constraint id="4349" firstItem="308" firstAttribute="width" secondItem="2" secondAttribute="width"/>
-                <constraint id="4385" firstItem="308" firstAttribute="height" secondItem="2" secondAttribute="height" multiplier="0.93"/>
-                <constraint id="5362" firstItem="1011" firstAttribute="bottom" secondItem="308" secondAttribute="top"/>
+                <constraint id="5864" firstItem="5859" firstAttribute="width" secondItem="2" secondAttribute="width"/>
+                <constraint id="5867" firstItem="5859" firstAttribute="top" secondItem="2" secondAttribute="top"/>
+                <constraint id="5868" firstItem="5859" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
+                <constraint id="5869" firstItem="5859" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
+                <constraint id="5870" firstItem="308" firstAttribute="top" secondItem="5859" secondAttribute="bottom" constant="4"/>
+                <constraint id="5871" firstItem="5861" firstAttribute="top" secondItem="308" secondAttribute="bottom"/>
+                <constraint id="5874" firstItem="5861" firstAttribute="height" secondItem="5859" secondAttribute="height"/>
+                <constraint id="5875" firstItem="5861" firstAttribute="width" secondItem="5859" secondAttribute="width"/>
+                <constraint id="5877" firstItem="308" firstAttribute="width" secondItem="2" secondAttribute="width"/>
+                <constraint id="5881" firstItem="308" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
+                <constraint id="5882" firstItem="308" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
+                <constraint id="5883" firstItem="5861" firstAttribute="top" secondItem="308" secondAttribute="bottom"/>
+                <constraint id="5885" firstItem="5861" firstAttribute="width" secondItem="5859" secondAttribute="width"/>
+                <constraint id="5886" firstItem="5861" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
+                <constraint id="5887" firstItem="5861" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
+                <constraint id="8733" firstItem="5861" firstAttribute="top" secondItem="6524" secondAttribute="bottom" constant="17"/>
+                <constraint id="8826" firstItem="308" firstAttribute="trailing" secondItem="6524" secondAttribute="trailing" constant="21"/>
             </constraints>
             <point key="canvasLocation" x="7" y="-6"/>
         </view>
     </objects>
     <resources>
-        <image name="Menu_ic" width="50" height="50"/>
+        <image name="add_button_ios.png" width="50" height="50"/>
     </resources>
 </document>

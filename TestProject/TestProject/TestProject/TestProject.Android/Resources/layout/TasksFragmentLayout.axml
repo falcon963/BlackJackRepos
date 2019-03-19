@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:local="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/taskslist"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-  <include
-  layout = "@layout/toolbar"/>
-  <MvxSwipeRefreshLayout	
+	<include layout = "@layout/toolbar"/>
+  <MvxSwipeRefreshLayout
+	android:paddingTop="?attr/actionBarSize" 
 	android:id="@+id/refresher"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -25,4 +25,11 @@
 				local:MvxItemTemplate="@layout/listitemview"
 				local:MvxBind="ItemsSource ListOfTasks; ItemClick ItemSelectedCommand"/>
   </MvxSwipeRefreshLayout>
-</LinearLayout>
+	<android.support.design.widget.FloatingActionButton
+    android:id="@+id/fab"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|right|end"
+    android:layout_margin="8dp"
+    android:src="@drawable/icons8_plus_24_white"/>
+</FrameLayout>

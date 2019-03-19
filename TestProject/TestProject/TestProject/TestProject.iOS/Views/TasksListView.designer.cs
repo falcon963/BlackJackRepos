@@ -16,21 +16,17 @@ namespace TestProject.iOS.Views
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIBarButtonItem MenuButton { get; set; }
+        UIKit.UIButton FabButton { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITableView TasksList { get; set; }
 
-        [Action ("PressMenu:")]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        partial void PressMenu (UIKit.UIBarButtonItem sender);
-
         void ReleaseDesignerOutlets ()
         {
-            if (MenuButton != null) {
-                MenuButton.Dispose ();
-                MenuButton = null;
+            if (FabButton != null) {
+                FabButton.Dispose ();
+                FabButton = null;
             }
 
             if (TasksList != null) {

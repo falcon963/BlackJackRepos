@@ -15,7 +15,7 @@ using MvvmCross.UI;
 namespace TestProject.Core.ViewModels
 {
     public class MenuViewModel
-        : BaseViewModel<TaskListViewModel>
+        : BaseViewModel
     {
         #region Fields
 
@@ -95,11 +95,6 @@ namespace TestProject.Core.ViewModels
             {
                 new MenuItem
                 {
-                    ItemAction = Enum.MenuItemAction.AddTask,
-                    ItemTitle = "New task"
-                },
-                new MenuItem
-                {
                     ItemAction = Enum.MenuItemAction.Logout,
                     ItemTitle = "Logout"
                 },
@@ -107,6 +102,11 @@ namespace TestProject.Core.ViewModels
                 {
                     ItemAction = Enum.MenuItemAction.Location,
                     ItemTitle = "Map"
+                },
+                new MenuItem
+                {
+                    ItemAction = Enum.MenuItemAction.Profile,
+                    ItemTitle = "Profile"
                 }
             };
         }
@@ -148,20 +148,29 @@ namespace TestProject.Core.ViewModels
                 return new MvxAsyncCommand<MenuItem>(async(item) =>
                 {
                     var action = item.ItemAction;
-                    if (action == Enum.MenuItemAction.AddTask)
-                    {
-                        _taskList.ShowTaskCommand.Execute(null);
-                        await _navigationService.Close(this);
-                    }
                     if(action == Enum.MenuItemAction.Logout)
                     {
                         LogOutCommand.Execute();
                     }
                     if(action == Enum.MenuItemAction.Location)
                     {
-                        _taskList.GetLocationCommand.Execute(null);
-                        await _navigationService.Close(this);
+                        GetLocationCommand.Execute();
                     }
+                    if (action == Enum.MenuItemAction.Profile)
+                    {
+                        OpenProfileCommand.Execute();
+                    }
+                });
+            }
+        }
+
+        public IMvxAsyncCommand GetLocationCommand
+        {
+            get
+            {
+                return new MvxAsyncCommand(async () =>
+                {
+                    await _navigationService.Navigate<UserLocationViewModel>();
                 });
             }
         }
@@ -173,30 +182,12 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async() =>
                 {
-                    _taskList.OpenProfileCommand.Execute(null);
-                    await _navigationService.Close(this);
-                });
-            }
-        }
-
-        public IMvxAsyncCommand CloseMenu
-        {
-            get
-            {
-                return new MvxAsyncCommand(async () =>
-                {
-                    await _navigationService.Close(this);
+                    await _navigationService.Navigate<UserProfileViewModel>();
                 });
             }
         }
 
         #endregion
-
-
-        public override void Prepare(TaskListViewModel parameter)
-        {
-            _taskList = parameter;
-        }
 
     }
 }

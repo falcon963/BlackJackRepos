@@ -48,7 +48,7 @@
 			android:layout_alignParentLeft = "true"
 			android:layout_marginLeft="90dp"
 			android:text="Login"
-			local:MvxBind="Click LoginCommand; Enabled EnableStatus" />
+			local:MvxBind="Click LoginCommand" />
 		<Button
 			style="@style/LoginPageButton"
 			android:layout_marginRight="90dp"

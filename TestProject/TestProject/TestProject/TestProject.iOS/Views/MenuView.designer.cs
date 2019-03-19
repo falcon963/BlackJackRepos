@@ -28,10 +28,6 @@ namespace TestProject.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIView ShadowView { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIImageView UserProfileImage { get; set; }
 
         [Outlet]
@@ -53,11 +49,6 @@ namespace TestProject.iOS.Views
             if (ProfileView != null) {
                 ProfileView.Dispose ();
                 ProfileView = null;
-            }
-
-            if (ShadowView != null) {
-                ShadowView.Dispose ();
-                ShadowView = null;
             }
 
             if (UserProfileImage != null) {

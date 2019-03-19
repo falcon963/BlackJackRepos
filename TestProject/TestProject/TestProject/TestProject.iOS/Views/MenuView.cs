@@ -1,6 +1,7 @@
 ﻿using CoreAnimation;
 using Foundation;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.Platform.UI;
 using MvvmCross.Platforms.Ios.Presenters.Attributes;
 using MvvmCross.Platforms.Ios.Views;
 using MvvmCross.Presenters;
@@ -19,6 +20,7 @@ using UIKit;
 
 namespace TestProject.iOS.Views
 {
+    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Menu")]
     public partial class MenuView 
         : BaseMenuView<MenuViewModel>
     {
@@ -33,29 +35,22 @@ namespace TestProject.iOS.Views
         {
             base.ViewDidLoad();
 
-            var source = new MenuItemSource(this, NavigateList);
+            var source = new MenuItemSource(NavigateList);
 
-            this.AddBindings(new Dictionary<object, String>
-            {
-                { source, "ItemsSource MenuItems" }
-            });
 
-            NavigateList.Source = source;
-            NavigateList.ReloadData();
+            NavigationController.NavigationBar.TopItem.Title = "Menu";
+
 
             var set = this.CreateBindingSet<MenuView, MenuViewModel>();
-            set.Bind(NavigateList).For(v => v.BackgroundColor).To(vm => vm.MenuColor).WithConversion("NativeColor");
+            set.Bind(NavigateList).For(v => v.BackgroundColor).To(vm => vm.MenuColor).WithConversion(new ColorValueConverter());
             set.Bind(UserProfileImage).For(v => v.Image).To(vm => vm.Profile.ImagePath).WithConversion(new ImageValueConverter());
+            set.Bind(source).For(x => x.ItemsSource).To(vm => vm.MenuItems);
+            set.Bind(source).For(x => x.SelectionChangedCommand).To(vm => vm.ItemSelectCommand);
             //set.Bind(ProfileView).To(vm => vm.OpenProfileCommand);
             set.Apply();
 
-            UISwipeGestureRecognizer recognizer = new UISwipeGestureRecognizer(CloseMenu);
-            UITapGestureRecognizer tupRecognizerCloseMenu = new UITapGestureRecognizer(CloseMenu);
-            UITapGestureRecognizer tupRecognizerOpenProfile = new UITapGestureRecognizer(ProfileOpen);
-            recognizer.Direction = UISwipeGestureRecognizerDirection.Right;
-            View.AddGestureRecognizer(recognizer);
-            ProfileView.AddGestureRecognizer(tupRecognizerOpenProfile);
-            ShadowView.AddGestureRecognizer(tupRecognizerCloseMenu);
+            NavigateList.Source = source;
+;
             this.AutomaticallyAdjustsScrollViewInsets = false;
             NavigateList.ScrollEnabled = false;
 
@@ -70,17 +65,9 @@ namespace TestProject.iOS.Views
             UserProfileImage.Layer.BorderWidth = 3;
             UserProfileImage.Layer.BorderColor = UIColor.White.CGColor;
             UserProfileImage.Layer.MasksToBounds = true;
-            UserProfileName.Text = ViewModel.Profile.Login;   
-        }
+            UserProfileName.Text = ViewModel.Profile.Login;
 
-        private void ProfileOpen()
-        {
-            ViewModel.OpenProfileCommand.Execute();
-        }
-
-        private void CloseMenu()
-        {
-            ViewModel.CloseMenu.Execute();
+            NavigateList.ReloadData();
         }
 
         public override void ViewDidAppear(bool animated)

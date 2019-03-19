@@ -161,6 +161,9 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
+    <Reference Include="Xam.iOS.Fab, Version=1.0.6880.22120, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Xam.iOS.Fab.1.0.1\lib\xamarinios10\Xam.iOS.Fab.dll</HintPath>
+    </Reference>
     <Reference Include="Xamarin-Sidebar-Unified, Version=1.0.6492.38920, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\SidebarNavigation.1.9.4\lib\Xamarin.iOS10\Xamarin-Sidebar-Unified.dll</HintPath>
     </Reference>
@@ -222,7 +225,9 @@
       <Visible>false</Visible>
     </ImageAsset>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BundleResource Include="Resources\border.jpg" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Entitlements.plist" />
     <None Include="Info.plist">
@@ -264,6 +269,7 @@
     <Compile Include="Database\DatabaseConnectionService.cs" />
     <Compile Include="CustomControls\BaseView.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="Views\MainRegistrationView.cs" />
     <Compile Include="Views\MainView.cs" />
     <Compile Include="Source\MenuItemSource.cs" />
     <Compile Include="Source\TasksListSource.cs" />
@@ -327,6 +333,9 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\placeholder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\add_button_ios.png" />
   </ItemGroup>
   <Import Project="..\TestProject\TestProject.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

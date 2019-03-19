@@ -7,8 +7,7 @@
 	android:layout_height="match_parent"
 	local:MvxBind="Background Color(LoginColor)"
 	android:id="@+id/registration_linearlayout">
-	<include 
-		layout="@layout/registration_toolbar"/>
+	<include layout = "@layout/registration_toolbar"/>
 	<ScrollView
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -66,7 +65,7 @@
 			android:layout_marginTop="15dp"
 			android:layout_centerInParent="true"
 			android:text="Registration"
-			local:MvxBind="Click RegistrationCommand; Enabled EnableStatus"
+			local:MvxBind="Click RegistrationCommand"
 		/>
 	</RelativeLayout>
 			</LinearLayout>

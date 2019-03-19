@@ -5,10 +5,8 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:theme="@style/AppToolbar"
 	local:MvxBind="Background Color(ColorTheme)">
-	<include
-		layout="@layout/fragment_toolbar"/>
+	<include layout = "@layout/fragment_toolbar"/>
 	<ScrollView
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"

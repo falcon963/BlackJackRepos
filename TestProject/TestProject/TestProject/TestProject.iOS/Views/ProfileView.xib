@@ -16,8 +16,8 @@
                 <outlet property="SaveNewPasswordButton" destination="299" id="name-outlet-299"/>
                 <outlet property="ProfileImage" destination="300" id="name-outlet-300"/>
                 <outlet property="SaveImageButton" destination="302" id="name-outlet-302"/>
-                <outlet property="BackButton" destination="748" id="name-outlet-748"/>
                 <outlet property="MainScrollView" destination="301" id="name-outlet-301"/>
+                <outlet property="BackButton" destination="5755" id="name-outlet-5755"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -125,29 +125,26 @@
                         <constraint id="4456" firstItem="302" firstAttribute="top" secondItem="300" secondAttribute="bottom" constant="15"/>
                         <constraint id="4471" firstItem="299" firstAttribute="width" secondItem="301" secondAttribute="width" multiplier="0.25"/>
                         <constraint id="4528" firstItem="302" firstAttribute="width" secondItem="299" secondAttribute="width"/>
+                        <constraint id="6497" firstAttribute="width" secondItem="301" secondAttribute="height" multiplier="207:346"/>
                     </constraints>
                 </scrollView>
-                <navigationBar contentMode="scaleToFill" id="303" translatesAutoresizingMaskIntoConstraints="NO">
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="5754" translatesAutoresizingMaskIntoConstraints="NO">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                     <items>
-                        <navigationItem title="Profile" id="304">
-                            <barButtonItem key="leftBarButtonItem" title="Item" id="748"/>
-                        </navigationItem>
+                        <barButtonItem title="Item" id="5755"/>
                     </items>
-                </navigationBar>
+                    <constraints/>
+                </toolbar>
             </subviews>
             <constraints>
-                <constraint id="737" firstItem="303" firstAttribute="width" secondItem="2" secondAttribute="width"/>
-                <constraint id="738" firstItem="303" firstAttribute="height" secondItem="2" secondAttribute="height" multiplier="0.06"/>
-                <constraint id="739" firstItem="303" firstAttribute="top" secondItem="2" secondAttribute="top"/>
-                <constraint id="740" firstItem="303" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
-                <constraint id="741" firstItem="303" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
-                <constraint id="742" firstItem="301" firstAttribute="height" secondItem="2" secondAttribute="height" multiplier="0.94"/>
                 <constraint id="743" firstItem="301" firstAttribute="width" secondItem="2" secondAttribute="width"/>
-                <constraint id="744" firstItem="301" firstAttribute="top" secondItem="303" secondAttribute="bottom"/>
                 <constraint id="745" firstItem="301" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
                 <constraint id="746" firstItem="301" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
                 <constraint id="5063" firstItem="301" firstAttribute="bottom" secondItem="2" secondAttribute="bottom"/>
+                <constraint id="5758" firstItem="5754" firstAttribute="top" secondItem="2" secondAttribute="top"/>
+                <constraint id="5759" firstItem="5754" firstAttribute="bottom" secondItem="301" secondAttribute="top"/>
+                <constraint id="5760" firstItem="5754" firstAttribute="width" secondItem="301" secondAttribute="width"/>
+                <constraint id="5762" firstItem="5754" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
             </constraints>
         </view>
     </objects>

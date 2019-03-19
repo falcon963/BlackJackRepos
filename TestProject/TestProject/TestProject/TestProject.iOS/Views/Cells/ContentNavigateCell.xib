@@ -27,7 +27,7 @@
                     <constraint id="3693" firstItem="280" firstAttribute="width" secondItem="YTl-1W-gDM" secondAttribute="width"/>
                     <constraint id="4522" firstItem="280" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leading" constant="16"/>
                 </constraints>
-                <color key="backgroundColor" colorSpace="calibratedRGB" red="0.062745098039215685" green="0.792156862745098" blue="0.48627450980392156" alpha="1"/>
+                <color key="backgroundColor" colorSpace="calibratedRGB" red="0.984313725490196" green="0.75294117647058822" blue="0.17647058823529413" alpha="1"/>
             </tableViewCellContentView>
             <connections>
                 <outlet property="NavigatePageName" destination="280" id="name-outlet-280"/>

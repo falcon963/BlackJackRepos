@@ -1,5 +1,6 @@
 using Foundation;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.Platforms.Ios.Presenters.Attributes;
 using MvvmCross.Platforms.Ios.Views;
 using System;
 using TestProject.Core.ViewModels;
@@ -8,7 +9,9 @@ using UIKit;
 
 namespace TestProject.iOS.Views
 {
-    public partial class ProfileView : BaseMenuView<UserProfileViewModel>
+    [MvxModalPresentation]
+    public partial class ProfileView 
+        : BaseMenuView<UserProfileViewModel>
     {
         private UITapGestureRecognizer _tap;
 
@@ -25,6 +28,8 @@ namespace TestProject.iOS.Views
         {
             base.ViewDidLoad();
 
+            //NavigationController.NavigationBar.Hidden = true;
+
             ScrollView = MainScrollView;
 
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, HandleKeyboardDidHide);
@@ -37,18 +42,19 @@ namespace TestProject.iOS.Views
             set.Bind(PasswordConfirmField).To(vm => vm.ConfirmPassword);
             set.Bind(NewPasswordField).To(vm => vm.NewPassword);
             set.Bind(BackButton).To(vm => vm.CloseProfileCommand);
-            //set.Bind(SaveImageButton).To(vm => vm.SaveImageChangeCommand);
             set.Bind(SaveNewPasswordButton).To(vm => vm.SavePasswordChangeCommand);
+            set.Bind(MainScrollView).For(v => v.BackgroundColor).To(vm => vm.Background).WithConversion(new ColorValueConverter());
             set.Bind(ProfileImage).To(vm => vm.Profile.ImagePath).WithConversion(new ImageValueConverter());
             set.Apply();
 
             UITapGestureRecognizer recognizer = new UITapGestureRecognizer(OpenImage);
             ProfileImage.AddGestureRecognizer(recognizer);
 
+            BackButton.Image = UIImage.FromFile("back_to_50.png");
+
+            MainScrollView.ContentSize = new CoreGraphics.CGSize(0, View.Frame.Height - 20);
 
             this.AutomaticallyAdjustsScrollViewInsets = false;
-
-            BackButton.Image = UIImage.FromFile("back_to_50.png");
         }
 
         public override void HandleKeyboardDidHide(NSNotification obj)

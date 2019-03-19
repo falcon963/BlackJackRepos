@@ -27,7 +27,6 @@ namespace TestProject.iOS.Source
         {
             _view = view;
             DeselectAutomatically = true;
-            //tableView.RegisterNibForCellReuse(UINib.FromName("ContentTasksCell", null), cellIdentifier);
         }
 
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)

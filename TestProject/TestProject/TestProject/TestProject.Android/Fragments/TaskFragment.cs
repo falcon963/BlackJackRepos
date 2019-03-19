@@ -24,6 +24,8 @@ using TestProject.Core.ViewModels;
 using TestProject.Core.Interfaces;
 using Android.Support.V7.Widget;
 using Android;
+using TestProject.Droid.Views;
+using Android.Support.V4.Widget;
 
 namespace TestProject.Droid.Fragments
 {
@@ -97,7 +99,8 @@ namespace TestProject.Droid.Fragments
                     System.GC.Collect();
                 }
             }
-            
+
+            ((MainActivity)ParentActivity).DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
 
             return view;
         }

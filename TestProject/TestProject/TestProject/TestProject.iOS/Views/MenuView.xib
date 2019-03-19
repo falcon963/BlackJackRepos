@@ -3,8 +3,8 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MenuView">
@@ -13,7 +13,6 @@
                 <outlet property="BurgerMenu" destination="1031" id="name-outlet-1031"/>
                 <outlet property="UserProfileImage" destination="1409" id="name-outlet-1409"/>
                 <outlet property="UserProfileName" destination="1542" id="name-outlet-1542"/>
-                <outlet property="ShadowView" destination="7813" id="name-outlet-7813"/>
                 <outlet property="ProfileView" destination="1098" id="name-outlet-1098"/>
                 <outlet property="NavigateList" destination="1364" id="name-outlet-1364"/>
             </connections>
@@ -25,87 +24,102 @@
             <color key="backgroundColor" customColorSpace="sRGB" colorSpace="calibratedWhite" white="1" alpha="1"/>
             <subviews>
                 <view contentMode="scaleToFill" id="1031" translatesAutoresizingMaskIntoConstraints="NO">
-                    <rect key="frame" x="0.0" y="-0.5" width="290" height="736.5"/>
+                    <rect key="frame" x="0.0" y="52" width="414" height="634"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     <subviews>
-                        <view contentMode="scaleToFill" id="1098" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="0.0" y="0.0" width="290" height="162"/>
-                            <color key="backgroundColor" colorSpace="calibratedRGB" red="0.803921568627451" green="0.803921568627451" blue="0.803921568627451" alpha="1"/>
+                        <view contentMode="scaleToFill" id="1098" translatesAutoresizingMaskIntoConstraints="NO" alpha="0.7">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="161"/>
+                            <color key="backgroundColor" colorSpace="calibratedRGB" red="0.37647058823529411" green="0.3411764705882353" blue="0.3411764705882353" alpha="1"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="1409" translatesAutoresizingMaskIntoConstraints="NO">
-                                    <rect key="frame" x="8" y="36" width="90" height="90"/>
+                                    <rect key="frame" x="161.5" y="30" width="91" height="91"/>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute keyPath="layer.cornerRadius" type="number">
                                             <real key="value" value="60"/>
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <constraints>
-                                        <constraint id="50055" firstAttribute="width" secondItem="1409" secondAttribute="height" multiplier="1:1"/>
+                                        <constraint id="54134" firstAttribute="width" secondItem="1409" secondAttribute="height" multiplier="1:1"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1542" translatesAutoresizingMaskIntoConstraints="NO">
-                                    <rect key="frame" x="106" y="29.5" width="144.5" height="24.5"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1542" translatesAutoresizingMaskIntoConstraints="NO">
+                                    <rect key="frame" x="161.5" y="124" width="91" height="23.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <nil key="textColor"/>
+                                    <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                     <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1565" translatesAutoresizingMaskIntoConstraints="NO" text="Profile">
-                                    <rect key="frame" x="106" y="69" width="144.5" height="24"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
+                                    <constraints>
+                                        <constraint id="54250" firstAttribute="width" secondItem="1542" secondAttribute="height" multiplier="31:8"/>
+                                    </constraints>
                                 </label>
                             </subviews>
                             <constraints>
-                                <constraint id="1830" firstItem="1409" firstAttribute="width" secondItem="1098" secondAttribute="width" multiplier="0.31"/>
-                                <constraint id="1920" firstItem="1409" firstAttribute="leading" secondItem="1098" secondAttribute="leading" constant="8"/>
-                                <constraint id="1943" firstItem="1409" firstAttribute="centerY" secondItem="1098" secondAttribute="centerY"/>
-                                <constraint id="1989" firstItem="1542" firstAttribute="leading" secondItem="1409" secondAttribute="trailing" constant="8"/>
-                                <constraint id="2034" firstItem="1565" firstAttribute="leading" secondItem="1409" secondAttribute="trailing" constant="8"/>
-                                <constraint id="2193" firstItem="1542" firstAttribute="width" secondItem="1565" secondAttribute="width"/>
-                                <constraint id="2216" firstItem="1565" firstAttribute="width" secondItem="1098" secondAttribute="width" multiplier="0.5"/>
-                                <constraint id="48973" firstItem="1409" firstAttribute="centerY" secondItem="1098" secondAttribute="centerY"/>
-                                <constraint id="49613" firstItem="1565" firstAttribute="centerY" secondItem="1098" secondAttribute="centerY"/>
-                                <constraint id="49615" firstItem="1542" firstAttribute="height" secondItem="1098" secondAttribute="height" multiplier="0.15"/>
-                                <constraint id="49617" firstItem="1565" firstAttribute="top" secondItem="1542" secondAttribute="bottom" constant="15"/>
-                                <constraint id="49836" firstItem="1565" firstAttribute="height" secondItem="1098" secondAttribute="height" multiplier="0.15"/>
+                                <constraint id="52045" firstAttribute="width" secondItem="1098" secondAttribute="height" multiplier="18:7"/>
+                                <constraint id="53707" firstItem="1542" firstAttribute="centerX" secondItem="1098" secondAttribute="centerX"/>
+                                <constraint id="53842" firstItem="1409" firstAttribute="top" secondItem="1098" secondAttribute="top" constant="30"/>
+                                <constraint id="53862" firstAttribute="centerX" secondItem="1409" secondAttribute="centerX"/>
+                                <constraint id="53920" firstItem="1542" firstAttribute="top" secondItem="1409" secondAttribute="bottom" constant="3"/>
+                                <constraint id="53940" firstAttribute="centerX" secondItem="1542" secondAttribute="centerX"/>
+                                <constraint id="54095" firstItem="1409" firstAttribute="width" secondItem="1098" secondAttribute="width" multiplier="0.22"/>
+                                <constraint id="54230" firstItem="1542" firstAttribute="width" secondItem="1409" secondAttribute="width"/>
                             </constraints>
                             <color key="tintColor" colorSpace="calibratedRGB" red="1" green="0.6470588235294118" blue="0" alpha="1"/>
                         </view>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="1364" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="0.0" y="162" width="290" height="574"/>
+                            <rect key="frame" x="0.0" y="161" width="414" height="473"/>
                             <color key="backgroundColor" colorSpace="calibratedWhite" white="0.666666666666667" alpha="1"/>
+                            <constraints>
+                                <constraint id="53061" firstAttribute="width" secondItem="1364" secondAttribute="height" multiplier="414:473"/>
+                            </constraints>
+                            <color key="sectionIndexBackgroundColor" colorSpace="calibratedRGB" red="0.37647058823529411" green="0.3411764705882353" blue="0.3411764705882353" alpha="1"/>
                         </tableView>
                     </subviews>
                     <constraints>
-                        <constraint id="46862" firstItem="1098" firstAttribute="top" secondItem="1031" secondAttribute="top"/>
-                        <constraint id="47008" firstItem="1098" firstAttribute="leading" secondItem="1031" secondAttribute="leading"/>
-                        <constraint id="47154" firstItem="1098" firstAttribute="trailing" secondItem="1031" secondAttribute="trailing"/>
-                        <constraint id="47445" firstItem="1098" firstAttribute="height" secondItem="1031" secondAttribute="height" multiplier="0.22"/>
-                        <constraint id="48026" firstItem="1364" firstAttribute="top" secondItem="1098" secondAttribute="bottom"/>
-                        <constraint id="48172" firstItem="1364" firstAttribute="leading" secondItem="1031" secondAttribute="leading"/>
-                        <constraint id="48318" firstItem="1364" firstAttribute="trailing" secondItem="1031" secondAttribute="trailing"/>
-                        <constraint id="48464" firstItem="1364" firstAttribute="bottom" secondItem="1031" secondAttribute="bottom"/>
+                        <constraint id="51926" firstItem="1098" firstAttribute="top" secondItem="1031" secondAttribute="top"/>
+                        <constraint id="51946" firstItem="1098" firstAttribute="leading" secondItem="1031" secondAttribute="leading"/>
+                        <constraint id="51966" firstItem="1098" firstAttribute="trailing" secondItem="1031" secondAttribute="trailing"/>
+                        <constraint id="51986" firstItem="1098" firstAttribute="bottom" secondItem="1364" secondAttribute="top"/>
+                        <constraint id="52025" firstItem="1098" firstAttribute="width" secondItem="1031" secondAttribute="width"/>
+                        <constraint id="52825" firstAttribute="width" secondItem="1031" secondAttribute="height" multiplier="207:317"/>
+                        <constraint id="52845" firstItem="1364" firstAttribute="top" secondItem="1098" secondAttribute="bottom"/>
+                        <constraint id="52865" firstItem="1364" firstAttribute="leading" secondItem="1031" secondAttribute="leading"/>
+                        <constraint id="52885" firstItem="1364" firstAttribute="bottom" secondItem="1031" secondAttribute="bottom"/>
+                        <constraint id="52983" firstItem="1364" firstAttribute="trailing" secondItem="1031" secondAttribute="trailing"/>
+                        <constraint id="53041" firstItem="1364" firstAttribute="width" secondItem="1098" secondAttribute="width"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" id="7813" translatesAutoresizingMaskIntoConstraints="NO" alpha="0.5">
-                    <rect key="frame" x="290" y="0.0" width="124" height="736"/>
-                    <color key="backgroundColor" colorSpace="calibratedRGB" red="0.403921568627451" green="0.39215686274509803" blue="0.39215686274509803" alpha="1"/>
-                    <color key="tintColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
-                </view>
+                <tabBar contentMode="scaleToFill" id="51099" translatesAutoresizingMaskIntoConstraints="NO">
+                    <rect key="frame" x="0.0" y="686" width="414" height="50"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <items>
+                        <tabBarItem systemItem="favorites" id="51100"/>
+                        <tabBarItem systemItem="more" id="51101"/>
+                    </items>
+                    <constraints>
+                        <constraint id="51483" firstAttribute="width" secondItem="51099" secondAttribute="height" multiplier="413:50"/>
+                    </constraints>
+                </tabBar>
+                <navigationBar contentMode="scaleToFill" id="52571" translatesAutoresizingMaskIntoConstraints="NO">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                    <items>
+                        <navigationItem title="Title" id="52572"/>
+                    </items>
+                    <constraints>
+                        <constraint id="52729" firstAttribute="width" secondItem="52571" secondAttribute="height" multiplier="207:22"/>
+                    </constraints>
+                </navigationBar>
             </subviews>
             <point key="canvasLocation" x="-253" y="-16"/>
             <constraints>
-                <constraint id="4483" firstItem="1031" firstAttribute="width" secondItem="2" secondAttribute="width" multiplier="0.7"/>
-                <constraint id="7843" firstItem="7813" firstAttribute="width" secondItem="2" secondAttribute="width" multiplier="0.3"/>
-                <constraint id="18399" firstItem="1031" firstAttribute="bottom" secondItem="2" secondAttribute="bottom"/>
-                <constraint id="29708" firstItem="7813" firstAttribute="top" secondItem="2" secondAttribute="top"/>
-                <constraint id="29854" firstItem="7813" firstAttribute="leading" secondItem="1031" secondAttribute="trailing"/>
-                <constraint id="30145" firstItem="7813" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
-                <constraint id="30291" firstItem="7813" firstAttribute="bottom" secondItem="2" secondAttribute="bottom"/>
-                <constraint id="35141" firstItem="1031" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
-                <constraint id="35287" firstItem="1031" firstAttribute="trailing" secondItem="7813" secondAttribute="leading"/>
-                <constraint id="49398" firstItem="1031" firstAttribute="height" secondItem="2" secondAttribute="height"/>
+                <constraint id="51463" firstItem="51099" firstAttribute="width" secondItem="2" secondAttribute="width"/>
+                <constraint id="52065" firstItem="1031" firstAttribute="width" secondItem="2" secondAttribute="width"/>
+                <constraint id="52202" firstItem="1031" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
+                <constraint id="52222" firstAttribute="trailing" secondItem="1031" secondAttribute="trailing"/>
+                <constraint id="52512" firstItem="51099" firstAttribute="top" secondItem="1031" secondAttribute="bottom"/>
+                <constraint id="52532" firstItem="51099" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
+                <constraint id="52649" firstItem="52571" firstAttribute="top" secondItem="2" secondAttribute="top"/>
+                <constraint id="52669" firstItem="52571" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
+                <constraint id="52689" firstItem="1031" firstAttribute="top" secondItem="52571" secondAttribute="bottom" constant="8"/>
+                <constraint id="52709" firstItem="52571" firstAttribute="width" secondItem="2" secondAttribute="width"/>
             </constraints>
         </view>
     </objects>

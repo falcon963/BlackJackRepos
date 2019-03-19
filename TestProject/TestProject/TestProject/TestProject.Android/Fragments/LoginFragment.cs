@@ -21,7 +21,7 @@ using Acr.UserDialogs;
 namespace TestProject.Droid.Fragments
 {
     [MvxFragmentPresentation(
-        typeof(MainViewModel), 
+        typeof(MainRegistrationViewModel), 
         Resource.Id.login_frame)]
     [Register("testproject.droid.fragments.LoginFragment")]
     public class LoginFragment 

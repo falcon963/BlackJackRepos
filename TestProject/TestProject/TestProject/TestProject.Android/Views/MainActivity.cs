@@ -18,6 +18,8 @@ using Android.Support.V4.View;
 using Android.Views.InputMethods;
 using Acr.UserDialogs;
 using Android.Graphics;
+using Android.Support.V7.App;
+using Android.Support.V7.Widget;
 
 namespace TestProject.Droid.Views
 {
@@ -26,11 +28,17 @@ namespace TestProject.Droid.Views
         ScreenOrientation = ScreenOrientation.Portrait,
         Label = "TaskList Project",
         Theme = "@style/AppTheme",
-        LaunchMode = LaunchMode.SingleTop,
+        //LaunchMode = LaunchMode.SingleTop,
         Name = "testProject.droid.views.MainActivity")]
     public class MainActivity : MvxAppCompatActivity<MainViewModel>
     {
         public DrawerLayout DrawerLayout { get; set; }
+
+        ActionBarDrawerToggle DrawerToggle { get; set; }
+
+        Android.Support.V7.Widget.Toolbar Toolbar { get; set; }
+
+        private Boolean _toolBarNavigationListenerIsRegistered = false;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -44,14 +52,11 @@ namespace TestProject.Droid.Views
 
             DrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
 
-            DrawerLayout.SetScrimColor(Color.Transparent);
-
             if(bundle == null)
             {
                 ViewModel.ShowMenuCommand.Execute(null);
             }
         }
-
 
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
@@ -59,39 +64,53 @@ namespace TestProject.Droid.Views
             {
                 case Android.Resource.Id.Home:
                     DrawerLayout.OpenDrawer(GravityCompat.Start);
+                    //OnBackPressed();
                     return true;
             }
+
             return base.OnOptionsItemSelected(item);
+        }
+
+        private void ShowBackButton()
+        {
+            //TODO Tell the toggle to set the indicator off
+            //this.DrawerToggle.DrawerIndicatorEnabled = false;
+
+            //Block the menu slide gesture
+            DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
+        }
+
+        private void ShowHamburguerMenu()
+        {
+            //TODO set toggle indicator as enabled 
+            //this.DrawerToggle.DrawerIndicatorEnabled = true;
+
+            //Unlock the menu sliding gesture
+            DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeUnlocked);
         }
 
         public override void OnBackPressed()
         {
             if (DrawerLayout != null && DrawerLayout.IsDrawerOpen(GravityCompat.Start))
+            {
                 DrawerLayout.CloseDrawers();
+            }
+            //if(FragmentManager.BackStackEntryCount > 0)
+            //{
+            //    FragmentManager.PopBackStack();
+            //}
             else
                 base.OnBackPressed();
         }
 
         public void HideSoftKeyboard()
         {
-            if (CurrentFocus == null)
-            {
-                return;
-            }
+            if (CurrentFocus == null) return;
 
             InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(InputMethodService);
             inputMethodManager.HideSoftInputFromWindow(CurrentFocus.WindowToken, 0);
 
             CurrentFocus.ClearFocus();
-        }
-
-        
-
-
-        protected override void OnViewModelSet()
-        {
-            SetContentView(Resource.Layout.MainActivity);
-            base.OnViewModelSet();
         }
     }
 }

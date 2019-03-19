@@ -7,17 +7,19 @@ using System.Text;
 using Foundation;
 using MvvmCross.Converters;
 using MvvmCross.Platform.UI;
+using MvvmCross.Plugin.Color;
+using MvvmCross.UI;
 using UIKit;
 
 namespace TestProject.iOS.Converters
 {
     public class ColorValueConverter
-        : MvxValueConverter<MvxColor, UIColor>
+        : MvxColorValueConverter<MvvmCross.UI.MvxColor>
     {
-        protected override UIColor Convert(MvxColor value, Type targetType, object parameter, CultureInfo culture)
+
+        protected override MvvmCross.UI.MvxColor Convert(MvvmCross.UI.MvxColor value, object parameter, CultureInfo culture)
         {
-            var color = UIColor.FromRGB(value.R, value.G, value.B);
-            return color;
+            return value;
         }
     }
 }

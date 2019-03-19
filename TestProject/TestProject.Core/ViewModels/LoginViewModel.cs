@@ -173,8 +173,8 @@ namespace TestProject.Core.ViewModels
                     if (account != null)
                     {
                         CrossSecureStorage.Current.SetValue(SecureConstant.UserId, account.Id.ToString());
-                        await _navigationService.Navigate<TaskListViewModel>();
-                        //await _navigationService.Close(this);
+                        await _navigationService.Navigate<MainViewModel>();
+                        await _navigationService.Close(this);
                     }
                     if((account == null))
                     {
