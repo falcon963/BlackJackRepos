@@ -129,9 +129,8 @@ namespace TestProject.Core.ViewModels
                     if (logOut)
                     {
                         CrossSecureStorage.Current.DeleteKey(SecureConstant.Status);
-                        _taskList.UserLogoutCommand.Execute();
-                        await _navigationService.Navigate<LoginViewModel>();
-                        await _navigationService.Close(this);
+                        await _navigationService.Navigate<MainRegistrationViewModel>();
+                        //await _navigationService.Close(this);
                     }
                     if (!logOut)
                     {

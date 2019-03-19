@@ -56,5 +56,10 @@ namespace TestProject.Droid.Views
 
             CurrentFocus.ClearFocus();
         }
+
+        public override void OnBackPressed()
+        {
+            return;
+        }
     }
 }

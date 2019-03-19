@@ -100,7 +100,7 @@ namespace TestProject.Droid.Views
             //    FragmentManager.PopBackStack();
             //}
             else
-                base.OnBackPressed();
+                return;
         }
 
         public void HideSoftKeyboard()
