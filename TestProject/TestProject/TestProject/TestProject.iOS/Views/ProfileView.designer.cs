@@ -15,7 +15,7 @@ namespace TestProject.iOS.Views
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIBarButtonItem BackButton { get; set; }
+        UIKit.UIButton LogoutButton { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -39,25 +39,17 @@ namespace TestProject.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton SaveImageButton { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton SaveNewPasswordButton { get; set; }
+        UIKit.UIButton SaveButton { get; set; }
 
         [Action ("SaveImagePress:")]
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void SaveImagePress (UIKit.UIButton sender);
 
-        [Action ("SavePasswordPress:")]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        partial void SavePasswordPress (UIKit.UIButton sender);
-
         void ReleaseDesignerOutlets ()
         {
-            if (BackButton != null) {
-                BackButton.Dispose ();
-                BackButton = null;
+            if (LogoutButton != null) {
+                LogoutButton.Dispose ();
+                LogoutButton = null;
             }
 
             if (MainScrollView != null) {
@@ -85,14 +77,9 @@ namespace TestProject.iOS.Views
                 ProfileImage = null;
             }
 
-            if (SaveImageButton != null) {
-                SaveImageButton.Dispose ();
-                SaveImageButton = null;
-            }
-
-            if (SaveNewPasswordButton != null) {
-                SaveNewPasswordButton.Dispose ();
-                SaveNewPasswordButton = null;
+            if (SaveButton != null) {
+                SaveButton.Dispose ();
+                SaveButton = null;
             }
         }
     }

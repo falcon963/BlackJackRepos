@@ -6,6 +6,7 @@ using Plugin.SecureStorage;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using TestProject.Core.Constant;
 using TestProject.Core.Interfaces;
 using TestProject.Core.Models;
@@ -29,6 +30,11 @@ namespace TestProject.Core.ViewModels
 
         private MvxColor _backgroundColor;
         private MvxColor _passwordFieldColor;
+        private MvxColor _loginEnebleColor;
+
+        Regex _hasNumber = new Regex(@"[0-9]+");
+        Regex _hasUpperChar = new Regex(@"[A-Z]+");
+        Regex _hasMinimum8Chars = new Regex(@".{8,}");
 
         private readonly IUserDialogs _userDialogs;
 
@@ -55,6 +61,18 @@ namespace TestProject.Core.ViewModels
             set
             {
                 SetProperty(ref _backgroundColor, value);
+            }
+        }
+
+        public MvxColor LoginEnebleColor
+        {
+            get
+            {
+                return _loginEnebleColor;
+            }
+            set
+            {
+                _loginEnebleColor = value;
             }
         }
 
@@ -96,6 +114,18 @@ namespace TestProject.Core.ViewModels
             {
                 SetProperty(ref _login, value);
                 User.Login = _login;
+                if (_loginService.CheckValidLogin(Login))
+                {
+                    LoginEnebleColor = new MvxColor(54, 255, 47);
+                }
+                if (String.IsNullOrEmpty(Login))
+                {
+                    LoginEnebleColor = new MvxColor(241, 241, 241);
+                }
+                if (!_loginService.CheckValidLogin(User.Login))
+                {
+                   LoginEnebleColor = new MvxColor(176, 14, 14);
+                }
                 CheckEnableStatus();
             }
         }
@@ -203,6 +233,36 @@ namespace TestProject.Core.ViewModels
                 return new MvxAsyncCommand(async () =>
                 {
                     var valid = _loginService.CheckValidLogin(User.Login);
+                    if(!_hasNumber.IsMatch(Password)|| !_hasNumber.IsMatch(PasswordRevise)){
+                        var alert = UserDialogs.Instance.Alert(
+                            new AlertConfig
+                            {
+                                Message = MessengeFields.PasswordMustContentNumber,
+                                OkText = MessengeFields.OkText,
+                                Title = MessengeFields.AlertMessege
+                            });
+                        return;
+                    }
+                    if (!_hasUpperChar.IsMatch(Password) || !_hasUpperChar.IsMatch(PasswordRevise)){
+                        var alert = UserDialogs.Instance.Alert(
+                            new AlertConfig
+                            {
+                                Message = MessengeFields.PasswordMustContentUpperChar,
+                                OkText = MessengeFields.OkText,
+                                Title = MessengeFields.AlertMessege
+                            });
+                        return;
+                    }
+                    if (!_hasMinimum8Chars.IsMatch(Password) || !_hasMinimum8Chars.IsMatch(PasswordRevise)){
+                        var alert = UserDialogs.Instance.Alert(
+                            new AlertConfig
+                            {
+                                Message = MessengeFields.PasswordMustContent8Char,
+                                OkText = MessengeFields.OkText,
+                                Title = MessengeFields.AlertMessege
+                            });
+                        return;
+                    }
                     if (String.IsNullOrEmpty(User.Login)
                         || String.IsNullOrEmpty(User.Password)
                         || String.IsNullOrWhiteSpace(User.Password)

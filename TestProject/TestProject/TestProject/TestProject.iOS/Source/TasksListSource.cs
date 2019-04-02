@@ -21,8 +21,6 @@ namespace TestProject.iOS.Source
 
         private TasksListView _view;
 
-        //private TasksListViewController _owner;
-
         public TasksListSource(UITableView tableView, TasksListView view) : base(tableView)
         {
             _view = view;
@@ -36,9 +34,9 @@ namespace TestProject.iOS.Source
             {
                 return new MvxTableViewCell();
             }
-            //cell.Layer.BorderColor = UIColor.Black.CGColor;
-            //cell.Layer.BorderWidth = 1;
-            //cell.Layer.CornerRadius = 8;
+            cell.Layer.BorderColor = UIColor.Black.CGColor;
+            cell.Layer.BorderWidth = 1;
+            cell.Layer.CornerRadius = 8;
             if (item is UserTask taskItem)
             {
                 (cell as ContentTasksCell).UpdateCell(taskItem);
@@ -47,23 +45,22 @@ namespace TestProject.iOS.Source
             return cell;
         }
 
-        public override UISwipeActionsConfiguration GetLeadingSwipeActionsConfiguration(UITableView tableView, NSIndexPath indexPath)
-        {
-            var editAction = ContextualEditAction(indexPath.Row);
-            var deleteAction = ContextualDeleteAction(indexPath.Row);
+        //public override UISwipeActionsConfiguration GetLeadingSwipeActionsConfiguration(UITableView tableView, NSIndexPath indexPath)
+        //{
+        //    var editAction = ContextualEditAction(indexPath.Row);
+        //    var deleteAction = ContextualDeleteAction(indexPath.Row);
 
-            var leadingSwipe = UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { editAction, deleteAction });
+        //    var leadingSwipe = UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { editAction, deleteAction });
 
-            leadingSwipe.PerformsFirstActionWithFullSwipe = false;
-            return leadingSwipe;
-        }
+        //    leadingSwipe.PerformsFirstActionWithFullSwipe = false;
+        //    return leadingSwipe;
+        //}
 
         public override UISwipeActionsConfiguration GetTrailingSwipeActionsConfiguration(UITableView tableView, NSIndexPath indexPath)
         {
-            var editAction = ContextualEditAction(indexPath.Row);
             var deleteAction = ContextualDeleteAction(indexPath.Row);
 
-            var trailingSwipe = UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { editAction, deleteAction });
+            var trailingSwipe = UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { deleteAction });
 
             trailingSwipe.PerformsFirstActionWithFullSwipe = false;
             return trailingSwipe;

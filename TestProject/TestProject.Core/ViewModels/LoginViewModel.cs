@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 using Plugin.SecureStorage;
 using TestProject.Core.Constant;
 using MvvmCross.UI;
+using Xamarin.Auth;
+using TestProject.Core.Interfaces.SocialService.Google;
+using TestProject.Core.Services;
+using TestProject.Core.Interfaces.SocialService.Facebook;
 
 namespace TestProject.Core.ViewModels
 {
@@ -22,21 +26,26 @@ namespace TestProject.Core.ViewModels
         private readonly IMvxNavigationService _navigationService;
         private readonly ILoginService _loginService;
         private readonly ITasksService _taskService;
+        private readonly IGoogleService _googleService;
+        private readonly IFacebookService _facebookService;
         private Boolean _rememberMe;
         private Boolean _checkBoxStatus;
         private String _login;
         private String _password;
         private MvxColor _color;
         private User _user;
+        private OAuth2Authenticator _auth;
 
         #endregion
 
         public LoginViewModel(IMvxNavigationService navigationService,
-            ILoginService loginService, ITasksService taskService)
+            ILoginService loginService, ITasksService taskService, IGoogleService googleService, IFacebookService facebookService)
         {
+                _facebookService = facebookService;
                 _loginService = loginService;
                 _navigationService = navigationService;
                 _taskService = taskService;
+                _googleService = googleService;
                 LoginColor = new MvxColor(251, 192, 45);
                 _user = new User();
                 if (CrossSecureStorage.Current.GetValue(SecureConstant.Status) == "True")
@@ -88,6 +97,18 @@ namespace TestProject.Core.ViewModels
                 User.Password = _password;
                 CheckEnableStatus();
                 //LoginColor = new MvxColor(28, 21, 234);
+            }
+        }
+
+        public OAuth2Authenticator Auth
+        {
+            get
+            {
+                return _auth;
+            }
+            set
+            {
+                _auth = value;
             }
         }
 
@@ -201,7 +222,85 @@ namespace TestProject.Core.ViewModels
             }
         }
 
+        public IMvxAsyncCommand SaveFacebookUserCommand
+        {
+            get
+            {
+                return new MvxAsyncCommand(async () =>
+                {
+                    var token = CrossSecureStorage.Current.GetValue(SecureConstant.AccessToken);
+                    if(token == null)
+                    {
+                        return;
+                    }
+                    if (token != null)
+                    {
+                        User user = await _facebookService.GetSocialNetworkAsync(token);
+                        var id = _loginService.GetSocialAccount(user);
+                        CrossSecureStorage.Current.SetValue(SecureConstant.UserId, Convert.ToString(id));
+                        await _navigationService.Navigate<MainViewModel>();
+                        await _navigationService.Close(this);
+                    }
+                });
+            }
+        }
+
+        public IMvxAsyncCommand SaveGoogleUserCommand
+        {
+            get
+            {
+                return new MvxAsyncCommand(async () =>
+                {
+                    var token = CrossSecureStorage.Current.GetValue(SecureConstant.AccessToken);
+                    if (token == null)
+                    {
+                        return;
+                    }
+                    if (token != null)
+                    {
+                        User user = await _googleService.GetSocialNetworkAsync(token);
+                        var id = _loginService.GetSocialAccount(user);
+                        CrossSecureStorage.Current.SetValue(SecureConstant.UserId, Convert.ToString(id));
+                        await _navigationService.Navigate<MainViewModel>();
+                        await _navigationService.Close(this);
+                    }
+                });
+            }
+        }
+
+
+
+        //public IMvxCommand GetAuthFacebookIOSCommand
+        //{
+        //    get
+        //    {
+        //        return new MvxCommand(() =>
+        //       {
+        //           Auth = _oAuthService.IOSLoginFacebook();
+        //       });
+        //    }
+        //}
+
+        //public IMvxCommand GetAuthGoogleIOSCommand
+        //{
+        //    get
+        //    {
+        //        return new MvxCommand(() =>
+        //       {
+        //           Auth = _oAuthService.IOSLoginGoogle();
+        //       });
+        //    }
+        //}
+
         #endregion
+
+        //public async Task<SocialNetworkModel> CheckInFacebook(string token)
+        //{
+        //    var facebookService = new FacebookService();
+        //    var network = await facebookService.GetSocialNetworkAsync(token);
+
+        //    return network;
+        //}
 
     }
 }

@@ -64,7 +64,6 @@ namespace TestProject.Droid.Views
             {
                 case Android.Resource.Id.Home:
                     DrawerLayout.OpenDrawer(GravityCompat.Start);
-                    //OnBackPressed();
                     return true;
             }
 
@@ -95,10 +94,6 @@ namespace TestProject.Droid.Views
             {
                 DrawerLayout.CloseDrawers();
             }
-            //if(FragmentManager.BackStackEntryCount > 0)
-            //{
-            //    FragmentManager.PopBackStack();
-            //}
             else
                 return;
         }

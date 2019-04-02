@@ -23,11 +23,19 @@ namespace TestProject.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView LoginFacebookButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITextField LoginField { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIView LoginFieldView { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView LoginGoogleButton { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -48,6 +56,14 @@ namespace TestProject.iOS.Views
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UISwitch RememberSwitch { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView ShadowView { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView SocialView { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -73,6 +89,11 @@ namespace TestProject.iOS.Views
                 LoginButton = null;
             }
 
+            if (LoginFacebookButton != null) {
+                LoginFacebookButton.Dispose ();
+                LoginFacebookButton = null;
+            }
+
             if (LoginField != null) {
                 LoginField.Dispose ();
                 LoginField = null;
@@ -81,6 +102,11 @@ namespace TestProject.iOS.Views
             if (LoginFieldView != null) {
                 LoginFieldView.Dispose ();
                 LoginFieldView = null;
+            }
+
+            if (LoginGoogleButton != null) {
+                LoginGoogleButton.Dispose ();
+                LoginGoogleButton = null;
             }
 
             if (LoginScrollView != null) {
@@ -106,6 +132,16 @@ namespace TestProject.iOS.Views
             if (RememberSwitch != null) {
                 RememberSwitch.Dispose ();
                 RememberSwitch = null;
+            }
+
+            if (ShadowView != null) {
+                ShadowView.Dispose ();
+                ShadowView = null;
+            }
+
+            if (SocialView != null) {
+                SocialView.Dispose ();
+                SocialView = null;
             }
 
             if (SwitchView != null) {

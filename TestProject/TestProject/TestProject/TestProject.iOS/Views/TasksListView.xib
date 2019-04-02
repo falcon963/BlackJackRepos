@@ -19,16 +19,8 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6524" translatesAutoresizingMaskIntoConstraints="NO">
-                    <rect key="frame" x="343" y="621" width="50" height="50"/>
-                    <state key="normal" title="Button" image="add_button_ios.png"/>
-                    <constraints>
-                        <constraint id="8919" firstAttribute="width" constant="50"/>
-                        <constraint id="9012" firstAttribute="width" secondItem="6524" secondAttribute="height" multiplier="1:1"/>
-                    </constraints>
-                </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="308" translatesAutoresizingMaskIntoConstraints="NO">
-                    <rect key="frame" x="0.0" y="52" width="414" height="636"/>
+                    <rect key="frame" x="0.0" y="48" width="414" height="636"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint id="5884" firstAttribute="width" secondItem="308" secondAttribute="height" multiplier="69:106"/>
@@ -44,20 +36,28 @@
                     </constraints>
                 </navigationBar>
                 <tabBar contentMode="scaleToFill" id="5861" translatesAutoresizingMaskIntoConstraints="NO">
-                    <rect key="frame" x="0.0" y="688" width="414" height="48"/>
+                    <rect key="frame" x="0.0" y="684" width="414" height="48"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <items>
                         <tabBarItem systemItem="favorites" id="5862"/>
                         <tabBarItem systemItem="more" id="5863"/>
                     </items>
                 </tabBar>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6524" translatesAutoresizingMaskIntoConstraints="NO" adjustsImageSizeForAccessibilityContentSizeCategory="YES">
+                    <rect key="frame" x="349" y="619" width="50" height="50"/>
+                    <constraints>
+                        <constraint id="8919" firstAttribute="width" constant="50"/>
+                        <constraint id="9012" firstAttribute="width" secondItem="6524" secondAttribute="height" multiplier="1:1"/>
+                    </constraints>
+                    <state key="normal" image="icons8_plus_24_white.png"/>
+                </button>
             </subviews>
             <constraints>
                 <constraint id="5864" firstItem="5859" firstAttribute="width" secondItem="2" secondAttribute="width"/>
                 <constraint id="5867" firstItem="5859" firstAttribute="top" secondItem="2" secondAttribute="top"/>
                 <constraint id="5868" firstItem="5859" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
                 <constraint id="5869" firstItem="5859" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
-                <constraint id="5870" firstItem="308" firstAttribute="top" secondItem="5859" secondAttribute="bottom" constant="4"/>
+                <constraint id="5870" firstItem="308" firstAttribute="top" secondItem="5859" secondAttribute="bottom"/>
                 <constraint id="5871" firstItem="5861" firstAttribute="top" secondItem="308" secondAttribute="bottom"/>
                 <constraint id="5874" firstItem="5861" firstAttribute="height" secondItem="5859" secondAttribute="height"/>
                 <constraint id="5875" firstItem="5861" firstAttribute="width" secondItem="5859" secondAttribute="width"/>
@@ -68,13 +68,13 @@
                 <constraint id="5885" firstItem="5861" firstAttribute="width" secondItem="5859" secondAttribute="width"/>
                 <constraint id="5886" firstItem="5861" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
                 <constraint id="5887" firstItem="5861" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
-                <constraint id="8733" firstItem="5861" firstAttribute="top" secondItem="6524" secondAttribute="bottom" constant="17"/>
-                <constraint id="8826" firstItem="308" firstAttribute="trailing" secondItem="6524" secondAttribute="trailing" constant="21"/>
+                <constraint id="9733" firstItem="308" firstAttribute="trailing" secondItem="6524" secondAttribute="trailing" constant="15"/>
+                <constraint id="9734" firstItem="5861" firstAttribute="top" secondItem="6524" secondAttribute="bottom" constant="15"/>
             </constraints>
             <point key="canvasLocation" x="7" y="-6"/>
         </view>
     </objects>
     <resources>
-        <image name="add_button_ios.png" width="50" height="50"/>
+        <image name="icons8_plus_24_white.png" width="24" height="24"/>
     </resources>
 </document>

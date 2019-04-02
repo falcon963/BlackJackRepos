@@ -20,5 +20,10 @@ namespace TestProject.Core.Constant
         public const String EmptyTaskFieldMessege = "You can't save task when field is empty!";
         public const String EmptyFieldRegistrateMessege = "You can't registrate when field is empty!";
         public const String WrongPassword = "Wrong Password confirm!";
+        public const String UserPassword = "Wrong old password!";
+        public const String CantDelete = "You can`t delete task, because hi don`t created";
+        public const String PasswordMustContentUpperChar = "Password must content upper char!";
+        public const String PasswordMustContent8Char = "Password must content 8 char!";
+        public const String PasswordMustContentNumber = "Password must content number char!";
     }
 }

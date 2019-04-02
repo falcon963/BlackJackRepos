@@ -10,5 +10,6 @@ namespace TestProject.Core.Constant
         public const String Login = "Login";
         public const String Status = "Status";
         public const String UserId = "UserId";
+        public const String AccessToken = "AccessToken";
     }
 }

@@ -7,6 +7,7 @@ using UIKit;
 using MvvmCross.Platforms.Ios.Presenters.Attributes;
 using System.Drawing;
 using TestProject.iOS.Converters;
+using CoreGraphics;
 
 namespace TestProject.iOS.Views
 {
@@ -36,9 +37,12 @@ namespace TestProject.iOS.Views
 
             var set = this.CreateBindingSet<RegistrationView, RegistrationViewModel>();
             set.Bind(RegistrationButton).To(vm => vm.RegistrationCommand);
-            set.Bind(LoginField).For(f => f.Text).To(vm => vm.Login);
-            set.Bind(PasswordField).For(f => f.Text).To(vm => vm.Password);
-            set.Bind(PasswordConfirmField).For(f => f.Text).To(vm => vm.PasswordRevise);
+            set.Bind(LoginField).To(vm => vm.Login);
+            set.Bind(PasswordField).To(vm => vm.Password);
+            set.Bind(PasswordConfirmField).To(vm => vm.PasswordRevise);
+            set.Bind(LoginField).For(v => v.BackgroundColor).To(vm => vm.LoginEnebleColor).WithConversion(new ColorValueConverter());
+            set.Bind(PasswordField).For(v => v.BackgroundColor).To(vm => vm.ValidateColor).WithConversion(new ColorValueConverter());
+            set.Bind(PasswordConfirmField).For(v => v.BackgroundColor).To(vm => vm.ValidateColor).WithConversion(new ColorValueConverter());
             set.Bind(View).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion(new ColorValueConverter());
             set.Apply();
 

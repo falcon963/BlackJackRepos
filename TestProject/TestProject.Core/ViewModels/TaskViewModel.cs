@@ -125,6 +125,16 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
+                    if(UserTask.Changes.Id == 0)
+                    {
+                        var cantDelete = UserDialogs.Instance.Alert(new AlertConfig
+                        {
+                            Title = MessengeFields.AlertMessege,
+                            Message = MessengeFields.CantDelete,
+                            OkText = MessengeFields.OkText,
+                        });
+                        return;
+                    }
                     var delete = await _userDialogs.ConfirmAsync(new ConfirmConfig
                     {
                         Title = MessengeFields.AlertMessege,

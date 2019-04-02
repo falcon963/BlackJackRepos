@@ -28,13 +28,15 @@ namespace TestProject.Core.ViewModels
         private bool _eneble;
         private MvxColor _oldPasswordFieldColor;
         private MvxColor _confirmColor;
+        private readonly IUserDialogs _userDialogs;
 
         #endregion
 
-        public UserProfileViewModel(IMvxNavigationService navigationService, ILoginService loginService)
+        public UserProfileViewModel(IMvxNavigationService navigationService, ILoginService loginService, IUserDialogs userDialogs)
         {
             _navigationService = navigationService;
             _loginService = loginService;
+            _userDialogs = userDialogs;
             Int32 userId = Int32.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.UserId));
             Profile = _loginService.TakeProfile(userId);
             Background = new MvxColor(251, 192, 45);
@@ -215,8 +217,66 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    _loginService.ChangePassword(Profile.Id, NewPassword);
-                    CrossSecureStorage.Current.SetValue(SecureConstant.Password, NewPassword);
+                    if (PassChangeEneble == true)
+                    {
+                        _loginService.ChangePassword(Profile.Id, NewPassword);
+                        CrossSecureStorage.Current.SetValue(SecureConstant.Password, NewPassword);
+                    }
+                    if ((ConfirmPassword != null || NewPassword != null || OldPassword != null) && OldPassword != Profile.Password)
+                    {
+                        var alertPass = UserDialogs.Instance.Alert(
+                            new AlertConfig
+                            {
+                                Message = MessengeFields.UserPassword,
+                                OkText = MessengeFields.OkText,
+                            });
+                        return;
+                    }
+                    if ((ConfirmPassword != null || NewPassword != null || OldPassword != null) && NewPassword != ConfirmPassword)
+                    {
+                        var alertPass = UserDialogs.Instance.Alert(
+                            new AlertConfig
+                            {
+                                Message = MessengeFields.WrongPassword,
+                                OkText = MessengeFields.OkText,
+                            });
+                        return;
+                    }
+                    var alert = UserDialogs.Instance.Alert(
+                            new AlertConfig
+                            {
+                                Message = MessengeFields.Success,
+                                OkText = MessengeFields.OkText,
+                                Title = MessengeFields.Success
+                            });
+                    _loginService.ChangeImage(Profile.Id, Profile.ImagePath);
+                });
+            }
+        }
+
+        public IMvxCommand LogOutCommand
+        {
+            get
+            {
+                return new MvxCommand(async () =>
+                {
+                    var logOut = await _userDialogs.ConfirmAsync(new ConfirmConfig
+                    {
+                        Title = "Alert Messege",
+                        Message = "Do you want logout?",
+                        OkText = "Yes",
+                        CancelText = "No"
+                    });
+                    if (logOut)
+                    {
+                        CrossSecureStorage.Current.DeleteKey(SecureConstant.Status);
+                        CrossSecureStorage.Current.DeleteKey(SecureConstant.AccessToken);
+                        await _navigationService.Navigate<MainRegistrationViewModel>();
+                    }
+                    if (!logOut)
+                    {
+                        return;
+                    }
                 });
             }
         }

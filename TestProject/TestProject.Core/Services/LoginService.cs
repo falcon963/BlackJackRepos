@@ -56,15 +56,15 @@ namespace TestProject.Core.Services
 
         }
 
-        public Boolean CreateUser(User user)
+        public Int32 CreateUser(User user)
         {
             _dbConnection.Database.Insert(user);
-            User getingUser = _dbConnection.Database.Table<User>().Where(v => v.Login == user.Login && v.Password == user.Password).First();
-            if (getingUser != null)
+            User getingUser = _dbConnection.Database.Table<User>().Where(v => v.Login == user.Login && v.Password == user.Password).FirstOrDefault();
+            if (getingUser == null)
             {
-                return true;
+                return 0;
             }
-            return false;
+            return getingUser.Id;
         }
 
         public User TakeProfile(Int32 userId)
@@ -85,6 +85,22 @@ namespace TestProject.Core.Services
             User user = _dbConnection.Database.Table<User>().Where(u => u.Id == userId).FirstOrDefault();
             user.ImagePath = imagePath;
             _dbConnection.Database.Update(user);
+        }
+
+        public Int32 GetSocialAccount(User user)
+        {
+            User createdUser = _dbConnection.Database.Table<User>().Where(v => v.FacebookId == user.FacebookId || v.GoogleId == user.GoogleId).FirstOrDefault();
+            if(createdUser != null)
+            {
+                return createdUser.Id;
+            }
+            if(createdUser == null)
+            {
+                _dbConnection.Database.Insert(user);
+                User newUser = _dbConnection.Database.Table<User>().Where(v => v.FacebookId == user.FacebookId || v.GoogleId == user.GoogleId).FirstOrDefault();
+                return newUser.Id;
+            }
+            return 0;
         }
     }
 }

@@ -1,3 +1,4 @@
+using CoreGraphics;
 using Foundation;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Presenters.Attributes;
@@ -9,7 +10,7 @@ using UIKit;
 
 namespace TestProject.iOS.Views
 {
-    [MvxModalPresentation]
+    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Profile", TabIconName = "icons8_user_24")]
     public partial class ProfileView 
         : BaseMenuView<UserProfileViewModel>
     {
@@ -28,8 +29,6 @@ namespace TestProject.iOS.Views
         {
             base.ViewDidLoad();
 
-            //NavigationController.NavigationBar.Hidden = true;
-
             ScrollView = MainScrollView;
 
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, HandleKeyboardDidHide);
@@ -41,18 +40,25 @@ namespace TestProject.iOS.Views
             set.Bind(PasswordField).To(vm => vm.OldPassword);
             set.Bind(PasswordConfirmField).To(vm => vm.ConfirmPassword);
             set.Bind(NewPasswordField).To(vm => vm.NewPassword);
-            set.Bind(BackButton).To(vm => vm.CloseProfileCommand);
-            set.Bind(SaveNewPasswordButton).To(vm => vm.SavePasswordChangeCommand);
             set.Bind(MainScrollView).For(v => v.BackgroundColor).To(vm => vm.Background).WithConversion(new ColorValueConverter());
             set.Bind(ProfileImage).To(vm => vm.Profile.ImagePath).WithConversion(new ImageValueConverter());
+            set.Bind(PasswordField).For(v => v.BackgroundColor).To(vm => vm.ConfirmPassword).WithConversion(new ColorValueConverter());
+            set.Bind(NewPasswordField).For(v => v.BackgroundColor).To(vm => vm.ConfirmColor).WithConversion(new ColorValueConverter());
+            set.Bind(PasswordConfirmField).For(v => v.BackgroundColor).To(vm => vm.ConfirmColor).WithConversion(new ColorValueConverter());
+            set.Bind(LogoutButton).To(vm => vm.LogOutCommand);
             set.Apply();
 
             UITapGestureRecognizer recognizer = new UITapGestureRecognizer(OpenImage);
             ProfileImage.AddGestureRecognizer(recognizer);
 
-            BackButton.Image = UIImage.FromFile("back_to_50.png");
+            AddShadow(PasswordField);
+            AddShadow(NewPasswordField);
+            AddShadow(PasswordConfirmField);
+            AddShadow(SaveButton);
+            AddShadow(LogoutButton);
+            AddShadow(ProfileImage);
 
-            MainScrollView.ContentSize = new CoreGraphics.CGSize(0, View.Frame.Height - 20);
+            MainScrollView.ContentSize = new CoreGraphics.CGSize(0, MainScrollView.Frame.Height - 80);
 
             this.AutomaticallyAdjustsScrollViewInsets = false;
         }
@@ -69,8 +75,6 @@ namespace TestProject.iOS.Views
 
         public void OpenImage()
         {
-            this.SaveImageButton.UserInteractionEnabled = true;
-
 
             var actionSheet = UIAlertController.Create("Photo Source", "Choose a source", UIAlertControllerStyle.ActionSheet);
 
@@ -97,7 +101,7 @@ namespace TestProject.iOS.Views
         {
             var data = ProfileImage.Image.AsJPEG();
             ViewModel.Profile.ImagePath = data.GetBase64EncodedString(NSDataBase64EncodingOptions.SixtyFourCharacterLineLength);
-            this.ViewModel.SaveImageChangeCommand.Execute();
+            this.ViewModel.SavePasswordChangeCommand.Execute();
         }
 
         private void Canceled(object sender, EventArgs e)
@@ -107,7 +111,8 @@ namespace TestProject.iOS.Views
 
         private void Handle_FinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
         {
-            UIImage originalImage = e.Info[UIImagePickerController.OriginalImage] as UIImage;
+
+            UIImage originalImage = e.Info[UIImagePickerController.EditedImage] as UIImage;
 
             if (originalImage != null)
             {
@@ -119,6 +124,7 @@ namespace TestProject.iOS.Views
 
         private void OpenLibrary()
         {
+            _imagePickerController.Canceled += (sender, e) => { _imagePickerController.DismissViewController(true, null); };
             _imagePickerController.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
             _imagePickerController.AllowsEditing = true;
 
@@ -129,6 +135,7 @@ namespace TestProject.iOS.Views
         {
             if (UIImagePickerController.IsSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
             {
+                _imagePickerController.Canceled += (sender, e) => { _imagePickerController.DismissViewController(true, null); };
                 _imagePickerController.SourceType = UIImagePickerControllerSourceType.Camera;
                 _imagePickerController.AllowsEditing = true;
                 this.PresentViewController(_imagePickerController, true, null);
@@ -144,6 +151,11 @@ namespace TestProject.iOS.Views
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
+        }
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
         }
     }
 }

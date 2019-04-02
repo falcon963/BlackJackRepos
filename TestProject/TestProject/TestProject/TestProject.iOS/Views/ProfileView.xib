@@ -13,11 +13,10 @@
                 <outlet property="PasswordField" destination="293" id="name-outlet-293"/>
                 <outlet property="PasswordConfirmField" destination="294" id="name-outlet-294"/>
                 <outlet property="NewPasswordField" destination="295" id="name-outlet-295"/>
-                <outlet property="SaveNewPasswordButton" destination="299" id="name-outlet-299"/>
                 <outlet property="ProfileImage" destination="300" id="name-outlet-300"/>
-                <outlet property="SaveImageButton" destination="302" id="name-outlet-302"/>
+                <outlet property="SaveButton" destination="302" id="name-outlet-302"/>
                 <outlet property="MainScrollView" destination="301" id="name-outlet-301"/>
-                <outlet property="BackButton" destination="5755" id="name-outlet-5755"/>
+                <outlet property="LogoutButton" destination="29754" id="name-outlet-29754"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -27,124 +26,141 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="301" translatesAutoresizingMaskIntoConstraints="NO">
-                    <rect key="frame" x="0.0" y="44" width="414" height="692"/>
+                    <rect key="frame" x="0.0" y="70" width="414" height="614"/>
                     <subviews>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Text" borderStyle="roundedRect" minimumFontSize="17" id="293" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="41.5" y="42.5" width="331" height="24"/>
+                            <rect key="frame" x="41.5" y="39.5" width="331" height="30"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            <constraints>
+                                <constraint id="21582" firstAttribute="width" secondItem="293" secondAttribute="height" multiplier="331:30"/>
+                            </constraints>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Text" borderStyle="roundedRect" minimumFontSize="17" id="294" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="41.5" y="106" width="331" height="24"/>
+                            <rect key="frame" x="41.5" y="106" width="331" height="30"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            <constraints>
+                                <constraint id="22759" firstAttribute="width" secondItem="294" secondAttribute="height" multiplier="331:30"/>
+                            </constraints>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Text" borderStyle="roundedRect" minimumFontSize="17" id="295" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="41.5" y="171" width="331" height="24.5"/>
+                            <rect key="frame" x="41.5" y="174.5" width="331" height="30"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            <constraints>
+                                <constraint id="22920" firstAttribute="width" secondItem="295" secondAttribute="height" multiplier="331:30"/>
+                            </constraints>
                         </textField>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="296" translatesAutoresizingMaskIntoConstraints="NO" text="Password:">
-                            <rect key="frame" x="41.5" y="10" width="331" height="24.5"/>
+                            <rect key="frame" x="41.5" y="10" width="331" height="22"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password confirm:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="297" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="41.5" y="73.5" width="331" height="24.5"/>
+                            <rect key="frame" x="41.5" y="76.5" width="331" height="21.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <nil key="highlightedColor"/>
                             <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New password:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="298" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="41.5" y="139" width="331" height="24"/>
+                            <rect key="frame" x="41.5" y="145" width="331" height="21.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <nil key="highlightedColor"/>
                             <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="299" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="155.5" y="210.5" width="103.5" height="29"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                            <state key="normal" title="Save password"/>
-                            <connections>
-                                <action selector="SavePasswordPress:" destination="-1" id="305"/>
-                            </connections>
-                        </button>
                         <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="300" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="41.5" y="254.5" width="331" height="331"/>
+                            <rect key="frame" x="41.5" y="218.5" width="331" height="331"/>
                             <constraints>
                                 <constraint id="3642" firstAttribute="width" secondItem="300" secondAttribute="height" multiplier="1:1"/>
                             </constraints>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="302" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="155.5" y="600.5" width="103.5" height="29"/>
+                            <rect key="frame" x="153" y="557.5" width="108" height="30"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                            <state key="normal" title="Save image"/>
+                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            <state key="normal" title="Save"/>
                             <connections>
                                 <action selector="SaveImagePress:" destination="-1" id="3010" eventType="touchUpInside"/>
                             </connections>
+                            <constraints>
+                                <constraint id="8579" firstAttribute="width" secondItem="302" secondAttribute="height" multiplier="104:29"/>
+                            </constraints>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="29754" translatesAutoresizingMaskIntoConstraints="NO">
+                            <rect key="frame" x="153" y="594.5" width="108" height="30"/>
+                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            <state key="normal" title="Logout"/>
                         </button>
                     </subviews>
                     <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                     <constraints>
                         <constraint id="1201" firstItem="300" firstAttribute="width" secondItem="301" secondAttribute="width" multiplier="0.8"/>
                         <constraint id="1203" firstItem="300" firstAttribute="centerX" secondItem="301" secondAttribute="centerX"/>
-                        <constraint id="1204" firstItem="300" firstAttribute="top" secondItem="299" secondAttribute="bottom" constant="15"/>
                         <constraint id="1205" firstItem="296" firstAttribute="top" secondItem="301" secondAttribute="top" constant="10"/>
                         <constraint id="1206" firstItem="296" firstAttribute="centerX" secondItem="301" secondAttribute="centerX"/>
                         <constraint id="1207" firstItem="296" firstAttribute="width" secondItem="301" secondAttribute="width" multiplier="0.8"/>
                         <constraint id="1209" firstItem="296" firstAttribute="height" secondItem="301" secondAttribute="height" multiplier="0.035"/>
                         <constraint id="1210" firstItem="293" firstAttribute="top" secondItem="296" secondAttribute="bottom" constant="8"/>
-                        <constraint id="1211" firstItem="293" firstAttribute="height" secondItem="296" secondAttribute="height"/>
                         <constraint id="1213" firstItem="293" firstAttribute="centerX" secondItem="301" secondAttribute="centerX"/>
                         <constraint id="1214" firstItem="293" firstAttribute="width" secondItem="296" secondAttribute="width"/>
                         <constraint id="1215" firstItem="297" firstAttribute="top" secondItem="293" secondAttribute="bottom" constant="7"/>
                         <constraint id="1216" firstItem="297" firstAttribute="centerX" secondItem="301" secondAttribute="centerX"/>
-                        <constraint id="1217" firstItem="297" firstAttribute="height" secondItem="293" secondAttribute="height"/>
                         <constraint id="1218" firstItem="297" firstAttribute="width" secondItem="293" secondAttribute="width"/>
                         <constraint id="1219" firstItem="294" firstAttribute="top" secondItem="297" secondAttribute="bottom" constant="8"/>
                         <constraint id="1220" firstItem="294" firstAttribute="centerX" secondItem="301" secondAttribute="centerX"/>
-                        <constraint id="1221" firstItem="294" firstAttribute="height" secondItem="293" secondAttribute="height"/>
                         <constraint id="1222" firstItem="294" firstAttribute="width" secondItem="293" secondAttribute="width"/>
                         <constraint id="1223" firstItem="298" firstAttribute="top" secondItem="294" secondAttribute="bottom" constant="9"/>
                         <constraint id="1224" firstItem="298" firstAttribute="centerX" secondItem="301" secondAttribute="centerX"/>
-                        <constraint id="1225" firstItem="298" firstAttribute="height" secondItem="297" secondAttribute="height"/>
                         <constraint id="1226" firstItem="298" firstAttribute="width" secondItem="297" secondAttribute="width"/>
                         <constraint id="1227" firstItem="295" firstAttribute="top" secondItem="298" secondAttribute="bottom" constant="8"/>
                         <constraint id="1228" firstItem="295" firstAttribute="centerX" secondItem="301" secondAttribute="centerX"/>
-                        <constraint id="1229" firstItem="295" firstAttribute="height" secondItem="294" secondAttribute="height"/>
                         <constraint id="1230" firstItem="295" firstAttribute="width" secondItem="294" secondAttribute="width"/>
-                        <constraint id="1231" firstItem="299" firstAttribute="top" secondItem="295" secondAttribute="bottom" constant="15"/>
-                        <constraint id="1232" firstItem="299" firstAttribute="centerX" secondItem="301" secondAttribute="centerX"/>
                         <constraint id="4441" firstItem="302" firstAttribute="centerX" secondItem="301" secondAttribute="centerX"/>
-                        <constraint id="4456" firstItem="302" firstAttribute="top" secondItem="300" secondAttribute="bottom" constant="15"/>
-                        <constraint id="4471" firstItem="299" firstAttribute="width" secondItem="301" secondAttribute="width" multiplier="0.25"/>
-                        <constraint id="4528" firstItem="302" firstAttribute="width" secondItem="299" secondAttribute="width"/>
-                        <constraint id="6497" firstAttribute="width" secondItem="301" secondAttribute="height" multiplier="207:346"/>
+                        <constraint id="8057" firstItem="300" firstAttribute="top" secondItem="295" secondAttribute="bottom" constant="14"/>
+                        <constraint id="8893" firstItem="302" firstAttribute="top" secondItem="300" secondAttribute="bottom" constant="8"/>
+                        <constraint id="19398" firstAttribute="width" secondItem="301" secondAttribute="height" multiplier="207:307"/>
+                        <constraint id="21420" firstItem="297" firstAttribute="height" secondItem="296" secondAttribute="height"/>
+                        <constraint id="21501" firstItem="298" firstAttribute="height" secondItem="296" secondAttribute="height"/>
+                        <constraint id="30055" firstItem="29754" firstAttribute="top" secondItem="302" secondAttribute="bottom" constant="7"/>
+                        <constraint id="30433" firstItem="29754" firstAttribute="centerX" secondItem="301" secondAttribute="centerX"/>
+                        <constraint id="30509" firstItem="29754" firstAttribute="height" secondItem="302" secondAttribute="height"/>
+                        <constraint id="30585" firstItem="29754" firstAttribute="width" secondItem="302" secondAttribute="width"/>
                     </constraints>
                 </scrollView>
-                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="5754" translatesAutoresizingMaskIntoConstraints="NO">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                <tabBar contentMode="scaleToFill" id="9414" translatesAutoresizingMaskIntoConstraints="NO">
+                    <rect key="frame" x="0.0" y="685" width="414" height="51"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <items>
-                        <barButtonItem title="Item" id="5755"/>
+                        <tabBarItem systemItem="favorites" id="9415"/>
+                        <tabBarItem systemItem="more" id="9416"/>
                     </items>
-                    <constraints/>
-                </toolbar>
+                </tabBar>
+                <navigationBar contentMode="scaleToFill" id="19391" translatesAutoresizingMaskIntoConstraints="NO" ambiguous="YES">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="72"/>
+                    <items>
+                        <navigationItem title="Title" id="19392"/>
+                    </items>
+                    <constraints>
+                        <constraint id="19394" firstAttribute="width" secondItem="19391" secondAttribute="height" multiplier="207:36"/>
+                    </constraints>
+                </navigationBar>
             </subviews>
             <constraints>
                 <constraint id="743" firstItem="301" firstAttribute="width" secondItem="2" secondAttribute="width"/>
                 <constraint id="745" firstItem="301" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
                 <constraint id="746" firstItem="301" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
-                <constraint id="5063" firstItem="301" firstAttribute="bottom" secondItem="2" secondAttribute="bottom"/>
-                <constraint id="5758" firstItem="5754" firstAttribute="top" secondItem="2" secondAttribute="top"/>
-                <constraint id="5759" firstItem="5754" firstAttribute="bottom" secondItem="301" secondAttribute="top"/>
-                <constraint id="5760" firstItem="5754" firstAttribute="width" secondItem="301" secondAttribute="width"/>
-                <constraint id="5762" firstItem="5754" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
+                <constraint id="10563" firstItem="9414" firstAttribute="top" secondItem="301" secondAttribute="bottom" constant="1"/>
+                <constraint id="10668" firstItem="9414" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
+                <constraint id="10773" firstAttribute="bottom" secondItem="9414" secondAttribute="bottom"/>
+                <constraint id="10878" firstItem="9414" firstAttribute="leading" secondItem="2" secondAttribute="leading"/>
+                <constraint id="19393" firstItem="19391" firstAttribute="width" secondItem="301" secondAttribute="width"/>
+                <constraint id="19395" firstItem="19391" firstAttribute="top" secondItem="2" secondAttribute="top"/>
+                <constraint id="19397" firstItem="19391" firstAttribute="bottom" secondItem="301" secondAttribute="top" constant="2"/>
             </constraints>
         </view>
     </objects>

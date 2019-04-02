@@ -38,7 +38,8 @@ namespace TestProject.Core.ViewModels
                     return new MvxAsyncCommand(async () =>
                     {
                         await _navigationService.Navigate<TaskListViewModel>();
-                        await _navigationService.Navigate<MenuViewModel>();
+                        await _navigationService.Navigate<UserProfileViewModel>();
+                        await _navigationService.Navigate<UserLocationViewModel>();
                     });
             }
         }

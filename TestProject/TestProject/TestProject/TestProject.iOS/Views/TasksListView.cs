@@ -19,7 +19,7 @@ using Xam.iOS.Fab.Views;
 
 namespace TestProject.iOS.Views
 {
-    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Tasks")]
+    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Tasks", TabIconName = "icons8_task_24")]
     public partial class TasksListView 
         : BaseMenuView<TaskListViewModel>
     {
@@ -52,12 +52,7 @@ namespace TestProject.iOS.Views
         {
             base.ViewDidLoad();
 
-            //NavigationController.NavigationBarHidden = true;
             NavigationController.NavigationBar.TopItem.Title = "Tasks List";
-
-            UIViewController button = new UIViewController();
-            button.ModalPresentationStyle = UIModalPresentationStyle.OverCurrentContext;
-            this.PresentViewController(button, true, ()=> { ViewModel.ShowTaskCommand.Execute(); });
             
 
             var source = new TasksListSource(TasksList, this);
@@ -70,11 +65,14 @@ namespace TestProject.iOS.Views
             set.Bind(source).For(x => x.ItemsSource).To(vm => vm.ListOfTasks);
             set.Bind(source).For(x => x.SelectionChangedCommand).To(vm => vm.ItemSelectedCommand);            
             set.Bind(TasksList).For(v => v.BackgroundColor).To(vm => vm.TasksListColor).WithConversion(new ColorValueConverter());
+            set.Bind(FabButton).To(vm => vm.ShowTaskCommand);
             set.Apply();
 
+            TasksList.AddSubview(refreshControl);
             TasksList.Source = source;
             TasksList.RegisterNibForCellReuse(UINib.FromName("ContentTasksCell", NSBundle.MainBundle), ContentTasksCell.Key);
-            TasksList.RowHeight = UITableView.AutomaticDimension;
+            //TasksList.RowHeight = UITableView.AutomaticDimension;
+            TasksList.RowHeight = 60;
             TasksList.ReloadData();
         }
 
@@ -86,22 +84,21 @@ namespace TestProject.iOS.Views
 
         public void CreateFloatingButton()
         {
-            FabButton.BackgroundColor = UIColor.Red;
-            var keyWindow = UIApplication.SharedApplication.KeyWindow;
-            keyWindow.AddSubview(this.FabButton);
+            FabButton.BackgroundColor = UIColor.White;
             FabButton.Layer.CornerRadius = FabButton.Frame.Height / 2;
             this.FabButton.Layer.ShadowColor = UIColor.Black.CGColor;
-            this.FabButton.Layer.ShadowOffset = new CGSize(0, 5);
+            this.FabButton.Layer.ShadowOpacity = 1/4;
+            this.FabButton.Layer.ShadowOffset = new CGSize(0, 10);
             this.FabButton.Layer.MasksToBounds = false;
-            this.FabButton.Layer.ShadowRadius = 2;
-            this.FabButton.Layer.ShadowOpacity = 1/2;
+            this.FabButton.Layer.ShadowRadius = 5;
+            this.FabButton.Layer.ShadowOpacity = 1 / 2;
         }
 
-        public override void ViewWillDisappear(bool animated)
-        {
-            base.ViewWillDisappear(animated);
-            this.FabButton.RemoveFromSuperview();
-            FabButton = null;
-        }
+        //public override void ViewWillDisappear(bool animated)
+        //{
+        //    base.ViewWillDisappear(animated);
+        //    this.FabButton.RemoveFromSuperview();
+        //    FabButton = null;
+        //}
     }
 }

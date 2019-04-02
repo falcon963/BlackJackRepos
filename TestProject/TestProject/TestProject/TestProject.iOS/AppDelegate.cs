@@ -1,9 +1,12 @@
-﻿using Foundation;
+﻿using CoreGraphics;
+using Foundation;
 using Google.Maps;
 using MvvmCross.Platforms.Ios.Core;
 using MvvmCross.Plugin.Color.Platforms.Ios;
 using Plugin.SecureStorage;
 using System;
+using System.Diagnostics;
+using System.Linq;
 using TestProject.Core;
 using TestProject.Core.Colors;
 using TestProject.iOS.Views;
@@ -28,11 +31,56 @@ namespace TestProject.iOS
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
-            MapServices.ProvideAPIKey(MapsApiKey);
+            Boolean result = false;
 
-            var c = base.FinishedLaunching(application, launchOptions);
+            try
+            {
+                MapServices.ProvideAPIKey(MapsApiKey);
+                result = base.FinishedLaunching(application, launchOptions);
+            }
+            catch(System.Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
 
-            return c;
+            return result;
+        }
+
+        #region OpenUrl
+
+        public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+            AppDeepLinksEntry(url);
+
+            Uri uri_netfx = new Uri(url.AbsoluteString);
+
+            // load redirect_url Page
+            LoginView.GoogleAuth?.OnPageLoading(uri_netfx);
+
+            return true;
+        }
+
+        //public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        //{
+        //    return AppDeepLinksEntry(url);
+        //}
+
+        public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+        {
+            return AppDeepLinksEntry(url);
+        }
+
+        #endregion OpenUrl
+
+
+        private bool AppDeepLinksEntry(NSUrl url)
+        {
+            Debug.WriteLine($"OpenUrl Url : {url}");
+            Debug.WriteLine($"OpenUrl Url Query: {url.Query}");
+            Debug.WriteLine($"OpenUrl Url Host: {url.Host}");
+            Debug.WriteLine($"OpenUrl Url Path: {url.Path}");
+
+            return true;
         }
 
         public override void OnResignActivation(UIApplication application)

@@ -28,10 +28,6 @@ namespace TestProject.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton ImageChoseButton { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIScrollView MainScrollView { get; set; }
 
         [Outlet]
@@ -54,14 +50,6 @@ namespace TestProject.iOS.Views
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UISwitch TaskStatus { get; set; }
 
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UINavigationBar TaskToolbar { get; set; }
-
-        [Action ("PressImgButton:")]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        partial void PressImgButton (UIKit.UIButton sender);
-
         [Action ("PressSaveButton:")]
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void PressSaveButton (UIKit.UIButton sender);
@@ -81,11 +69,6 @@ namespace TestProject.iOS.Views
             if (DeleteButton != null) {
                 DeleteButton.Dispose ();
                 DeleteButton = null;
-            }
-
-            if (ImageChoseButton != null) {
-                ImageChoseButton.Dispose ();
-                ImageChoseButton = null;
             }
 
             if (MainScrollView != null) {
@@ -116,11 +99,6 @@ namespace TestProject.iOS.Views
             if (TaskStatus != null) {
                 TaskStatus.Dispose ();
                 TaskStatus = null;
-            }
-
-            if (TaskToolbar != null) {
-                TaskToolbar.Dispose ();
-                TaskToolbar = null;
             }
         }
     }

@@ -23,6 +23,10 @@ namespace TestProject.Core
             var _loginService = Mvx.IoCProvider.Resolve<ILoginService>();
 
             var value = CrossSecureStorage.Current.GetValue(SecureConstant.Status);
+            if(CrossSecureStorage.Current.GetValue(SecureConstant.AccessToken) != null)
+            {
+                return NavigationService.Navigate<MainViewModel>();
+            }
             if (Convert.ToBoolean(value) == true)
             {
                 User user = new User();

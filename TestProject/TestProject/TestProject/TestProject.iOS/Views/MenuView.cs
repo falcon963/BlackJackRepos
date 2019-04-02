@@ -20,7 +20,7 @@ using UIKit;
 
 namespace TestProject.iOS.Views
 {
-    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Menu")]
+    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Menu", TabIconName = "icons8_menu_26")]
     public partial class MenuView 
         : BaseMenuView<MenuViewModel>
     {

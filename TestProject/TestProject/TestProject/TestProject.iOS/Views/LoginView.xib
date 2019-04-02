@@ -7,6 +7,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginView">
@@ -22,6 +23,10 @@
                 <outlet property="LoginFieldView" destination="11004" id="name-outlet-11004"/>
                 <outlet property="ButtonsView" destination="7001" id="name-outlet-7001"/>
                 <outlet property="LoginScrollView" destination="2036" id="name-outlet-2036"/>
+                <outlet property="SocialView" destination="37001" id="name-outlet-37001"/>
+                <outlet property="ShadowView" destination="50522" id="name-outlet-50522"/>
+                <outlet property="LoginGoogleButton" destination="131511" id="name-outlet-131511"/>
+                <outlet property="LoginFacebookButton" destination="135139" id="name-outlet-135139"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -29,7 +34,7 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="2036" translatesAutoresizingMaskIntoConstraints="NO" keyboardDismissMode="onDrag">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="2036" translatesAutoresizingMaskIntoConstraints="NO" keyboardDismissMode="onDrag" ambiguous="YES">
                     <rect key="frame" x="0.0" y="50" width="414" height="686"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="18643" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
@@ -64,7 +69,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" id="11011" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="39.5" y="214" width="331" height="71"/>
+                            <rect key="frame" x="39.5" y="215" width="331" height="71"/>
                             <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="208">
@@ -78,6 +83,7 @@
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                    <rect key="contentStretch" x="0" y="0.0" width="1" height="1"/>
                                 </textField>
                             </subviews>
                             <constraints>
@@ -86,45 +92,55 @@
                                 <constraint id="11016" firstAttribute="bottom" secondItem="206" secondAttribute="bottom" constant="4"/>
                                 <constraint id="11017" firstItem="206" firstAttribute="width" secondItem="11011" secondAttribute="width"/>
                                 <constraint id="11018" firstItem="208" firstAttribute="width" secondItem="206" secondAttribute="width"/>
-                                <constraint id="32734" firstItem="206" firstAttribute="leading" secondItem="11011" secondAttribute="leading"/>
                                 <constraint id="32780" firstItem="208" firstAttribute="leading" secondItem="11011" secondAttribute="leading"/>
+                                <constraint id="94140" firstItem="206" firstAttribute="leading" secondItem="11011" secondAttribute="leading"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" id="11004" translatesAutoresizingMaskIntoConstraints="NO">
-                            <rect key="frame" x="37.5" y="135" width="331" height="71"/>
+                            <rect key="frame" x="40" y="110" width="372.5" height="97"/>
                             <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="207">
-                                    <rect key="frame" x="0.0" y="8" width="331" height="17"/>
+                                    <rect key="frame" x="0.0" y="8" width="335.5" height="17"/>
                                     <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="0.0" bottom="8" trailing="0.0"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Text" borderStyle="roundedRect" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="205">
-                                    <rect key="frame" x="0.0" y="37" width="331" height="30"/>
+                                    <rect key="frame" x="0.0" y="37" width="335.5" height="30"/>
                                     <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="0.0" bottom="8" trailing="0.0"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
+                                    <rect key="contentStretch" x="0.5" y="0.0" width="1" height="1"/>
                                 </textField>
+                                <view contentMode="scaleToFill" id="50522" translatesAutoresizingMaskIntoConstraints="NO">
+                                    <rect key="frame" x="0.0" y="67" width="372" height="30"/>
+                                    <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
+                                </view>
                             </subviews>
                             <constraints>
                                 <constraint id="11006" firstItem="207" firstAttribute="top" secondItem="11004" secondAttribute="top" constant="8"/>
                                 <constraint id="11007" firstItem="205" firstAttribute="top" secondItem="207" secondAttribute="bottom" constant="12"/>
                                 <constraint id="11008" firstItem="207" firstAttribute="width" secondItem="205" secondAttribute="width"/>
-                                <constraint id="11009" firstItem="205" firstAttribute="width" secondItem="11004" secondAttribute="width"/>
-                                <constraint id="11520" firstAttribute="bottom" secondItem="205" secondAttribute="bottom" constant="4"/>
-                                <constraint id="33277" firstItem="205" firstAttribute="leading" secondItem="11004" secondAttribute="leading"/>
+                                <constraint id="11009" firstItem="205" firstAttribute="width" secondItem="11004" secondAttribute="width" multiplier="0.9"/>
                                 <constraint id="33323" firstItem="207" firstAttribute="leading" secondItem="11004" secondAttribute="leading"/>
+                                <constraint id="50531" firstItem="50522" firstAttribute="height" secondItem="205" secondAttribute="height"/>
+                                <constraint id="50532" firstAttribute="bottom" secondItem="50522" secondAttribute="bottom"/>
+                                <constraint id="50925" firstItem="50522" firstAttribute="top" secondItem="205" secondAttribute="bottom"/>
+                                <constraint id="94141" firstItem="205" firstAttribute="leading" secondItem="11004" secondAttribute="leading"/>
+                                <constraint id="114827" firstItem="205" firstAttribute="width" secondItem="11004" secondAttribute="width" multiplier="0.9"/>
+                                <constraint id="124946" firstItem="50522" firstAttribute="width" secondItem="205" secondAttribute="width" multiplier="1.11"/>
+                                <constraint id="125061" firstItem="50522" firstAttribute="leading" secondItem="11004" secondAttribute="leading"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" id="7001" translatesAutoresizingMaskIntoConstraints="NO" clipsSubviews="YES" opaque="NO">
-                            <rect key="frame" x="41.5" y="326.5" width="331" height="110"/>
+                            <rect key="frame" x="41.5" y="327.5" width="331" height="90"/>
                             <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="211" misplaced="YES">
-                                    <rect key="frame" x="125" y="19" width="90" height="30"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="211">
+                                    <rect key="frame" x="120.5" y="19" width="90" height="30"/>
                                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                     <state key="normal" title="Login">
                                         <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -141,8 +157,8 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="212" misplaced="YES">
-                                    <rect key="frame" x="125" y="57" width="90" height="30"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="212">
+                                    <rect key="frame" x="120.5" y="57" width="90" height="30"/>
                                     <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                     <state key="normal" title="Registration">
                                         <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -163,27 +179,116 @@
                             </subviews>
                             <constraints>
                                 <constraint id="9625" firstItem="211" firstAttribute="top" secondItem="7001" secondAttribute="top" constant="19"/>
-                                <constraint id="9869" firstAttribute="height" constant="110"/>
+                                <constraint id="9869" firstAttribute="height" constant="90"/>
                                 <constraint id="10604" firstItem="211" firstAttribute="centerX" secondItem="7001" secondAttribute="centerX"/>
                                 <constraint id="10605" firstItem="212" firstAttribute="centerX" secondItem="7001" secondAttribute="centerX"/>
                                 <constraint id="10606" firstItem="212" firstAttribute="top" secondItem="211" secondAttribute="bottom" constant="8"/>
                                 <constraint id="10607" firstItem="211" firstAttribute="width" secondItem="212" secondAttribute="width"/>
                             </constraints>
                         </view>
+                        <view contentMode="scaleToFill" id="37001" translatesAutoresizingMaskIntoConstraints="NO">
+                            <rect key="frame" x="42.5" y="424.5" width="331" height="127.5"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" id="135139" translatesAutoresizingMaskIntoConstraints="NO">
+                                    <rect key="frame" x="91" y="0.0" width="149" height="39.5"/>
+                                    <color key="backgroundColor" colorSpace="calibratedRGB" red="0.25882352941176473" green="0.403921568627451" blue="0.69803921568627447" alpha="1"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute keyPath="layer.cornerRadius" type="number">
+                                            <real key="value" value="8"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="136924" translatesAutoresizingMaskIntoConstraints="NO" image="Facebook">
+                                            <rect key="frame" x="8" y="0.0" width="46" height="39.5"/>
+                                            <constraints>
+                                                <constraint id="136934" firstAttribute="width" secondItem="136924" secondAttribute="height" multiplier="15:13"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign-In" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="136928" translatesAutoresizingMaskIntoConstraints="NO">
+                                            <rect key="frame" x="66" y="0.0" width="75" height="39.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint id="136925" firstItem="136924" firstAttribute="leading" secondItem="135139" secondAttribute="leading" constant="8"/>
+                                        <constraint id="136926" firstItem="136924" firstAttribute="height" secondItem="135139" secondAttribute="height"/>
+                                        <constraint id="136927" firstItem="136924" firstAttribute="centerY" secondItem="135139" secondAttribute="centerY"/>
+                                        <constraint id="136929" firstItem="136928" firstAttribute="leading" secondItem="136924" secondAttribute="trailing" constant="12"/>
+                                        <constraint id="136930" firstItem="136928" firstAttribute="centerY" secondItem="135139" secondAttribute="centerY"/>
+                                        <constraint id="136931" firstAttribute="trailing" secondItem="136928" secondAttribute="trailing" constant="8"/>
+                                        <constraint id="136932" firstItem="136928" firstAttribute="height" secondItem="136924" secondAttribute="height"/>
+                                    </constraints>
+                                </view>
+                                <view contentMode="scaleToFill" id="131511" translatesAutoresizingMaskIntoConstraints="NO">
+                                    <rect key="frame" x="91" y="47.5" width="149" height="40"/>
+                                    <color key="backgroundColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="131512" translatesAutoresizingMaskIntoConstraints="NO" image="Icon8Google">
+                                            <rect key="frame" x="8" y="0.0" width="46" height="40"/>
+                                            <color key="backgroundColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                                            <constraints>
+                                                <constraint id="131515" firstAttribute="width" secondItem="131512" secondAttribute="height" multiplier="15:13"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign-In" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="131513" translatesAutoresizingMaskIntoConstraints="NO">
+                                            <rect key="frame" x="66" y="0.0" width="75" height="40"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint id="131517" firstItem="131512" firstAttribute="top" secondItem="131511" secondAttribute="top"/>
+                                        <constraint id="131518" firstItem="131512" firstAttribute="bottom" secondItem="131511" secondAttribute="bottom"/>
+                                        <constraint id="131519" firstItem="131513" firstAttribute="leading" secondItem="131512" secondAttribute="trailing" constant="12"/>
+                                        <constraint id="131520" firstItem="131513" firstAttribute="centerY" secondItem="131511" secondAttribute="centerY"/>
+                                        <constraint id="131521" firstItem="131513" firstAttribute="height" secondItem="131512" secondAttribute="height"/>
+                                        <constraint id="131522" firstItem="131513" firstAttribute="top" secondItem="131511" secondAttribute="top"/>
+                                        <constraint id="131523" firstAttribute="bottom" secondItem="131513" secondAttribute="bottom"/>
+                                        <constraint id="131857" firstItem="131512" firstAttribute="leading" secondItem="131511" secondAttribute="leading" constant="8"/>
+                                        <constraint id="133794" firstAttribute="trailing" secondItem="131513" secondAttribute="trailing" constant="8"/>
+                                        <constraint id="134467" firstAttribute="width" secondItem="131511" secondAttribute="height" multiplier="15:4"/>
+                                    </constraints>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute keyPath="layer.cornerRadius" type="number">
+                                            <real key="value" value="8"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </view>
+                            </subviews>
+                            <constraints>
+                                <constraint id="39932" firstAttribute="width" secondItem="37001" secondAttribute="height" multiplier="83:32"/>
+                                <constraint id="133125" firstItem="131511" firstAttribute="centerX" secondItem="37001" secondAttribute="centerX"/>
+                                <constraint id="134466" firstItem="131511" firstAttribute="width" secondItem="37001" secondAttribute="width" multiplier="0.45"/>
+                                <constraint id="135140" firstItem="135139" firstAttribute="top" secondItem="37001" secondAttribute="top"/>
+                                <constraint id="135141" firstItem="131511" firstAttribute="top" secondItem="135139" secondAttribute="bottom" constant="8"/>
+                                <constraint id="135142" firstItem="135139" firstAttribute="centerX" secondItem="37001" secondAttribute="centerX"/>
+                                <constraint id="135143" firstItem="135139" firstAttribute="height" secondItem="131511" secondAttribute="height"/>
+                                <constraint id="135811" firstItem="135139" firstAttribute="width" secondItem="131511" secondAttribute="width"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <constraints>
                         <constraint id="7731" firstItem="7001" firstAttribute="centerX" secondItem="2036" secondAttribute="centerX"/>
                         <constraint id="9371" firstItem="7001" firstAttribute="width" secondItem="2036" secondAttribute="width" multiplier="0.8"/>
-                        <constraint id="11010" firstItem="11004" firstAttribute="width" secondItem="2036" secondAttribute="width" multiplier="0.8"/>
+                        <constraint id="11010" firstItem="11004" firstAttribute="width" secondItem="2036" secondAttribute="width" multiplier="0.9"/>
                         <constraint id="11012" firstItem="11011" firstAttribute="width" secondItem="2036" secondAttribute="width" multiplier="0.8"/>
-                        <constraint id="11522" firstItem="11004" firstAttribute="top" secondItem="2036" secondAttribute="top" constant="135"/>
+                        <constraint id="11522" firstItem="11004" firstAttribute="top" secondItem="2036" secondAttribute="top" constant="110"/>
                         <constraint id="11523" firstItem="11011" firstAttribute="top" secondItem="11004" secondAttribute="bottom" constant="8"/>
                         <constraint id="19839" firstItem="7001" firstAttribute="top" secondItem="18643" secondAttribute="centerY" constant="14"/>
                         <constraint id="19976" firstItem="18643" firstAttribute="top" secondItem="11011" secondAttribute="bottom" constant="8"/>
                         <constraint id="20067" firstAttribute="centerX" secondItem="18643" secondAttribute="centerX" constant="4"/>
                         <constraint id="20113" firstItem="18643" firstAttribute="width" secondItem="2036" secondAttribute="width" multiplier="0.8"/>
-                        <constraint id="28463" firstAttribute="centerX" secondItem="11004" secondAttribute="centerX" constant="4"/>
                         <constraint id="28509" firstAttribute="centerX" secondItem="11011" secondAttribute="centerX" constant="2"/>
+                        <constraint id="38234" firstItem="37001" firstAttribute="width" secondItem="7001" secondAttribute="width"/>
+                        <constraint id="38389" firstItem="37001" firstAttribute="top" secondItem="7001" secondAttribute="bottom" constant="7"/>
+                        <constraint id="39623" firstItem="37001" firstAttribute="top" secondItem="7001" secondAttribute="bottom" constant="7"/>
+                        <constraint id="81920" firstItem="11004" firstAttribute="trailing" secondItem="2036" secondAttribute="trailing"/>
+                        <constraint id="129400" firstItem="11004" firstAttribute="leading" secondItem="11011" secondAttribute="leading"/>
+                        <constraint id="133129" firstItem="37001" firstAttribute="centerX" secondItem="2036" secondAttribute="centerX" constant="1"/>
                     </constraints>
                 </scrollView>
                 <navigationBar contentMode="scaleToFill" id="34725" translatesAutoresizingMaskIntoConstraints="NO">
@@ -206,4 +311,8 @@
             </constraints>
         </view>
     </objects>
+    <resources>
+        <image name="Facebook" width="144" height="144"/>
+        <image name="Icon8Google" width="144" height="144"/>
+    </resources>
 </document>

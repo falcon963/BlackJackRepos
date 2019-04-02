@@ -10,7 +10,7 @@ using MvvmCross.Platforms.Ios.Presenters.Attributes;
 
 namespace TestProject.iOS.Views
 {
-    [MvxModalPresentation(WrapInNavigationController = true, ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve)]
+    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Map", TabIconName = "icons8_google_maps_24")]
     public partial class AppMapView
         : BaseMenuView<UserLocationViewModel>
     {
@@ -28,8 +28,6 @@ namespace TestProject.iOS.Views
             set.Bind(BackButton).To(vm => vm.GoBackCommand);
             set.Apply();
 
-            NavigationController.NavigationBarHidden = true;
-
             ViewModel.GetLocated.Execute();
 
             var camera = CameraPosition.FromCamera(
@@ -46,10 +44,14 @@ namespace TestProject.iOS.Views
 
             BackButton.Image = UIImage.FromFile("back_to_50.png");
 
-            _mapView.AddObserver(this, new NSString("myLocation"), NSKeyValueObservingOptions.New, IntPtr.Zero);
-
             InvokeOnMainThread(() => _mapView.MyLocationEnabled = true);
 
+        }
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            _mapView.AddObserver(this, new NSString("myLocation"), NSKeyValueObservingOptions.New, IntPtr.Zero);
         }
 
         public override void ViewDidDisappear(bool animated)
