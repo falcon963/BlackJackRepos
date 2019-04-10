@@ -63,6 +63,10 @@ namespace TestProject.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView ShadowViewPasswordField { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIView SocialView { get; set; }
 
         [Outlet]
@@ -137,6 +141,11 @@ namespace TestProject.iOS.Views
             if (ShadowView != null) {
                 ShadowView.Dispose ();
                 ShadowView = null;
+            }
+
+            if (ShadowViewPasswordField != null) {
+                ShadowViewPasswordField.Dispose ();
+                ShadowViewPasswordField = null;
             }
 
             if (SocialView != null) {

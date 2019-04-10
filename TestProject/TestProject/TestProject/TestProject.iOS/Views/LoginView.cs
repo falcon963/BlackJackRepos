@@ -68,69 +68,61 @@ namespace TestProject.iOS.Views
             set.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion(new ColorValueConverter());
             set.Apply();
 
-            var shadowOffsetX = 30;
 
-            var shadowPath = new UIBezierPath();
+            ShadowCreate(LoginField, ShadowView);
+            ShadowCreate(PasswordField, ShadowViewPasswordField);
 
-            var frame = LoginField.Bounds;
-
-            shadowPath.MoveTo(new CGPoint(frame.GetMinX(), frame.GetMinY()));
-            shadowPath.AddLineTo(new CGPoint(260, frame.GetMinY()));
-            shadowPath.AddLineTo(new CGPoint(260 + shadowOffsetX, frame.GetMaxY()));
-            shadowPath.AddLineTo(new CGPoint(frame.GetMinX() + shadowOffsetX, frame.GetMaxY()));
-            shadowPath.ClosePath();
-            shadowPath.Fill();
-
-            //shadowPath.MoveTo(new CGPoint(frame.Location.X, 0));
-            //shadowPath.AddLineTo(new CGPoint(430, 0));
-            //shadowPath.AddLineTo(new CGPoint(430 + 40, 40));
-            //shadowPath.AddLineTo(new CGPoint(frame.Location.X + 40, 40));
-            //shadowPath.ClosePath();
-            //shadowPath.Fill();
-
-            _shadowLayer = new CAShapeLayer();
-            _shadowLayer.Frame = new CGRect(LoginField.Frame.GetMinX(), 0, LoginField.Frame.Width, LoginField.Frame.Height);
-            _shadowLayer.Bounds = LoginField.Bounds;
-            _shadowLayer.Path = shadowPath.CGPath;
-            ShadowView.Layer.Mask = _shadowLayer;
-
-            var shadowGradColor = new CAGradientLayer();
-            shadowGradColor.Frame = new CGRect(ShadowView.Frame.GetMinX(), 0, ShadowView.Frame.Width, ShadowView.Frame.Height);
-            shadowGradColor.Colors = new[] { UIColor.Black.CGColor, View.BackgroundColor.CGColor };
-            shadowGradColor.Locations = new NSNumber[] { 0, 1 };
-            shadowGradColor.StartPoint = new CGPoint(0.6, 0);
-            shadowGradColor.EndPoint = new CGPoint(1, 1);
-
-            ShadowView.Layer.AddSublayer(shadowGradColor);
-            ShadowView.Layer.MasksToBounds = true;
-            ShadowView.Layer.MaskedCorners = CACornerMask.MaxXMaxYCorner;
-            ShadowView.Layer.MaskedCorners = CACornerMask.MaxXMinYCorner;
-            ShadowView.Layer.MaskedCorners = CACornerMask.MinXMaxYCorner;
-            ShadowView.Layer.MaskedCorners = CACornerMask.MinXMinYCorner;
-
-            CALayer layer = ShadowView.Layer;
-            layer.ShadowOpacity = 5f;
-            layer.ShadowOffset = new CGSize(0, 0);
-            layer.ShadowRadius = 10f;
-            layer.ShadowColor = UIColor.Black.CGColor;
-            //ShadowView.BackgroundColor = UIColor.Black;
-
-
-
-
-
-
-
-
-
-
-            //CreateShadow(LoginField);
-            AddShadowTextField(PasswordField);
             AddShadow(LoginButton);
             AddShadow(RegistrationButton);
             AddShadow(RememberSwitch);
             AddShadow(LoginFacebookButton);
             AddShadow(LoginGoogleButton);
+        }
+
+        void ShadowCreate(UIView inputView, UIView shadowView)
+        {
+            var shadowOffsetX = inputView.Bounds.Height;
+            if (inputView.Bounds.Height > 30)
+            {
+                shadowOffsetX = 30;
+            }
+
+            shadowView.TranslatesAutoresizingMaskIntoConstraints = false;
+
+            var shadowPath = new UIBezierPath();
+
+            var frame = inputView.Bounds;
+            var frame1 = inputView.Frame.Size;
+
+            shadowPath.MoveTo(new CGPoint(frame.GetMinX(), frame.GetMinY()));
+            shadowPath.AddLineTo(new CGPoint(frame.GetMaxX()*0.77, frame.GetMinY()));
+            shadowPath.AddLineTo(new CGPoint(frame.GetMaxX()*0.77 + shadowOffsetX, frame.GetMaxY()));
+            shadowPath.AddLineTo(new CGPoint(frame.GetMinX() + shadowOffsetX, frame.GetMaxY()));
+            shadowPath.ClosePath();
+            shadowPath.Fill();
+
+
+            _shadowLayer = new CAShapeLayer();
+            _shadowLayer.Frame = new CGRect(shadowView.Frame.X, 0, shadowView.Frame.Width, shadowView.Frame.Height); ;
+            _shadowLayer.Path = shadowPath.CGPath;
+            _shadowLayer.FillRule = CAShapeLayer.FillRuleEvenOdd;
+
+            //var shadowGradColor = new CAGradientLayer();
+            //shadowGradColor.Frame = new CGRect(shadowView.Frame.GetMinX(), 0, shadowView.Frame.Width, shadowView.Frame.Height);
+            //shadowGradColor.Colors = new[] { UIColor.Black.CGColor, View.BackgroundColor.CGColor };
+            //shadowGradColor.Locations = new NSNumber[] { 0, 1 };
+            //shadowGradColor.StartPoint = new CGPoint(0.6, 0);
+            //shadowGradColor.EndPoint = new CGPoint(1, 1);
+
+            //ShadowView.Layer.AddSublayer(shadowGradColor);
+
+            shadowView.Layer.MasksToBounds = false;
+            var shadowImage = new UIImageView();
+            shadowImage.Image = UIImage.FromFile("shadow_backinput_1444.png");
+            shadowImage.Frame = new CGRect(inputView.Frame.GetMinX(), 0, inputView.Frame.Width, inputView.Frame.Height);
+            shadowImage.Bounds = shadowView.Bounds;
+            shadowView.AddSubview(shadowImage);
+            shadowView.Layer.Mask = _shadowLayer;
         }
 
         void FacebookLogin()
@@ -187,7 +179,7 @@ namespace TestProject.iOS.Views
             ViewModel.SaveGoogleUserCommand.Execute();
             DismissViewController(true, null);
         }
-        void IGoogleAuthenticationDelegate.OnAuthenticationFailed(string message, Exception exception)
+        void IGoogleAuthenticationDelegate.OnAuthenticationFailed(String message, Exception exception)
         {
             DismissViewController(true, null);
         }
@@ -201,7 +193,7 @@ namespace TestProject.iOS.Views
             ViewModel.SaveFacebookUserCommand.Execute();
             DismissViewController(true, null);
         }
-        void IFacebookAuthentication.OnAuthenticationFailed(string message, Exception exception)
+        void IFacebookAuthentication.OnAuthenticationFailed(String message, Exception exception)
         {
             DismissViewController(true, null);
         }

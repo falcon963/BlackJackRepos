@@ -440,6 +440,36 @@
   <ItemGroup>
     <BundleResource Include="Resources\login-button-png-18029.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\shadow_trapezium.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\shadow-oval.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\shadow_backinput.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\shadow_backinput_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\shadow_backinput_3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\shadow_backinput_333.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\shadow_backinput_33.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\shadow_backinput_14.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\shadow_backinput_144.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\shadow_backinput_1444.png" />
+  </ItemGroup>
   <Import Project="..\TestProject\TestProject.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

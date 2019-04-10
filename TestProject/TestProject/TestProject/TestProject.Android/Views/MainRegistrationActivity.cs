@@ -16,6 +16,7 @@ using Android.Widget;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.ViewModels;
+using Xamarin.Facebook;
 
 namespace TestProject.Droid.Views
 {
@@ -37,6 +38,8 @@ namespace TestProject.Droid.Views
             Window.SetSoftInputMode(Android.Views.SoftInput.AdjustResize);
 
             SetContentView(Resource.Layout.MainRegistrationActivity);
+
+            FacebookSdk.SdkInitialize(ApplicationContext);
 
             if (bundle == null)
             {
