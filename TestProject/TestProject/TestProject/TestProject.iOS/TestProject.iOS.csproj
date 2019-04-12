@@ -333,9 +333,14 @@
     <InterfaceDefinition Include="Views\AppMapView.xib">
       <SubType>Designer</SubType>
     </InterfaceDefinition>
+    <InterfaceDefinition Include="Views\Cells\FileCell.xib">
+      <SubType>Designer</SubType>
+    </InterfaceDefinition>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\ImageValueConverter.cs" />
+    <Compile Include="ResourcesHelper\ResourceHelper.cs" />
+    <Compile Include="Source\TaskFilesListSource.cs" />
     <Compile Include="Views\AppMapView.cs" />
     <Compile Include="Views\AppMapView.designer.cs">
       <DependentUpon>AppMapView.cs</DependentUpon>
@@ -345,6 +350,10 @@
     <Compile Include="Database\DatabaseConnectionService.cs" />
     <Compile Include="CustomControls\BaseView.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="Views\Cells\FileCell.cs" />
+    <Compile Include="Views\Cells\FileCell.designer.cs">
+      <DependentUpon>FileCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainRegistrationView.cs" />
     <Compile Include="Views\MainView.cs" />
     <Compile Include="Source\MenuItemSource.cs" />

@@ -28,6 +28,9 @@ namespace TestProject.Core.ViewModels
         private ResultModel _resultModel;
         private readonly IUserDialogs _userDialogs;
         private UserTask _userTaskDublicate;
+        private Boolean _addFile;
+        private MvxObservableCollection<TaskFileModel> _listOfFile;
+        private IFileService _fileService;
 
         #endregion
 
@@ -55,6 +58,18 @@ namespace TestProject.Core.ViewModels
             }
         }
 
+        public Boolean AddFile
+        {
+            get
+            {
+                return _addFile;
+            }
+            set
+            {
+                SetProperty(ref _addFile, value);
+            }
+        }
+
         public Boolean DeleteButtonStutus
         {
             get
@@ -63,11 +78,24 @@ namespace TestProject.Core.ViewModels
             }
         }
 
+        public MvxObservableCollection<TaskFileModel> ListOfFiles
+        {
+            get
+            {
+                return _listOfFile;
+            }
+            set
+            {
+                SetProperty(ref _listOfFile, value);
+            }
+        }
+
         #endregion
 
 
-        public TaskViewModel(IMvxNavigationService navigationService, ITasksService taskService, IUserDialogs userDialogs)
+        public TaskViewModel(IMvxNavigationService navigationService, ITasksService taskService, IUserDialogs userDialogs, IFileService fileService)
         {
+            _fileService = fileService;
             _taskService = taskService;
             _userDialogs = userDialogs;
             _navigationService = navigationService;
@@ -82,11 +110,25 @@ namespace TestProject.Core.ViewModels
 
         public override Task Initialize()
         {
-            return Task.FromResult(0);
+            MvxObservableCollection<TaskFileModel> result = new MvxObservableCollection<TaskFileModel>();
+            Task.Factory.StartNew(async () =>
+            {
+                result = await TaskFilesInitialize();
+                ListOfFiles = result;
+            });
+            return base.Initialize();
         }
 
+        public async Task<MvxObservableCollection<TaskFileModel>> TaskFilesInitialize()
+        {
+            List<TaskFileModel> list = _fileService.TakeAllTaskFiles(UserTask.Changes.Id);
+            foreach (var item in list)
+            {
+                ListOfFiles.Add(item);
+            }
+            return ListOfFiles;
+        }
 
-        
 
         #region Commands
 
@@ -146,10 +188,43 @@ namespace TestProject.Core.ViewModels
                     {
                         return;
                     }
-
+                    _fileService.DeleteAllFile(ListOfFiles.ToList());
                     var result = DeleteUserTask(UserTask.Changes);
                     UserTask.Result = Enum.UserTaskResult.Delete;
                     await _navigationService.Close<ResultModel>(this, UserTask);
+                });
+            }
+        }
+
+        public IMvxCommand<TaskFileModel> AddFileCommand
+        {
+            get
+            {
+                return new MvxCommand<TaskFileModel>((file) =>
+                {
+                Int32 fileId = _fileService.AddFile(file);
+                ListOfFiles.Add(
+                    new TaskFileModel()
+                    {
+                        Id = fileId,
+                        TaskId = UserTask.Changes.Id,
+                        FileContent = file.FileContent,
+                        FileExtension = file.FileExtension,
+                        FileName = file.FileName
+                    }
+                    );
+                });
+            }
+        }
+
+        public IMvxCommand<TaskFileModel> DeleteFileCommand
+        {
+            get
+            {
+                return new MvxCommand<TaskFileModel>((file) =>
+                {
+                    ListOfFiles.Remove(file);
+                    _fileService.DeleteFile(file.Id);
                 });
             }
         }
@@ -172,8 +247,8 @@ namespace TestProject.Core.ViewModels
                             });
                         return;
                     }
-
-                    UserTask.Changes.UserId = Int32.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.UserId));
+                    _fileService.AddAllFile(ListOfFiles.ToList());
+                        UserTask.Changes.UserId = Int32.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.UserId));
                         SaveTask(UserTask.Changes);
                         UserTask.Result = Enum.UserTaskResult.Save;
                         await _navigationService.Close<ResultModel>(this, UserTask);             

@@ -17,5 +17,8 @@ namespace TestProject.Core.Models
         public String Note { get; set; }
         public Boolean Status { get; set; }
         public String ImagePath { get; set; }
+        public Byte[] FileContent { get; set; }
+        public String FileName { get; set; }
+        public String FileExtension { get; set; }
     }
 }

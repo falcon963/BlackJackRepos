@@ -32,6 +32,11 @@ namespace TestProject.iOS.Views
             }
         }
 
+        public AppDelegate ThisApp
+        {
+            get { return (AppDelegate)UIApplication.SharedApplication.Delegate; }
+        }
+
         public BaseMenuView(string nibName, NSBundle bundle) : base(nibName, bundle)
         {
         }
@@ -121,6 +126,43 @@ namespace TestProject.iOS.Views
             //shadowPath.AddLineTo(new CGPoint(width + shadowOffsetX, 100));
             //shadowPath.AddLineTo(new CGPoint(shadowOffsetX, 100));
             field.Layer.ShadowPath = shadowPath.CGPath;
+        }
+
+        public void ShadowCreate(UIView inputView, UIView shadowView)
+        {
+            var shadowOffsetX = inputView.Bounds.Height;
+            if (inputView.Bounds.Height > 30)
+            {
+                shadowOffsetX = 30;
+            }
+
+            shadowView.TranslatesAutoresizingMaskIntoConstraints = false;
+
+            var shadowPath = new UIBezierPath();
+
+            var frame = inputView.Bounds;
+            var frame1 = inputView.Frame.Size;
+
+            shadowPath.MoveTo(new CGPoint(frame.GetMinX(), frame.GetMinY()));
+            shadowPath.AddLineTo(new CGPoint(frame.GetMaxX() * 0.77, frame.GetMinY()));
+            shadowPath.AddLineTo(new CGPoint(frame.GetMaxX() * 0.77 + shadowOffsetX, frame.GetMaxY()));
+            shadowPath.AddLineTo(new CGPoint(frame.GetMinX() + shadowOffsetX, frame.GetMaxY()));
+            shadowPath.ClosePath();
+            shadowPath.Fill();
+
+
+            var shadowLayer = new CAShapeLayer();
+            shadowLayer.Frame = new CGRect(0, 0, shadowView.Frame.Width, shadowView.Frame.Height);
+            shadowLayer.Path = shadowPath.CGPath;
+            shadowLayer.FillRule = CAShapeLayer.FillRuleEvenOdd;
+
+            shadowView.Layer.MasksToBounds = false;
+            var shadowImage = new UIImageView();
+            shadowImage.Image = UIImage.FromFile("shadow_backinput_1444.png");
+            shadowImage.Frame = new CGRect(0, 0, inputView.Frame.Width, inputView.Frame.Height);
+            shadowImage.Bounds = shadowView.Bounds;
+            shadowView.AddSubview(shadowImage);
+            shadowView.Layer.Mask = shadowLayer;
         }
     }
 }

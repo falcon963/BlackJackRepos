@@ -30,6 +30,7 @@ namespace TestProject.Core.DBConnection
             Database = connectionService.DbConnection();
             Database.CreateTable<UserTask>();
             Database.CreateTable<User>();
+            Database.CreateTable<TaskFileModel>();
         }
     }
 }

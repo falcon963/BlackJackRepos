@@ -16,6 +16,10 @@ namespace TestProject.iOS.Views
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton AddFileButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIBarButtonItem BackButton { get; set; }
 
         [Outlet]
@@ -50,12 +54,21 @@ namespace TestProject.iOS.Views
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UISwitch TaskStatus { get; set; }
 
+        [Action ("PressAddButton:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void PressAddButton (UIKit.UIButton sender);
+
         [Action ("PressSaveButton:")]
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void PressSaveButton (UIKit.UIButton sender);
 
         void ReleaseDesignerOutlets ()
         {
+            if (AddFileButton != null) {
+                AddFileButton.Dispose ();
+                AddFileButton = null;
+            }
+
             if (BackButton != null) {
                 BackButton.Dispose ();
                 BackButton = null;

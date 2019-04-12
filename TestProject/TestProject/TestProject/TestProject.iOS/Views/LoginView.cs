@@ -24,106 +24,71 @@ namespace TestProject.iOS.Views
     public partial class LoginView
         : BaseMenuView<LoginViewModel>, IFacebookAuthentication, IGoogleAuthenticationDelegate
     {
+
+        #region Fields
+
         private UITapGestureRecognizer _tap;
 
         private FacebookAuthenticator _authFaceBook;
 
+        #endregion
+
+        #region Propertys
+
         public static GoogleAuthenticator GoogleAuth { get; private set; } = null;
 
-        private CAShapeLayer _shadowLayer;
-
         public override UIScrollView ScrollView { get => base.ScrollView; set => base.ScrollView = value; }
+
+        #endregion
+
+        #region ctor
 
         public LoginView() : base("LoginView", null)
         {
             HideKeyboard(_tap);
         }
 
-
+        #endregion
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            InitializeGoogleAuth();
             InitializeFacebokAuth();
+            InitializeGoogleAuth();
 
             ScrollView = LoginScrollView;
 
-            UITapGestureRecognizer googleButton = new UITapGestureRecognizer(GoogleLogin);
             UITapGestureRecognizer facebookButton = new UITapGestureRecognizer(FacebookLogin);
-            LoginGoogleButton.AddGestureRecognizer(googleButton);
+            UITapGestureRecognizer googleButton = new UITapGestureRecognizer(GoogleLogin);
+
             LoginFacebookButton.AddGestureRecognizer(facebookButton);
+            LoginGoogleButton.AddGestureRecognizer(googleButton);
 
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, HandleKeyboardDidHide);
 
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, HandleKeyboardDidShow);
 
             var set = this.CreateBindingSet<LoginView, LoginViewModel>();
-            set.Bind(RegistrationButton).To(vm => vm.GoRegistrationPageCommand);
-            set.Bind(LoginButton).To(vm => vm.LoginCommand);
-            set.Bind(LoginField).To(vm => vm.Login);
-            set.Bind(PasswordField).To(vm => vm.Password);
-            set.Bind(RememberSwitch).To(vm => vm.RememberMeStatus);
             set.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion(new ColorValueConverter());
+            set.Bind(RegistrationButton).To(vm => vm.GoRegistrationPageCommand);
+            set.Bind(RememberSwitch).To(vm => vm.RememberMeStatus);
+            set.Bind(LoginButton).To(vm => vm.LoginCommand);
+            set.Bind(PasswordField).To(vm => vm.Password);
+            set.Bind(LoginField).To(vm => vm.Login);
             set.Apply();
 
-
-            ShadowCreate(LoginField, ShadowView);
             ShadowCreate(PasswordField, ShadowViewPasswordField);
+            ShadowCreate(LoginField, ShadowView);
 
-            AddShadow(LoginButton);
-            AddShadow(RegistrationButton);
-            AddShadow(RememberSwitch);
             AddShadow(LoginFacebookButton);
+            AddShadow(RegistrationButton);
             AddShadow(LoginGoogleButton);
+            AddShadow(RememberSwitch);
+            AddShadow(LoginButton);
         }
 
-        void ShadowCreate(UIView inputView, UIView shadowView)
-        {
-            var shadowOffsetX = inputView.Bounds.Height;
-            if (inputView.Bounds.Height > 30)
-            {
-                shadowOffsetX = 30;
-            }
-
-            shadowView.TranslatesAutoresizingMaskIntoConstraints = false;
-
-            var shadowPath = new UIBezierPath();
-
-            var frame = inputView.Bounds;
-            var frame1 = inputView.Frame.Size;
-
-            shadowPath.MoveTo(new CGPoint(frame.GetMinX(), frame.GetMinY()));
-            shadowPath.AddLineTo(new CGPoint(frame.GetMaxX()*0.77, frame.GetMinY()));
-            shadowPath.AddLineTo(new CGPoint(frame.GetMaxX()*0.77 + shadowOffsetX, frame.GetMaxY()));
-            shadowPath.AddLineTo(new CGPoint(frame.GetMinX() + shadowOffsetX, frame.GetMaxY()));
-            shadowPath.ClosePath();
-            shadowPath.Fill();
-
-
-            _shadowLayer = new CAShapeLayer();
-            _shadowLayer.Frame = new CGRect(shadowView.Frame.X, 0, shadowView.Frame.Width, shadowView.Frame.Height); ;
-            _shadowLayer.Path = shadowPath.CGPath;
-            _shadowLayer.FillRule = CAShapeLayer.FillRuleEvenOdd;
-
-            //var shadowGradColor = new CAGradientLayer();
-            //shadowGradColor.Frame = new CGRect(shadowView.Frame.GetMinX(), 0, shadowView.Frame.Width, shadowView.Frame.Height);
-            //shadowGradColor.Colors = new[] { UIColor.Black.CGColor, View.BackgroundColor.CGColor };
-            //shadowGradColor.Locations = new NSNumber[] { 0, 1 };
-            //shadowGradColor.StartPoint = new CGPoint(0.6, 0);
-            //shadowGradColor.EndPoint = new CGPoint(1, 1);
-
-            //ShadowView.Layer.AddSublayer(shadowGradColor);
-
-            shadowView.Layer.MasksToBounds = false;
-            var shadowImage = new UIImageView();
-            shadowImage.Image = UIImage.FromFile("shadow_backinput_1444.png");
-            shadowImage.Frame = new CGRect(inputView.Frame.GetMinX(), 0, inputView.Frame.Width, inputView.Frame.Height);
-            shadowImage.Bounds = shadowView.Bounds;
-            shadowView.AddSubview(shadowImage);
-            shadowView.Layer.Mask = _shadowLayer;
-        }
+        #region Login
 
         void FacebookLogin()
         {
@@ -139,6 +104,10 @@ namespace TestProject.iOS.Views
             PresentViewController(viewController, true, null);
         }
 
+        #endregion
+
+        #region Keyboard
+
         public override void HandleKeyboardDidHide(NSNotification obj)
         {
             base.HandleKeyboardDidHide(obj);
@@ -149,29 +118,15 @@ namespace TestProject.iOS.Views
             base.HandleKeyboardDidShow(obj);
         }
 
-        //public void CreateShadow()
-        //{
-        //    var shadowOffsetX = LoginField.Frame.Height;
-        //    var width = LoginField.Frame.Width;
-        //    var height = LoginField.Frame.Height;
-        //    var path = new UIBezierPath();
-        //    path.MoveTo(new CGPoint(0, LoginField.Frame.Height));
-        //    path.AddLineTo(new CGPoint(width, 0));
-        //    path.AddLineTo(new CGPoint(width + shadowOffsetX, height));
-        //    path.AddLineTo(new CGPoint(shadowOffsetX, 50));
-        //    path.AddLineTo(new CGPoint(0, 0));
-        //    path.ClosePath();
-        //}
+        #endregion
 
         #region SocialMedia
 
         private void InitializeFacebokAuth() => _authFaceBook = new FacebookAuthenticator(SocialConstant.ClientIdiOSFacebook, SocialConstant.Scope, this);
         private void InitializeGoogleAuth()
         {
-            var googleServiceDictionary = NSDictionary.FromFile("credentials.plist");
-            //var clientId = googleServiceDictionary["CLIENT_ID"].ToString();
-            //var redirect = googleServiceDictionary["REVERSED_CLIENT_ID"].ToString();
-            GoogleAuth = new GoogleAuthenticator("70862177039-jm46ae5e77822hk8qllegch1fqler0a4.apps.googleusercontent.com", "email", new Uri("com.googleusercontent.apps.70862177039-jm46ae5e77822hk8qllegch1fqler0a4:/oauth2redirect"), this);
+            GoogleAuth = new GoogleAuthenticator("70862177039-jm46ae5e77822hk8qllegch1fqler0a4.apps.googleusercontent.com", "email",
+                new Uri("com.googleusercontent.apps.70862177039-jm46ae5e77822hk8qllegch1fqler0a4:/oauth2redirect"), this);
         }
 
         void IGoogleAuthenticationDelegate.OnAuthenticationCompleted(String token)
