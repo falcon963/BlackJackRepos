@@ -24,7 +24,11 @@ namespace TestProject.Core.Services
 
         public Int32 AddFile(TaskFileModel file)
         {
-            return _dbConnection.Database.Insert(file);
+            if(file.Id == 0)
+            {
+                return _dbConnection.Database.Insert(file);
+            }
+            return _dbConnection.Database.Update(file);
         }
 
         public void DeleteAllFile(List<TaskFileModel> files)

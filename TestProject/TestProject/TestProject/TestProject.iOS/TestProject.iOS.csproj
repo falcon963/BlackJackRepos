@@ -311,7 +311,9 @@
     </None>
     <None Include="packages.config" />
     <InterfaceDefinition Include="Views\Cells\ContentNavigateCell.xib" />
-    <InterfaceDefinition Include="Views\Cells\ContentTasksCell.xib" />
+    <InterfaceDefinition Include="Views\Cells\ContentTasksCell.xib">
+      <SubType>Designer</SubType>
+    </InterfaceDefinition>
     <InterfaceDefinition Include="Views\RegistrationView.xib">
       <SubType>Designer</SubType>
     </InterfaceDefinition>
@@ -338,7 +340,10 @@
     </InterfaceDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\FileExtensionImageConverter.cs" />
     <Compile Include="Converters\ImageValueConverter.cs" />
+    <Compile Include="Converters\TaskTitleValueConverter.cs" />
+    <Compile Include="CustomControls\PlaceholderTextView.cs" />
     <Compile Include="ResourcesHelper\ResourceHelper.cs" />
     <Compile Include="Source\TaskFilesListSource.cs" />
     <Compile Include="Views\AppMapView.cs" />
@@ -478,6 +483,21 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\shadow_backinput_1444.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\jpg_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pdf_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\png_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\rtf_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\txt_24.png" />
   </ItemGroup>
   <Import Project="..\TestProject\TestProject.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

@@ -9,7 +9,8 @@ using UIKit;
 
 namespace TestProject.iOS.Views.Cells
 {
-    public partial class ContentTasksCell : MvxTableViewCell
+    public partial class ContentTasksCell 
+        : MvxTableViewCell
     {
         public static readonly NSString Key = new NSString("ContentTasksCell");
         public static readonly UINib Nib;

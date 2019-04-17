@@ -44,7 +44,7 @@ namespace TestProject.Core.ViewModels
             OldPasswordFieldColor = new MvxColor(241, 241, 241);
         }
 
-        #region Property
+        #region Propertys
         public User Profile
         {
             get
@@ -196,7 +196,7 @@ namespace TestProject.Core.ViewModels
             }
         }
         #endregion
-        #region Command
+        #region Commands
 
 
         public IMvxAsyncCommand CloseProfileCommand

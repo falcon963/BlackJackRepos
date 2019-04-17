@@ -29,7 +29,7 @@ namespace TestProject.Core.ViewModels
         private readonly IUserDialogs _userDialogs;
         private UserTask _userTaskDublicate;
         private Boolean _addFile;
-        private MvxObservableCollection<TaskFileModel> _listOfFile;
+        private MvxObservableCollection<FileItemViewModel> _listOfFile;
         private IFileService _fileService;
 
         #endregion
@@ -78,7 +78,7 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public MvxObservableCollection<TaskFileModel> ListOfFiles
+        public MvxObservableCollection<FileItemViewModel> ListOfFiles
         {
             get
             {
@@ -95,10 +95,15 @@ namespace TestProject.Core.ViewModels
 
         public TaskViewModel(IMvxNavigationService navigationService, ITasksService taskService, IUserDialogs userDialogs, IFileService fileService)
         {
+            #region Init Service`s
             _fileService = fileService;
             _taskService = taskService;
             _userDialogs = userDialogs;
             _navigationService = navigationService;
+            #endregion
+
+            #region Init Fields
+            _listOfFile = new MvxObservableCollection<FileItemViewModel>();
             _resultModel = new ResultModel();
             _resultModel.Changes = new UserTask();
             _resultModel.Result = new UserTaskResult();
@@ -106,25 +111,34 @@ namespace TestProject.Core.ViewModels
             UserTask.Changes = new UserTask();
             UserTask.Result = new UserTaskResult();
             ColorTheme = new MvxColor(251, 192, 45);
+            #endregion
         }
 
         public override Task Initialize()
         {
-            MvxObservableCollection<TaskFileModel> result = new MvxObservableCollection<TaskFileModel>();
+            MvxObservableCollection<FileItemViewModel> result = new MvxObservableCollection<FileItemViewModel>();
             Task.Factory.StartNew(async () =>
             {
                 result = await TaskFilesInitialize();
-                ListOfFiles = result;
             });
             return base.Initialize();
         }
 
-        public async Task<MvxObservableCollection<TaskFileModel>> TaskFilesInitialize()
+        public async Task<MvxObservableCollection<FileItemViewModel>> TaskFilesInitialize()
         {
             List<TaskFileModel> list = _fileService.TakeAllTaskFiles(UserTask.Changes.Id);
             foreach (var item in list)
             {
-                ListOfFiles.Add(item);
+                FileItemViewModel file = new FileItemViewModel
+                {
+                    Id = item.Id,
+                    TaskId = item.TaskId,
+                    FileContent = item.FileContent,
+                    FileName = item.FileName,
+                    FileExtension = item.FileExtension,
+                    ViewModel = this
+                };
+                ListOfFiles.Add(file);
             }
             return ListOfFiles;
         }
@@ -188,7 +202,11 @@ namespace TestProject.Core.ViewModels
                     {
                         return;
                     }
-                    _fileService.DeleteAllFile(ListOfFiles.ToList());
+                    List<TaskFileModel> listFile = new List<TaskFileModel>();
+                    foreach(FileItemViewModel file in ListOfFiles)
+                    {
+                        _fileService.DeleteFile(file.Id);
+                    }
                     var result = DeleteUserTask(UserTask.Changes);
                     UserTask.Result = Enum.UserTaskResult.Delete;
                     await _navigationService.Close<ResultModel>(this, UserTask);
@@ -196,35 +214,36 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public IMvxCommand<TaskFileModel> AddFileCommand
+        public IMvxCommand<FileItemViewModel> AddFileCommand
         {
             get
             {
-                return new MvxCommand<TaskFileModel>((file) =>
+                return new MvxCommand<FileItemViewModel>((file) =>
                 {
-                Int32 fileId = _fileService.AddFile(file);
-                ListOfFiles.Add(
-                    new TaskFileModel()
+                    var modelToUpdate = ListOfFiles.Select(p => p)
+                        .Where(p => p.FileName == file.FileName && p.FileExtension == file.FileExtension)
+                        .FirstOrDefault();
+                    if (modelToUpdate != null)
                     {
-                        Id = fileId,
+                        var oldFile = ListOfFiles[ListOfFiles.IndexOf(modelToUpdate)];
+                        file.Id = oldFile.Id;
+                        file.ViewModel = oldFile.ViewModel;
+                        file.TaskId = oldFile.TaskId;
+                        ListOfFiles[ListOfFiles.IndexOf(modelToUpdate)] = file;
+                        RaisePropertyChanged(() => ListOfFiles);
+                        return;
+                    }
+                    var addFile = new FileItemViewModel
+                    {
+                        Id = 0,
                         TaskId = UserTask.Changes.Id,
                         FileContent = file.FileContent,
                         FileExtension = file.FileExtension,
-                        FileName = file.FileName
-                    }
-                    );
-                });
-            }
-        }
-
-        public IMvxCommand<TaskFileModel> DeleteFileCommand
-        {
-            get
-            {
-                return new MvxCommand<TaskFileModel>((file) =>
-                {
-                    ListOfFiles.Remove(file);
-                    _fileService.DeleteFile(file.Id);
+                        FileName = file.FileName,
+                        ViewModel = this
+                    };
+                    ListOfFiles.Add(addFile);
+                    RaisePropertyChanged(() => ListOfFiles);
                 });
             }
         }
@@ -246,10 +265,23 @@ namespace TestProject.Core.ViewModels
                                 Title = MessengeFields.AlertMessege
                             });
                         return;
-                    }
-                    _fileService.AddAllFile(ListOfFiles.ToList());
+                    }   
                         UserTask.Changes.UserId = Int32.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.UserId));
-                        SaveTask(UserTask.Changes);
+                        Int32 taskId = SaveTask(UserTask.Changes);
+                        TaskFileModel fileItem;
+                        foreach (FileItemViewModel file in ListOfFiles)
+                        {
+                            file.TaskId = taskId;
+                            fileItem = new TaskFileModel
+                            {
+                                Id = file.Id,
+                                TaskId = taskId,
+                                FileContent = file.FileContent,
+                                FileExtension = file.FileExtension,
+                                FileName = file.FileName
+                            };
+                            _fileService.AddFile(fileItem);
+                        }
                         UserTask.Result = Enum.UserTaskResult.Save;
                         await _navigationService.Close<ResultModel>(this, UserTask);             
                 });
@@ -258,6 +290,20 @@ namespace TestProject.Core.ViewModels
 
         #endregion
 
+        public Boolean DeleteFile(FileItemViewModel file)
+        {
+            if(file == null)
+            {
+                return false;
+            }
+            ListOfFiles.Remove(file);
+            RaisePropertyChanged(() => ListOfFiles);
+            if(file.Id != 0)
+            {
+                _fileService.DeleteFile(file.Id);
+            }
+            return true;
+        }
 
         private Int32 SaveTask(UserTask userTask)
         {

@@ -32,6 +32,14 @@ namespace TestProject.iOS.Views
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UITableView FileList { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint FileViewHeight { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIScrollView MainScrollView { get; set; }
 
         [Outlet]
@@ -53,6 +61,14 @@ namespace TestProject.iOS.Views
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UISwitch TaskStatus { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIBarButtonItem TaskTitle { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIToolbar TaskToolbar { get; set; }
 
         [Action ("PressAddButton:")]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -84,6 +100,16 @@ namespace TestProject.iOS.Views
                 DeleteButton = null;
             }
 
+            if (FileList != null) {
+                FileList.Dispose ();
+                FileList = null;
+            }
+
+            if (FileViewHeight != null) {
+                FileViewHeight.Dispose ();
+                FileViewHeight = null;
+            }
+
             if (MainScrollView != null) {
                 MainScrollView.Dispose ();
                 MainScrollView = null;
@@ -112,6 +138,16 @@ namespace TestProject.iOS.Views
             if (TaskStatus != null) {
                 TaskStatus.Dispose ();
                 TaskStatus = null;
+            }
+
+            if (TaskTitle != null) {
+                TaskTitle.Dispose ();
+                TaskTitle = null;
+            }
+
+            if (TaskToolbar != null) {
+                TaskToolbar.Dispose ();
+                TaskToolbar = null;
             }
         }
     }

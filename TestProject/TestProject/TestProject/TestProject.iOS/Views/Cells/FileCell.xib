@@ -15,46 +15,62 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="631" translatesAutoresizingMaskIntoConstraints="NO">
-                        <rect key="frame" x="12" y="7.5" width="29" height="28.5"/>
+                    <view contentMode="scaleToFill" id="7854" translatesAutoresizingMaskIntoConstraints="NO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="39"/>
+                        <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="631" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="6" y="7.5" width="24" height="24"/>
+                                <constraints>
+                                    <constraint id="9941" firstAttribute="width" secondItem="631" secondAttribute="height" multiplier="1:1"/>
+                                    <constraint id="11064" firstAttribute="width" constant="24"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1304" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="38" y="7.5" width="176" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1389" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="222" y="0.0" width="98" height="39"/>
+                                <color key="backgroundColor" colorSpace="calibratedRGB" red="1" green="0" blue="0" alpha="1"/>
+                                <state key="normal" title="Delete">
+                                    <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute keyPath="layer.cornerRadius" type="number">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                        </subviews>
                         <constraints>
-                            <constraint id="3079" firstAttribute="width" secondItem="631" secondAttribute="height" multiplier="1:1"/>
+                            <constraint id="9595" firstAttribute="centerY" secondItem="631" secondAttribute="centerY"/>
+                            <constraint id="9682" firstItem="631" firstAttribute="leading" secondItem="7854" secondAttribute="leading" constant="6"/>
+                            <constraint id="10458" firstItem="1304" firstAttribute="leading" secondItem="631" secondAttribute="trailing" constant="8"/>
+                            <constraint id="10545" firstAttribute="centerY" secondItem="1304" secondAttribute="centerY"/>
+                            <constraint id="10718" firstItem="1304" firstAttribute="width" secondItem="7854" secondAttribute="width" multiplier="0.55"/>
+                            <constraint id="11323" firstItem="1304" firstAttribute="height" secondItem="631" secondAttribute="height"/>
+                            <constraint id="11841" firstItem="1389" firstAttribute="leading" secondItem="1304" secondAttribute="trailing" constant="8"/>
+                            <constraint id="12273" firstItem="1389" firstAttribute="height" secondItem="7854" secondAttribute="height"/>
+                            <constraint id="12446" firstAttribute="centerY" secondItem="1389" secondAttribute="centerY"/>
+                            <constraint id="14650" firstAttribute="trailing" secondItem="1389" secondAttribute="trailing"/>
                         </constraints>
-                    </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1304" translatesAutoresizingMaskIntoConstraints="NO">
-                        <rect key="frame" x="49" y="7.5" width="192" height="28.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1389" translatesAutoresizingMaskIntoConstraints="NO">
-                        <rect key="frame" x="249" y="7" width="64" height="30"/>
-                        <color key="backgroundColor" colorSpace="calibratedRGB" red="1" green="0" blue="0" alpha="1"/>
-                        <state key="normal" title="Delete">
-                            <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        </state>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute keyPath="layer.cornerRadius" type="number">
-                                <real key="value" value="8"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                    </button>
+                    </view>
                 </subviews>
                 <constraints>
-                    <constraint id="1558" firstItem="631" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY"/>
-                    <constraint id="1643" firstItem="631" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leading" constant="12"/>
-                    <constraint id="1982" firstItem="1304" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY"/>
-                    <constraint id="2067" firstItem="1389" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY"/>
-                    <constraint id="2152" firstItem="1304" firstAttribute="leading" secondItem="631" secondAttribute="trailing" constant="8"/>
-                    <constraint id="2321" firstItem="631" firstAttribute="width" secondItem="YTl-1W-gDM" secondAttribute="width" multiplier="0.09"/>
-                    <constraint id="3416" firstItem="1304" firstAttribute="width" secondItem="YTl-1W-gDM" secondAttribute="width" multiplier="0.6"/>
-                    <constraint id="3585" firstItem="1304" firstAttribute="height" secondItem="631" secondAttribute="height"/>
-                    <constraint id="3754" firstItem="1389" firstAttribute="leading" secondItem="1304" secondAttribute="trailing" constant="8"/>
-                    <constraint id="3923" firstItem="1389" firstAttribute="width" secondItem="YTl-1W-gDM" secondAttribute="width" multiplier="0.2"/>
+                    <constraint id="8645" firstItem="7854" firstAttribute="top" secondItem="YTl-1W-gDM" secondAttribute="top"/>
+                    <constraint id="8732" firstItem="7854" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leading"/>
+                    <constraint id="8819" firstItem="7854" firstAttribute="trailing" secondItem="YTl-1W-gDM" secondAttribute="trailing"/>
+                    <constraint id="8906" firstItem="7854" firstAttribute="height" secondItem="YTl-1W-gDM" secondAttribute="height" multiplier="0.9"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="FileExtensionImage" destination="631" id="name-outlet-631"/>
+                <outlet property="FileName" destination="1304" id="name-outlet-1304"/>
                 <outlet property="DeleteButton" destination="1389" id="name-outlet-1389"/>
+                <outlet property="FileView" destination="7854" id="name-outlet-7854"/>
             </connections>
             <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
         </tableViewCell>
