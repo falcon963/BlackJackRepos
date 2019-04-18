@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TestProject.Core.Interfaces.SocialService.Facebook;
 using TestProject.Core.Models;
 using Newtonsoft.Json;
+using TestProject.Core.Helpers;
 
 namespace TestProject.Core.Services
 {
@@ -13,40 +14,23 @@ namespace TestProject.Core.Services
         : IFacebookService
     {
 
-        public async Task<String> GetEmailAsync(string accessToken)
-        {
-            var httpClient = new HttpClient();
-            var json = await httpClient.GetStringAsync($"https://graph.facebook.com/me?fields=email&access_token={accessToken}");
-            var email = JsonConvert.DeserializeObject<FacebookProfileModel>(json);
-            return email.Email;
-        }
-
-
         public async Task<User> GetSocialNetworkAsync(string accessToken)
         {
             User account = new User();
             try
             {
-               
-                var httpClient = new HttpClient();
-                var requestUrl =
-                  "https://graph.facebook.com/me?fields=email,id,name,picture&access_token="
-                  + accessToken;
+                var httpHelper = new HttpHelper();
+                var json = await httpHelper.Post<FacebookProfileModel>(accessToken, new FacebookProfileModel());
+                var model = httpHelper.Deserialize<FacebookProfileModel>(json);
+                var image = await httpHelper.GetByte(model.Picture.Data.Url);
 
-
-
-                var json = await httpClient.GetStringAsync(requestUrl);
-
-
-                var facebookModel = JsonConvert.DeserializeObject<FacebookProfileModel>(json);
-                var bytes = await httpClient.GetByteArrayAsync(facebookModel.Picture.Data.Url);
-                account.ImagePath = Convert.ToBase64String(bytes);
-                account.Login = facebookModel.Name;
-                account.FacebookId = facebookModel.Id;
+                account.ImagePath = Convert.ToBase64String(image);
+                account.Login = model.Name;
+                account.FacebookId = model.Id;
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
 
             return account;

@@ -12,7 +12,6 @@ namespace TestProject.Core.Models
         public Picture Picture { get; set; }
         public string Locale { get; set; }
         public string Link { get; set; }
-        //public string Email { get; set; }
         public Cover Cover { get; set; }
         [JsonProperty("age_range")]
         public AgeRange AgeRange { get; set; }

@@ -6,7 +6,7 @@ namespace TestProject.Core.Interfaces
 {
     public interface ILocationService
     {
-        Boolean TryGetLatestLocation(out Double lat, out Double lng);
+        bool TryGetLatestLocation(out double lat, out double lng);
         void Start();
         void Stop();
     }

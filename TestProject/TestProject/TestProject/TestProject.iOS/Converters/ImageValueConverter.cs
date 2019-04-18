@@ -11,9 +11,9 @@ using UIKit;
 namespace TestProject.iOS.Converters
 {
     public class ImageValueConverter
-        : MvxValueConverter<String, UIImage>
+        : MvxValueConverter<string, UIImage>
     {
-        protected override UIImage Convert(String value, Type targetType, object parameter, CultureInfo culture)
+        protected override UIImage Convert(string value, Type targetType, object parameter, CultureInfo culture)
         {
             if(value == null)
             {
@@ -21,8 +21,6 @@ namespace TestProject.iOS.Converters
                 return image;
             }
             var data = new NSData(value, NSDataBase64DecodingOptions.IgnoreUnknownCharacters);
-            //Byte[] data1 = System.Convert.FromBase64String(value);
-           //NSData r = NSData.FromArray(data1);
             return UIImage.LoadFromData(data);
         }
     }

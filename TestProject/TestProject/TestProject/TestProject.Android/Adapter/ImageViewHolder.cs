@@ -23,7 +23,7 @@ namespace TestProject.Droid.Adapter
         public View Divider { get; private set; }
         public Button DeleteButton { get; private set; }
 
-        public ImageViewHolder(View itemView, Action<Int32> listener): base(itemView)
+        public ImageViewHolder(View itemView, Action<int> listener): base(itemView)
         {
             Text = itemView.FindViewById<TextView>(Resource.Id.task_name);
             Image = itemView.FindViewById<CircleImageView>(Resource.Id.tasklist_image);

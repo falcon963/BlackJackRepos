@@ -17,7 +17,7 @@ namespace TestProject.iOS.Source
         : MvxTableViewSource
     {
 
-        public String cellIdentifier = "ContentTasksCell";
+        public string cellIdentifier = "ContentTasksCell";
 
         private TasksListView _view;
 
@@ -44,17 +44,6 @@ namespace TestProject.iOS.Source
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
             return cell;
         }
-
-        //public override UISwipeActionsConfiguration GetLeadingSwipeActionsConfiguration(UITableView tableView, NSIndexPath indexPath)
-        //{
-        //    var editAction = ContextualEditAction(indexPath.Row);
-        //    var deleteAction = ContextualDeleteAction(indexPath.Row);
-
-        //    var leadingSwipe = UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { editAction, deleteAction });
-
-        //    leadingSwipe.PerformsFirstActionWithFullSwipe = false;
-        //    return leadingSwipe;
-        //}
 
         public override UISwipeActionsConfiguration GetTrailingSwipeActionsConfiguration(UITableView tableView, NSIndexPath indexPath)
         {

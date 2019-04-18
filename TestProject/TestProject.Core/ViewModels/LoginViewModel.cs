@@ -9,12 +9,15 @@ using MvvmCross;
 using Acr.UserDialogs;
 using System.Threading.Tasks;
 using Plugin.SecureStorage;
-using TestProject.Core.Constant;
+using TestProject.Core.Constants;
 using MvvmCross.UI;
 using Xamarin.Auth;
 using TestProject.Core.Interfaces.SocialService.Google;
 using TestProject.Core.Services;
 using TestProject.Core.Interfaces.SocialService.Facebook;
+using TestProject.Core.Repositorys.Interfaces;
+using TestProject.Core.Helpers.Interfaces;
+using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
 {
@@ -23,108 +26,48 @@ namespace TestProject.Core.ViewModels
     {
         #region Fields
 
-        private readonly IMvxNavigationService _navigationService;
-        private readonly ILoginService _loginService;
-        private readonly ITasksService _taskService;
+        private readonly ILoginRepository _loginService;
+        private readonly ITasksRepository _taskService;
         private readonly IGoogleService _googleService;
         private readonly IFacebookService _facebookService;
-        private Boolean _rememberMe;
-        private Boolean _checkBoxStatus;
-        private String _login;
-        private String _password;
-        private MvxColor _color;
-        private User _user;
-        private OAuth2Authenticator _auth;
+        private readonly ICheckNullOrWhiteSpaceHelper _checkHelper;
+        private readonly IUserHelper _userHelper;
+        private bool _rememberMe;
 
         #endregion
 
         public LoginViewModel(IMvxNavigationService navigationService,
-            ILoginService loginService, ITasksService taskService, IGoogleService googleService, IFacebookService facebookService)
+            ILoginRepository loginService, ITasksRepository taskService, IGoogleService googleService, IFacebookService facebookService, ICheckNullOrWhiteSpaceHelper checkHelper, IUserHelper userHelper)
         {
                 _facebookService = facebookService;
                 _loginService = loginService;
-                _navigationService = navigationService;
+                NavigationService = navigationService;
                 _taskService = taskService;
                 _googleService = googleService;
+                _checkHelper = checkHelper;
+                _userHelper = userHelper;
+
                 LoginColor = new MvxColor(251, 192, 45);
-                _user = new User();
-                if (CrossSecureStorage.Current.GetValue(SecureConstant.Status) == "True")
+
+                if (_userHelper.GetUserStatus())
                 {
-                    Login = CrossSecureStorage.Current.GetValue(SecureConstant.Login);
-                    Password = CrossSecureStorage.Current.GetValue(SecureConstant.Password);
-                    _rememberMe = Boolean.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.Status));
+                    Login = _userHelper.GetUserLogin();
+                    Password = _userHelper.GetUserPassword();
+                    _rememberMe = _userHelper.GetUserStatus();
                 }      
         }
 
         #region Propertys
 
-        public MvxColor LoginColor
-        {
-            get
-            {
-                return _color;
-            }
-            set
-            {
-                SetProperty(ref _color, value);
-            }
-        }
+        public MvxColor LoginColor { get; set; }
 
-        public String Login
-        {
-            get
-            {
-                return _login;
-            }
-            set
-            {
-                SetProperty(ref _login, value);
-                User.Login = _login;
-                CheckEnableStatus();
-                //LoginColor = new MvxColor(21, 206, 234);
-            }
-        }
+        public OAuth2Authenticator Auth { get; set; }
 
-        public String Password
-        {
-            get
-            {
-                return _password;
-            }
-            set
-            {
-                SetProperty(ref _password, value);
-                User.Password = _password;
-                CheckEnableStatus();
-                //LoginColor = new MvxColor(28, 21, 234);
-            }
-        }
+        public string Login { get; set; }
 
-        public OAuth2Authenticator Auth
-        {
-            get
-            {
-                return _auth;
-            }
-            set
-            {
-                _auth = value;
-            }
-        }
+        public string Password { get; set; }
 
-        public User User
-        {
-            get
-            {
-                return _user;
-            }
-            set
-            {
-                _user = value;
-            }
-        }
-
-        public Boolean RememberMeStatus
+        public bool IsRememberMeStatus
         {
             get
             {
@@ -133,53 +76,19 @@ namespace TestProject.Core.ViewModels
             set
             {
                 _rememberMe = value;
-                if (_rememberMe == true)
+                if (_rememberMe)
                 {
-                    CrossSecureStorage.Current.SetValue(SecureConstant.Status, "True");
+                    _userHelper.SetUserStatus(true);
                     _loginService.SetLoginAndPassword(Login, Password);
                 }
-                if (_rememberMe == false)
+                if (!_rememberMe)
                 {
-                    CrossSecureStorage.Current.DeleteKey(SecureConstant.Status);
+                    _userHelper.DeleteUserStatus();
                 }
-            }
-        }
-
-        public Boolean EnableStatus
-        {
-            get
-            {
-                return _checkBoxStatus;
-            }
-            set
-            {
-                SetProperty(ref _checkBoxStatus, value);
-            }
-        }
-
-        public Boolean CheckLogin
-        {
-            get
-            {
-                return _loginService.CheckValidLogin(User.Login);
             }
         }
 
         #endregion
-
-        public void CheckEnableStatus()
-        {
-            if (String.IsNullOrEmpty(User.Login) 
-                && String.IsNullOrEmpty(User.Password))
-            {
-                EnableStatus = false;
-            }
-            if (!String.IsNullOrEmpty(User.Login) 
-                && !String.IsNullOrEmpty(User.Password))
-            {
-                EnableStatus = true;
-            }
-        }
 
         #region Commands
 
@@ -189,21 +98,21 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    var account = _loginService.CheckAccountAccess(User.Login, User.Password);
+                    var account = _loginService.CheckAccountAccess(Login, Password);
 
                     if (account != null)
                     {
-                        CrossSecureStorage.Current.SetValue(SecureConstant.UserId, account.Id.ToString());
-                        await _navigationService.Navigate<MainViewModel>();
-                        await _navigationService.Close(this);
+                        _userHelper.SetUserId(account.Id);
+                        await NavigationService.Navigate<MainViewModel>();
+                        await NavigationService.Close(this);
                     }
                     if((account == null))
                     {
                         UserDialogs.Instance.Alert(new AlertConfig
                         {
-                            Message = MessengeFields.WrongData,
-                            OkText = MessengeFields.OkText,
-                            Title = MessengeFields.AccountNotFound
+                            Message = Strings.WrongData,
+                            OkText = Strings.OkText,
+                            Title = Strings.AccountNotFound
                         });
                         return;
                     }
@@ -217,7 +126,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                   await _navigationService.Navigate<RegistrationViewModel>();
+                   await NavigationService.Navigate<RegistrationViewModel>();
                 });
             }
         }
@@ -228,7 +137,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    var token = CrossSecureStorage.Current.GetValue(SecureConstant.AccessToken);
+                    var token = _userHelper.GetUserAccessToken();
                     if(token == null)
                     {
                         return;
@@ -237,9 +146,9 @@ namespace TestProject.Core.ViewModels
                     {
                         User user = await _facebookService.GetSocialNetworkAsync(token);
                         var id = _loginService.GetSocialAccount(user);
-                        CrossSecureStorage.Current.SetValue(SecureConstant.UserId, Convert.ToString(id));
-                        await _navigationService.Navigate<MainViewModel>();
-                        await _navigationService.Close(this);
+                        _userHelper.SetUserId(id);
+                        await NavigationService.Navigate<MainViewModel>();
+                        await NavigationService.Close(this);
                     }
                 });
             }
@@ -251,7 +160,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    var token = CrossSecureStorage.Current.GetValue(SecureConstant.AccessToken);
+                    var token = _userHelper.GetUserAccessToken();
                     if (token == null)
                     {
                         return;
@@ -260,47 +169,16 @@ namespace TestProject.Core.ViewModels
                     {
                         User user = await _googleService.GetSocialNetworkAsync(token);
                         var id = _loginService.GetSocialAccount(user);
-                        CrossSecureStorage.Current.SetValue(SecureConstant.UserId, Convert.ToString(id));
-                        await _navigationService.Navigate<MainViewModel>();
-                        await _navigationService.Close(this);
+                        _userHelper.SetUserId(id);
+                        await NavigationService.Navigate<MainViewModel>();
+                        await NavigationService.Close(this);
                     }
                 });
             }
         }
 
-
-
-        //public IMvxCommand GetAuthFacebookIOSCommand
-        //{
-        //    get
-        //    {
-        //        return new MvxCommand(() =>
-        //       {
-        //           Auth = _oAuthService.IOSLoginFacebook();
-        //       });
-        //    }
-        //}
-
-        //public IMvxCommand GetAuthGoogleIOSCommand
-        //{
-        //    get
-        //    {
-        //        return new MvxCommand(() =>
-        //       {
-        //           Auth = _oAuthService.IOSLoginGoogle();
-        //       });
-        //    }
-        //}
-
         #endregion
 
-        //public async Task<SocialNetworkModel> CheckInFacebook(string token)
-        //{
-        //    var facebookService = new FacebookService();
-        //    var network = await facebookService.GetSocialNetworkAsync(token);
-
-        //    return network;
-        //}
 
     }
 }

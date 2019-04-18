@@ -15,7 +15,7 @@ namespace TestProject.iOS.Views
         : BaseMenuView<UserLocationViewModel>
     {
         MapView _mapView;
-        Boolean _firstLocationUpdate;
+        bool _firstLocationUpdate;
         public AppMapView() : base("AppMapView", null)
         {
         }
@@ -62,12 +62,9 @@ namespace TestProject.iOS.Views
 
         public override void ObserveValue(NSString keyPath, NSObject ofObject, NSDictionary change, IntPtr context)
         {
-            //base.ObserveValue (keyPath, ofObject, change, context);
 
             if (!_firstLocationUpdate)
             {
-                // If the first location update has not yet been recieved, then jump to that
-                // location.
                 _firstLocationUpdate = true;
                 var location = change.ObjectForKey(NSValue.ChangeNewKey) as CLLocation;
                 _mapView.Camera = CameraPosition.FromCamera(location.Coordinate, 14);

@@ -18,9 +18,9 @@ namespace TestProject.iOS
     [Foundation.Preserve(AllMembers = true)]
     public class LinkerPleaseInclude
     {
-        public void Include(MvvmCross.IoC.MvxPropertyInjector injector)
+        public void Include(MvxPropertyInjector injector)
         {
-            injector = new MvvmCross.IoC.MvxPropertyInjector();
+            injector = new MvxPropertyInjector();
         }
 
         public void Include(MvxNavigationService service, IMvxViewModelLoader loader)

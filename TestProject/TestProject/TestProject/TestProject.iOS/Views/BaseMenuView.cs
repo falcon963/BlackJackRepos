@@ -18,7 +18,7 @@ namespace TestProject.iOS.Views
 
         private CGSize SizeScroll { get; set; }
 
-        private Boolean _scrollEnable;
+        private bool _scrollEnable;
 
         protected UIWindow Window
         {
@@ -43,27 +43,15 @@ namespace TestProject.iOS.Views
 
         public virtual void HandleKeyboardDidShow(NSNotification obj)
         {
-            //if(ScrollView.ContentSize.Height > ScrollView.VisibleSize.Height)
-            //{
-            //    SizeScroll = ScrollView.ContentSize;
-            //    _scrollEnable = true;
-            //}
+
             SizeScroll = ScrollView.ContentSize;
             ScrollView.ContentSize = new CoreGraphics.CGSize(View.Frame.Width, View.Frame.Height + UIKeyboard.FrameBeginFromNotification(obj).Height / 2);
         }
 
         public virtual void HandleKeyboardDidHide(NSNotification obj)
         {
-            //if (_scrollEnable)
-            //{
-            //    ScrollView.ContentSize = SizeScroll;
-            //}
-            //if (!_scrollEnable)
-            //{
-            //ScrollView.ContentSize = new CoreGraphics.CGSize(View.Frame.Width, View.Frame.Height - UIKeyboard.FrameBeginFromNotification(obj).Height / 2);
-            //}
+
             ScrollView.ContentSize = SizeScroll;
-            //_scrollEnable = false;
         }
 
         public void HideKeyboard(UITapGestureRecognizer tap)
@@ -91,7 +79,6 @@ namespace TestProject.iOS.Views
             field.BorderStyle = UITextBorderStyle.None;
             field.BackgroundColor = UIColor.GroupTableViewBackgroundColor;
 
-            //field.Layer.CornerRadius = field.Frame.Size.Height / 2;
             field.Layer.BorderWidth = 0.25f;
             field.Layer.BorderColor = UIColor.White.CGColor;
 
@@ -118,13 +105,6 @@ namespace TestProject.iOS.Views
             field.Layer.ShadowOffset = CGSize.Empty;
             field.Layer.ShadowOpacity = 0.2f;
 
-            //Single shadowOffsetX = 100;
-            //var shadowPath = new UIBezierPath();
-            //shadowPath.MoveTo(new CGPoint(0, height));
-            //shadowPath.AddLineTo(new CGPoint(width, height));
-
-            //shadowPath.AddLineTo(new CGPoint(width + shadowOffsetX, 100));
-            //shadowPath.AddLineTo(new CGPoint(shadowOffsetX, 100));
             field.Layer.ShadowPath = shadowPath.CGPath;
         }
 

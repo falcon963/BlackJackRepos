@@ -7,9 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using TestProject.Core.Constant;
+using TestProject.Core.Constants;
+using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Interfaces;
 using TestProject.Core.Models;
+using TestProject.Core.Repositorys.Interfaces;
+using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
 {
@@ -18,15 +21,15 @@ namespace TestProject.Core.ViewModels
     {
         #region Fields
 
-        private readonly IMvxNavigationService _navigationService;
+        private readonly ILoginRepository _loginService;
 
-        private readonly ILoginService _loginService;
+        private readonly IDialogsService _dialogsService;
 
-        private String _login;
-        private String _password;
-        private String _passwordRevise;
-        private Boolean _checkBoxStatus;
-        private User _user;
+        private readonly ICheckNullOrWhiteSpaceHelper _checkHelper;
+
+        private string _login;
+        private string _password;
+        private string _passwordRevise;
 
         private MvxColor _backgroundColor;
         private MvxColor _passwordFieldColor;
@@ -40,71 +43,31 @@ namespace TestProject.Core.ViewModels
 
         #endregion
 
-        public RegistrationViewModel(IMvxNavigationService navigationService, ILoginService loginService, IUserDialogs userDialogs)
+        public RegistrationViewModel(IMvxNavigationService navigationService, ILoginRepository loginService,
+            IUserDialogs userDialogs, IDialogsService dialogsService, ICheckNullOrWhiteSpaceHelper checkHelper)
         {
             LoginColor = new MvxColor(251, 192, 45);
             ValidateColor = new MvxColor(241, 241, 241);
             _userDialogs = userDialogs;
-            _navigationService = navigationService;
+            NavigationService = navigationService;
             _loginService = loginService;
-            _user = new User();
+            _dialogsService = dialogsService;
+            _checkHelper = checkHelper;
         }
 
         #region MvxColor
 
-        public MvxColor LoginColor
-        {
-            get
-            {
-                return _backgroundColor;
-            }
-            set
-            {
-                SetProperty(ref _backgroundColor, value);
-            }
-        }
+        public MvxColor LoginColor { get; set; }
 
-        public MvxColor LoginEnebleColor
-        {
-            get
-            {
-                return _loginEnebleColor;
-            }
-            set
-            {
-                _loginEnebleColor = value;
-            }
-        }
+        public MvxColor LoginEnebleColor { get; set; }
 
-        public MvxColor ValidateColor
-        {
-            get
-            {
-                return _passwordFieldColor;
-            }
-            set
-            {
-                SetProperty(ref _passwordFieldColor, value);
-            }
-        }
+        public MvxColor ValidateColor { get; set; }
 
         #endregion
 
         #region Propertys
 
-        public User User
-        {
-            get
-            {
-                return _user;
-            }
-            set
-            {
-                _user = value;
-            }
-        }
-
-        public String Login
+        public string Login
         {
             get
             {
@@ -113,7 +76,6 @@ namespace TestProject.Core.ViewModels
             set
             {
                 SetProperty(ref _login, value);
-                User.Login = _login;
                 if (_loginService.CheckValidLogin(Login))
                 {
                     LoginEnebleColor = new MvxColor(54, 255, 47);
@@ -122,15 +84,14 @@ namespace TestProject.Core.ViewModels
                 {
                     LoginEnebleColor = new MvxColor(241, 241, 241);
                 }
-                if (!_loginService.CheckValidLogin(User.Login))
+                if (!_loginService.CheckValidLogin(Login))
                 {
                    LoginEnebleColor = new MvxColor(176, 14, 14);
                 }
-                CheckEnableStatus();
             }
         }
 
-        public String Password
+        public string Password
         {
             get
             {
@@ -139,20 +100,18 @@ namespace TestProject.Core.ViewModels
             set
             {
                 SetProperty(ref _password, value);
-                User.Password = _password;
-                CheckEnableStatus();
                 if (Password == PasswordRevise)
                 {
                     ValidateColor = new MvxColor(54, 255, 47);
                 }
-                if (String.IsNullOrEmpty(Password) && String.IsNullOrEmpty(PasswordRevise))
+                if (_checkHelper.Check2Strings(Password, PasswordRevise) || Password != PasswordRevise)
                 {
                     ValidateColor = new MvxColor(241, 241, 241);
                 }
             }
         }
 
-        public String PasswordRevise
+        public string PasswordRevise
         {
             get
             {
@@ -161,68 +120,26 @@ namespace TestProject.Core.ViewModels
             set
             {
                 SetProperty(ref _passwordRevise, value);
-                CheckEnableStatus();
                 if(Password == PasswordRevise)
                 {
                     ValidateColor = new MvxColor(54, 255, 47);
                 }
-                if(String.IsNullOrEmpty(Password) && String.IsNullOrEmpty(PasswordRevise) || String.IsNullOrWhiteSpace(Password) && String.IsNullOrWhiteSpace(PasswordRevise) || Password != PasswordRevise)
+                if(_checkHelper.Check2Strings(Password, PasswordRevise) || Password != PasswordRevise)
                 {
                     ValidateColor = new MvxColor(241, 241, 241);
                 }
             }
         }
 
-        public Boolean EnableStatus
+        public bool CheckLogin
         {
             get
             {
-                return _checkBoxStatus;
-            }
-            set
-            {
-                SetProperty(ref _checkBoxStatus, value);
-            }
-        }
-
-        public Boolean CheckLogin
-        {
-            get
-            {
-                return _loginService.CheckValidLogin(User.Login);
+                return _loginService.CheckValidLogin(Login);
             }
         }
 
         #endregion
-
-        public void CheckEnableStatus()
-        {
-            if (String.IsNullOrEmpty(User.Login)
-                && String.IsNullOrEmpty(User.Password))
-            {
-                EnableStatus = false;
-            }
-            if (!String.IsNullOrEmpty(User.Login)
-                && !String.IsNullOrEmpty(User.Password)
-                && !String.IsNullOrWhiteSpace(User.Password))
-            {
-                EnableStatus = true;
-            }
-            if (Password != PasswordRevise)
-            {
-                EnableStatus = false;
-            }
-            if (Password == PasswordRevise 
-                && !String.IsNullOrEmpty(User.Password) 
-                && !String.IsNullOrWhiteSpace(User.Password))
-            {
-                EnableStatus = true;
-            }
-            if (String.IsNullOrWhiteSpace(User.Login))
-            {
-                EnableStatus = false;
-            }
-        }
 
         #region Commands
 
@@ -232,86 +149,52 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    var valid = _loginService.CheckValidLogin(User.Login);
+                    var valid = _loginService.CheckValidLogin(Login);
                     if(!_hasNumber.IsMatch(Password)|| !_hasNumber.IsMatch(PasswordRevise)){
-                        var alert = UserDialogs.Instance.Alert(
-                            new AlertConfig
-                            {
-                                Message = MessengeFields.PasswordMustContentNumber,
-                                OkText = MessengeFields.OkText,
-                                Title = MessengeFields.AlertMessege
-                            });
-                        return;
+                        _dialogsService.UserDialogAlert(Strings.PasswordMustContentNumber);
                     }
                     if (!_hasUpperChar.IsMatch(Password) || !_hasUpperChar.IsMatch(PasswordRevise)){
-                        var alert = UserDialogs.Instance.Alert(
-                            new AlertConfig
-                            {
-                                Message = MessengeFields.PasswordMustContentUpperChar,
-                                OkText = MessengeFields.OkText,
-                                Title = MessengeFields.AlertMessege
-                            });
-                        return;
+                        _dialogsService.UserDialogAlert(Strings.PasswordMustContentUpperChar);
                     }
                     if (!_hasMinimum8Chars.IsMatch(Password) || !_hasMinimum8Chars.IsMatch(PasswordRevise)){
-                        var alert = UserDialogs.Instance.Alert(
-                            new AlertConfig
-                            {
-                                Message = MessengeFields.PasswordMustContent8Char,
-                                OkText = MessengeFields.OkText,
-                                Title = MessengeFields.AlertMessege
-                            });
-                        return;
+                        _dialogsService.UserDialogAlert(Strings.PasswordMustContent8Char);
                     }
-                    if (String.IsNullOrEmpty(User.Login)
-                        || String.IsNullOrEmpty(User.Password)
-                        || String.IsNullOrWhiteSpace(User.Password)
-                        || String.IsNullOrWhiteSpace(User.Login)
-                        && Password == PasswordRevise)
+                    if (_checkHelper.Check2Strings(Login, Password) && Password == PasswordRevise)
                     {
-                        var alert = UserDialogs.Instance.Alert(
-                            new AlertConfig
-                            {
-                                Message = MessengeFields.EmptyFieldRegistrateMessege,
-                                OkText = MessengeFields.OkText,
-                                Title = MessengeFields.AlertMessege
-                            });
-                        return;
+                        _dialogsService.UserDialogAlert(Strings.EmptyFieldRegistrateMessege);
                     }
                     if(Password != PasswordRevise)
                     {
-                        var alert = UserDialogs.Instance.Alert(
-                            new AlertConfig
-                            {
-                                Message = MessengeFields.WrongPassword,
-                                OkText = MessengeFields.OkText,
-                                Title = MessengeFields.AlertMessege
-                            });
-                        return;
+                        _dialogsService.UserDialogAlert(Strings.WrongPassword);
                     }
                     if (!valid)
                     {
                         var alert = UserDialogs.Instance.Alert(new AlertConfig
                         {
-                            Message = MessengeFields.Login,
-                            OkText = MessengeFields.OkText,
-                            Title = MessengeFields.LoginUse
+                            Message = Strings.Login,
+                            OkText = Strings.OkText,
+                            Title = Strings.LoginUse
                         });
                         return;
                     }
                     if (valid)
                     {
-                        _loginService.CreateUser(User);
+                        var user = new User()
+                        {
+                            Login = Login,
+                            Password = Password
+                        };
+                        _loginService.Save(user);
                         var alert = await _userDialogs.ConfirmAsync(new ConfirmConfig
                         {
-                            Message = MessengeFields.Registrate,
-                            OkText = MessengeFields.OkText,
-                            Title = MessengeFields.Success,
-                            CancelText = MessengeFields.NoText
+                            Message = Strings.Registrate,
+                            OkText = Strings.OkText,
+                            Title = Strings.Success,
+                            CancelText = Strings.NoText
                         });
                         if (alert)
                         {
-                            await _navigationService.Close(this);
+                            await NavigationService.Close(this);
                         }
                         if (!alert)
                         {
@@ -328,7 +211,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    await _navigationService.Close(this);
+                    await NavigationService.Close(this);
                 });
             }
 

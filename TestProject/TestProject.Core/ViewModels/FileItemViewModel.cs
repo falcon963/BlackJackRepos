@@ -8,13 +8,15 @@ namespace TestProject.Core.ViewModels
 {
     public class FileItemViewModel
     {
-        public Int32 Id { get; set; }
-        public Int32 TaskId { get; set; }
-        public String FileName { get; set; }
-        public Byte[] FileContent { get; set; }
-        public String FileExtension { get; set; }
+        public int Id { get; set; }
+        public int TaskId { get; set; }
+        public string FileName { get; set; }
+        public byte[] FileContent { get; set; }
+        public string FileExtension { get; set; }
 
         public TaskViewModel ViewModel { get; set; }
+
+        public Func<FileItemViewModel, bool> DeleteFile { get; set; }
 
         public IMvxCommand DeleteFileCommand
         {
@@ -22,7 +24,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    ViewModel.DeleteFile(this);
+                    DeleteFile(this);
                 });
             }
         }

@@ -4,9 +4,11 @@ using MvvmCross;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using Plugin.SecureStorage;
-using TestProject.Core.Constant;
+using TestProject.Core.Constants;
+using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Interfaces;
 using TestProject.Core.Models;
+using TestProject.Core.Repositorys.Interfaces;
 using TestProject.Core.ViewModels;
 
 namespace TestProject.Core
@@ -20,29 +22,22 @@ namespace TestProject.Core
 
         protected override Task NavigateToFirstViewModel(object hint = null)
         {
-            var _loginService = Mvx.IoCProvider.Resolve<ILoginService>();
+            var _pageCheck = Mvx.IoCProvider.Resolve<IStartPageCheckHelper>();
 
-            var value = CrossSecureStorage.Current.GetValue(SecureConstant.Status);
-            if(CrossSecureStorage.Current.GetValue(SecureConstant.AccessToken) != null)
+            if(_pageCheck.SocialNetworkLogin())
             {
                 return NavigationService.Navigate<MainViewModel>();
             }
-            if (Convert.ToBoolean(value) == true)
+            if (_pageCheck.AccountStatus())
             {
-                User user = new User();
-                var login = CrossSecureStorage.Current.GetValue(SecureConstant.Login);
-                var password = CrossSecureStorage.Current.GetValue(SecureConstant.Password);
-                user = _loginService.CheckAccountAccess(login, password);
-                if (user == null)
+                if (_pageCheck.CheckAccountAccess())
                 {
                     CrossSecureStorage.Current.SetValue(SecureConstant.Status, false.ToString());
                     return NavigationService.Navigate<MainRegistrationViewModel>();
                 }
-                if (user != null)
-                {
-                    CrossSecureStorage.Current.SetValue(SecureConstant.UserId, user.Id.ToString());
-                    return NavigationService.Navigate<MainViewModel>();
-                }
+
+                CrossSecureStorage.Current.SetValue(SecureConstant.UserId, _pageCheck.SetUserId().ToString());
+                return NavigationService.Navigate<MainViewModel>();
             }
             return NavigationService.Navigate<MainRegistrationViewModel>();
 

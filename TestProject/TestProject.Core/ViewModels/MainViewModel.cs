@@ -8,7 +8,8 @@ using TestProject.Core.Models;
 using TestProject.Core.Interfaces;
 using System.Threading.Tasks;
 using Plugin.SecureStorage;
-using TestProject.Core.Constant;
+using TestProject.Core.Constants;
+using TestProject.Core.Repositorys.Interfaces;
 
 namespace TestProject.Core.ViewModels
 {
@@ -17,15 +18,13 @@ namespace TestProject.Core.ViewModels
     {
         #region Fields
 
-        private readonly IMvxNavigationService _navigationService;
-
-        private readonly ILoginService _loginService;
+        private readonly ILoginRepository _loginService;
 
         #endregion
 
-        public MainViewModel(IMvxNavigationService navigationService, ILoginService loginService)
+        public MainViewModel(IMvxNavigationService navigationService, ILoginRepository loginService)
         {
-            _navigationService = navigationService;
+            NavigationService = navigationService;
             _loginService = loginService;
         }
 
@@ -37,9 +36,9 @@ namespace TestProject.Core.ViewModels
             {
                     return new MvxAsyncCommand(async () =>
                     {
-                        await _navigationService.Navigate<TaskListViewModel>();
-                        await _navigationService.Navigate<UserProfileViewModel>();
-                        await _navigationService.Navigate<UserLocationViewModel>();
+                        await NavigationService.Navigate<TaskListViewModel>();
+                        await NavigationService.Navigate<UserProfileViewModel>();
+                        await NavigationService.Navigate<UserLocationViewModel>();
                     });
             }
         }
@@ -51,7 +50,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    await _navigationService.Close(this);
+                    await NavigationService.Close(this);
                 });
             }
         }

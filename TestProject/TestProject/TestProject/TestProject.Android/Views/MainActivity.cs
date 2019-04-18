@@ -28,7 +28,6 @@ namespace TestProject.Droid.Views
         ScreenOrientation = ScreenOrientation.Portrait,
         Label = "TaskList Project",
         Theme = "@style/AppTheme",
-        //LaunchMode = LaunchMode.SingleTop,
         Name = "testProject.droid.views.MainActivity")]
     public class MainActivity : MvxAppCompatActivity<MainViewModel>
     {
@@ -38,7 +37,7 @@ namespace TestProject.Droid.Views
 
         Android.Support.V7.Widget.Toolbar Toolbar { get; set; }
 
-        private Boolean _toolBarNavigationListenerIsRegistered = false;
+        private bool _toolBarNavigationListenerIsRegistered = false;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -46,7 +45,7 @@ namespace TestProject.Droid.Views
 
             UserDialogs.Init(this);
 
-            Window.SetSoftInputMode(Android.Views.SoftInput.AdjustResize);
+            Window.SetSoftInputMode(SoftInput.AdjustResize);
 
             SetContentView(Resource.Layout.MainActivity);
 
@@ -72,19 +71,12 @@ namespace TestProject.Droid.Views
 
         private void ShowBackButton()
         {
-            //TODO Tell the toggle to set the indicator off
-            //this.DrawerToggle.DrawerIndicatorEnabled = false;
 
-            //Block the menu slide gesture
             DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
         }
 
         private void ShowHamburguerMenu()
         {
-            //TODO set toggle indicator as enabled 
-            //this.DrawerToggle.DrawerIndicatorEnabled = true;
-
-            //Unlock the menu sliding gesture
             DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeUnlocked);
         }
 

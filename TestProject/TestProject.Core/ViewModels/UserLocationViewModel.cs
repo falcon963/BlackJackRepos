@@ -15,25 +15,23 @@ namespace TestProject.Core.ViewModels
     {
         #region Fields
 
-        private readonly IMvxNavigationService _navigationService;
-
         private readonly ILocationService _locationService;
 
-        private Double _latitude;
+        private double _latitude;
 
-        private Double _longitude;
+        private double _longitude;
 
         #endregion
 
         #region Propertys
 
-        public Double Latitude
+        public double Latitude
         {
             get => _latitude;
             set => SetProperty(ref _latitude, value);
         }
 
-        public Double Longitude
+        public double Longitude
         {
             get => _longitude;
             set => SetProperty(ref _longitude, value);
@@ -43,7 +41,7 @@ namespace TestProject.Core.ViewModels
 
         public UserLocationViewModel(ILocationService locationService, IMvxNavigationService navigationService)
         {
-            _navigationService = navigationService;
+            NavigationService = navigationService;
             _locationService = locationService;
         }
 
@@ -57,7 +55,7 @@ namespace TestProject.Core.ViewModels
                 return new MvxAsyncCommand(async() =>
                 {
                     _locationService.Stop();
-                    await _navigationService.Close(this);
+                    await NavigationService.Close(this);
                 });
             }
         }

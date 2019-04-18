@@ -1,4 +1,5 @@
-﻿using MvvmCross.ViewModels;
+﻿using MvvmCross.Navigation;
+using MvvmCross.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,8 @@ namespace TestProject.Core.ViewModels
     public abstract class BaseViewModel 
         : MvxViewModel
     {
+        public IMvxNavigationService NavigationService { get; set; }
+
         protected BaseViewModel()
         {
         }
@@ -17,6 +20,8 @@ namespace TestProject.Core.ViewModels
     public abstract class BaseViewModel<TParameter, TResult> 
         : MvxViewModel<TParameter, TResult>
     {
+        public IMvxNavigationService NavigationService { get; set; }
+
         protected BaseViewModel()
         {
         }
@@ -25,6 +30,8 @@ namespace TestProject.Core.ViewModels
     public abstract class BaseViewModel<TParameter> 
         : MvxViewModel<TParameter>
     {
+        public IMvxNavigationService NavigationService { get; set; }
+
         protected BaseViewModel()
         {
         }

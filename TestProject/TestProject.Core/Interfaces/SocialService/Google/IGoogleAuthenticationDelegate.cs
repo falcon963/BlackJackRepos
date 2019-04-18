@@ -7,7 +7,7 @@ namespace TestProject.Core.Interfaces.SocialService.Google
 {
     public interface IGoogleAuthenticationDelegate
     {
-        void OnAuthenticationCompleted(String token);
+        void OnAuthenticationCompleted(string token);
         void OnAuthenticationFailed(string message, Exception exception);
         void OnAuthenticationCanceled();
     }

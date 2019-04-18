@@ -15,7 +15,7 @@ namespace TestProject.iOS.Source
         : MvxTableViewSource
     {
 
-        public String cellIdentifier = "FileCell";
+        public string cellIdentifier = "FileCell";
 
         private TaskDetailsView _mainView;
 

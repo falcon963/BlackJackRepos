@@ -19,6 +19,7 @@ using TestProject.Core.Enum;
 using Android.Graphics.Drawables;
 using Android.Support.V4.Content;
 using TestProject.Droid.Views;
+using TestProject.Core.Enums;
 
 namespace TestProject.Droid.Adapter
 {
@@ -28,7 +29,7 @@ namespace TestProject.Droid.Adapter
         private TasksFragment _view;
         private Boolean swipeBack = false;
         private ButtonState buttonShowedState = ButtonState.Gone;
-        public EventHandler<Int32> RightClick;
+        public EventHandler<int> RightClick;
 
         private RecyclerImageAdapter _adapter;
         private Drawable background;
@@ -41,7 +42,7 @@ namespace TestProject.Droid.Adapter
             background = new ColorDrawable(new Color(251, 192, 45));
             xMark = ContextCompat.GetDrawable(_view.Context, Resource.Drawable.delete);
             xMark.SetColorFilter(Color.White, PorterDuff.Mode.DstAtop);
-            xMarkMargin = (Int32)_view.Context.Resources.GetDimension(Resource.Dimension.ic_clear_margin);
+            xMarkMargin = (int)_view.Context.Resources.GetDimension(Resource.Dimension.ic_clear_margin);
             _initiated = true;
         }
 
@@ -51,9 +52,9 @@ namespace TestProject.Droid.Adapter
             _adapter = adapter;
         }
 
-        public override Int32 GetMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder)
+        public override int GetMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder)
         {
-            Int32 swipeFlags = ItemTouchHelper.Left;
+            int swipeFlags = ItemTouchHelper.Left;
             return MakeMovementFlags(0, swipeFlags);
         }
 
@@ -62,16 +63,13 @@ namespace TestProject.Droid.Adapter
             return false;
         }
 
-        public override void OnSwiped(RecyclerView.ViewHolder viewHolder, Int32 direction)
+        public override void OnSwiped(RecyclerView.ViewHolder viewHolder, int direction)
         {
-            //UserTask task = _view.ViewModel.ListOfTasks[viewHolder.Position];
-            //_view.ViewModel.DeleteTaskCommand.Execute(task);
-            //_view.ViewModel.ListOfTasks.Remove(task);
-            Int32 position = viewHolder.AdapterPosition;
+            int position = viewHolder.AdapterPosition;
             _adapter.PendingRemoval(position);
         }
 
-        public override int ConvertToAbsoluteDirection(Int32 flags, Int32 layoutDirection)
+        public override int ConvertToAbsoluteDirection(int flags, int layoutDirection)
         {
             if (swipeBack)
             {
@@ -81,7 +79,7 @@ namespace TestProject.Droid.Adapter
             return base.ConvertToAbsoluteDirection(flags, layoutDirection);
         }
 
-        public override void OnChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, Single dX, Single dY, Int32 actionState, Boolean isCurrentlyActive)
+        public override void OnChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, bool isCurrentlyActive)
         {
             View itemView = viewHolder.ItemView;
 
@@ -95,17 +93,17 @@ namespace TestProject.Droid.Adapter
                 Init();
             }
 
-            background.SetBounds(itemView.Right + (Int32)dX, itemView.Top, itemView.Right, itemView.Bottom);
+            background.SetBounds(itemView.Right + (int)dX, itemView.Top, itemView.Right, itemView.Bottom);
             background.Draw(c);
 
-            Int32 itemHeight = itemView.Bottom - itemView.Top;
-            Int32 intrinsicWidth = xMark.IntrinsicWidth;
-            Int32 intrinsicHeight = xMark.IntrinsicWidth;
+            int itemHeight = itemView.Bottom - itemView.Top;
+            int intrinsicWidth = xMark.IntrinsicWidth;
+            int intrinsicHeight = xMark.IntrinsicWidth;
 
-            Int32 xMarkLeft = itemView.Right - xMarkMargin - intrinsicWidth;
-            Int32 xMarkRight = itemView.Right - xMarkMargin;
-            Int32 xMarkTop = itemView.Top + (itemHeight - intrinsicHeight) / 2;
-            Int32 xMarkBottom = xMarkTop + intrinsicHeight;
+            int xMarkLeft = itemView.Right - xMarkMargin - intrinsicWidth;
+            int xMarkRight = itemView.Right - xMarkMargin;
+            int xMarkTop = itemView.Top + (itemHeight - intrinsicHeight) / 2;
+            int xMarkBottom = xMarkTop + intrinsicHeight;
             xMark.SetBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom);
             xMark.Draw(c);
 

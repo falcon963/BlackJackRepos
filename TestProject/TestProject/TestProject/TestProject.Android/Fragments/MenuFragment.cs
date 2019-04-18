@@ -48,7 +48,7 @@ namespace TestProject.Droid.Fragments
             _avatar = view.FindViewById<CircleImageView>(Resource.Id.avatar);
             _navigationView.ItemClick.CanExecuteChanged += (sender, e) => { ((MainActivity)Activity).DrawerLayout.CloseDrawers();  };
 
-            String imagePath = ViewModel.Profile.ImagePath;
+            string imagePath = ViewModel.Profile.ImagePath;
 
             if (imagePath == null)
             {
@@ -59,7 +59,7 @@ namespace TestProject.Droid.Fragments
                 }
                 catch (Java.Lang.OutOfMemoryError)
                 {
-                    System.GC.Collect();
+                    GC.Collect();
                 }
             }
 
@@ -74,7 +74,7 @@ namespace TestProject.Droid.Fragments
                 }
                 catch (Java.Lang.OutOfMemoryError)
                 {
-                    System.GC.Collect();
+                    GC.Collect();
                 }
             }
 

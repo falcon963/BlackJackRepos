@@ -4,9 +4,10 @@ using Plugin.SecureStorage;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TestProject.Core.Constant;
+using TestProject.Core.Constants;
 using TestProject.Core.Interfaces;
 using TestProject.Core.Models;
+using TestProject.Core.Repositorys.Interfaces;
 
 namespace TestProject.Core.ViewModels
 {
@@ -15,15 +16,13 @@ namespace TestProject.Core.ViewModels
     {
         #region Fields
 
-        private readonly IMvxNavigationService _navigationService;
-
-        private readonly ILoginService _loginService;
+        private readonly ILoginRepository _loginService;
 
         #endregion
 
-        public MainRegistrationViewModel(IMvxNavigationService navigationService, ILoginService loginService)
+        public MainRegistrationViewModel(IMvxNavigationService navigationService, ILoginRepository loginService)
         {
-            _navigationService = navigationService;
+            NavigationService = navigationService;
             _loginService = loginService;
         }
 
@@ -35,7 +34,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxCommand(async () =>
                 {
-                    _navigationService.Navigate<LoginViewModel>();
+                    NavigationService.Navigate<LoginViewModel>();
                 });
             }
         }

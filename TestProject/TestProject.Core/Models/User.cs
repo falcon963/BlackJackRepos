@@ -9,13 +9,13 @@ namespace TestProject.Core.Models
     public class User
     {
         [PrimaryKey, AutoIncrement]
-        public Int32 Id { get; set; }
-        public String Login { get; set; }
-        public String Password { get; set; }
-        public String ImagePath { get; set; }
-        public String TokenType { get; set; }
-        public String AccessToken { get; set; }
-        public String FacebookId { get; set; }
-        public String GoogleId { get; set; }
+        public int Id { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public string ImagePath { get; set; }
+        public string TokenType { get; set; }
+        public string AccessToken { get; set; }
+        public string FacebookId { get; set; }
+        public string GoogleId { get; set; }
     }
 }

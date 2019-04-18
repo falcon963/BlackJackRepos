@@ -46,7 +46,7 @@ namespace TestProject.Core.Services
             
         }
 
-        public Boolean TryGetLatestLocation(out Double lat, out Double lng)
+        public bool TryGetLatestLocation(out double lat, out double lng)
         {
             lock (_lockObject)
             {

@@ -10,15 +10,15 @@ namespace TestProject.Core.Models
     public class UserTask
     {
         [PrimaryKey, AutoIncrement]
-        public Int32 Id { get; set; }
-        public Int32 UserId { get; set; }
+        public int Id { get; set; }
+        public int UserId { get; set; }
         [MaxLength(50)]
-        public String Title { get; set; }
-        public String Note { get; set; }
-        public Boolean Status { get; set; }
-        public String ImagePath { get; set; }
-        public Byte[] FileContent { get; set; }
-        public String FileName { get; set; }
-        public String FileExtension { get; set; }
+        public string Title { get; set; }
+        public string Note { get; set; }
+        public bool Status { get; set; }
+        public string ImagePath { get; set; }
+        public byte[] FileContent { get; set; }
+        public string FileName { get; set; }
+        public string FileExtension { get; set; }
     }
 }

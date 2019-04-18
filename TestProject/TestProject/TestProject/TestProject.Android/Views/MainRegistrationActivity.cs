@@ -35,7 +35,7 @@ namespace TestProject.Droid.Views
 
             UserDialogs.Init(this);
 
-            Window.SetSoftInputMode(Android.Views.SoftInput.AdjustResize);
+            Window.SetSoftInputMode(SoftInput.AdjustResize);
 
             SetContentView(Resource.Layout.MainRegistrationActivity);
 

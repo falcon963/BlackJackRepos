@@ -21,7 +21,7 @@ namespace TestProject.iOS
     {
         // class-level declarations
 
-        const String MapsApiKey = "AIzaSyCzfcYRYDcsR8nEAEcSJfPxtKpcVlBCq84";
+        const string MapsApiKey = "AIzaSyCzfcYRYDcsR8nEAEcSJfPxtKpcVlBCq84";
 
         public override UIWindow Window
         {
@@ -38,7 +38,7 @@ namespace TestProject.iOS
                 MapServices.ProvideAPIKey(MapsApiKey);
                 result = base.FinishedLaunching(application, launchOptions);
             }
-            catch(System.Exception ex)
+            catch(Exception ex)
             {
                 Debug.WriteLine(ex);
             }

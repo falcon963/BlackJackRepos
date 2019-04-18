@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TestProject.Core.Constant;
+using TestProject.Core.Constants;
 using TestProject.Core.Interfaces.SocialService.Facebook;
 using TestProject.Core.Models;
 using Xamarin.Auth;
@@ -11,20 +11,18 @@ namespace TestProject.Core.Authentication
 {
     public class FacebookAuthenticator
     {
-        private const String AuthorizeUrl = "https://m.facebook.com/dialog/oauth/";
-        private const String RedirectUrl = "https://www.facebook.com/connect/login_success.html";
-        private const Boolean IsUsingNativeUI = false;
+        private const bool IsUsingNativeUI = false;
 
-        private OAuth2Authenticator _auth;
-        private IFacebookAuthentication _authentication;
+        private readonly OAuth2Authenticator _auth;
+        private readonly IFacebookAuthentication _authentication;
 
-        public FacebookAuthenticator(String clientId, String scope, IFacebookAuthentication authentication, Boolean isUsingNativeUi = IsUsingNativeUI)
+        public FacebookAuthenticator(string clientId, string scope, IFacebookAuthentication authentication, bool isUsingNativeUi = IsUsingNativeUI)
         {
             _authentication = authentication;
 
             _auth = new OAuth2Authenticator(clientId, scope,
-                                            new Uri(AuthorizeUrl),
-                                            new Uri(RedirectUrl),
+                                            new Uri(SocialConstant.AuthorizeUrlFacebook),
+                                            new Uri(SocialConstant.RedirectUrlFacebook),
                                             null, IsUsingNativeUI);
 
             _auth.Completed += OnAuthenticationCompleted;
@@ -41,7 +39,7 @@ namespace TestProject.Core.Authentication
             _auth.OnPageLoading(uri);
         }
 
-        private void OnAuthenticationCompleted(Object sender, AuthenticatorCompletedEventArgs e)
+        private void OnAuthenticationCompleted(object sender, AuthenticatorCompletedEventArgs e)
         {
             if (e.IsAuthenticated)
             {
@@ -55,7 +53,7 @@ namespace TestProject.Core.Authentication
             }
         }
 
-        private void OnAuthenticationFailed(Object sender, AuthenticatorErrorEventArgs e)
+        private void OnAuthenticationFailed(object sender, AuthenticatorErrorEventArgs e)
         {
             _authentication.OnAuthenticationFailed(e.Message, e.Exception);
         }

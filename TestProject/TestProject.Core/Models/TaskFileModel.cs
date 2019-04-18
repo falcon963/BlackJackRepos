@@ -9,10 +9,10 @@ namespace TestProject.Core.Models
     public class TaskFileModel
     {
         [PrimaryKey, AutoIncrement]
-        public Int32 Id { get; set; }
-        public Int32 TaskId { get; set; }
-        public String FileName { get; set; }
-        public Byte[] FileContent { get; set; }
-        public String FileExtension { get; set; }
+        public int Id { get; set; }
+        public int TaskId { get; set; }
+        public string FileName { get; set; }
+        public byte[] FileContent { get; set; }
+        public string FileExtension { get; set; }
     }
 }

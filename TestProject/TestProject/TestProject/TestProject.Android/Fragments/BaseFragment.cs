@@ -26,7 +26,7 @@ namespace TestProject.Droid.Fragments
 
         protected MvxActionBarDrawerToggle DrawerToggle { get; private set; }
 
-        protected abstract Int32 FragmentId { get; }
+        protected abstract int FragmentId { get; }
 
         protected Boolean ShowHumburgerMenu { get; set; } = false;
 

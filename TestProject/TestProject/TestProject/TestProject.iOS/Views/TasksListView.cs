@@ -27,7 +27,7 @@ namespace TestProject.iOS.Views
 
         public static NSString MyCellId = new NSString("ContentTasksCell");
 
-        private Boolean _isMenuOpen = false;
+        private bool _isMenuOpen = false;
 
         private CATransition _transition  = new CATransition();
 

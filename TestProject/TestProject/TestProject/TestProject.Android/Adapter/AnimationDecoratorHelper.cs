@@ -19,7 +19,7 @@ namespace TestProject.Droid.Adapter
         :RecyclerView.ItemDecoration
     {
         private Drawable _background;
-        private Boolean _initiated;
+        private bool _initiated;
 
         private void Init()
         {
@@ -39,10 +39,10 @@ namespace TestProject.Droid.Adapter
                 View lastViewComingDown = null;
                 View firstViewComingUp = null;
 
-                Int32 left = 0;
-                Int32 right = parent.Width;
-                Int32 top = 0;
-                Int32 bottom = 0;
+                int left = 0;
+                int right = parent.Width;
+                int top = 0;
+                int bottom = 0;
 
                 int childCount = parent.GetLayoutManager().ChildCount;
                 for (int i = 0; i < childCount; i++)

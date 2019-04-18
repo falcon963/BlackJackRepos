@@ -8,18 +8,18 @@ namespace TestProject.Core.Models
     public class GoogleProfileModel
     {
         [JsonProperty("id")]
-        public String Id { get; set; }
+        public string Id { get; set; }
         [JsonProperty("name")]
-        public String Name { get; set; }
+        public string Name { get; set; }
         [JsonProperty("family_name")]
-        public String FamilyName { get; set; }
+        public string FamilyName { get; set; }
         [JsonProperty("given_name")]
-        public String GivenName { get; set; }
+        public string GivenName { get; set; }
         [JsonProperty("link")]
-        public String Link { get; set; }
+        public string Link { get; set; }
         [JsonProperty("picture")]
         public Data Picture { get; set; }
         [JsonProperty("gender")]
-        public String Gender { get; set; }
+        public string Gender { get; set; }
     }
 }

@@ -5,12 +5,15 @@ using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using Acr.UserDialogs;
 using Plugin.SecureStorage;
-using TestProject.Core.Constant;
+using TestProject.Core.Constants;
 using TestProject.Core.Models;
 using MvvmCross.ViewModels;
 using System.Threading.Tasks;
 using TestProject.Core.Interfaces;
 using MvvmCross.UI;
+using TestProject.Core.Repositorys.Interfaces;
+using TestProject.Core.Helpers.Interfaces;
+using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
 {
@@ -19,48 +22,19 @@ namespace TestProject.Core.ViewModels
     {
         #region Fields
 
-        private readonly IMvxNavigationService _navigationService;
         private readonly IUserDialogs _userDialogs;
-        private ResultModel _userTask;
-        private MvxObservableCollection<MenuItem> _menuItems;
-        private TaskListViewModel _taskList;
-        private User _userProfile;
+
+        private readonly IUserHelper _userHelper;
 
         #endregion
 
         #region Propertys
 
-        public ResultModel UserTask
-        {
-            get
-            {
-                return _userTask;
-            }
-            set
-            {
-                _userTask = value;
-            }
-        }
+        public ResultModel UserTask { get; set; }
 
-        public User Profile
-        {
-            get
-            {
-                return _userProfile;
-            }
-            set
-            {
-                SetProperty(ref _userProfile, value);
-            }
-        }
+        public User Profile { get; set; }
 
-        public MvxColor MainTheme
-        {
-            get
-            {
-                return MainTheme;
-            }
-        }
+        public MvxColor MainTheme { get; set; }
 
         public MvxColor MenuColor
         {
@@ -70,28 +44,19 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public MvxObservableCollection<MenuItem> MenuItems
-        {
-            get
-            {
-                return _menuItems;
-            }
-            set
-            {
-                SetProperty(ref _menuItems, value);
-            }
-        }
+        public MvxObservableCollection<MenuItem> MenuItems { get; set; }
 
         #endregion
 
 
-        public MenuViewModel(IMvxNavigationService navigationService, IUserDialogs userDialogs, ILoginService loginService)
+        public MenuViewModel(IMvxNavigationService navigationService, IUserDialogs userDialogs, ILoginRepository loginService, IUserHelper userHelper)
         {
-            _navigationService = navigationService;
+            NavigationService = navigationService;
             _userDialogs = userDialogs;
-            Int32 userId = Int32.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.UserId));
-            Profile = loginService.TakeProfile(userId);
-            _menuItems = new MvxObservableCollection<MenuItem>()
+            _userHelper = userHelper;
+            int userId = _userHelper.GetUserId();
+            Profile = loginService.GetDate(userId);
+            MenuItems = new MvxObservableCollection<MenuItem>()
             {
                 new MenuItem
                 {
@@ -121,16 +86,15 @@ namespace TestProject.Core.ViewModels
                 {
                     var logOut = await _userDialogs.ConfirmAsync(new ConfirmConfig
                     {
-                        Title = "Alert Messege",
-                        Message = "Do you want logout?",
-                        OkText = "Yes",
-                        CancelText = "No"
+                        Title = Strings.AlertMessege,
+                        Message = Strings.Logout,
+                        OkText = Strings.YesText,
+                        CancelText = Strings.NoText
                     });
                     if (logOut)
                     {
-                        CrossSecureStorage.Current.DeleteKey(SecureConstant.Status);
-                        await _navigationService.Navigate<MainRegistrationViewModel>();
-                        //await _navigationService.Close(this);
+                        _userHelper.DeleteUserStatus();
+                        await NavigationService.Navigate<MainRegistrationViewModel>();
                     }
                     if (!logOut)
                     {
@@ -169,7 +133,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    await _navigationService.Navigate<UserLocationViewModel>();
+                    await NavigationService.Navigate<UserLocationViewModel>();
                 });
             }
         }
@@ -181,7 +145,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async() =>
                 {
-                    await _navigationService.Navigate<UserProfileViewModel>();
+                    await NavigationService.Navigate<UserProfileViewModel>();
                 });
             }
         }

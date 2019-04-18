@@ -15,7 +15,7 @@ namespace TestProject.iOS.Source
     public class MenuItemSource 
         : MvxTableViewSource
     {
-        public String cellIdentifier = "ContentNavigateCell";
+        public string cellIdentifier = "ContentNavigateCell";
 
         public MenuItemSource(UITableView tableView) : base(tableView)
         {

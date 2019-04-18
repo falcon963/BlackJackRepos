@@ -11,7 +11,7 @@ namespace TestProject.iOS.CustomControls
     class BaseView:
         UIView
     {
-        private Boolean _didSetupConstraints;
+        private bool _didSetupConstraints;
 
         public BaseView()
         {

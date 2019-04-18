@@ -11,13 +11,13 @@ using UIKit;
 namespace TestProject.iOS.Converters
 {
     public class TaskTitleValueConverter
-        : MvxValueConverter<String, String>
+        : MvxValueConverter<string, string>
     {
         protected override string Convert(string value, Type targetType, object parameter, CultureInfo culture)
         {
             if(value == null)
             {
-                String title = "New Task";
+                string title = "New Task";
                 return title;
             }
             return value;

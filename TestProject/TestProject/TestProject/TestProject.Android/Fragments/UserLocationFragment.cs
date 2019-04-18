@@ -34,7 +34,7 @@ namespace TestProject.Droid.Fragments
 
         private GoogleMap _googleMap;
         private MapView _mapView;
-        private Object thisLock = new Object();
+        private object thisLock = new object();
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -87,29 +87,29 @@ namespace TestProject.Droid.Fragments
 
 
 
-        public void GetRandomLocation(LatLng point, Int32 radius)
+        public void GetRandomLocation(LatLng point, int radius)
         {
-                for (Int32 i = 0; i < 5; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     Thread.Sleep(10);
                     Random random = new Random();
 
-                    Double x0 = point.Latitude;
-                    Double y0 = point.Longitude;
+                    double x0 = point.Latitude;
+                    double y0 = point.Longitude;
 
-                    Double radiusInDegrees = radius / 111000f;
+                    double radiusInDegrees = radius / 111000f;
 
-                    Double u = random.NextDouble();
-                    Double v = random.NextDouble();
-                    Double w = radiusInDegrees * Math.Sqrt(u);
-                    Double t = 2 * Math.PI * v;
-                    Double x = w * Math.Cos(t);
-                    Double y = w * Math.Sin(t);
+                    double u = random.NextDouble();
+                    double v = random.NextDouble();
+                    double w = radiusInDegrees * Math.Sqrt(u);
+                    double t = 2 * Math.PI * v;
+                    double x = w * Math.Cos(t);
+                    double y = w * Math.Sin(t);
 
-                    Double new_x = x / Math.Cos(y0);
+                    double new_x = x / Math.Cos(y0);
 
-                    Double foundLatitude = new_x + x0;
-                    Double foundLongitude = y + y0;
+                    double foundLatitude = new_x + x0;
+                    double foundLongitude = y + y0;
 
                     LatLng randomLatLng = new LatLng(foundLatitude, foundLongitude);
                     MarkerOptions markerRandomOptions = new MarkerOptions();

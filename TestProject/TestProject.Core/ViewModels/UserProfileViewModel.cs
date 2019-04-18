@@ -6,9 +6,12 @@ using Plugin.SecureStorage;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TestProject.Core.Constant;
+using TestProject.Core.Constants;
+using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Interfaces;
 using TestProject.Core.Models;
+using TestProject.Core.Repositorys.Interfaces;
+using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
 {
@@ -18,46 +21,36 @@ namespace TestProject.Core.ViewModels
 
         #region Fields
 
-        private User _profile;
-        private readonly IMvxNavigationService _navigationService;
-        private readonly ILoginService _loginService;
-        private String _oldPassword;
-        private String _newPassword;
-        private String _confirmPassword;
-        private MvxColor _background;
-        private bool _eneble;
-        private MvxColor _oldPasswordFieldColor;
-        private MvxColor _confirmColor;
+        private readonly ILoginRepository _loginService;
         private readonly IUserDialogs _userDialogs;
+        private readonly IUserHelper _userHelper;
+        private readonly ICheckNullOrWhiteSpaceHelper _checkHelper;
+        private string _oldPassword;
+        private string _newPassword;
+        private string _confirmPassword;
 
         #endregion
 
-        public UserProfileViewModel(IMvxNavigationService navigationService, ILoginService loginService, IUserDialogs userDialogs)
+        public UserProfileViewModel(IMvxNavigationService navigationService, ILoginRepository loginService,
+            IUserDialogs userDialogs, IUserHelper userHelper, ICheckNullOrWhiteSpaceHelper checkHelper)
         {
-            _navigationService = navigationService;
+            NavigationService = navigationService;
             _loginService = loginService;
             _userDialogs = userDialogs;
-            Int32 userId = Int32.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.UserId));
-            Profile = _loginService.TakeProfile(userId);
+            _checkHelper = checkHelper;
+            _userHelper = userHelper;
+            int userId = _userHelper.GetUserId();
+            Profile = _loginService.GetDate(userId);
             Background = new MvxColor(251, 192, 45);
             ConfirmColor = new MvxColor(241, 241, 241);
             OldPasswordFieldColor = new MvxColor(241, 241, 241);
         }
 
         #region Propertys
-        public User Profile
-        {
-            get
-            {
-                return _profile;
-            }
-            set
-            {
-                SetProperty(ref _profile, value);
-            }
-        }
 
-        public String OldPassword
+        public User Profile { get; set; }
+
+        public string OldPassword
         {
             get
             {
@@ -90,7 +83,7 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public String NewPassword
+        public string NewPassword
         {
             get
             {
@@ -101,8 +94,7 @@ namespace TestProject.Core.ViewModels
                 SetProperty(ref _newPassword, value);
                 CheckEnableStatus();
                 if (NewPassword == ConfirmPassword
-                    && !String.IsNullOrEmpty(NewPassword)
-                    && !String.IsNullOrWhiteSpace(NewPassword))
+                    && !_checkHelper.Check2FieldsConfirm(NewPassword, ConfirmPassword))
                 {
                     ConfirmColor = new MvxColor(54, 255, 47);
                 }
@@ -110,18 +102,14 @@ namespace TestProject.Core.ViewModels
                 {
                     ConfirmColor = new MvxColor(241, 241, 241);
                 }
-                if (String.IsNullOrEmpty(NewPassword) && String.IsNullOrEmpty(ConfirmPassword))
-                {
-                    ConfirmColor = new MvxColor(241, 241, 241);
-                }
-                if (String.IsNullOrWhiteSpace(NewPassword) && String.IsNullOrWhiteSpace(ConfirmPassword))
+                if (!_checkHelper.Check2FieldsConfirm(NewPassword, ConfirmPassword))
                 {
                     ConfirmColor = new MvxColor(241, 241, 241);
                 }
             }
         }
 
-        public String ConfirmPassword
+        public string ConfirmPassword
         {
             get
             {
@@ -132,8 +120,7 @@ namespace TestProject.Core.ViewModels
                 SetProperty(ref _confirmPassword, value);
                 CheckEnableStatus();
                 if (NewPassword == ConfirmPassword
-                    && !String.IsNullOrEmpty(ConfirmPassword)
-                    && !String.IsNullOrWhiteSpace(ConfirmPassword))
+                    && !_checkHelper.Check2FieldsConfirm(NewPassword, ConfirmPassword))
                 {
                     ConfirmColor = new MvxColor(54, 255, 47);
                 }
@@ -141,60 +128,21 @@ namespace TestProject.Core.ViewModels
                 {
                     ConfirmColor = new MvxColor(241, 241, 241);
                 }
-                if (String.IsNullOrEmpty(NewPassword) && String.IsNullOrEmpty(ConfirmPassword))
+                if (!_checkHelper.Check2FieldsConfirm(NewPassword, ConfirmPassword))
                 {
                     ConfirmColor = new MvxColor(241, 241, 241);
                 }
             }
         }
 
-        public MvxColor Background
-        {
-            get
-            {
-                return _background;
-            }
-            set
-            {
-                SetProperty(ref _background, value);
-            }
-        }
+        public MvxColor Background { get; set; }
 
-        public Boolean PassChangeEneble
-        {
-            get
-            {
-                return _eneble;
-            }
-            set
-            {
-                SetProperty(ref _eneble, value);
-            }
-        }
+        public bool PassChangeEneble { get; set; }
 
-        public MvxColor OldPasswordFieldColor
-        {
-            get
-            {
-                return _oldPasswordFieldColor;
-            }
-            set
-            {
-                SetProperty(ref _oldPasswordFieldColor, value);
-            }
-        }
+        public MvxColor OldPasswordFieldColor { get; set; }
 
-        public MvxColor ConfirmColor
-        {
-            get
-            {
-                return _confirmColor;
-            }
-            set
-            {
-                SetProperty(ref _confirmColor, value);
-            }
-        }
+        public MvxColor ConfirmColor { get; set; }
+
         #endregion
         #region Commands
 
@@ -205,7 +153,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async() =>
                 {
-                    await _navigationService.Close(this);
+                    await NavigationService.Close(this);
                 });
             }
         }
@@ -220,34 +168,34 @@ namespace TestProject.Core.ViewModels
                     if (PassChangeEneble == true)
                     {
                         _loginService.ChangePassword(Profile.Id, NewPassword);
-                        CrossSecureStorage.Current.SetValue(SecureConstant.Password, NewPassword);
+                        _userHelper.SetUserPassword(NewPassword);
                     }
-                    if ((ConfirmPassword != null || NewPassword != null || OldPassword != null) && OldPassword != Profile.Password)
+                    if ((_checkHelper.Check3Strings(ConfirmPassword, NewPassword, OldPassword)) && OldPassword != Profile.Password)
                     {
                         var alertPass = UserDialogs.Instance.Alert(
                             new AlertConfig
                             {
-                                Message = MessengeFields.UserPassword,
-                                OkText = MessengeFields.OkText,
+                                Message = Strings.UserPassword,
+                                OkText = Strings.OkText,
                             });
                         return;
                     }
-                    if ((ConfirmPassword != null || NewPassword != null || OldPassword != null) && NewPassword != ConfirmPassword)
+                    if ((_checkHelper.Check3Strings(ConfirmPassword, NewPassword, OldPassword)) && NewPassword != ConfirmPassword)
                     {
                         var alertPass = UserDialogs.Instance.Alert(
                             new AlertConfig
                             {
-                                Message = MessengeFields.WrongPassword,
-                                OkText = MessengeFields.OkText,
+                                Message = Strings.WrongPassword,
+                                OkText = Strings.OkText,
                             });
                         return;
                     }
                     var alert = UserDialogs.Instance.Alert(
                             new AlertConfig
                             {
-                                Message = MessengeFields.Success,
-                                OkText = MessengeFields.OkText,
-                                Title = MessengeFields.Success
+                                Message = Strings.Success,
+                                OkText = Strings.OkText,
+                                Title = Strings.Success
                             });
                     _loginService.ChangeImage(Profile.Id, Profile.ImagePath);
                 });
@@ -262,16 +210,16 @@ namespace TestProject.Core.ViewModels
                 {
                     var logOut = await _userDialogs.ConfirmAsync(new ConfirmConfig
                     {
-                        Title = "Alert Messege",
-                        Message = "Do you want logout?",
-                        OkText = "Yes",
-                        CancelText = "No"
+                        Title = Strings.AlertMessege,
+                        Message = Strings.Logout,
+                        OkText = Strings.YesText,
+                        CancelText = Strings.NoText
                     });
                     if (logOut)
                     {
-                        CrossSecureStorage.Current.DeleteKey(SecureConstant.Status);
-                        CrossSecureStorage.Current.DeleteKey(SecureConstant.AccessToken);
-                        await _navigationService.Navigate<MainRegistrationViewModel>();
+                        _userHelper.DeleteUserStatus();
+                        _userHelper.DeleteUserAccessToken();
+                        await NavigationService.Navigate<MainRegistrationViewModel>();
                     }
                     if (!logOut)
                     {
@@ -291,9 +239,9 @@ namespace TestProject.Core.ViewModels
                     var alert = UserDialogs.Instance.Alert(
                             new AlertConfig
                             {
-                                Message = MessengeFields.Success,
-                                OkText = MessengeFields.OkText,
-                                Title = MessengeFields.Success
+                                Message = Strings.Success,
+                                OkText = Strings.OkText,
+                                Title = Strings.Success
                             });
                     _loginService.ChangeImage(Profile.Id, Profile.ImagePath);
                 });
@@ -308,11 +256,7 @@ namespace TestProject.Core.ViewModels
         {
             if (OldPassword == Profile.Password
                     && NewPassword == ConfirmPassword
-                    && !String.IsNullOrEmpty(NewPassword)
-                    && !String.IsNullOrEmpty(ConfirmPassword)
-                    && !String.IsNullOrWhiteSpace(NewPassword)
-                    && !String.IsNullOrWhiteSpace(OldPassword)
-                    && !String.IsNullOrWhiteSpace(ConfirmPassword))
+                    && _checkHelper.Check3FieldsConfirm(NewPassword, OldPassword, ConfirmPassword))
             {
                 PassChangeEneble = true;
             }

@@ -26,6 +26,10 @@ using Android.Support.V7.Widget;
 using Android;
 using TestProject.Droid.Views;
 using Android.Support.V4.Widget;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
+using Uri = Android.Net.Uri;
+using Path = System.IO.Path;
+using File = Java.IO.File;
 
 namespace TestProject.Droid.Fragments
 {
@@ -39,33 +43,22 @@ namespace TestProject.Droid.Fragments
     {
        
         private LinearLayout _linearLayout;
-        private Android.Support.V7.Widget.Toolbar _toolbar;
+        private Toolbar _toolbar;
         private ImageView _imageView;
         private static readonly Int32 REQUEST_CAMERA = 0;
         private static readonly Int32 SELECT_FILE = 1;
         private Bitmap _bitmap;
-        private Android.Net.Uri _uriImage;
 
         protected override int FragmentId => Resource.Layout.TaskFragment;
 
-        public Android.Net.Uri ImageUri
-        {
-            get
-            {
-                return _uriImage;
-            }
-            set
-            {
-                _uriImage = value;
-            }
-        }
+        public Uri ImageUri { get; set; }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
             _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.task_linearlayout);
-            _toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.fragment_toolbar);
+            _toolbar = view.FindViewById<Toolbar>(Resource.Id.fragment_toolbar);
             _imageView = view.FindViewById<ImageView>(Resource.Id.image_view);
 
             _imageView.Click += OnAddPhotoClicked;
@@ -81,7 +74,7 @@ namespace TestProject.Droid.Fragments
                 }
                 catch (Java.Lang.OutOfMemoryError)
                 {
-                    System.GC.Collect();
+                    GC.Collect();
                 }
             }
 
@@ -96,7 +89,7 @@ namespace TestProject.Droid.Fragments
                 }
                 catch (Java.Lang.OutOfMemoryError)
                 {
-                    System.GC.Collect();
+                    GC.Collect();
                 }
             }
 
@@ -135,8 +128,8 @@ namespace TestProject.Droid.Fragments
                 && requestCode == 1)
             {
                 var sdCardPath = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
-                string name = "Test_Project_" + System.DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
-                var filePath = System.IO.Path.Combine(sdCardPath, name);
+                string name = "Test_Project_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
+                var filePath = Path.Combine(sdCardPath, name);
                 var stream = new FileStream(filePath, FileMode.Create);
 
                 Bitmap bitmap = BitmapFactory.DecodeFile(GetRealPathFromURI(data.Data));
@@ -145,8 +138,8 @@ namespace TestProject.Droid.Fragments
                     using (MemoryStream writer = new MemoryStream())
                     {
                         bitmap.Compress(Bitmap.CompressFormat.Jpeg, 40, writer);
-                        Java.IO.File resizeUri = GetPhotoFileUri("Test_Project_" + System.DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_resize" + ".jpg");
-                        Java.IO.File resizeFile = new Java.IO.File(resizeUri.Path);
+                        File resizeUri = GetPhotoFileUri("Test_Project_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_resize" + ".jpg");
+                        File resizeFile = new File(resizeUri.Path);
                         resizeFile.CreateNewFile();
                         FileOutputStream fos = new FileOutputStream(resizeFile);
                         fos.Write(writer.ToArray());
@@ -160,7 +153,7 @@ namespace TestProject.Droid.Fragments
                     }
                 }
                 catch (Java.Lang.OutOfMemoryError) {
-                    System.GC.Collect();
+                    GC.Collect();
                 }
 
             }
@@ -170,27 +163,27 @@ namespace TestProject.Droid.Fragments
             }
         }
 
-        private Android.Net.Uri GetImageUri(Context context, Bitmap inImage)
+        private Uri GetImageUri(Context context, Bitmap inImage)
         {
             String path = MediaStore.Images.Media.InsertImage(context.ContentResolver, inImage, "Title", null);
-            return Android.Net.Uri.Parse(path);
+            return Uri.Parse(path);
         }
 
 
-        public Java.IO.File GetPhotoFileUri(String fileName)
+        public File GetPhotoFileUri(String fileName)
         {
-            Java.IO.File mediaStorageDir = new Java.IO.File(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath);
+            File mediaStorageDir = new File(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath);
 
-            Java.IO.File file = new Java.IO.File(mediaStorageDir.Path + Java.IO.File.Separator + fileName);
+            File file = new File(mediaStorageDir.Path + File.Separator + fileName);
 
             return file;
         }
 
-        public String GetRealPathFromURI(Android.Net.Uri contentUri)
+        public String GetRealPathFromURI(Uri contentUri)
         {
-            String[] proj = { Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data };
+            String[] proj = { MediaStore.Images.Media.InterfaceConsts.Data };
             var cursor = this.Activity.ContentResolver.Query(contentUri, proj, null, null, null);
-            int column_index = cursor.GetColumnIndexOrThrow(Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data);
+            int column_index = cursor.GetColumnIndexOrThrow(MediaStore.Images.Media.InterfaceConsts.Data);
 
             cursor.MoveToFirst();
 
@@ -214,10 +207,10 @@ namespace TestProject.Droid.Fragments
             if(label == "Camera")
             {
                 var sdCardPath = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
-                string name = "Test_Project_" + System.DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
-                var filePath = System.IO.Path.Combine(sdCardPath, name);
-                Java.IO.File image = new Java.IO.File(filePath);
-                ImageUri = Android.Net.Uri.FromFile(image);
+                string name = "Test_Project_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
+                var filePath = Path.Combine(sdCardPath, name);
+                File image = new File(filePath);
+                ImageUri = Uri.FromFile(image);
                 var intent = new Intent(MediaStore.ActionImageCapture);
                 intent.PutExtra(MediaStore.ExtraOutput, ImageUri);
                 this.StartActivityForResult(intent, REQUEST_CAMERA);

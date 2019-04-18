@@ -13,7 +13,7 @@ using System.Json;
 using TestProject.Core.Interfaces.SocialService.Facebook;
 using TestProject.Core.Interfaces.SocialService.Google;
 using TestProject.Core.Authentication;
-using TestProject.Core.Constant;
+using TestProject.Core.Constants;
 using TestProject.Core.Models;
 using SafariServices;
 using CoreAnimation;
@@ -72,7 +72,7 @@ namespace TestProject.iOS.Views
             var set = this.CreateBindingSet<LoginView, LoginViewModel>();
             set.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion(new ColorValueConverter());
             set.Bind(RegistrationButton).To(vm => vm.GoRegistrationPageCommand);
-            set.Bind(RememberSwitch).To(vm => vm.RememberMeStatus);
+            set.Bind(RememberSwitch).To(vm => vm.IsRememberMeStatus);
             set.Bind(LoginButton).To(vm => vm.LoginCommand);
             set.Bind(PasswordField).To(vm => vm.Password);
             set.Bind(LoginField).To(vm => vm.Login);

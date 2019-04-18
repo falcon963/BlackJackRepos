@@ -10,10 +10,12 @@ using System.Threading.Tasks;
 using SQLitePCL;
 using System.Linq;
 using Plugin.SecureStorage;
-using TestProject.Core.Constant;
+using TestProject.Core.Constants;
 using Acr.UserDialogs;
 using System.Reflection;
 using MvvmCross.UI;
+using TestProject.Core.Repositorys.Interfaces;
+using TestProject.Core.Helpers.Interfaces;
 
 namespace TestProject.Core.ViewModels
 {
@@ -23,73 +25,36 @@ namespace TestProject.Core.ViewModels
 
         #region Fields
 
-        private readonly IMvxNavigationService _navigationService;
-        private readonly ITasksService _taskService;
-        private bool _isRefreshing;
-        private ResultModel _userTask;
+        private readonly ITasksRepository _taskService;
         private readonly IUserDialogs _userDialogs;
-
-        private MvxObservableCollection<UserTask> _listOfTasks;
+        private readonly IUserHelper _userHelper;
 
         #endregion
 
-        public TaskListViewModel(IMvxNavigationService navigationService, ITasksService taskService, IUserDialogs userDialogs)
+        public TaskListViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs, IUserHelper userHelper)
         {
-            _listOfTasks = new MvxObservableCollection<UserTask>();
             ListOfTasks = new MvxObservableCollection<UserTask>();
-            _navigationService = navigationService;
+            NavigationService = navigationService;
             _taskService = taskService;
             _userDialogs = userDialogs;
+            _userHelper = userHelper;
         }
 
         #region Propertys
 
-        public ResultModel UserTask
-        {
-            get
-            {
-                return _userTask;
-            }
-            set
-            {
-                SetProperty(ref _userTask, value);
-            }
-        }
+        public ResultModel UserTask { get; set; }
 
-        public virtual bool IsRefreshing
-        {
-            get
-            {
-                return _isRefreshing;
-            }
-            set
-            {
-                _isRefreshing = value;
-                RaisePropertyChanged(() => IsRefreshing);
-            }
-        }
+        public MvxObservableCollection<UserTask> ListOfTasks { get; set; }
 
-        public MvxObservableCollection<UserTask> ListOfTasks
-        {
-            get
-            {
-                return _listOfTasks;
-            }
-            set
-            {
-                SetProperty(ref _listOfTasks, value);
-            }
-        }
+        public virtual bool IsRefreshing { get; set; }
 
         #endregion
 
-        public override  Task Initialize()
+        public override Task Initialize()
         {
-            MvxObservableCollection<UserTask> result = new MvxObservableCollection<UserTask>();
-            Task.Factory.StartNew(async () =>
+            Task.Run(async () =>
             {
-                result = await UserTaskInitialize();
-                ListOfTasks = result;
+                await UserTaskInitialize();
             });
             return base.Initialize();
         }
@@ -102,23 +67,21 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public async Task<MvxObservableCollection<UserTask>> UserTaskInitialize()
+        public async Task UserTaskInitialize()
         {
-            Int32 userId = Int32.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.UserId));
-            List<Int32> list = _taskService.GetUserTasksIdAsync(userId);
+            var userId = _userHelper.GetUserId();
+            List<UserTask> list = _taskService.GetUserTasks(userId);
             foreach (var item in list)
             {
-                var task = _taskService.GetUserTaskAsync(item);
                 ListOfTasks.Add(new UserTask
                 {
-                    Id = task.Id,
-                    UserId = task.UserId,
-                    ImagePath = task.ImagePath,
-                    Title = task.Title,
-                    Status = task.Status
+                    Id = item.Id,
+                    UserId = item.UserId,
+                    ImagePath = item.ImagePath,
+                    Title = item.Title,
+                    Status = item.Status
                 });
             }
-            return ListOfTasks;
         }
 
         
@@ -145,30 +108,18 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public IMvxCommand TakeTasksCommand
-        {
-            get
-            {
-                return new MvxCommand(() =>
-                {
-                    Int32 userId = Int32.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.UserId));
-                    var result = _taskService.GetUserTasksIdAsync(userId);
-                });
-            }
-        }
-
         public IMvxAsyncCommand ShowTaskCommand
         {
             get
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    ResultModel result = await _navigationService.Navigate<TaskViewModel, Int32, ResultModel>(0);
+                    ResultModel result = await NavigationService.Navigate<TaskViewModel, int, ResultModel>(0);
                     if (result == null)
                     {
                         return;
                     }
-                    if (result.Result == Enum.UserTaskResult.Save)
+                    if (result.Result == Enum.UserTaskResult.Saved)
                     {
                         ListOfTasks.Add(result.Changes);
                     }
@@ -184,20 +135,18 @@ namespace TestProject.Core.ViewModels
                 return new MvxCommand(() =>
                 {
                     IsRefreshing = true;
-
-                    Int32 userId = Int32.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.UserId));
-                    List<Int32> list = _taskService.GetUserTasksIdAsync(userId);
+                    var userId = _userHelper.GetUserId();
+                    List<UserTask> list = _taskService.GetUserTasks(userId);
                     var listTasks = new List<UserTask>();
                     foreach (var item in list)
                     {
-                        var task = _taskService.GetUserTaskAsync(item);
                         listTasks.Add(new UserTask
                         {
-                            Id = task.Id,
-                            UserId = task.UserId,
-                            ImagePath = task.ImagePath,
-                            Title = task.Title,
-                            Status = task.Status
+                            Id = item.Id,
+                            UserId = item.UserId,
+                            ImagePath = item.ImagePath,
+                            Title = item.Title,
+                            Status = item.Status
                         });
                     }
                     ListOfTasks.ReplaceWith(listTasks);
@@ -214,29 +163,30 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxCommand<UserTask>(async (item) =>
                 {
-                    var result = await _navigationService.Navigate<TaskViewModel, Int32, ResultModel>(item.Id);
+                    var result = await NavigationService.Navigate<TaskViewModel, int, ResultModel>(item.Id);
                     if (result == null)
                     {
                         return;
                     }
-                    if(result.Result == Enum.UserTaskResult.Delete)
+                    if(result.Result == Enum.UserTaskResult.Deleted)
                     {
-                        var delete = ListOfTasks.Select(p => p)
-                        .Where(p => p.Id == result.Changes.Id)
-                        .FirstOrDefault();
+                        var delete = ListOfTasks.FirstOrDefault(p => p.Id == result.Changes.Id);
+                        if(delete == null)
+                        {
+                            return;
+                        }
                         ListOfTasks.Remove(delete);
                         return;
                     }
-                    if(result.Result == Enum.UserTaskResult.UnChangeunchanged)
+                    if(result.Result == Enum.UserTaskResult.NotChanged)
                     {
                         return;
                     }
-                    if (result.Result == Enum.UserTaskResult.Save)
+                    if (result.Result == Enum.UserTaskResult.Saved)
                     {
-                        var modelToUpdate = ListOfTasks.Select(p => p)
-                        .Where(p => p.Id == result.Changes.Id)
-                        .FirstOrDefault();
-                        ListOfTasks[ListOfTasks.IndexOf(modelToUpdate)] = result.Changes;
+                        var modelToUpdate = ListOfTasks.FirstOrDefault(p => p.Id == result.Changes.Id);
+                        var index = ListOfTasks.IndexOf(modelToUpdate);
+                        ListOfTasks[index] = result.Changes;
                     }
                 });
             }

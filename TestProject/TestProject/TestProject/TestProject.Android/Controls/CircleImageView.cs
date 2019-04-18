@@ -29,7 +29,7 @@ namespace TestProject.Droid.Controls
 
         private Shader _bitmapShader;
         private Matrix _shaderMatrix;
-        private Boolean _Initialized;
+        private bool _Initialized;
 
         private RectF _bitmapDrawBounds;
         private RectF _strokeBounds;
@@ -141,7 +141,7 @@ namespace TestProject.Droid.Controls
         }
 
 
-        private Boolean IsInCircle(float x, float y)
+        private bool IsInCircle(float x, float y)
         {
             double distance = Math.Sqrt(
                     Math.Pow(_bitmapDrawBounds.CenterX() - x, 2) + 

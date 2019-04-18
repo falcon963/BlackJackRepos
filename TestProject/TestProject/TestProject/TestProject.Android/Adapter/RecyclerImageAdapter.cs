@@ -31,8 +31,8 @@ namespace TestProject.Droid.Adapter
     {
         private List<UserTask> _tasksList;
         private List<UserTask> _tasksListPendingRemoval;
-        public event EventHandler<Int32> ItemClick;
-        private readonly Int32 PENDING_REMOVAL_TIMEOUT = 3000;
+        public event EventHandler<int> ItemClick;
+        private readonly int PENDING_REMOVAL_TIMEOUT = 3000;
         private TasksFragment _tasksFragment;
 
         private Handler _handler = new Handler();
@@ -60,20 +60,20 @@ namespace TestProject.Droid.Adapter
         }
 
         public override RecyclerView.ViewHolder 
-            OnCreateViewHolder(ViewGroup parent, Int32 viewType)
+            OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             View itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.ListItemView, parent, false);
             ImageViewHolder holder = new ImageViewHolder(itemView, OnClick);
             return holder;
         }
 
-        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, Int32 position)
+        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             ImageViewHolder viewHolder = holder as ImageViewHolder;
 
             UserTask item = Tasks[position];
 
-            Boolean contains = _tasksListPendingRemoval.Contains(item);
+            bool contains = _tasksListPendingRemoval.Contains(item);
 
             if (contains)
             {
@@ -141,7 +141,7 @@ namespace TestProject.Droid.Adapter
             
         }
 
-        public void PendingRemoval(Int32 position)
+        public void PendingRemoval(int position)
         {
             UserTask item = Tasks[position];
             if (!_tasksListPendingRemoval.Contains(item))
@@ -157,7 +157,7 @@ namespace TestProject.Droid.Adapter
             }
         }
 
-        public void Remove(Int32 position)
+        public void Remove(int position)
         {
             UserTask item = Tasks[position];
             if (_tasksListPendingRemoval.Contains(item))
@@ -183,25 +183,25 @@ namespace TestProject.Droid.Adapter
         }
 
 
-        public void OnClick(Int32 position)
+        public void OnClick(int position)
         {
             ItemClick?.Invoke(this, position);
         }
 
 
-        public static Int32 CalculateInSampleSize(BitmapFactory.Options options, Int32 reqWidth, Int32 reqHeight)
+        public static int CalculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
         {
 
-            Int32 height = options.OutHeight;
-            Int32 width = options.OutWidth;
-            Int32 inSampleSize = 1;
+            int height = options.OutHeight;
+            int width = options.OutWidth;
+            int inSampleSize = 1;
 
             if (height > reqHeight
                 || width > reqWidth)
             {
 
-                Int32 halfHeight = height / 2;
-                Int32 halfWidth = width / 2;
+                int halfHeight = height / 2;
+                int halfWidth = width / 2;
 
 
                 while ((halfHeight / inSampleSize) >= reqHeight

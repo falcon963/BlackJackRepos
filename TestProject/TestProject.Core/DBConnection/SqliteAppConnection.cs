@@ -11,19 +11,7 @@ namespace TestProject.Core.DBConnection
 {
     public class SqliteAppConnection
     {
-        private SQLiteConnection _database;
-
-        public SQLiteConnection Database
-        {
-            get
-            {
-                return _database;
-            }
-            set
-            {
-                _database = value;
-            }
-        }
+        public SQLiteConnection Database { get; set; }
 
         public SqliteAppConnection(IDatabaseConnectionService connectionService)
         {

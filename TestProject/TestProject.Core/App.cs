@@ -8,6 +8,8 @@ using MvvmCross;
 using Acr.UserDialogs;
 using TestProject.Core.Interfaces;
 using TestProject.Core.Services;
+using MvvmCross.Localization;
+using TestProject.Resources;
 
 namespace TestProject.Core
 {
@@ -21,6 +23,7 @@ namespace TestProject.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
+            Mvx.IoCProvider.RegisterSingleton(() => new ResxTextProvider(Strings.ResourceManager));
             Mvx.IoCProvider.RegisterSingleton(() => UserDialogs.Instance);
             RegisterCustomAppStart<AppStart>();
         }
