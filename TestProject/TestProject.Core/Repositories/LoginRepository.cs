@@ -5,12 +5,12 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TestProject.Core.Constants;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 using TestProject.Core.Models;
 using TestProject.Core.DBConnection;
-using TestProject.Core.Repositorys.Interfaces;
+using TestProject.Core.Repositories.Interfacies;
 
-namespace TestProject.Core.Repositorys
+namespace TestProject.Core.Repositories
 {
     public class LoginRepository
         : ILoginRepository
@@ -82,15 +82,30 @@ namespace TestProject.Core.Repositorys
             _dbConnection.Database.Delete(item);
         }
 
-        public void DeleteById(int id)
+        public void Delete(int id)
         {
             var user = _dbConnection.Database.Table<User>().Where(v => v.Id == id).FirstOrDefault();
             _dbConnection.Database.Delete(user);
         }
 
-        public User GetDate(int id)
+        public User Get(int id)
         {
             return _dbConnection.Database.Table<User>().Where(v => v.Id == id).FirstOrDefault();
+        }
+
+        public void SaveRange(List<User> list)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteRange(List<User> list)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<User> GetRange(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

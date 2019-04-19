@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TestProject.Core.Enum
+namespace TestProject.Core.Enums
 {
     public enum UserTaskResult
     {

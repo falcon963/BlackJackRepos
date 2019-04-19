@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 
 namespace TestProject.Core.ViewModels
 {

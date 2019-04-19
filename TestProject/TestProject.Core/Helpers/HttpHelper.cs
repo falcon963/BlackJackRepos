@@ -10,38 +10,25 @@ namespace TestProject.Core.Helpers
 {
     public class HttpHelper
     {
-        private string RequestUrl { get; set; }
+        private string _requestUrl;
 
-        private HttpClient HttpClient { get; set; }
+        private readonly HttpClient _httpClient;
 
         public HttpHelper()
         {
-            HttpClient = new HttpClient();
+            _httpClient = new HttpClient();
         }
 
-        public async Task<string> Post<T>(string accessToken, T type)
+        public async Task<T> Get<T>(string Url)
         {
-            if(type is GoogleProfileModel)
-            {
-                RequestUrl = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token={accessToken}";
-            }
+            var json = await _httpClient.GetStringAsync(Url);
 
-            if (type is FacebookProfileModel)
-            {
-                RequestUrl = "https://graph.facebook.com/me?fields=email,id,name,picture&access_token={accessToken}";
-            }
-
-            return await HttpClient.GetStringAsync(RequestUrl);
-        }
-
-        public T Deserialize<T>(string json)
-        {
             return JsonConvert.DeserializeObject<T>(json);
         }
 
         public async Task<byte[]> GetByte(string imageUrl)
         {
-            return await HttpClient.GetByteArrayAsync(imageUrl);
+            return await _httpClient.GetByteArrayAsync(imageUrl);
         }
     }
 }

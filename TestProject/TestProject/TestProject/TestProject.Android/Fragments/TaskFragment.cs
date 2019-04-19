@@ -21,7 +21,7 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.Views;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.ViewModels;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 using Android.Support.V7.Widget;
 using Android;
 using TestProject.Droid.Views;

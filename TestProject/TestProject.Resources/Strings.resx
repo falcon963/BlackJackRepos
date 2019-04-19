@@ -129,6 +129,12 @@
   <data name="ChangeLoseMessege" xml:space="preserve">
     <value>If you go on TaskyDrop whithout save, you changes will be lose! Do you want this?</value>
   </data>
+  <data name="ConfirmPasswordFieldIsEmpty" xml:space="preserve">
+    <value>ConfirmPassword must be required</value>
+  </data>
+  <data name="ConfirmPasswordNotComparePassword" xml:space="preserve">
+    <value>Confirm Password must be compare Password</value>
+  </data>
   <data name="DeleteMessege" xml:space="preserve">
     <value>Do you want delete this task?</value>
   </data>
@@ -140,6 +146,9 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login already use!</value>
+  </data>
+  <data name="LoginFieldIsEmpty" xml:space="preserve">
+    <value>Login must be required</value>
   </data>
   <data name="LoginUse" xml:space="preserve">
     <value>Login use</value>
@@ -153,6 +162,9 @@
   <data name="OkText" xml:space="preserve">
     <value>Ok</value>
   </data>
+  <data name="PasswordFieldIsEmpty" xml:space="preserve">
+    <value>Password must be required</value>
+  </data>
   <data name="PasswordMustContent8Char" xml:space="preserve">
     <value>Password must content 8 char!</value>
   </data>
@@ -164,6 +176,9 @@
   </data>
   <data name="Registrate" xml:space="preserve">
     <value>Registrate successful! Return on Login Page?</value>
+  </data>
+  <data name="RegularError" xml:space="preserve">
+    <value>Password must content 8 char, number char and upper char.</value>
   </data>
   <data name="Success" xml:space="preserve">
     <value>Success!</value>

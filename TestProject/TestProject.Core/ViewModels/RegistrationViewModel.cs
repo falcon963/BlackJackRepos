@@ -5,13 +5,15 @@ using MvvmCross.UI;
 using Plugin.SecureStorage;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Resources;
 using System.Text;
 using System.Text.RegularExpressions;
 using TestProject.Core.Constants;
 using TestProject.Core.Helpers.Interfaces;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 using TestProject.Core.Models;
-using TestProject.Core.Repositorys.Interfaces;
+using TestProject.Core.Repositories.Interfacies;
 using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
@@ -27,7 +29,8 @@ namespace TestProject.Core.ViewModels
 
         private readonly ICheckNullOrWhiteSpaceHelper _checkHelper;
 
-        private string _login;
+        private readonly IValidationService<RegistrationViewModel> _validationService;
+
         private string _password;
         private string _passwordRevise;
 
@@ -35,16 +38,12 @@ namespace TestProject.Core.ViewModels
         private MvxColor _passwordFieldColor;
         private MvxColor _loginEnebleColor;
 
-        Regex _hasNumber = new Regex(@"[0-9]+");
-        Regex _hasUpperChar = new Regex(@"[A-Z]+");
-        Regex _hasMinimum8Chars = new Regex(@".{8,}");
-
         private readonly IUserDialogs _userDialogs;
 
         #endregion
 
         public RegistrationViewModel(IMvxNavigationService navigationService, ILoginRepository loginService,
-            IUserDialogs userDialogs, IDialogsService dialogsService, ICheckNullOrWhiteSpaceHelper checkHelper)
+            IUserDialogs userDialogs, IDialogsService dialogsService, ICheckNullOrWhiteSpaceHelper checkHelper, IValidationService<RegistrationViewModel> validationService)
         {
             LoginColor = new MvxColor(251, 192, 45);
             ValidateColor = new MvxColor(241, 241, 241);
@@ -53,6 +52,7 @@ namespace TestProject.Core.ViewModels
             _loginService = loginService;
             _dialogsService = dialogsService;
             _checkHelper = checkHelper;
+            _validationService = validationService;
         }
 
         #region MvxColor
@@ -67,30 +67,11 @@ namespace TestProject.Core.ViewModels
 
         #region Propertys
 
-        public string Login
-        {
-            get
-            {
-                return _login;
-            }
-            set
-            {
-                SetProperty(ref _login, value);
-                if (_loginService.CheckValidLogin(Login))
-                {
-                    LoginEnebleColor = new MvxColor(54, 255, 47);
-                }
-                if (String.IsNullOrEmpty(Login))
-                {
-                    LoginEnebleColor = new MvxColor(241, 241, 241);
-                }
-                if (!_loginService.CheckValidLogin(Login))
-                {
-                   LoginEnebleColor = new MvxColor(176, 14, 14);
-                }
-            }
-        }
+        [Required(ErrorMessageResourceName = "Strings.LoginFieldIsEmpty", ErrorMessageResourceType = typeof(ResourceManager))]
+        public string Login { get; set; }
 
+        [Required(ErrorMessageResourceName = "Strings.PasswordFieldIsEmpty", ErrorMessageResourceType = typeof(ResourceManager))]
+        [RegularExpression(@"[0-9A-Z]+.{8,}", ErrorMessageResourceName = "Strings.RegularError", ErrorMessageResourceType = typeof(ResourceManager))]
         public string Password
         {
             get
@@ -100,17 +81,20 @@ namespace TestProject.Core.ViewModels
             set
             {
                 SetProperty(ref _password, value);
-                if (Password == PasswordRevise)
+                var passwordValidationModel = new PasswordValidationModel { Password = Password, PasswordConfirm = PasswordRevise };
+                if (_validationService.GetValidationPassword(passwordValidationModel))
                 {
                     ValidateColor = new MvxColor(54, 255, 47);
                 }
-                if (_checkHelper.Check2Strings(Password, PasswordRevise) || Password != PasswordRevise)
+                if (!_validationService.GetValidationPassword(passwordValidationModel))
                 {
                     ValidateColor = new MvxColor(241, 241, 241);
                 }
             }
         }
 
+        [Required(ErrorMessageResourceName = "Strings.ConfirmPasswordFieldIsEmpty", ErrorMessageResourceType =typeof(ResourceManager))]
+        [Compare("RegistrationViewModel.Password", ErrorMessageResourceName = "Strings.ConfirmPasswordNotComparePassword", ErrorMessageResourceType = typeof(ResourceManager))]
         public string PasswordRevise
         {
             get
@@ -120,11 +104,12 @@ namespace TestProject.Core.ViewModels
             set
             {
                 SetProperty(ref _passwordRevise, value);
-                if(Password == PasswordRevise)
+                var passwordValidationModel = new PasswordValidationModel { Password = Password, PasswordConfirm = PasswordRevise };
+                if (_validationService.GetValidationPassword(passwordValidationModel))
                 {
                     ValidateColor = new MvxColor(54, 255, 47);
                 }
-                if(_checkHelper.Check2Strings(Password, PasswordRevise) || Password != PasswordRevise)
+                if (!_validationService.GetValidationPassword(passwordValidationModel))
                 {
                     ValidateColor = new MvxColor(241, 241, 241);
                 }
@@ -150,22 +135,14 @@ namespace TestProject.Core.ViewModels
                 return new MvxAsyncCommand(async () =>
                 {
                     var valid = _loginService.CheckValidLogin(Login);
-                    if(!_hasNumber.IsMatch(Password)|| !_hasNumber.IsMatch(PasswordRevise)){
-                        _dialogsService.UserDialogAlert(Strings.PasswordMustContentNumber);
-                    }
-                    if (!_hasUpperChar.IsMatch(Password) || !_hasUpperChar.IsMatch(PasswordRevise)){
-                        _dialogsService.UserDialogAlert(Strings.PasswordMustContentUpperChar);
-                    }
-                    if (!_hasMinimum8Chars.IsMatch(Password) || !_hasMinimum8Chars.IsMatch(PasswordRevise)){
-                        _dialogsService.UserDialogAlert(Strings.PasswordMustContent8Char);
-                    }
-                    if (_checkHelper.Check2Strings(Login, Password) && Password == PasswordRevise)
+                    if (_validationService.GetViewModelValidation(this))
                     {
-                        _dialogsService.UserDialogAlert(Strings.EmptyFieldRegistrateMessege);
-                    }
-                    if(Password != PasswordRevise)
-                    {
-                        _dialogsService.UserDialogAlert(Strings.WrongPassword);
+                        var errorsList = _validationService.GetValidationError();
+                        foreach (string error in errorsList)
+                        {
+                            _dialogsService.UserDialogAlert(error);
+                        }
+                        return;
                     }
                     if (!valid)
                     {

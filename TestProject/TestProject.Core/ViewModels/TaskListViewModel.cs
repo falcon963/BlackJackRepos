@@ -5,7 +5,7 @@ using System.Text;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
 using TestProject.Core.Models;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 using System.Threading.Tasks;
 using SQLitePCL;
 using System.Linq;
@@ -14,8 +14,9 @@ using TestProject.Core.Constants;
 using Acr.UserDialogs;
 using System.Reflection;
 using MvvmCross.UI;
-using TestProject.Core.Repositorys.Interfaces;
+using TestProject.Core.Repositories.Interfacies;
 using TestProject.Core.Helpers.Interfaces;
+using TestProject.Core.Enums;
 
 namespace TestProject.Core.ViewModels
 {
@@ -40,7 +41,7 @@ namespace TestProject.Core.ViewModels
             _userHelper = userHelper;
         }
 
-        #region Propertys
+        #region Properties
 
         public ResultModel UserTask { get; set; }
 
@@ -69,7 +70,7 @@ namespace TestProject.Core.ViewModels
 
         public async Task UserTaskInitialize()
         {
-            var userId = _userHelper.GetUserId();
+            var userId = _userHelper.UserId;
             List<UserTask> list = _taskService.GetUserTasks(userId);
             foreach (var item in list)
             {
@@ -119,7 +120,7 @@ namespace TestProject.Core.ViewModels
                     {
                         return;
                     }
-                    if (result.Result == Enum.UserTaskResult.Saved)
+                    if (result.Result == UserTaskResult.Saved)
                     {
                         ListOfTasks.Add(result.Changes);
                     }
@@ -135,7 +136,7 @@ namespace TestProject.Core.ViewModels
                 return new MvxCommand(() =>
                 {
                     IsRefreshing = true;
-                    var userId = _userHelper.GetUserId();
+                    var userId = _userHelper.UserId;
                     List<UserTask> list = _taskService.GetUserTasks(userId);
                     var listTasks = new List<UserTask>();
                     foreach (var item in list)
@@ -168,7 +169,7 @@ namespace TestProject.Core.ViewModels
                     {
                         return;
                     }
-                    if(result.Result == Enum.UserTaskResult.Deleted)
+                    if(result.Result == UserTaskResult.Deleted)
                     {
                         var delete = ListOfTasks.FirstOrDefault(p => p.Id == result.Changes.Id);
                         if(delete == null)
@@ -178,11 +179,11 @@ namespace TestProject.Core.ViewModels
                         ListOfTasks.Remove(delete);
                         return;
                     }
-                    if(result.Result == Enum.UserTaskResult.NotChanged)
+                    if(result.Result == UserTaskResult.NotChanged)
                     {
                         return;
                     }
-                    if (result.Result == Enum.UserTaskResult.Saved)
+                    if (result.Result == UserTaskResult.Saved)
                     {
                         var modelToUpdate = ListOfTasks.FirstOrDefault(p => p.Id == result.Changes.Id);
                         var index = ListOfTasks.IndexOf(modelToUpdate);

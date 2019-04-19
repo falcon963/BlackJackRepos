@@ -4,11 +4,11 @@ using System.Text;
 
 namespace TestProject.Core.Helpers.Interfaces
 {
-    public interface IStartPageCheckHelper
+    public interface IAccountCheckHelper
     {
-        bool SocialNetworkLogin();
-        bool AccountStatus();
-        bool CheckAccountAccess();
+        bool IsSocialNetworkLogin();
+        bool IsAccountStatus();
+        bool IsCheckAccountAccess();
         int SetUserId();
     }
 }

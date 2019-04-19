@@ -8,6 +8,6 @@ namespace TestProject.Core.Enums
     {
         None = 0,
         Gone = 1,
-        RightVisible = 2
+        Right = 2
     }
 }

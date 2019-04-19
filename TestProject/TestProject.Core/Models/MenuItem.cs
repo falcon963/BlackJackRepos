@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TestProject.Core.Enum;
+using TestProject.Core.Enums;
 
 namespace TestProject.Core.Models
 {
     public class MenuItem
     {
-        public MenuItemAction ItemAction { get; set; }
         public string ItemTitle { get; set; }
+        public Action ItemAction {get;set;}
     }
 }

@@ -13,7 +13,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using TestProject.Core.Enum;
+using TestProject.Core.Enums;
 
 namespace TestProject.Droid.Controls
 {

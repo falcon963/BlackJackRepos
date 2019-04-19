@@ -7,9 +7,8 @@ namespace TestProject.Core.Models
 {
     [Table("User")]
     public class User
-    {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
+        : BaseModel
+    {        
         public string Login { get; set; }
         public string Password { get; set; }
         public string ImagePath { get; set; }

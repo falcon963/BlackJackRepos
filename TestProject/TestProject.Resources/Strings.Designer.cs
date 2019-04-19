@@ -98,6 +98,24 @@ namespace TestProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ConfirmPassword must be required.
+        /// </summary>
+        public static string ConfirmPasswordFieldIsEmpty {
+            get {
+                return ResourceManager.GetString("ConfirmPasswordFieldIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Password must be compare Password.
+        /// </summary>
+        public static string ConfirmPasswordNotComparePassword {
+            get {
+                return ResourceManager.GetString("ConfirmPasswordNotComparePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you want delete this task?.
         /// </summary>
         public static string DeleteMessege {
@@ -130,6 +148,15 @@ namespace TestProject.Resources {
         public static string Login {
             get {
                 return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login must be required.
+        /// </summary>
+        public static string LoginFieldIsEmpty {
+            get {
+                return ResourceManager.GetString("LoginFieldIsEmpty", resourceCulture);
             }
         }
         
@@ -170,6 +197,15 @@ namespace TestProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password must be required.
+        /// </summary>
+        public static string PasswordFieldIsEmpty {
+            get {
+                return ResourceManager.GetString("PasswordFieldIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password must content 8 char!.
         /// </summary>
         public static string PasswordMustContent8Char {
@@ -202,6 +238,15 @@ namespace TestProject.Resources {
         public static string Registrate {
             get {
                 return ResourceManager.GetString("Registrate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password must content 8 char, number char and upper char..
+        /// </summary>
+        public static string RegularError {
+            get {
+                return ResourceManager.GetString("RegularError", resourceCulture);
             }
         }
         

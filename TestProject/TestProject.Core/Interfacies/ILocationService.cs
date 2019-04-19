@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TestProject.Core.Interfaces
+namespace TestProject.Core.Interfacies
 {
     public interface ILocationService
     {

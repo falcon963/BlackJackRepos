@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TestProject.Core.Models;
 
-namespace TestProject.Core.Repositorys.Interfaces
+namespace TestProject.Core.Repositories.Interfacies
 {
     public interface ILoginRepository
         : IBaseRepository<User>

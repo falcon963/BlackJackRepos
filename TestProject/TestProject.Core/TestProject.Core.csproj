@@ -20,4 +20,8 @@
     <ProjectReference Include="..\TestProject.Resources\TestProject.Resources.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+  </ItemGroup>
+
 </Project>

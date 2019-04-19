@@ -1,12 +1,14 @@
-﻿using System;
+﻿using MvvmCross;
+using MvvmCross.Logging;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using TestProject.Core.DBConnection;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 using TestProject.Core.Models;
-using TestProject.Core.Repositorys.Interfaces;
+using TestProject.Core.Repositories.Interfacies;
 
-namespace TestProject.Core.Repositorys
+namespace TestProject.Core.Repositories
 {
     public class FileRepository
         : IBaseRepository<TaskFileModel>, IFileRepository
@@ -16,11 +18,6 @@ namespace TestProject.Core.Repositorys
         public FileRepository(IDatabaseConnectionService connectionService)
         {
             DBConnection = new SqliteAppConnection(connectionService);
-        }
-
-        public void SaveAllFile(List<TaskFileModel> files)
-        {
-            DBConnection.Database.InsertAll(files);
         }
 
         public void Save(TaskFileModel item)
@@ -38,29 +35,35 @@ namespace TestProject.Core.Repositorys
             DBConnection.Database.Delete(item);
         }
 
-        public void DeleteById(int id)
+        public void Delete(int id)
         {
             var file = DBConnection.Database.Table<TaskFileModel>().Where(i => i.Id == id).FirstOrDefault();
             DBConnection.Database.Delete(file);
         }
 
-        public void DeleteAllFile(List<TaskFileModel> files)
-        {
-            int count = 0;
-            foreach(TaskFileModel file in files)
-            {
-                DBConnection.Database.Delete(file);
-                count++;
-            }
-            Console.WriteLine(count + "files deleted.");
-        }
-
-        public TaskFileModel GetDate(int id)
+        public TaskFileModel Get(int id)
         {
             return DBConnection.Database.Table<TaskFileModel>().Where(i => i.TaskId == id).FirstOrDefault();
         }
 
-        public List<TaskFileModel> GetAllTaskFiles(int taskId)
+        public void SaveRange(List<TaskFileModel> list)
+        {
+            DBConnection.Database.InsertAll(list);
+        }
+
+        public void DeleteRange(List<TaskFileModel> list)
+        {
+            int count = 0;
+            foreach (TaskFileModel file in list)
+            {
+                DBConnection.Database.Delete(file);
+                count++;
+            }
+            var log = Mvx.IoCProvider.Resolve<IMvxLog>();
+            log.Trace(count.ToString());
+        }
+
+        public List<TaskFileModel> GetRange(int taskId)
         {
             List<TaskFileModel> listOfFile = DBConnection.Database.Table<TaskFileModel>().Where(i => i.TaskId == taskId).ToList();
             return listOfFile;

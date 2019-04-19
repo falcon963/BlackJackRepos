@@ -15,7 +15,7 @@ using Android.Widget;
 using TestProject.Core.Models;
 using TestProject.Core.ViewModels;
 using TestProject.Droid.Fragments;
-using TestProject.Core.Enum;
+using TestProject.Core.Enums;
 using Android.Graphics.Drawables;
 using Android.Support.V4.Content;
 using TestProject.Droid.Views;

@@ -5,11 +5,11 @@ using System.Text;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
 using TestProject.Core.Models;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 using System.Threading.Tasks;
 using Plugin.SecureStorage;
 using TestProject.Core.Constants;
-using TestProject.Core.Repositorys.Interfaces;
+using TestProject.Core.Repositories.Interfacies;
 
 namespace TestProject.Core.ViewModels
 {

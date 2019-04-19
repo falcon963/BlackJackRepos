@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Text;
 using TestProject.Core.Constants;
 using TestProject.Core.Helpers.Interfaces;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 using TestProject.Core.Models;
-using TestProject.Core.Repositorys.Interfaces;
+using TestProject.Core.Repositories.Interfacies;
 using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
@@ -40,7 +40,7 @@ namespace TestProject.Core.ViewModels
             _checkHelper = checkHelper;
             _userHelper = userHelper;
             int userId = _userHelper.GetUserId();
-            Profile = _loginService.GetDate(userId);
+            Profile = _loginService.Get(userId);
             Background = new MvxColor(251, 192, 45);
             ConfirmColor = new MvxColor(241, 241, 241);
             OldPasswordFieldColor = new MvxColor(241, 241, 241);
@@ -168,7 +168,7 @@ namespace TestProject.Core.ViewModels
                     if (PassChangeEneble == true)
                     {
                         _loginService.ChangePassword(Profile.Id, NewPassword);
-                        _userHelper.SetUserPassword(NewPassword);
+                        _userHelper.UserPassword = NewPassword;
                     }
                     if ((_checkHelper.Check3Strings(ConfirmPassword, NewPassword, OldPassword)) && OldPassword != Profile.Password)
                     {

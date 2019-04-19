@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TestProject.Core.Constants;
-using TestProject.Core.Interfaces.SocialService.Facebook;
+using TestProject.Core.Interfacies.SocialService.Facebook;
 using TestProject.Core.Models;
 using Xamarin.Auth;
 

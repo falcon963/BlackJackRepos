@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TestProject.Core.Constants;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 using TestProject.Core.Models;
-using TestProject.Core.Repositorys.Interfaces;
+using TestProject.Core.Repositories.Interfacies;
 
 namespace TestProject.Core.ViewModels
 {

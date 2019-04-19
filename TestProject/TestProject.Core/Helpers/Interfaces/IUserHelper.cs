@@ -6,16 +6,13 @@ namespace TestProject.Core.Helpers.Interfaces
 {
     public interface IUserHelper
     {
-        int GetUserId();
-        bool GetUserStatus();
-        void SetUserId(int userId);
-        void SetUserStatus(bool status);
+
         void DeleteUserStatus();
         void DeleteUserAccessToken();
-        string GetUserAccessToken();
-        void SetUserLogin(string login);
-        void SetUserPassword(string password);
-        string GetUserLogin();
-        string GetUserPassword();
+        string UserLogin { get; set; }
+        string UserPassword { get; set; }
+        int UserId { get; set; }
+        string UserAccessToken { get; set; }
+        bool UserStatus { get; set; }
     }
 }

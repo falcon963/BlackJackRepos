@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 using MvvmCross;
-using TestProject.Core.Enum;
+using TestProject.Core.Enums;
 using Acr.UserDialogs;
 using MvvmCross.UI;
 using Plugin.SecureStorage;
 using TestProject.Core.Constants;
 using System.Threading;
-using TestProject.Core.Services;
+using TestProject.Core.Servicies;
 using TestProject.Core.DBConnection;
-using TestProject.Core.Repositorys.Interfaces;
+using TestProject.Core.Repositories.Interfacies;
 using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
@@ -141,7 +141,7 @@ namespace TestProject.Core.ViewModels
                             return;
                         }
                     }
-                    UserTask.Result = Enum.UserTaskResult.NotChanged;
+                    UserTask.Result = UserTaskResult.NotChanged;
                     await NavigationService.Close<ResultModel>(this, UserTask);
                 });
             }
@@ -178,10 +178,10 @@ namespace TestProject.Core.ViewModels
                     List<TaskFileModel> listFile = new List<TaskFileModel>();
                     foreach(FileItemViewModel file in ListOfFiles)
                     {
-                        _fileService.DeleteById(file.Id);
+                        _fileService.Delete(file.Id);
                     }
                     DeleteUserTask(UserTask.Changes);
-                    UserTask.Result = Enum.UserTaskResult.Deleted;
+                    UserTask.Result = UserTaskResult.Deleted;
                     await NavigationService.Close<ResultModel>(this, UserTask);
                 });
             }
@@ -255,7 +255,7 @@ namespace TestProject.Core.ViewModels
                             };
                             _fileService.Save(fileItem);
                         }
-                        UserTask.Result = Enum.UserTaskResult.Saved;
+                        UserTask.Result = UserTaskResult.Saved;
                         await NavigationService.Close<ResultModel>(this, UserTask);             
                 });
             }
@@ -273,7 +273,7 @@ namespace TestProject.Core.ViewModels
             RaisePropertyChanged(() => ListOfFiles);
             if(file.Id != 0)
             {
-                _fileService.DeleteById(file.Id);
+                _fileService.Delete(file.Id);
             }
             return true;
         }
@@ -290,7 +290,7 @@ namespace TestProject.Core.ViewModels
 
         private UserTask GetTask(int taskId)
         {
-            return _taskService.GetDate(taskId);
+            return _taskService.Get(taskId);
         }
 
         public override void Prepare(int taskId)

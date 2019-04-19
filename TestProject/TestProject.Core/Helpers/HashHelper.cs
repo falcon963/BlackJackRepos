@@ -6,10 +6,10 @@ using TestProject.Core.Helpers.Interfaces;
 
 namespace TestProject.Core.Helpers
 {
-    public class PasswordHelper
+    public class HashHelper
         : IPasswordHelper
     {
-        public PasswordHelper()
+        public HashHelper()
         {
 
         }

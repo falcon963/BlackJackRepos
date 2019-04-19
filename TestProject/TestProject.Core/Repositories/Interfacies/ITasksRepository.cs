@@ -5,14 +5,13 @@ using System.Threading.Tasks;
 using TestProject.Core.Models;
 using TestProject.Core.ViewModels;
 
-namespace TestProject.Core.Repositorys.Interfaces
+namespace TestProject.Core.Repositories.Interfacies
 {
     public interface ITasksRepository
         : IBaseRepository<UserTask>
     {
         List<int> GetUserTasksIdAsync(int id);
         List<UserTask> GetUserTasks(int userId);
-        List<int> RefreshUserTasks(int id);
         void SwipeTaskDelete(UserTask item);
         int SaveTask(UserTask item);
     }

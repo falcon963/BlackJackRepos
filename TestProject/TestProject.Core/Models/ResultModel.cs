@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TestProject.Core.Enum;
+using TestProject.Core.Enums;
 
 namespace TestProject.Core.Models
 {

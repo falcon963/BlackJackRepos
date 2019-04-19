@@ -5,7 +5,7 @@ using System.Text;
 
 using Foundation;
 using UIKit;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 using SQLite;
 using System.IO;
 

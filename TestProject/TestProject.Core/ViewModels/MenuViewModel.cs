@@ -9,9 +9,9 @@ using TestProject.Core.Constants;
 using TestProject.Core.Models;
 using MvvmCross.ViewModels;
 using System.Threading.Tasks;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 using MvvmCross.UI;
-using TestProject.Core.Repositorys.Interfaces;
+using TestProject.Core.Repositories.Interfacies;
 using TestProject.Core.Helpers.Interfaces;
 using TestProject.Resources;
 
@@ -54,23 +54,29 @@ namespace TestProject.Core.ViewModels
             NavigationService = navigationService;
             _userDialogs = userDialogs;
             _userHelper = userHelper;
-            int userId = _userHelper.GetUserId();
-            Profile = loginService.GetDate(userId);
+            int userId = _userHelper.UserId;
+            Profile = loginService.Get(userId);
             MenuItems = new MvxObservableCollection<MenuItem>()
             {
                 new MenuItem
                 {
-                    ItemAction = Enum.MenuItemAction.Logout,
+                    ItemAction = () => {
+                        LogOutCommand.Execute();
+                    },
                     ItemTitle = "Logout"
                 },
                 new MenuItem
                 {
-                    ItemAction = Enum.MenuItemAction.Location,
+                    ItemAction = () => {
+                        GetLocationCommand.Execute();
+                    },
                     ItemTitle = "Map"
                 },
                 new MenuItem
                 {
-                    ItemAction = Enum.MenuItemAction.Profile,
+                    ItemAction = () => {
+                        OpenProfileCommand.Execute();
+                    },
                     ItemTitle = "Profile"
                 }
             };
@@ -104,25 +110,13 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public IMvxAsyncCommand<MenuItem> ItemSelectCommand
+        public IMvxCommand<MenuItem> ItemSelectCommand
         {
             get
             {
-                return new MvxAsyncCommand<MenuItem>(async(item) =>
+                return new MvxCommand<MenuItem>((item) =>
                 {
-                    var action = item.ItemAction;
-                    if(action == Enum.MenuItemAction.Logout)
-                    {
-                        LogOutCommand.Execute();
-                    }
-                    if(action == Enum.MenuItemAction.Location)
-                    {
-                        GetLocationCommand.Execute();
-                    }
-                    if (action == Enum.MenuItemAction.Profile)
-                    {
-                        OpenProfileCommand.Execute();
-                    }
+                    item.ItemAction();
                 });
             }
         }

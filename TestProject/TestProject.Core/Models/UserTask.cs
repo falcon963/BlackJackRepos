@@ -2,15 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 
 namespace TestProject.Core.Models
 {
     [Table("UserTask")]
     public class UserTask
+        : BaseModel
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
         public int UserId { get; set; }
         [MaxLength(50)]
         public string Title { get; set; }

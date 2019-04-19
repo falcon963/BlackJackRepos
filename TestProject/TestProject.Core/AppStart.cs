@@ -6,9 +6,9 @@ using MvvmCross.ViewModels;
 using Plugin.SecureStorage;
 using TestProject.Core.Constants;
 using TestProject.Core.Helpers.Interfaces;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 using TestProject.Core.Models;
-using TestProject.Core.Repositorys.Interfaces;
+using TestProject.Core.Repositories.Interfacies;
 using TestProject.Core.ViewModels;
 
 namespace TestProject.Core
@@ -22,15 +22,15 @@ namespace TestProject.Core
 
         protected override Task NavigateToFirstViewModel(object hint = null)
         {
-            var _pageCheck = Mvx.IoCProvider.Resolve<IStartPageCheckHelper>();
+            var _pageCheck = Mvx.IoCProvider.Resolve<IAccountCheckHelper>();
 
-            if(_pageCheck.SocialNetworkLogin())
+            if(_pageCheck.IsSocialNetworkLogin())
             {
                 return NavigationService.Navigate<MainViewModel>();
             }
-            if (_pageCheck.AccountStatus())
+            if (_pageCheck.IsAccountStatus())
             {
-                if (_pageCheck.CheckAccountAccess())
+                if (_pageCheck.IsCheckAccountAccess())
                 {
                     CrossSecureStorage.Current.SetValue(SecureConstant.Status, false.ToString());
                     return NavigationService.Navigate<MainRegistrationViewModel>();

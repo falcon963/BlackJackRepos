@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using MvvmCross;
+using MvvmCross.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -6,14 +8,15 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using TestProject.Core.Helpers;
-using TestProject.Core.Interfaces.SocialService.Google;
+using TestProject.Core.Interfacies.SocialService.Google;
 using TestProject.Core.Models;
 
-namespace TestProject.Core.Services
+namespace TestProject.Core.Servicies
 {
     public class GoogleService
         : IGoogleService
     {
+        public string ReqrequestUrl { get; set; }
 
         public async Task<User> GetSocialNetworkAsync(string accessToken)
         {
@@ -21,8 +24,8 @@ namespace TestProject.Core.Services
             try
             {
                 var httpHelper = new HttpHelper();
-                var json = await httpHelper.Post<GoogleProfileModel>(accessToken, new GoogleProfileModel());
-                var model = httpHelper.Deserialize<GoogleProfileModel>(json);
+                ReqrequestUrl = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token={accessToken}";
+                var model = await httpHelper.Get<GoogleProfileModel>(ReqrequestUrl);
                 var image = await httpHelper.GetByte(model.Picture.Url);
 
                 account.ImagePath = Convert.ToBase64String(image);
@@ -31,7 +34,8 @@ namespace TestProject.Core.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                var log = Mvx.IoCProvider.Resolve<IMvxLog>();
+                log.Trace(ex.Message);
             }
 
             return account;

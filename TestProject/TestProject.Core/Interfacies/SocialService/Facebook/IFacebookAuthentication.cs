@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using TestProject.Core.Models;
 
-namespace TestProject.Core.Interfaces.SocialService.Google
+namespace TestProject.Core.Interfacies.SocialService.Facebook
 {
-    public interface IGoogleAuthenticationDelegate
+    public interface IFacebookAuthentication
     {
         void OnAuthenticationCompleted(string token);
         void OnAuthenticationFailed(string message, Exception exception);

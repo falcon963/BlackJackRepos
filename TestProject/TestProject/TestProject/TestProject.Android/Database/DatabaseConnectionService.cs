@@ -1,7 +1,7 @@
 ﻿using SQLite;
 using LocalDataAccess.Droid;
 using System.IO;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 using TestProject.Core.Models;
 
 namespace LocalDataAccess.Droid

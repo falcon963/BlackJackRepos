@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TestProject.Core.Constants;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 using TestProject.Resources;
 
-namespace TestProject.Core.Services
+namespace TestProject.Core.Servicies
 {
     public class DialogsService
         : IDialogsService
@@ -20,7 +20,6 @@ namespace TestProject.Core.Services
                                 OkText = Strings.OkText,
                                 Title = Strings.AlertMessege
                             });
-            return;
         }
     }
 }

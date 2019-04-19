@@ -7,9 +7,8 @@ namespace TestProject.Core.Models
 {
     [Table("TaskFile")]
     public class TaskFileModel
+        : BaseModel
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
         public int TaskId { get; set; }
         public string FileName { get; set; }
         public byte[] FileContent { get; set; }

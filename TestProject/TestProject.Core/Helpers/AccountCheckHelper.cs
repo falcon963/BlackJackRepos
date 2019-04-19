@@ -5,21 +5,21 @@ using System.Collections.Generic;
 using System.Text;
 using TestProject.Core.Constants;
 using TestProject.Core.Helpers.Interfaces;
-using TestProject.Core.Repositorys.Interfaces;
+using TestProject.Core.Repositories.Interfacies;
 
 namespace TestProject.Core.Helpers
 {
-    public class StartPageCheckHelper
-        : IStartPageCheckHelper
+    public class AccountCheckHelper
+        : IAccountCheckHelper
     {
 
 
-        public StartPageCheckHelper()
+        public AccountCheckHelper()
         {
 
         }
 
-        public bool AccountStatus()
+        public bool IsAccountStatus()
         {
             var statusValue = CrossSecureStorage.Current.GetValue(SecureConstant.Status);
             bool boolValue;
@@ -27,7 +27,7 @@ namespace TestProject.Core.Helpers
             return boolValue;
         }
 
-        public bool CheckAccountAccess()
+        public bool IsCheckAccountAccess()
         {
             var _loginService = Mvx.IoCProvider.Resolve<ILoginRepository>();
             var login = CrossSecureStorage.Current.GetValue(SecureConstant.Login);
@@ -49,7 +49,7 @@ namespace TestProject.Core.Helpers
             return user.Id;
         }
 
-        public bool SocialNetworkLogin()
+        public bool IsSocialNetworkLogin()
         {
             if (String.IsNullOrWhiteSpace(CrossSecureStorage.Current.GetValue(SecureConstant.AccessToken)))
             {

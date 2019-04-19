@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using TestProject.Core.Interfaces;
+using TestProject.Core.Interfacies;
 
-namespace TestProject.Core.Services
+namespace TestProject.Core.Servicies
 {
     public class LocationService 
         : ILocationService
