@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TestProject.Core.Models;
 
-namespace TestProject.Core.Interfacies.SocialService.Facebook
+namespace TestProject.Core.Servicies.Interfacies.SocialService.Facebook
 {
     public interface IFacebookAuthentication
     {

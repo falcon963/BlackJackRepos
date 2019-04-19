@@ -11,9 +11,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using TestProject.Core.Constants;
 using TestProject.Core.Helpers.Interfaces;
-using TestProject.Core.Interfacies;
 using TestProject.Core.Models;
 using TestProject.Core.Repositories.Interfacies;
+using TestProject.Core.Servicies.Interfacies;
 using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
@@ -27,9 +27,7 @@ namespace TestProject.Core.ViewModels
 
         private readonly IDialogsService _dialogsService;
 
-        private readonly ICheckNullOrWhiteSpaceHelper _checkHelper;
-
-        private readonly IValidationService<RegistrationViewModel> _validationService;
+        private readonly IValidationService _validationService;
 
         private string _password;
         private string _passwordRevise;
@@ -43,7 +41,7 @@ namespace TestProject.Core.ViewModels
         #endregion
 
         public RegistrationViewModel(IMvxNavigationService navigationService, ILoginRepository loginService,
-            IUserDialogs userDialogs, IDialogsService dialogsService, ICheckNullOrWhiteSpaceHelper checkHelper, IValidationService<RegistrationViewModel> validationService)
+            IUserDialogs userDialogs, IDialogsService dialogsService, IValidationService validationService)
         {
             LoginColor = new MvxColor(251, 192, 45);
             ValidateColor = new MvxColor(241, 241, 241);
@@ -51,7 +49,6 @@ namespace TestProject.Core.ViewModels
             NavigationService = navigationService;
             _loginService = loginService;
             _dialogsService = dialogsService;
-            _checkHelper = checkHelper;
             _validationService = validationService;
         }
 
@@ -82,11 +79,12 @@ namespace TestProject.Core.ViewModels
             {
                 SetProperty(ref _password, value);
                 var passwordValidationModel = new PasswordValidationModel { Password = Password, PasswordConfirm = PasswordRevise };
-                if (_validationService.GetValidationPassword(passwordValidationModel))
+                var validationModel = _validationService.GetViewModelValidation(passwordValidationModel);
+                if (validationModel.IsValid)
                 {
                     ValidateColor = new MvxColor(54, 255, 47);
                 }
-                if (!_validationService.GetValidationPassword(passwordValidationModel))
+                if (!validationModel.IsValid)
                 {
                     ValidateColor = new MvxColor(241, 241, 241);
                 }
@@ -105,11 +103,12 @@ namespace TestProject.Core.ViewModels
             {
                 SetProperty(ref _passwordRevise, value);
                 var passwordValidationModel = new PasswordValidationModel { Password = Password, PasswordConfirm = PasswordRevise };
-                if (_validationService.GetValidationPassword(passwordValidationModel))
+                var validationModel = _validationService.GetViewModelValidation(passwordValidationModel);
+                if (validationModel.IsValid)
                 {
                     ValidateColor = new MvxColor(54, 255, 47);
                 }
-                if (!_validationService.GetValidationPassword(passwordValidationModel))
+                if (!validationModel.IsValid)
                 {
                     ValidateColor = new MvxColor(241, 241, 241);
                 }
@@ -135,10 +134,10 @@ namespace TestProject.Core.ViewModels
                 return new MvxAsyncCommand(async () =>
                 {
                     var valid = _loginService.CheckValidLogin(Login);
-                    if (_validationService.GetViewModelValidation(this))
+                    var validationModel = _validationService.GetViewModelValidation(this);
+                    if (validationModel.IsValid)
                     {
-                        var errorsList = _validationService.GetValidationError();
-                        foreach (string error in errorsList)
+                        foreach (string error in validationModel.Errors)
                         {
                             _dialogsService.UserDialogAlert(error);
                         }

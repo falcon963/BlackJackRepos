@@ -6,7 +6,7 @@ using MvvmCross.Converters;
 using MvvmCross.Plugin.Color;
 using MvvmCross.UI;
 
-namespace TestProject.Droid.Converter
+namespace TestProject.Droid.Converters
 {
     public class ColorValueConverter
         : MvxValueConverter<MvxColor, ColorDrawable>

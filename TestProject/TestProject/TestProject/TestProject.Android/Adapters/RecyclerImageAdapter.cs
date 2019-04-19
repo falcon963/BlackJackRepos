@@ -24,7 +24,7 @@ using TestProject.Core.ViewModels;
 using TestProject.Droid.Fragments;
 using Boolean = System.Boolean;
 
-namespace TestProject.Droid.Adapter
+namespace TestProject.Droid.Adapters
 {
     public class RecyclerImageAdapter 
         : RecyclerView.Adapter

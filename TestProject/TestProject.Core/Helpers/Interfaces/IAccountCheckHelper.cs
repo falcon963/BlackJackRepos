@@ -9,6 +9,6 @@ namespace TestProject.Core.Helpers.Interfaces
         bool IsSocialNetworkLogin();
         bool IsAccountStatus();
         bool IsCheckAccountAccess();
-        int SetUserId();
+        int GetUserId();
     }
 }

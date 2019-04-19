@@ -22,21 +22,22 @@ namespace TestProject.Core
 
         protected override Task NavigateToFirstViewModel(object hint = null)
         {
-            var _pageCheck = Mvx.IoCProvider.Resolve<IAccountCheckHelper>();
+            var accountCheckHelper = Mvx.IoCProvider.Resolve<IAccountCheckHelper>();
+            var userHelper = Mvx.IoCProvider.Resolve<IUserHelper>();
 
-            if(_pageCheck.IsSocialNetworkLogin())
+            if(accountCheckHelper.IsSocialNetworkLogin())
             {
                 return NavigationService.Navigate<MainViewModel>();
             }
-            if (_pageCheck.IsAccountStatus())
+            if (accountCheckHelper.IsAccountStatus())
             {
-                if (_pageCheck.IsCheckAccountAccess())
+                if (accountCheckHelper.IsCheckAccountAccess())
                 {
-                    CrossSecureStorage.Current.SetValue(SecureConstant.Status, false.ToString());
+                    userHelper.IsUserLogin = false;
                     return NavigationService.Navigate<MainRegistrationViewModel>();
                 }
 
-                CrossSecureStorage.Current.SetValue(SecureConstant.UserId, _pageCheck.SetUserId().ToString());
+                userHelper.UserId = accountCheckHelper.GetUserId();
                 return NavigationService.Navigate<MainViewModel>();
             }
             return NavigationService.Navigate<MainRegistrationViewModel>();

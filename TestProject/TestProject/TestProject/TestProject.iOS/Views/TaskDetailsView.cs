@@ -7,8 +7,8 @@ using MvvmCross.Platforms.Ios.Views;
 using System;
 using TestProject.Core.ViewModels;
 using TestProject.iOS.Converters;
-using TestProject.iOS.ResourcesHelper;
-using TestProject.iOS.Source;
+using TestProject.iOS.ResourcesHelpers;
+using TestProject.iOS.Sources;
 using UIKit;
 
 namespace TestProject.iOS.Views

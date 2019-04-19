@@ -162,6 +162,9 @@
   <data name="OkText" xml:space="preserve">
     <value>Ok</value>
   </data>
+  <data name="OldPasswordFieldIsEmpty" xml:space="preserve">
+    <value>Old password field must be required</value>
+  </data>
   <data name="PasswordFieldIsEmpty" xml:space="preserve">
     <value>Password must be required</value>
   </data>

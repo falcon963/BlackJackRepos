@@ -10,25 +10,30 @@ namespace TestProject.Core.Helpers
 {
     public class HttpHelper
     {
-        private string _requestUrl;
-
-        private readonly HttpClient _httpClient;
 
         public HttpHelper()
         {
-            _httpClient = new HttpClient();
+            
         }
 
         public async Task<T> Get<T>(string Url)
         {
-            var json = await _httpClient.GetStringAsync(Url);
+            using(var _httpClient = new HttpClient())
+            {
+                var json = await _httpClient.GetStringAsync(Url);
 
-            return JsonConvert.DeserializeObject<T>(json);
+                var getModel = JsonConvert.DeserializeObject<T>(json);
+                return getModel;
+            }
         }
 
         public async Task<byte[]> GetByte(string imageUrl)
         {
-            return await _httpClient.GetByteArrayAsync(imageUrl);
+            using (var _httpClient = new HttpClient())
+            {
+                var getByte = await _httpClient.GetByteArrayAsync(imageUrl);
+                return getByte;
+            }
         }
     }
 }

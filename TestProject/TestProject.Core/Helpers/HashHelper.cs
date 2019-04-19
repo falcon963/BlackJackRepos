@@ -7,7 +7,7 @@ using TestProject.Core.Helpers.Interfaces;
 namespace TestProject.Core.Helpers
 {
     public class HashHelper
-        : IPasswordHelper
+        : IHashHelper
     {
         public HashHelper()
         {

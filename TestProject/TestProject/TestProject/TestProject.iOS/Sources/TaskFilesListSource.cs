@@ -9,7 +9,7 @@ using TestProject.iOS.Views;
 using TestProject.iOS.Views.Cells;
 using UIKit;
 
-namespace TestProject.iOS.Source
+namespace TestProject.iOS.Sources
 {
     public class TaskFilesListSource
         : MvxTableViewSource

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using TestProject.Core.Interfacies;
+using TestProject.Core.Servicies.Interfacies;
 
 namespace TestProject.Core.Servicies
 {

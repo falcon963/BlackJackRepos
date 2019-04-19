@@ -244,11 +244,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adapter\AnimationDecoratorHelper.cs" />
-    <Compile Include="Adapter\MyItemTouchHelper.cs" />
-    <Compile Include="Adapter\RecyclerImageAdapter.cs" />
-    <Compile Include="Adapter\ImageViewHolder.cs" />
-    <Compile Include="Converter\ColorValueConverter.cs" />
+    <Compile Include="Adapters\AnimationDecoratorHelper.cs" />
+    <Compile Include="Adapters\MyItemTouchHelper.cs" />
+    <Compile Include="Adapters\RecyclerImageAdapter.cs" />
+    <Compile Include="Adapters\ImageViewHolder.cs" />
+    <Compile Include="Converters\ColorValueConverter.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Controls\CircleImageView.cs" />
     <Compile Include="Database\DatabaseConnectionService.cs" />

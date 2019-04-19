@@ -6,7 +6,6 @@ using MvvmCross.ViewModels;
 using TestProject.Core.ViewModels;
 using MvvmCross;
 using Acr.UserDialogs;
-using TestProject.Core.Interfacies;
 using TestProject.Core.Servicies;
 using MvvmCross.Localization;
 using TestProject.Resources;

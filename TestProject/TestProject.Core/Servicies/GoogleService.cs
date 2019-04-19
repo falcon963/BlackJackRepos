@@ -8,15 +8,14 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using TestProject.Core.Helpers;
-using TestProject.Core.Interfacies.SocialService.Google;
 using TestProject.Core.Models;
+using TestProject.Core.Servicies.Interfacies.SocialService.Google;
 
 namespace TestProject.Core.Servicies
 {
     public class GoogleService
         : IGoogleService
     {
-        public string ReqrequestUrl { get; set; }
 
         public async Task<User> GetSocialNetworkAsync(string accessToken)
         {
@@ -24,13 +23,13 @@ namespace TestProject.Core.Servicies
             try
             {
                 var httpHelper = new HttpHelper();
-                ReqrequestUrl = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token={accessToken}";
-                var model = await httpHelper.Get<GoogleProfileModel>(ReqrequestUrl);
-                var image = await httpHelper.GetByte(model.Picture.Url);
+                var reqrequestUrl = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + accessToken;
+                var model = await httpHelper.Get<GoogleProfileModel>(reqrequestUrl);
+                var image = await httpHelper.GetByte(model?.Picture?.Url);
 
                 account.ImagePath = Convert.ToBase64String(image);
-                account.Login = model.Name;
-                account.GoogleId = model.Id;
+                account.Login = model?.Name;
+                account.GoogleId = model?.Id;
             }
             catch (Exception ex)
             {
@@ -39,17 +38,6 @@ namespace TestProject.Core.Servicies
             }
 
             return account;
-        }
-
-
-        public class GoogleEmail
-        {
-            public GoogleEmailData Data { get; set; }
-        }
-
-        public class GoogleEmailData
-        {
-            public string Email { get; set; }
         }
     }
 }

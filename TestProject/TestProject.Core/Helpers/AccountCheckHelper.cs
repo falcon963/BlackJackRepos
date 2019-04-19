@@ -12,55 +12,41 @@ namespace TestProject.Core.Helpers
     public class AccountCheckHelper
         : IAccountCheckHelper
     {
+        public readonly ILoginRepository _loginRepository;
 
-
-        public AccountCheckHelper()
+        public AccountCheckHelper(ILoginRepository loginRepository)
         {
-
+            _loginRepository = loginRepository;
         }
 
         public bool IsAccountStatus()
         {
             var statusValue = CrossSecureStorage.Current.GetValue(SecureConstant.Status);
-            bool boolValue;
-            Boolean.TryParse(statusValue, out boolValue);
-            return boolValue;
+            bool isAccountStatus;
+            Boolean.TryParse(statusValue, out isAccountStatus);
+            return isAccountStatus;
         }
 
         public bool IsCheckAccountAccess()
         {
-            var _loginService = Mvx.IoCProvider.Resolve<ILoginRepository>();
             var login = CrossSecureStorage.Current.GetValue(SecureConstant.Login);
             var password = CrossSecureStorage.Current.GetValue(SecureConstant.Password);
-            var user = _loginService.CheckAccountAccess(login, password);
-            if(user == null)
-            {
-                return false;
-            }
-            return true;
+            var user = _loginRepository.GetAppRegistrateUserAccount(login, password);
+            return user == null;
         }
 
-        public int SetUserId()
+        public int GetUserId()
         {
-            var _loginService = Mvx.IoCProvider.Resolve<ILoginRepository>();
             var login = CrossSecureStorage.Current.GetValue(SecureConstant.Login);
             var password = CrossSecureStorage.Current.GetValue(SecureConstant.Password);
-            var user = _loginService.CheckAccountAccess(login, password);
+            var user = _loginRepository.GetAppRegistrateUserAccount(login, password);
             return user.Id;
         }
 
         public bool IsSocialNetworkLogin()
         {
-            if (String.IsNullOrWhiteSpace(CrossSecureStorage.Current.GetValue(SecureConstant.AccessToken)))
-            {
-                return false;
-            }
-            if (String.IsNullOrEmpty(CrossSecureStorage.Current.GetValue(SecureConstant.AccessToken)))
-            {
-                return false;
-            }
-
-            return true;
+            var isSocialNetworkLogin = String.IsNullOrWhiteSpace(CrossSecureStorage.Current.GetValue(SecureConstant.AccessToken));
+            return isSocialNetworkLogin;
         }
     }
 }

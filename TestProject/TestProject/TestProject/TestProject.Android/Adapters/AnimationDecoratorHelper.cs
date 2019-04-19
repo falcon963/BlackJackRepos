@@ -13,7 +13,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 
-namespace TestProject.Droid.Adapter
+namespace TestProject.Droid.Adapters
 {
     public class AnimationDecoratorHelper
         :RecyclerView.ItemDecoration

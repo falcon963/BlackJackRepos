@@ -3,7 +3,6 @@ using MvvmCross.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TestProject.Core.Interfacies;
 using TestProject.Core.Models;
 using MvvmCross;
 using Acr.UserDialogs;
@@ -12,14 +11,15 @@ using Plugin.SecureStorage;
 using TestProject.Core.Constants;
 using MvvmCross.UI;
 using Xamarin.Auth;
-using TestProject.Core.Interfacies.SocialService.Google;
 using TestProject.Core.Servicies;
-using TestProject.Core.Interfacies.SocialService.Facebook;
 using TestProject.Core.Repositories.Interfacies;
 using TestProject.Core.Helpers.Interfaces;
 using TestProject.Resources;
 using System.ComponentModel.DataAnnotations;
 using System.Resources;
+using TestProject.Core.Servicies.Interfacies.SocialService.Google;
+using TestProject.Core.Servicies.Interfacies.SocialService.Facebook;
+using TestProject.Core.Servicies.Interfacies;
 
 namespace TestProject.Core.ViewModels
 {
@@ -32,35 +32,32 @@ namespace TestProject.Core.ViewModels
         private readonly ITasksRepository _taskService;
         private readonly IGoogleService _googleService;
         private readonly IFacebookService _facebookService;
-        private readonly ICheckNullOrWhiteSpaceHelper _checkHelper;
         private readonly IUserHelper _userHelper;
-        private readonly IValidationService<LoginViewModel> _validationService;
+        private readonly IValidationService _validationService;
         private readonly IDialogsService _dialogsService;
         private bool _rememberMe;
 
         #endregion
 
         public LoginViewModel(IMvxNavigationService navigationService,
-            ILoginRepository loginService, ITasksRepository taskService, IGoogleService googleService, IFacebookService facebookService,
-            ICheckNullOrWhiteSpaceHelper checkHelper, IUserHelper userHelper, IValidationService<LoginViewModel> validationService, IDialogsService dialogsService)
+            ILoginRepository loginService, ITasksRepository taskService, IGoogleService googleService, IFacebookService facebookService, IUserHelper userHelper, IValidationService validationService, IDialogsService dialogsService)
         {
                 _facebookService = facebookService;
                 _loginService = loginService;
                 NavigationService = navigationService;
                 _taskService = taskService;
                 _googleService = googleService;
-                _checkHelper = checkHelper;
                 _userHelper = userHelper;
                 _validationService = validationService;
                 _dialogsService = dialogsService;
 
                 LoginColor = new MvxColor(251, 192, 45);
 
-                if (_userHelper.UserStatus)
+                if (_userHelper.IsUserLogin)
                 {
                     Login = _userHelper.UserLogin;
                     Password = _userHelper.UserPassword;
-                    _rememberMe = _userHelper.UserStatus;
+                    _rememberMe = _userHelper.IsUserLogin;
                 }      
         }
 
@@ -87,7 +84,7 @@ namespace TestProject.Core.ViewModels
                 _rememberMe = value;
                 if (_rememberMe)
                 {
-                    _userHelper.UserStatus = true;
+                    _userHelper.IsUserLogin = true;
                     _loginService.SetLoginAndPassword(Login, Password);
                 }
                 if (!_rememberMe)
@@ -107,16 +104,16 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    if (_validationService.GetViewModelValidation(this))
+                    var validationModel = _validationService.GetViewModelValidation(this);
+                    if (validationModel.IsValid)
                     {
-                        var errorsList = _validationService.GetValidationError();
-                        foreach (string error in errorsList)
+                        foreach (string error in validationModel.Errors)
                         {
                             _dialogsService.UserDialogAlert(error);
                         }
                         return;
                     }
-                    var account = _loginService.CheckAccountAccess(Login, Password);
+                    var account = _loginService.GetAppRegistrateUserAccount(Login, Password);
                     if (account != null)
                     {
                         _userHelper.UserId = account.Id;
@@ -162,7 +159,7 @@ namespace TestProject.Core.ViewModels
                     if (token != null)
                     {
                         User user = await _facebookService.GetSocialNetworkAsync(token);
-                        var id = _loginService.GetSocialAccount(user);
+                        var id = _loginService.GetSocialAccountUserId(user);
                         _userHelper.UserId = id;
                         await NavigationService.Navigate<MainViewModel>();
                         await NavigationService.Close(this);
@@ -185,7 +182,7 @@ namespace TestProject.Core.ViewModels
                     if (token != null)
                     {
                         User user = await _googleService.GetSocialNetworkAsync(token);
-                        var id = _loginService.GetSocialAccount(user);
+                        var id = _loginService.GetSocialAccountUserId(user);
                         _userHelper.UserId = id;
                         await NavigationService.Navigate<MainViewModel>();
                         await NavigationService.Close(this);

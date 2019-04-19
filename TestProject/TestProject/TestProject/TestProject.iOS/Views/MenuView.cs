@@ -13,7 +13,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using TestProject.Core.ViewModels;
 using TestProject.iOS.Converters;
-using TestProject.iOS.Source;
+using TestProject.iOS.Sources;
 using TestProject.iOS.Views.Cells;
 using UIKit;
 //using MvvmCross.iOS.Support.XamarinSidebar;

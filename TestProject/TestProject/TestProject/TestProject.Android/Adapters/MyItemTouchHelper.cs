@@ -21,7 +21,7 @@ using Android.Support.V4.Content;
 using TestProject.Droid.Views;
 using TestProject.Core.Enums;
 
-namespace TestProject.Droid.Adapter
+namespace TestProject.Droid.Adapters
 {
     public class MyItemTouchHelper
         : ItemTouchHelper.Callback

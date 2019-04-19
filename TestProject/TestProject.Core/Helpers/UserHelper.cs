@@ -61,7 +61,7 @@ namespace TestProject.Core.Helpers
             }
         }
 
-        public bool UserStatus
+        public bool IsUserLogin
         {
             get
             {

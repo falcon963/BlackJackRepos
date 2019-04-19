@@ -14,7 +14,7 @@ using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Presenters;
 using MvvmCross.ViewModels;
 using TestProject.Core;
-using TestProject.Droid.Converter;
+using TestProject.Droid.Converters;
 
 namespace TestProject.Droid
 {

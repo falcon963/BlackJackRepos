@@ -5,12 +5,14 @@ using MvvmCross.UI;
 using Plugin.SecureStorage;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Resources;
 using System.Text;
 using TestProject.Core.Constants;
 using TestProject.Core.Helpers.Interfaces;
-using TestProject.Core.Interfacies;
 using TestProject.Core.Models;
 using TestProject.Core.Repositories.Interfacies;
+using TestProject.Core.Servicies.Interfacies;
 using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
@@ -24,7 +26,7 @@ namespace TestProject.Core.ViewModels
         private readonly ILoginRepository _loginService;
         private readonly IUserDialogs _userDialogs;
         private readonly IUserHelper _userHelper;
-        private readonly ICheckNullOrWhiteSpaceHelper _checkHelper;
+        private readonly IValidationService _validationService;
         private string _oldPassword;
         private string _newPassword;
         private string _confirmPassword;
@@ -32,14 +34,14 @@ namespace TestProject.Core.ViewModels
         #endregion
 
         public UserProfileViewModel(IMvxNavigationService navigationService, ILoginRepository loginService,
-            IUserDialogs userDialogs, IUserHelper userHelper, ICheckNullOrWhiteSpaceHelper checkHelper)
+            IUserDialogs userDialogs, IUserHelper userHelper, IValidationService validationService)
         {
             NavigationService = navigationService;
             _loginService = loginService;
             _userDialogs = userDialogs;
-            _checkHelper = checkHelper;
             _userHelper = userHelper;
-            int userId = _userHelper.GetUserId();
+            _validationService = validationService;
+            int userId = _userHelper.UserId;
             Profile = _loginService.Get(userId);
             Background = new MvxColor(251, 192, 45);
             ConfirmColor = new MvxColor(241, 241, 241);
@@ -50,6 +52,7 @@ namespace TestProject.Core.ViewModels
 
         public User Profile { get; set; }
 
+        [Required(ErrorMessageResourceName = "Strings.OldPasswordFieldIsEmpty", ErrorMessageResourceType = typeof(ResourceManager))]
         public string OldPassword
         {
             get
@@ -60,29 +63,11 @@ namespace TestProject.Core.ViewModels
             {
                 SetProperty(ref _oldPassword, value);
                 CheckEnableStatus();
-                if (OldPassword != Profile.Password)
-                {
-                    OldPasswordFieldColor = new MvxColor(241, 241, 241);
-                }
-                if(OldPassword == Profile.Password && !String.IsNullOrEmpty(OldPassword) && !String.IsNullOrWhiteSpace(OldPassword))
-                {
-                    OldPasswordFieldColor = new MvxColor(54, 255, 47);
-                }
-                if (String.IsNullOrEmpty(OldPassword))
-                {
-                    OldPasswordFieldColor = new MvxColor(241, 241, 241);
-                }
-                if (String.IsNullOrWhiteSpace(OldPassword))
-                {
-                    OldPasswordFieldColor = new MvxColor(241, 241, 241);
-                }
-                if (String.IsNullOrWhiteSpace(NewPassword))
-                {
-                    OldPasswordFieldColor = new MvxColor(241, 241, 241);
-                }
             }
         }
 
+        [Required(ErrorMessageResourceName = "Strings.PasswordFieldIsEmpty", ErrorMessageResourceType = typeof(ResourceManager))]
+        [RegularExpression(@"[0-9A-Z]+.{8,}", ErrorMessageResourceName = "Strings.RegularError", ErrorMessageResourceType = typeof(ResourceManager))]
         public string NewPassword
         {
             get
@@ -93,22 +78,21 @@ namespace TestProject.Core.ViewModels
             {
                 SetProperty(ref _newPassword, value);
                 CheckEnableStatus();
-                if (NewPassword == ConfirmPassword
-                    && !_checkHelper.Check2FieldsConfirm(NewPassword, ConfirmPassword))
+                var passwordValidationModel = new PasswordValidationModel { Password = NewPassword, PasswordConfirm = ConfirmPassword };
+                var validationModel = _validationService.GetViewModelValidation(passwordValidationModel);
+                if (validationModel.IsValid)
                 {
                     ConfirmColor = new MvxColor(54, 255, 47);
                 }
-                if(NewPassword != ConfirmPassword)
-                {
-                    ConfirmColor = new MvxColor(241, 241, 241);
-                }
-                if (!_checkHelper.Check2FieldsConfirm(NewPassword, ConfirmPassword))
+                if(!validationModel.IsValid)
                 {
                     ConfirmColor = new MvxColor(241, 241, 241);
                 }
             }
         }
 
+        [Required(ErrorMessageResourceName = "Strings.ConfirmPasswordFieldIsEmpty", ErrorMessageResourceType = typeof(ResourceManager))]
+        [Compare("UserProfileViewModel.Password", ErrorMessageResourceName = "Strings.ConfirmPasswordNotComparePassword", ErrorMessageResourceType = typeof(ResourceManager))]
         public string ConfirmPassword
         {
             get
@@ -119,16 +103,13 @@ namespace TestProject.Core.ViewModels
             {
                 SetProperty(ref _confirmPassword, value);
                 CheckEnableStatus();
-                if (NewPassword == ConfirmPassword
-                    && !_checkHelper.Check2FieldsConfirm(NewPassword, ConfirmPassword))
+                var passwordValidationModel = new PasswordValidationModel { Password = NewPassword, PasswordConfirm = ConfirmPassword };
+                var validationModel = _validationService.GetViewModelValidation(passwordValidationModel);
+                if (validationModel.IsValid)
                 {
                     ConfirmColor = new MvxColor(54, 255, 47);
                 }
-                if (NewPassword != ConfirmPassword)
-                {
-                    ConfirmColor = new MvxColor(241, 241, 241);
-                }
-                if (!_checkHelper.Check2FieldsConfirm(NewPassword, ConfirmPassword))
+                if (!validationModel.IsValid)
                 {
                     ConfirmColor = new MvxColor(241, 241, 241);
                 }
@@ -165,29 +146,22 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxCommand(() =>
                 {
+                    var validationModel = _validationService.GetViewModelValidation(this);
                     if (PassChangeEneble == true)
                     {
                         _loginService.ChangePassword(Profile.Id, NewPassword);
                         _userHelper.UserPassword = NewPassword;
                     }
-                    if ((_checkHelper.Check3Strings(ConfirmPassword, NewPassword, OldPassword)) && OldPassword != Profile.Password)
+                    if (!validationModel.IsValid && OldPassword != Profile.Password)
                     {
-                        var alertPass = UserDialogs.Instance.Alert(
-                            new AlertConfig
-                            {
-                                Message = Strings.UserPassword,
-                                OkText = Strings.OkText,
-                            });
-                        return;
-                    }
-                    if ((_checkHelper.Check3Strings(ConfirmPassword, NewPassword, OldPassword)) && NewPassword != ConfirmPassword)
-                    {
-                        var alertPass = UserDialogs.Instance.Alert(
-                            new AlertConfig
-                            {
-                                Message = Strings.WrongPassword,
-                                OkText = Strings.OkText,
-                            });
+                        foreach (string errorMessage in validationModel.Errors) {
+                            var alertPass = UserDialogs.Instance.Alert(
+                                new AlertConfig
+                                {
+                                    Message = errorMessage,
+                                    OkText = Strings.OkText,
+                                });
+                        }
                         return;
                     }
                     var alert = UserDialogs.Instance.Alert(
@@ -255,8 +229,7 @@ namespace TestProject.Core.ViewModels
         public void CheckEnableStatus()
         {
             if (OldPassword == Profile.Password
-                    && NewPassword == ConfirmPassword
-                    && _checkHelper.Check3FieldsConfirm(NewPassword, OldPassword, ConfirmPassword))
+                    && _validationService.GetViewModelValidation(this))
             {
                 PassChangeEneble = true;
             }

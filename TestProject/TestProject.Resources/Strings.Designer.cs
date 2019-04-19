@@ -197,6 +197,15 @@ namespace TestProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Old password field must be required.
+        /// </summary>
+        public static string OldPasswordFieldIsEmpty {
+            get {
+                return ResourceManager.GetString("OldPasswordFieldIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password must be required.
         /// </summary>
         public static string PasswordFieldIsEmpty {

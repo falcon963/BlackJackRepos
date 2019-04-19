@@ -28,7 +28,7 @@ namespace TestProject.Core.Repositories
             CrossSecureStorage.Current.SetValue(SecureConstant.Password, password);
         }
 
-        public User CheckAccountAccess(string login, string password)
+        public User GetAppRegistrateUserAccount(string login, string password)
         {
             return _dbConnection.Database.Table<User>().Where(v => v.Login == login && v.Password == password).FirstOrDefault();
         }
@@ -55,7 +55,7 @@ namespace TestProject.Core.Repositories
             _dbConnection.Database.Update(user);
         }
 
-        public int GetSocialAccount(User user)
+        public int GetSocialAccountUserId(User user)
         {
             User createdUser = _dbConnection.Database.Table<User>().Where(v => v.FacebookId == user.FacebookId || v.GoogleId == user.GoogleId).FirstOrDefault();
             if(createdUser != null)

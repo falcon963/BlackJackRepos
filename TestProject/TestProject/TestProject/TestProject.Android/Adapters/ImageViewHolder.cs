@@ -13,7 +13,7 @@ using Android.Widget;
 using MvvmCross.Droid.Support.V7.RecyclerView;
 using TestProject.Droid.Controls;
 
-namespace TestProject.Droid.Adapter
+namespace TestProject.Droid.Adapters
 {
     public class ImageViewHolder: RecyclerView.ViewHolder
     {

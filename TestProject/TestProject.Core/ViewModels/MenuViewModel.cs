@@ -9,7 +9,6 @@ using TestProject.Core.Constants;
 using TestProject.Core.Models;
 using MvvmCross.ViewModels;
 using System.Threading.Tasks;
-using TestProject.Core.Interfacies;
 using MvvmCross.UI;
 using TestProject.Core.Repositories.Interfacies;
 using TestProject.Core.Helpers.Interfaces;

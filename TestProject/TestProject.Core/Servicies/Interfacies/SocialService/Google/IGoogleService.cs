@@ -4,9 +4,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TestProject.Core.Models;
 
-namespace TestProject.Core.Interfacies.SocialService.Facebook
+namespace TestProject.Core.Servicies.Interfacies.SocialService.Google
 {
-    public interface IFacebookService
+    public interface IGoogleService
     {
         Task<User> GetSocialNetworkAsync(string accessToken);
     }

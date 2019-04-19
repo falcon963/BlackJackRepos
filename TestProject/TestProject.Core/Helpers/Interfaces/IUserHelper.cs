@@ -13,6 +13,6 @@ namespace TestProject.Core.Helpers.Interfaces
         string UserPassword { get; set; }
         int UserId { get; set; }
         string UserAccessToken { get; set; }
-        bool UserStatus { get; set; }
+        bool IsUserLogin { get; set; }
     }
 }

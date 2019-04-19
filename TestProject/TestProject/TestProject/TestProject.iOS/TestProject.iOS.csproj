@@ -343,17 +343,14 @@
     <Compile Include="Converters\FileExtensionImageConverter.cs" />
     <Compile Include="Converters\ImageValueConverter.cs" />
     <Compile Include="Converters\TaskTitleValueConverter.cs" />
-    <Compile Include="CustomControls\PlaceholderTextView.cs" />
-    <Compile Include="ResourcesHelper\ResourceHelper.cs" />
-    <Compile Include="Source\TaskFilesListSource.cs" />
+    <Compile Include="ResourcesHelpers\ResourceHelper.cs" />
+    <Compile Include="Sources\TaskFilesListSource.cs" />
     <Compile Include="Views\AppMapView.cs" />
     <Compile Include="Views\AppMapView.designer.cs">
       <DependentUpon>AppMapView.cs</DependentUpon>
     </Compile>
     <Compile Include="Converters\ColorValueConverter.cs" />
-    <Compile Include="CustomControls\CircleImageView.cs" />
     <Compile Include="Database\DatabaseConnectionService.cs" />
-    <Compile Include="CustomControls\BaseView.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Views\Cells\FileCell.cs" />
     <Compile Include="Views\Cells\FileCell.designer.cs">
@@ -361,8 +358,8 @@
     </Compile>
     <Compile Include="Views\MainRegistrationView.cs" />
     <Compile Include="Views\MainView.cs" />
-    <Compile Include="Source\MenuItemSource.cs" />
-    <Compile Include="Source\TasksListSource.cs" />
+    <Compile Include="Sources\MenuItemSource.cs" />
+    <Compile Include="Sources\TasksListSource.cs" />
     <Compile Include="Views\BaseMenuView.cs" />
     <Compile Include="Views\Cells\BaseTableViewCell.cs" />
     <Compile Include="Views\Cells\ContentCell.cs" />

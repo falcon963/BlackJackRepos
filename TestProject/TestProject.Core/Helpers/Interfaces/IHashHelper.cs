@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TestProject.Core.Helpers.Interfaces
 {
-    interface IPasswordHelper
+    interface IHashHelper
     {
         string HashPassword(string password);
     }

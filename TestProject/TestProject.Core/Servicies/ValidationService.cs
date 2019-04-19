@@ -4,45 +4,39 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestProject.Core.Interfacies;
 using TestProject.Core.Models;
+using TestProject.Core.Servicies.Interfacies;
 using TestProject.Core.ViewModels;
 
 namespace TestProject.Core.Servicies
 {
-    public class ValidationService<T>
-        : IValidationService<T> where T: BaseViewModel
+    public class ValidationService
+        : IValidationService
     {
-        public List<ValidationResult> _result;
-        public ValidationContext _context;
 
-        public ValidationService(T view)
+        public ValidationService()
         {
 
         }
 
-        public bool GetValidationPassword(PasswordValidationModel model)
+        public ModelState GetViewModelValidation(object view)
         {
-            _result = new List<ValidationResult>();
-            _context = new ValidationContext(model);
-            return Validator.TryValidateObject(model, _context, _result, true);
-        }
-
-        public bool GetViewModelValidation(T view)
-        {
-            _result = new List<ValidationResult>();
-            _context = new ValidationContext(view);
-            return Validator.TryValidateObject(view, _context, _result, true);
-        }
-
-        List<string> IValidationService<T>.GetValidationError()
-        {
+            var result = new List<ValidationResult>();
+            var context = new ValidationContext(view);
+            bool isValid = Validator.TryValidateObject(view, context, result, true);
             List<string> error = new List<string>();
-            foreach(var item in _result)
+
+            foreach (var item in result)
             {
                 error.Add(item.ErrorMessage);
             }
-            return error;
+
+            ModelState modelState = new ModelState
+            {
+                IsValid = isValid,
+                Errors = error
+            };
+            return modelState;
         }
     }
 }
