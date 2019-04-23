@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TestProject.Core.Models
 {
-    [Table("TaskFile")]
+    [Table("TasksFiles")]
     public class TaskFileModel
         : BaseModel
     {

@@ -10,6 +10,6 @@ namespace TestProject.Core.Servicies.Interfacies
 {
     public interface IValidationService
     {
-        ModelState GetViewModelValidation(object view);
+        ModelState Validate(object model);
     }
 }

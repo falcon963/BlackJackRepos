@@ -298,12 +298,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\TestProject.Core\TestProject.Core.csproj">
-      <Project>{0e73de40-f3e4-41bc-be15-2a75b4285170}</Project>
-      <Name>TestProject.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\TaskFragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -491,6 +485,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icons8_plus_24_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\TestProject.Core\TestProject.Core.csproj">
+      <Project>{0e73de40-f3e4-41bc-be15-2a75b4285170}</Project>
+      <Name>TestProject.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\..\packages\Xamarin.Android.Support.Annotations.27.0.2.1\build\MonoAndroid81\Xamarin.Android.Support.Annotations.targets" Condition="Exists('..\..\..\packages\Xamarin.Android.Support.Annotations.27.0.2.1\build\MonoAndroid81\Xamarin.Android.Support.Annotations.targets')" />

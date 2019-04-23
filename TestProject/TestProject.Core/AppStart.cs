@@ -6,7 +6,6 @@ using MvvmCross.ViewModels;
 using Plugin.SecureStorage;
 using TestProject.Core.Constants;
 using TestProject.Core.Helpers.Interfaces;
-using TestProject.Core.Interfacies;
 using TestProject.Core.Models;
 using TestProject.Core.Repositories.Interfacies;
 using TestProject.Core.ViewModels;
@@ -15,29 +14,32 @@ namespace TestProject.Core
 {
     public class AppStart : MvxAppStart
     {
+        private readonly IAccountCheckHelper _accountCheckHelper;
+        private readonly IUserHelper _userHelper;
+
         public AppStart(IMvxApplication app, IMvxNavigationService mvxNavigationService)
             : base(app, mvxNavigationService)
         {
+            _accountCheckHelper = Mvx.IoCProvider.Resolve<IAccountCheckHelper>();
+            _userHelper = Mvx.IoCProvider.Resolve<IUserHelper>();
         }
 
         protected override Task NavigateToFirstViewModel(object hint = null)
         {
-            var accountCheckHelper = Mvx.IoCProvider.Resolve<IAccountCheckHelper>();
-            var userHelper = Mvx.IoCProvider.Resolve<IUserHelper>();
 
-            if(accountCheckHelper.IsSocialNetworkLogin())
+            if(_accountCheckHelper.IsSocialNetworkLogin())
             {
                 return NavigationService.Navigate<MainViewModel>();
             }
-            if (accountCheckHelper.IsAccountStatus())
+            if (_userHelper.IsUserLogin)
             {
-                if (accountCheckHelper.IsCheckAccountAccess())
+                if (!_accountCheckHelper.IsCheckAccountAccess())
                 {
-                    userHelper.IsUserLogin = false;
+                    _userHelper.IsUserLogin = false;
                     return NavigationService.Navigate<MainRegistrationViewModel>();
                 }
 
-                userHelper.UserId = accountCheckHelper.GetUserId();
+                _userHelper.UserId = _accountCheckHelper.GetUserId();
                 return NavigationService.Navigate<MainViewModel>();
             }
             return NavigationService.Navigate<MainRegistrationViewModel>();

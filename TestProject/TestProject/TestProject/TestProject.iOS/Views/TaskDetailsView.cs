@@ -55,7 +55,7 @@ namespace TestProject.iOS.Views
 
             var set = this.CreateBindingSet<TaskDetailsView, TaskViewModel>();
             set.Bind(TaskName).To(vm => vm.UserTask.Changes.Title);
-            set.Bind(TaskName).For(v => v.Enabled).To(vm => vm.TitleEnableStatus);
+            set.Bind(TaskName).For(v => v.Enabled).To(vm => vm.IsTitleEnabled);
             set.Bind(TaskNote).To(vm => vm.UserTask.Changes.Note);
             set.Bind(TaskStatus).To(vm => vm.UserTask.Changes.Status);
             set.Bind(DeleteButton).To(vm => vm.DeleteUserTaskCommand);
@@ -370,9 +370,9 @@ namespace TestProject.iOS.Views
         void SaveFile(NSUrl url)
         {
             var file = new FileItemViewModel();
-            file.FileContent = System.IO.File.ReadAllBytes(url.Path);
-            file.FileName = System.IO.Path.GetFileNameWithoutExtension(url.Path);
-            file.FileExtension = url.PathExtension;
+            file.Content = System.IO.File.ReadAllBytes(url.Path);
+            file.Name = System.IO.Path.GetFileNameWithoutExtension(url.Path);
+            file.Extension = url.PathExtension;
             ViewModel.AddFileCommand.Execute(file);
         }
 

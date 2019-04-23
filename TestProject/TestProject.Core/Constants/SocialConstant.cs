@@ -15,5 +15,7 @@ namespace TestProject.Core.Constants
         public const string RedirectUrlFacebook = "https://www.facebook.com/connect/login_success.html";
         public const string AuthorizeUrlGoogle = "https://accounts.google.com/o/oauth2/v2/auth";
         public const string AuthorizeUrlFacebook = "https://m.facebook.com/dialog/oauth/";
+        public const string TokenUrlFacebook = "https://graph.facebook.com/oauth/access_token";
+        public const string CompletedProperties = "access_token";
     }
 }

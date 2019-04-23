@@ -11,8 +11,9 @@ namespace TestProject.Core.ViewModels
     {
         public IMvxNavigationService NavigationService { get; set; }
 
-        protected BaseViewModel()
+        protected BaseViewModel(IMvxNavigationService navigationService)
         {
+            NavigationService = navigationService;
         }
 
     }
@@ -22,8 +23,9 @@ namespace TestProject.Core.ViewModels
     {
         public IMvxNavigationService NavigationService { get; set; }
 
-        protected BaseViewModel()
+        protected BaseViewModel(IMvxNavigationService navigationService)
         {
+            NavigationService = navigationService;
         }
     }
 
@@ -32,8 +34,9 @@ namespace TestProject.Core.ViewModels
     {
         public IMvxNavigationService NavigationService { get; set; }
 
-        protected BaseViewModel()
+        protected BaseViewModel(IMvxNavigationService navigationService)
         {
+            NavigationService = navigationService;
         }
     }
 }

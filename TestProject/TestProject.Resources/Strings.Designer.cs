@@ -143,6 +143,15 @@ namespace TestProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string ErrorAlert {
+            get {
+                return ResourceManager.GetString("ErrorAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login already use!.
         /// </summary>
         public static string Login {
@@ -175,6 +184,15 @@ namespace TestProject.Resources {
         public static string Logout {
             get {
                 return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note must be required.
+        /// </summary>
+        public static string NoteIsEmpty {
+            get {
+                return ResourceManager.GetString("NoteIsEmpty", resourceCulture);
             }
         }
         
@@ -242,6 +260,15 @@ namespace TestProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The fields Password and PasswordConfirmation should be equals.
+        /// </summary>
+        public static string PasswordNotEqualsPasswordConfirmation {
+            get {
+                return ResourceManager.GetString("PasswordNotEqualsPasswordConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registrate successful! Return on Login Page?.
         /// </summary>
         public static string Registrate {
@@ -265,6 +292,15 @@ namespace TestProject.Resources {
         public static string Success {
             get {
                 return ResourceManager.GetString("Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title must be required.
+        /// </summary>
+        public static string TitleIsEmpty {
+            get {
+                return ResourceManager.GetString("TitleIsEmpty", resourceCulture);
             }
         }
         

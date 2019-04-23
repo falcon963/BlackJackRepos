@@ -10,9 +10,9 @@ namespace TestProject.Core.Repositories.Interfacies
     public interface ITasksRepository
         : IBaseRepository<UserTask>
     {
-        List<int> GetUserTasksIdAsync(int id);
-        List<UserTask> GetUserTasks(int userId);
-        void SwipeTaskDelete(UserTask item);
-        int SaveTask(UserTask item);
+        IEnumerable<int> GetUserTasksIdAsync(int id);
+        IEnumerable<UserTask> GetRange(int id);
+        int Save(UserTask id);
+        UserTask Get(int id);
     }
 }

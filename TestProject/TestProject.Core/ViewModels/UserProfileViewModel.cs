@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Resources;
 using System.Text;
+using TestProject.Core.Colors;
 using TestProject.Core.Constants;
 using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Models;
@@ -34,25 +35,19 @@ namespace TestProject.Core.ViewModels
         #endregion
 
         public UserProfileViewModel(IMvxNavigationService navigationService, ILoginRepository loginService,
-            IUserDialogs userDialogs, IUserHelper userHelper, IValidationService validationService)
+            IUserDialogs userDialogs, IUserHelper userHelper, IValidationService validationService) : base(navigationService)
         {
-            NavigationService = navigationService;
             _loginService = loginService;
             _userDialogs = userDialogs;
             _userHelper = userHelper;
             _validationService = validationService;
-            int userId = _userHelper.UserId;
-            Profile = _loginService.Get(userId);
-            Background = new MvxColor(251, 192, 45);
-            ConfirmColor = new MvxColor(241, 241, 241);
-            OldPasswordFieldColor = new MvxColor(241, 241, 241);
         }
 
         #region Propertys
 
         public User Profile { get; set; }
 
-        [Required(ErrorMessageResourceName = "Strings.OldPasswordFieldIsEmpty", ErrorMessageResourceType = typeof(ResourceManager))]
+        [Required(ErrorMessageResourceName = "OldPasswordFieldIsEmpty", ErrorMessageResourceType = typeof(Strings))]
         public string OldPassword
         {
             get
@@ -66,8 +61,8 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        [Required(ErrorMessageResourceName = "Strings.PasswordFieldIsEmpty", ErrorMessageResourceType = typeof(ResourceManager))]
-        [RegularExpression(@"[0-9A-Z]+.{8,}", ErrorMessageResourceName = "Strings.RegularError", ErrorMessageResourceType = typeof(ResourceManager))]
+        [Required(ErrorMessageResourceName = "PasswordFieldIsEmpty", ErrorMessageResourceType = typeof(Strings))]
+        [RegularExpression(@"[0-9A-Z]+.{8,}", ErrorMessageResourceName = "RegularError", ErrorMessageResourceType = typeof(Strings))]
         public string NewPassword
         {
             get
@@ -79,20 +74,20 @@ namespace TestProject.Core.ViewModels
                 SetProperty(ref _newPassword, value);
                 CheckEnableStatus();
                 var passwordValidationModel = new PasswordValidationModel { Password = NewPassword, PasswordConfirm = ConfirmPassword };
-                var validationModel = _validationService.GetViewModelValidation(passwordValidationModel);
+                var validationModel = _validationService.Validate(passwordValidationModel);
                 if (validationModel.IsValid)
                 {
-                    ConfirmColor = new MvxColor(54, 255, 47);
+                    ConfirmColor = AppColors.NotValidateColor;
                 }
                 if(!validationModel.IsValid)
                 {
-                    ConfirmColor = new MvxColor(241, 241, 241);
+                    ConfirmColor = AppColors.ValidateColor;
                 }
             }
         }
 
-        [Required(ErrorMessageResourceName = "Strings.ConfirmPasswordFieldIsEmpty", ErrorMessageResourceType = typeof(ResourceManager))]
-        [Compare("UserProfileViewModel.Password", ErrorMessageResourceName = "Strings.ConfirmPasswordNotComparePassword", ErrorMessageResourceType = typeof(ResourceManager))]
+        [Required(ErrorMessageResourceName = "ConfirmPasswordFieldIsEmpty", ErrorMessageResourceType = typeof(Strings))]
+        [Compare("UserProfileViewModel.Password", ErrorMessageResourceName = "ConfirmPasswordNotComparePassword", ErrorMessageResourceType = typeof(Strings))]
         public string ConfirmPassword
         {
             get
@@ -104,14 +99,14 @@ namespace TestProject.Core.ViewModels
                 SetProperty(ref _confirmPassword, value);
                 CheckEnableStatus();
                 var passwordValidationModel = new PasswordValidationModel { Password = NewPassword, PasswordConfirm = ConfirmPassword };
-                var validationModel = _validationService.GetViewModelValidation(passwordValidationModel);
+                var validationModel = _validationService.Validate(passwordValidationModel);
                 if (validationModel.IsValid)
                 {
-                    ConfirmColor = new MvxColor(54, 255, 47);
+                    ConfirmColor = AppColors.NotValidateColor;
                 }
                 if (!validationModel.IsValid)
                 {
-                    ConfirmColor = new MvxColor(241, 241, 241);
+                    ConfirmColor = AppColors.ValidateColor;
                 }
             }
         }
@@ -146,7 +141,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    var validationModel = _validationService.GetViewModelValidation(this);
+                    var validationModel = _validationService.Validate(this);
                     if (PassChangeEneble == true)
                     {
                         _loginService.ChangePassword(Profile.Id, NewPassword);
@@ -226,10 +221,20 @@ namespace TestProject.Core.ViewModels
 
         #endregion
 
+        public override void Prepare()
+        {
+            base.Prepare();
+            Background = AppColors.LoginColor;
+            ConfirmColor = AppColors.ValidateColor;
+            OldPasswordFieldColor = AppColors.ValidateColor;
+            int userId = _userHelper.UserId;
+            Profile = _loginService.Get(userId);
+        }
+
         public void CheckEnableStatus()
         {
             if (OldPassword == Profile.Password
-                    && _validationService.GetViewModelValidation(this))
+                    && _validationService.Validate(this).IsValid)
             {
                 PassChangeEneble = true;
             }

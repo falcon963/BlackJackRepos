@@ -10,13 +10,12 @@ using CoreGraphics;
 using TestProject.iOS.Converters;
 using Xamarin.Auth;
 using System.Json;
-using TestProject.Core.Interfacies.SocialService.Facebook;
-using TestProject.Core.Interfacies.SocialService.Google;
 using TestProject.Core.Authentication;
-using TestProject.Core.Constants;
 using TestProject.Core.Models;
 using SafariServices;
 using CoreAnimation;
+using TestProject.Core.Authentication.Interfacies;
+using TestProject.Core.Constants;
 
 namespace TestProject.iOS.Views
 {
@@ -131,7 +130,7 @@ namespace TestProject.iOS.Views
 
         void IGoogleAuthenticationDelegate.OnAuthenticationCompleted(String token)
         {
-            ViewModel.SaveGoogleUserCommand.Execute();
+            ViewModel.SignInWithFacebookCommand.Execute();
             DismissViewController(true, null);
         }
         void IGoogleAuthenticationDelegate.OnAuthenticationFailed(String message, Exception exception)
@@ -145,7 +144,7 @@ namespace TestProject.iOS.Views
 
         void IFacebookAuthentication.OnAuthenticationCompleted(String token)
         {
-            ViewModel.SaveFacebookUserCommand.Execute();
+            ViewModel.SignInWithFacebookCommand.Execute();
             DismissViewController(true, null);
         }
         void IFacebookAuthentication.OnAuthenticationFailed(String message, Exception exception)

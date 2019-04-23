@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
+using TestProject.Resources;
 
 namespace TestProject.Core.Models
 {
@@ -12,7 +14,7 @@ namespace TestProject.Core.Models
         [Required]
         public string Password { get; set; }
         [Required]
-        [Compare("PasswordValidationModel.Password", ErrorMessage = "The fields Password and PasswordConfirmation should be equals")]
+        [Compare(nameof(Password), ErrorMessageResourceName = "Strings.PasswordNotEqualsPasswordConfirmation", ErrorMessageResourceType = typeof(ResourceManager))]
         public string PasswordConfirm { get; set; }
     }
 }

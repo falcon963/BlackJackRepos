@@ -16,25 +16,34 @@ namespace TestProject.Core.Servicies
     public class GoogleService
         : IGoogleService
     {
+        private readonly HttpHelper _httpHelper;
 
-        public async Task<User> GetSocialNetworkAsync(string accessToken)
+        private readonly IMvxLog _log;
+
+        public GoogleService()
+        {
+                _httpHelper = new HttpHelper();
+                _log = Mvx.IoCProvider.Resolve<IMvxLog>();
+        }
+
+        public async Task<User> GetGoogleUserAsync(string accessToken)
         {
             User account = new User();
             try
             {
-                var httpHelper = new HttpHelper();
                 var reqrequestUrl = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + accessToken;
-                var model = await httpHelper.Get<GoogleProfileModel>(reqrequestUrl);
-                var image = await httpHelper.GetByte(model?.Picture?.Url);
-
-                account.ImagePath = Convert.ToBase64String(image);
-                account.Login = model?.Name;
-                account.GoogleId = model?.Id;
+                var model = await _httpHelper.Get<GoogleProfileModel>(reqrequestUrl);
+                var image = await _httpHelper.GetByte(model?.Picture?.Url);
+                if (model?.Picture?.Url != null)
+                {
+                    account.ImagePath = Convert.ToBase64String(image);
+                    account.Login = model?.Name;
+                    account.GoogleId = model?.Id;
+                }
             }
             catch (Exception ex)
             {
-                var log = Mvx.IoCProvider.Resolve<IMvxLog>();
-                log.Trace(ex.Message);
+                _log.Trace(ex.Message);
             }
 
             return account;

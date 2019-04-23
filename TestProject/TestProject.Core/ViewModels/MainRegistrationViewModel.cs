@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TestProject.Core.Constants;
-using TestProject.Core.Interfacies;
 using TestProject.Core.Models;
 using TestProject.Core.Repositories.Interfacies;
 
@@ -20,9 +19,8 @@ namespace TestProject.Core.ViewModels
 
         #endregion
 
-        public MainRegistrationViewModel(IMvxNavigationService navigationService, ILoginRepository loginService)
+        public MainRegistrationViewModel(IMvxNavigationService navigationService, ILoginRepository loginService) : base(navigationService)
         {
-            NavigationService = navigationService;
             _loginService = loginService;
         }
 

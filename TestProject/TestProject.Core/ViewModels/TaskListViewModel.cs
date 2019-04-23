@@ -31,10 +31,9 @@ namespace TestProject.Core.ViewModels
 
         #endregion
 
-        public TaskListViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs, IUserHelper userHelper)
+        public TaskListViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs, IUserHelper userHelper) : base(navigationService)
         {
             ListOfTasks = new MvxObservableCollection<UserTask>();
-            NavigationService = navigationService;
             _taskService = taskService;
             _userDialogs = userDialogs;
             _userHelper = userHelper;
@@ -52,10 +51,7 @@ namespace TestProject.Core.ViewModels
 
         public override Task Initialize()
         {
-            Task.Run(async () =>
-            {
-                await UserTaskInitialize();
-            });
+            UserTaskInitialize();
             return base.Initialize();
         }
 
@@ -70,7 +66,7 @@ namespace TestProject.Core.ViewModels
         public async Task UserTaskInitialize()
         {
             var userId = _userHelper.UserId;
-            List<UserTask> list = _taskService.GetUserTasks(userId);
+            List<UserTask> list = _taskService.GetRange(userId).ToList();
             foreach (var item in list)
             {
                 ListOfTasks.Add(new UserTask
@@ -103,7 +99,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxCommand<UserTask>((task) =>
                 {
-                    _taskService.SwipeTaskDelete(task);
+                    _taskService.Delete(task);
                 });
             }
         }
@@ -136,7 +132,7 @@ namespace TestProject.Core.ViewModels
                 {
                     IsRefreshing = true;
                     var userId = _userHelper.UserId;
-                    List<UserTask> list = _taskService.GetUserTasks(userId);
+                    List<UserTask> list = _taskService.GetRange(userId).ToList();
                     var listTasks = new List<UserTask>();
                     foreach (var item in list)
                     {

@@ -13,6 +13,7 @@ using MvvmCross.UI;
 using TestProject.Core.Repositories.Interfacies;
 using TestProject.Core.Helpers.Interfaces;
 using TestProject.Resources;
+using TestProject.Core.Colors;
 
 namespace TestProject.Core.ViewModels
 {
@@ -39,7 +40,7 @@ namespace TestProject.Core.ViewModels
         {
             get
             {
-                return new MvxColor(0, 105, 92);
+                return AppColors.MenuColor;
             }
         }
 
@@ -48,9 +49,8 @@ namespace TestProject.Core.ViewModels
         #endregion
 
 
-        public MenuViewModel(IMvxNavigationService navigationService, IUserDialogs userDialogs, ILoginRepository loginService, IUserHelper userHelper)
+        public MenuViewModel(IMvxNavigationService navigationService, IUserDialogs userDialogs, ILoginRepository loginService, IUserHelper userHelper) : base(navigationService)
         {
-            NavigationService = navigationService;
             _userDialogs = userDialogs;
             _userHelper = userHelper;
             int userId = _userHelper.UserId;

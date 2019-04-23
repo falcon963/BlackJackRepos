@@ -19,22 +19,18 @@ namespace TestProject.Core.Servicies
 
         }
 
-        public ModelState GetViewModelValidation(object view)
+        public ModelState Validate(object view)
         {
             var result = new List<ValidationResult>();
             var context = new ValidationContext(view);
             bool isValid = Validator.TryValidateObject(view, context, result, true);
-            List<string> error = new List<string>();
 
-            foreach (var item in result)
-            {
-                error.Add(item.ErrorMessage);
-            }
+            List<string> errorMessageList = result.Select(p => p.ErrorMessage).ToList();
 
             ModelState modelState = new ModelState
             {
                 IsValid = isValid,
-                Errors = error
+                Errors = errorMessageList
             };
             return modelState;
         }

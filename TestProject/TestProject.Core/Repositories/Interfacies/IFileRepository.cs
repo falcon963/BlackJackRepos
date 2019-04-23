@@ -9,6 +9,6 @@ namespace TestProject.Core.Repositories.Interfacies
     public interface IFileRepository
         : IBaseRepository<TaskFileModel>
     {
-
+        IEnumerable<TaskFileModel> GetRange(int id);
     }
 }

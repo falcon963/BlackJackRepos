@@ -39,9 +39,8 @@ namespace TestProject.Core.ViewModels
 
         #endregion
 
-        public UserLocationViewModel(ILocationService locationService, IMvxNavigationService navigationService)
+        public UserLocationViewModel(ILocationService locationService, IMvxNavigationService navigationService) : base(navigationService)
         {
-            NavigationService = navigationService;
             _locationService = locationService;
         }
 

@@ -12,40 +12,41 @@ namespace TestProject.Core.Helpers
     public class AccountCheckHelper
         : IAccountCheckHelper
     {
-        public readonly ILoginRepository _loginRepository;
+        private readonly ILoginRepository _loginRepository;
 
-        public AccountCheckHelper(ILoginRepository loginRepository)
+        private readonly IUserHelper _userHelper;
+
+        public AccountCheckHelper(ILoginRepository loginRepository, IUserHelper userHelper)
         {
             _loginRepository = loginRepository;
+            _userHelper = userHelper;
         }
 
         public bool IsAccountStatus()
         {
-            var statusValue = CrossSecureStorage.Current.GetValue(SecureConstant.Status);
-            bool isAccountStatus;
-            Boolean.TryParse(statusValue, out isAccountStatus);
-            return isAccountStatus;
+            var statusValue = _userHelper.IsUserLogin;
+            return statusValue;
         }
 
         public bool IsCheckAccountAccess()
         {
-            var login = CrossSecureStorage.Current.GetValue(SecureConstant.Login);
-            var password = CrossSecureStorage.Current.GetValue(SecureConstant.Password);
+            var login = _userHelper.UserLogin;
+            var password = _userHelper.UserPassword;
             var user = _loginRepository.GetAppRegistrateUserAccount(login, password);
-            return user == null;
+            return user != null;
         }
 
         public int GetUserId()
         {
-            var login = CrossSecureStorage.Current.GetValue(SecureConstant.Login);
-            var password = CrossSecureStorage.Current.GetValue(SecureConstant.Password);
+            var login = _userHelper.UserLogin;
+            var password = _userHelper.UserPassword;
             var user = _loginRepository.GetAppRegistrateUserAccount(login, password);
             return user.Id;
         }
 
         public bool IsSocialNetworkLogin()
         {
-            var isSocialNetworkLogin = String.IsNullOrWhiteSpace(CrossSecureStorage.Current.GetValue(SecureConstant.AccessToken));
+            var isSocialNetworkLogin = !String.IsNullOrEmpty(_userHelper.UserAccessToken);
             return isSocialNetworkLogin;
         }
     }

@@ -15,11 +15,10 @@ using Android.Widget;
 using TestProject.Core.Models;
 using TestProject.Core.ViewModels;
 using TestProject.Droid.Fragments;
-using TestProject.Core.Enums;
 using Android.Graphics.Drawables;
 using Android.Support.V4.Content;
 using TestProject.Droid.Views;
-using TestProject.Core.Enums;
+using TestProject.Core.Enum;
 
 namespace TestProject.Droid.Adapters
 {

@@ -404,12 +404,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\TestProject.Core\TestProject.Core.csproj">
-      <Project>{0e73de40-f3e4-41bc-be15-2a75b4285170}</Project>
-      <Name>TestProject.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\cropped.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -495,6 +489,12 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\txt_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\TestProject.Core\TestProject.Core.csproj">
+      <Project>{0e73de40-f3e4-41bc-be15-2a75b4285170}</Project>
+      <Name>TestProject.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\TestProject\TestProject.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

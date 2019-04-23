@@ -10,9 +10,9 @@ namespace TestProject.Core.ViewModels
     {
         public int Id { get; set; }
         public int TaskId { get; set; }
-        public string FileName { get; set; }
-        public byte[] FileContent { get; set; }
-        public string FileExtension { get; set; }
+        public string Name { get; set; }
+        public byte[] Content { get; set; }
+        public string Extension { get; set; }
 
         public TaskViewModel ViewModel { get; set; }
 

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
-using TestProject.Core.Interfacies;
 using MvvmCross;
 using TestProject.Core.Enums;
 using Acr.UserDialogs;
@@ -19,6 +18,9 @@ using TestProject.Core.Servicies;
 using TestProject.Core.DBConnection;
 using TestProject.Core.Repositories.Interfacies;
 using TestProject.Resources;
+using TestProject.Core.Colors;
+using TestProject.Core.Servicies.Interfacies;
+using TestProject.Core.Helpers.Interfaces;
 
 namespace TestProject.Core.ViewModels
 {
@@ -29,8 +31,11 @@ namespace TestProject.Core.ViewModels
 
         private readonly ITasksRepository _taskService;
         private readonly IUserDialogs _userDialogs;
-        private UserTask _userTaskDublicate;
         private readonly IFileRepository _fileService;
+        private readonly IDialogsService _dialogsService;
+        private readonly IUserHelper _userHelper;
+        private readonly IValidationService _validationService;
+        private UserTask _userTaskDublicate;
 
         #endregion
 
@@ -44,7 +49,7 @@ namespace TestProject.Core.ViewModels
 
         public MvxObservableCollection<FileItemViewModel> ListOfFiles { get; set; }
 
-        public bool TitleEnableStatus
+        public bool IsTitleEnabled
         {
             get
             {
@@ -52,24 +57,18 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public Boolean DeleteButtonStutus
-        {
-            get
-            {
-                return (UserTask.Changes.Id == 0) ? false : true;
-            }
-        }
-
         #endregion
 
 
-        public TaskViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs, IFileRepository fileService)
+        public TaskViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs, IFileRepository fileService, IDialogsService dialogsService, IUserHelper userHelper, IValidationService validationService):base(navigationService)
         {
             #region Init Service`s
             _taskService = taskService;
             _userDialogs = userDialogs;
-            NavigationService = navigationService;
             _fileService = fileService;
+            _dialogsService = dialogsService;
+            _userHelper = userHelper;
+            _validationService = validationService;
             #endregion
 
             #region Init Fields
@@ -77,33 +76,33 @@ namespace TestProject.Core.ViewModels
             UserTask = new ResultModel();
             UserTask.Changes = new UserTask();
             UserTask.Result = new UserTaskResult();
-            ColorTheme = new MvxColor(251, 192, 45);
             #endregion
+        }
+
+        public override void Prepare()
+        {
+            base.Prepare();
+            ColorTheme = AppColors.LoginColor;
         }
 
         public override Task Initialize()
         {
-            MvxObservableCollection<FileItemViewModel> result = new MvxObservableCollection<FileItemViewModel>();
-            Task.Factory.StartNew(async () =>
-            {
-                result = await TaskFilesInitialize();
-            });
+            TaskFilesInitialize();
             return base.Initialize();
         }
 
         public async Task<MvxObservableCollection<FileItemViewModel>> TaskFilesInitialize()
         {
-            List<TaskFileModel> list = _fileService.GetAllTaskFiles(UserTask.Changes.Id);
+            List<TaskFileModel> list = _fileService.GetRange(UserTask.Changes.Id).ToList();
             foreach (var item in list)
             {
                 ListOfFiles.Add(new FileItemViewModel
                 {
                     Id = item.Id,
                     TaskId = item.TaskId,
-                    FileContent = item.FileContent,
-                    FileName = item.FileName,
-                    FileExtension = item.FileExtension,
-                    ViewModel = this,
+                    Content = item.FileContent,
+                    Name = item.FileName,
+                    Extension = item.FileExtension,
                     DeleteFile = (FileItemViewModel file) =>
                     {
                         ListOfFiles.Remove(file);
@@ -123,20 +122,12 @@ namespace TestProject.Core.ViewModels
         {
             get
             {
-                return new MvxAsyncCommand(async() =>
+                return new MvxAsyncCommand(async () =>
                 {
-                    if(UserTask.Changes.Note != _userTaskDublicate.Note
-                    || UserTask.Changes.Title != _userTaskDublicate.Title 
-                    || UserTask.Changes.Status != _userTaskDublicate.Status)
+                    if(!UserTask.Changes.Equals(_userTaskDublicate))
                     {
-                        var goBack = await _userDialogs.ConfirmAsync(new ConfirmConfig
-                        {
-                            Title = Strings.AlertMessege,
-                            Message = Strings.ChangeLoseMessege,
-                            OkText = Strings.OkText,
-                            CancelText = Strings.NoText
-                        });
-                        if (!goBack)
+                        var userChose = await _dialogsService.ShowConfirmDialogAsync(message: Strings.ChangeLoseMessege, title: Strings.AlertMessege);
+                        if (!userChose)
                         {
                             return;
                         }
@@ -156,22 +147,11 @@ namespace TestProject.Core.ViewModels
                 {
                     if(UserTask.Changes.Id == 0)
                     {
-                        var cantDelete = UserDialogs.Instance.Alert(new AlertConfig
-                        {
-                            Title = Strings.AlertMessege,
-                            Message = Strings.CantDelete,
-                            OkText = Strings.OkText,
-                        });
+                        _dialogsService.ShowAlert(message: Strings.CantDelete);
                         return;
                     }
-                    var delete = await _userDialogs.ConfirmAsync(new ConfirmConfig
-                    {
-                        Title = Strings.AlertMessege,
-                        Message = Strings.DeleteMessege,
-                        OkText = Strings.OkText,
-                        CancelText = Strings.NoText
-                    });
-                    if (!delete)
+                    var deleteUserRequest = await _dialogsService.ShowConfirmDialogAsync(message: Strings.DeleteMessege, title: Strings.AlertMessege);
+                    if (!deleteUserRequest)
                     {
                         return;
                     }
@@ -193,16 +173,16 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxCommand<FileItemViewModel>((file) =>
                 {
-                    var modelToUpdate = ListOfFiles.Select(p => p)
-                        .Where(p => p.FileName == file.FileName && p.FileExtension == file.FileExtension)
-                        .FirstOrDefault();
+                    var modelToUpdate = ListOfFiles
+                        .FirstOrDefault(p => p.Name == file.Name && p.Extension == file.Extension);
                     if (modelToUpdate != null)
                     {
-                        var oldFile = ListOfFiles[ListOfFiles.IndexOf(modelToUpdate)];
+                        int modelId = ListOfFiles.IndexOf(modelToUpdate);
+                        var oldFile = ListOfFiles[modelId];
                         file.Id = oldFile.Id;
                         file.ViewModel = oldFile.ViewModel;
                         file.TaskId = oldFile.TaskId;
-                        ListOfFiles[ListOfFiles.IndexOf(modelToUpdate)] = file;
+                        ListOfFiles[modelId] = file;
                         RaisePropertyChanged(() => ListOfFiles);
                         return;
                     }
@@ -210,9 +190,9 @@ namespace TestProject.Core.ViewModels
                     {
                         Id = 0,
                         TaskId = UserTask.Changes.Id,
-                        FileContent = file.FileContent,
-                        FileExtension = file.FileExtension,
-                        FileName = file.FileName,
+                        Content = file.Content,
+                        Extension = file.Extension,
+                        Name = file.Name,
                         ViewModel = this
                     };
                     ListOfFiles.Add(addFile);
@@ -227,19 +207,23 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    if(String.IsNullOrEmpty(UserTask.Changes.Title) 
-                    || String.IsNullOrEmpty(UserTask.Changes.Note))
+                    var validationModel = new TaskFieldValidationModel
                     {
-                        var alert = UserDialogs.Instance.Alert(
-                            new AlertConfig
-                            {
-                                Message = Strings.EmptyTaskFieldMessege,
-                                OkText = Strings.OkText,
-                                Title = Strings.AlertMessege
-                            });
+                        Note = UserTask.Changes.Note,
+                        Title = UserTask.Changes.Title
+                    };
+
+                    ModelState modelState =_validationService.Validate(validationModel);
+
+                    if(!modelState.IsValid)
+                    {
+                        foreach(string error in modelState.Errors)
+                        {
+                            _dialogsService.ShowAlert(message: error);
+                        }
                         return;
                     }   
-                        UserTask.Changes.UserId = Int32.Parse(CrossSecureStorage.Current.GetValue(SecureConstant.UserId));
+                        UserTask.Changes.UserId = _userHelper.UserId;
                         int taskId = SaveTask(UserTask.Changes);
                         TaskFileModel fileItem;
                         foreach (FileItemViewModel file in ListOfFiles)
@@ -249,9 +233,9 @@ namespace TestProject.Core.ViewModels
                             {
                                 Id = file.Id,
                                 TaskId = taskId,
-                                FileContent = file.FileContent,
-                                FileExtension = file.FileExtension,
-                                FileName = file.FileName
+                                FileContent = file.Content,
+                                FileExtension = file.Extension,
+                                FileName = file.Name
                             };
                             _fileService.Save(fileItem);
                         }
@@ -280,7 +264,7 @@ namespace TestProject.Core.ViewModels
 
         private int SaveTask(UserTask userTask)
         {
-            return _taskService.SaveTask(userTask);
+            return _taskService.Save(userTask);
         }
 
         private void DeleteUserTask(UserTask userTask)
@@ -309,15 +293,7 @@ namespace TestProject.Core.ViewModels
                     Status = task.Status
                 };
 
-                _userTaskDublicate = new UserTask
-                {
-                    Id = task.Id,
-                    UserId = task.Id,
-                    ImagePath = task.ImagePath,
-                    Note = task.Note,
-                    Title = task.Title,
-                    Status = task.Status
-                };
+                _userTaskDublicate = new UserTask(UserTask.Changes);
             }
 
             if(task == null)

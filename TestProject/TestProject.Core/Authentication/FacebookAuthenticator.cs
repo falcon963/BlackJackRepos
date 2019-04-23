@@ -2,9 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TestProject.Core.Authentication.Interfacies;
 using TestProject.Core.Constants;
-using TestProject.Core.Interfacies.SocialService.Facebook;
 using TestProject.Core.Models;
+using TestProject.Core.Servicies.Interfacies.SocialService.Facebook;
 using Xamarin.Auth;
 
 namespace TestProject.Core.Authentication
@@ -43,7 +44,7 @@ namespace TestProject.Core.Authentication
         {
             if (e.IsAuthenticated)
             {
-                var token = e.Account.Properties["access_token"];
+                var token = e.Account.Properties[SocialConstant.CompletedProperties];
                 CrossSecureStorage.Current.SetValue(SecureConstant.AccessToken, token);
                 _authentication.OnAuthenticationCompleted(token);
             }

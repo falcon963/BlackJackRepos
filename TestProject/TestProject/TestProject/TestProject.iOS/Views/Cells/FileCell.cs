@@ -27,9 +27,9 @@ namespace TestProject.iOS.Views.Cells
             this.DelayBind(() =>
             {
                 var set = this.CreateBindingSet<FileCell, FileItemViewModel>();
-                set.Bind(FileName).To(m => m.FileName);
+                set.Bind(FileName).To(m => m.Name);
                 set.Bind(DeleteButton).To(vm => vm.DeleteFileCommand);
-                set.Bind(FileExtensionImage).To(m => m.FileExtension).WithConversion(new FileExtensionImageConverter());
+                set.Bind(FileExtensionImage).To(m => m.Extension).WithConversion(new FileExtensionImageConverter());
                 set.Apply();
 
                 FileView.Layer.BorderColor = UIColor.Black.CGColor;

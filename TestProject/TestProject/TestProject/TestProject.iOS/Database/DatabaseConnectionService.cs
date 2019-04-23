@@ -5,9 +5,9 @@ using System.Text;
 
 using Foundation;
 using UIKit;
-using TestProject.Core.Interfacies;
 using SQLite;
 using System.IO;
+using TestProject.Core.DBConnection.Interfacies;
 
 namespace TestProject.iOS.Database
 {

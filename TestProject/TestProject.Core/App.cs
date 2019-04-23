@@ -21,6 +21,14 @@ namespace TestProject.Core
                 .EndingWith("Service")
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
+            CreatableTypes()
+                .EndingWith("Repository")
+                .AsInterfaces()
+                .RegisterAsLazySingleton();
+            CreatableTypes()
+                .EndingWith("Helper")
+                .AsInterfaces()
+                .RegisterAsLazySingleton();
 
             Mvx.IoCProvider.RegisterSingleton(() => new ResxTextProvider(Strings.ResourceManager));
             Mvx.IoCProvider.RegisterSingleton(() => UserDialogs.Instance);

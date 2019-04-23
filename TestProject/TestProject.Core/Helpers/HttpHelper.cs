@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Models;
 
 namespace TestProject.Core.Helpers
@@ -27,11 +28,11 @@ namespace TestProject.Core.Helpers
             }
         }
 
-        public async Task<byte[]> GetByte(string imageUrl)
+        public async Task<byte[]> GetByte(string Uri)
         {
             using (var _httpClient = new HttpClient())
             {
-                var getByte = await _httpClient.GetByteArrayAsync(imageUrl);
+                var getByte = await _httpClient.GetByteArrayAsync(Uri);
                 return getByte;
             }
         }

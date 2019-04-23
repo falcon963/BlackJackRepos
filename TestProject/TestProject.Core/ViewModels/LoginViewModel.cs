@@ -20,6 +20,7 @@ using System.Resources;
 using TestProject.Core.Servicies.Interfacies.SocialService.Google;
 using TestProject.Core.Servicies.Interfacies.SocialService.Facebook;
 using TestProject.Core.Servicies.Interfacies;
+using TestProject.Core.Colors;
 
 namespace TestProject.Core.ViewModels
 {
@@ -39,26 +40,16 @@ namespace TestProject.Core.ViewModels
 
         #endregion
 
-        public LoginViewModel(IMvxNavigationService navigationService,
-            ILoginRepository loginService, ITasksRepository taskService, IGoogleService googleService, IFacebookService facebookService, IUserHelper userHelper, IValidationService validationService, IDialogsService dialogsService)
+        public LoginViewModel(IMvxNavigationService navigationService,ILoginRepository loginService, ITasksRepository taskService, IGoogleService googleService, 
+            IFacebookService facebookService, IUserHelper userHelper, IValidationService validationService, IDialogsService dialogsService) : base(navigationService)
         {
                 _facebookService = facebookService;
                 _loginService = loginService;
-                NavigationService = navigationService;
                 _taskService = taskService;
                 _googleService = googleService;
                 _userHelper = userHelper;
                 _validationService = validationService;
-                _dialogsService = dialogsService;
-
-                LoginColor = new MvxColor(251, 192, 45);
-
-                if (_userHelper.IsUserLogin)
-                {
-                    Login = _userHelper.UserLogin;
-                    Password = _userHelper.UserPassword;
-                    _rememberMe = _userHelper.IsUserLogin;
-                }      
+                _dialogsService = dialogsService;      
         }
 
         #region Properties
@@ -67,10 +58,10 @@ namespace TestProject.Core.ViewModels
 
         public OAuth2Authenticator Auth { get; set; }
 
-        [Required(ErrorMessageResourceName = "Strings.LoginFieldIsEmpty", ErrorMessageResourceType = typeof(ResourceManager))]
+        [Required(ErrorMessageResourceName = "LoginFieldIsEmpty", ErrorMessageResourceType = typeof(Strings))]
         public string Login { get; set; }
 
-        [Required(ErrorMessageResourceName = "Strings.PasswordFieldIsEmpty", ErrorMessageResourceType = typeof(ResourceManager))]
+        [Required(ErrorMessageResourceName = "PasswordFieldIsEmpty", ErrorMessageResourceType = typeof(Strings))]
         public string Password { get; set; }
 
         public bool IsRememberMeStatus
@@ -96,6 +87,20 @@ namespace TestProject.Core.ViewModels
 
         #endregion
 
+        public override void Prepare()
+        {
+            base.Prepare();
+            LoginColor = AppColors.LoginColor;
+
+
+            if (_userHelper.IsUserLogin)
+            {
+                Login = _userHelper.UserLogin;
+                Password = _userHelper.UserPassword;
+                _rememberMe = _userHelper.IsUserLogin;
+            }
+        }
+
         #region Commands
 
         public IMvxAsyncCommand LoginCommand
@@ -104,12 +109,12 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    var validationModel = _validationService.GetViewModelValidation(this);
-                    if (validationModel.IsValid)
+                    var validationModel = _validationService.Validate(this);
+                    if (!validationModel.IsValid)
                     {
                         foreach (string error in validationModel.Errors)
                         {
-                            _dialogsService.UserDialogAlert(error);
+                            _dialogsService.ShowAlert(error);
                         }
                         return;
                     }
@@ -122,12 +127,7 @@ namespace TestProject.Core.ViewModels
                     }
                     if((account == null))
                     {
-                        UserDialogs.Instance.Alert(new AlertConfig
-                        {
-                            Message = Strings.WrongData,
-                            OkText = Strings.OkText,
-                            Title = Strings.AccountNotFound
-                        });
+                        _dialogsService.ShowAlert(Strings.WrongData);
                         return;
                     }
                 });
@@ -145,50 +145,38 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public IMvxAsyncCommand SaveFacebookUserCommand
+        public IMvxAsyncCommand SignInWithFacebookCommand
         {
             get
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    var token = _userHelper.UserAccessToken;
-                    if(token == null)
-                    {
-                        return;
-                    }
-                    if (token != null)
-                    {
-                        User user = await _facebookService.GetSocialNetworkAsync(token);
-                        var id = _loginService.GetSocialAccountUserId(user);
-                        _userHelper.UserId = id;
-                        await NavigationService.Navigate<MainViewModel>();
-                        await NavigationService.Close(this);
-                    }
+                    await SingIn(async () => await _facebookService.GetFacebookUserAsync(_userHelper.UserAccessToken));
                 });
             }
         }
 
-        public IMvxAsyncCommand SaveGoogleUserCommand
+        public IMvxAsyncCommand SignInWithGoogleCommand
         {
             get
             {
                 return new MvxAsyncCommand(async () =>
-                {
-                    var token = _userHelper.UserAccessToken;
-                    if (token == null)
-                    {
-                        return;
-                    }
-                    if (token != null)
-                    {
-                        User user = await _googleService.GetSocialNetworkAsync(token);
-                        var id = _loginService.GetSocialAccountUserId(user);
-                        _userHelper.UserId = id;
-                        await NavigationService.Navigate<MainViewModel>();
-                        await NavigationService.Close(this);
-                    }
+                {                     
+                    await SingIn(async () => await _googleService.GetGoogleUserAsync(_userHelper.UserAccessToken));
                 });
             }
+        }
+
+        async Task SingIn(Func<Task<User>> getUser){
+            var token = _userHelper.UserAccessToken;
+            if (string.IsNullOrEmpty(token))
+            {
+                return;
+            }
+            User user = await getUser();
+            var id = _loginService.GetSocialAccountUserId(user);
+            await NavigationService.Navigate<MainViewModel>();
+            await NavigationService.Close(this);
         }
 
         #endregion

@@ -144,6 +144,9 @@
   <data name="EmptyTaskFieldMessege" xml:space="preserve">
     <value>You can't save task when field is empty!</value>
   </data>
+  <data name="ErrorAlert" xml:space="preserve">
+    <value>Error</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Login already use!</value>
   </data>
@@ -155,6 +158,9 @@
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Do you want logout?</value>
+  </data>
+  <data name="NoteIsEmpty" xml:space="preserve">
+    <value>Note must be required</value>
   </data>
   <data name="NoText" xml:space="preserve">
     <value>No</value>
@@ -177,6 +183,9 @@
   <data name="PasswordMustContentUpperChar" xml:space="preserve">
     <value>Password must content upper char!</value>
   </data>
+  <data name="PasswordNotEqualsPasswordConfirmation" xml:space="preserve">
+    <value>The fields Password and PasswordConfirmation should be equals</value>
+  </data>
   <data name="Registrate" xml:space="preserve">
     <value>Registrate successful! Return on Login Page?</value>
   </data>
@@ -185,6 +194,9 @@
   </data>
   <data name="Success" xml:space="preserve">
     <value>Success!</value>
+  </data>
+  <data name="TitleIsEmpty" xml:space="preserve">
+    <value>Title must be required</value>
   </data>
   <data name="UserPassword" xml:space="preserve">
     <value>Wrong old password!</value>

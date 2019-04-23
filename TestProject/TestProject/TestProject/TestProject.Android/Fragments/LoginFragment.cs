@@ -96,7 +96,7 @@ namespace TestProject.Droid.Fragments
 
         void IFacebookCallback.OnSuccess(Java.Lang.Object result)
         {
-            ViewModel.SaveFacebookUserCommand.Execute();
+            ViewModel.SignInWithFacebookCommand.Execute();
         }
 
 
@@ -117,7 +117,7 @@ namespace TestProject.Droid.Fragments
 
         void IGoogleAuthenticationDelegate.OnAuthenticationCompleted(string token)
         {
-            ViewModel.SaveGoogleUserCommand.Execute();
+            ViewModel.SignInWithGoogleCommand.Execute();
         }
 
 

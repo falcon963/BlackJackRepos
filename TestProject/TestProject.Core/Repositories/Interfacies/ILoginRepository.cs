@@ -15,5 +15,6 @@ namespace TestProject.Core.Repositories.Interfacies
         int GetSocialAccountUserId(User user);
         void ChangePassword(int userId, string password);
         void ChangeImage(int userId, string imagePath);
+        User Get(int id);
     }
 }

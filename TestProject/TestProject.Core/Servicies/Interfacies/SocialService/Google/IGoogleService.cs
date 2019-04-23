@@ -8,6 +8,6 @@ namespace TestProject.Core.Servicies.Interfacies.SocialService.Google
 {
     public interface IGoogleService
     {
-        Task<User> GetSocialNetworkAsync(string accessToken);
+        Task<User> GetGoogleUserAsync(string accessToken);
     }
 }

@@ -93,33 +93,5 @@ namespace TestProject.iOS.Sources
         {
             return _view.ViewModel.ListOfTasks.Count;
         }
-
-        //public override UIView GetViewForHeader(UITableView tableView, nint section)
-        //{
-        //    var headerView = new UIView();
-        //    headerView.BackgroundColor = UIColor.Clear;
-        //    return headerView;
-        //}
-
-        //public override nfloat GetHeightForHeader(UITableView tableView, nint section)
-        //{
-        //    return 0;
-        //}
-
-        //public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
-        //{
-        //    return UITableView.AutomaticDimension;
-        //}
-
-        //public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
-        //{
-        //    var task = _view.ViewModel.ListOfTasks[indexPath.Row];
-        //    _view.ViewModel.ItemSelectedCommand.Execute(task);
-        //}
-
-        //public override nfloat EstimatedHeight(UITableView tableView, NSIndexPath indexPath)
-        //{
-        //    return 120;
-        //}
     }
 }

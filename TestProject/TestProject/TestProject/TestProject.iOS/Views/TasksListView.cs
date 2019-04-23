@@ -71,7 +71,6 @@ namespace TestProject.iOS.Views
             TasksList.AddSubview(refreshControl);
             TasksList.Source = source;
             TasksList.RegisterNibForCellReuse(UINib.FromName("ContentTasksCell", NSBundle.MainBundle), ContentTasksCell.Key);
-            //TasksList.RowHeight = UITableView.AutomaticDimension;
             TasksList.RowHeight = 60;
             TasksList.ReloadData();
         }
@@ -93,12 +92,5 @@ namespace TestProject.iOS.Views
             this.FabButton.Layer.ShadowRadius = 5;
             this.FabButton.Layer.ShadowOpacity = 1 / 2;
         }
-
-        //public override void ViewWillDisappear(bool animated)
-        //{
-        //    base.ViewWillDisappear(animated);
-        //    this.FabButton.RemoveFromSuperview();
-        //    FabButton = null;
-        //}
     }
 }

@@ -14,7 +14,7 @@ namespace TestProject.Core.Helpers
 
         }
 
-        public string HashPassword(string password)
+        public string GetHash(string password)
         {
             MD5 md5 = MD5.Create();
             byte[] inputBytes = Encoding.ASCII.GetBytes(password);

@@ -5,7 +5,7 @@ using SQLite;
 
 namespace TestProject.Core.Models
 {
-    [Table("User")]
+    [Table("Users")]
     public class User
         : BaseModel
     {        

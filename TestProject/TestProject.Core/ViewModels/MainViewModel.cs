@@ -21,9 +21,8 @@ namespace TestProject.Core.ViewModels
 
         #endregion
 
-        public MainViewModel(IMvxNavigationService navigationService, ILoginRepository loginService)
+        public MainViewModel(IMvxNavigationService navigationService, ILoginRepository loginService) :base(navigationService)
         {
-            NavigationService = navigationService;
             _loginService = loginService;
         }
 

@@ -13,8 +13,6 @@ using MvvmCross.Binding.Bindings.Target.Construction;
 using MvvmCross.ViewModels;
 using MvvmCross.Navigation;
 using Acr.UserDialogs;
-using TestProject.Core.Interfacies;
-using TestProject.Core.Servicies;
 using System.Reflection;
 using System.Collections;
 using MvvmCross.Plugin.Color;
@@ -36,31 +34,16 @@ namespace TestProject.iOS
         {
             base.InitializeLastChance();
 
+#pragma warning disable CS0618 // Type or member is obsolete
             var registry = Mvx.Resolve<IMvxValueConverterLookup>();
+#pragma warning restore CS0618 // Type or member is obsolete
         }
-
-        //protected override IMvxIocOptions CreateIocOptions()
-        //{
-        //    return new MvxIocOptions
-        //    {
-        //        PropertyInjectorOptions = MvxPropertyInjectorOptions.MvxInject
-        //    };
-        //}
 
         protected override void RegisterPresenter()
         {
             base.RegisterPresenter();
         }
 
-        //protected override IEnumerable<Assembly> ValueConverterAssemblies
-        //{
-        //    get
-        //    {
-        //        var toReturn = base.ValueConverterAssemblies as IList;
-        //        toReturn.Add(typeof(ColorValueConverter).Assembly);
-        //        return (List<Assembly>)toReturn;
-        //    }
-        //}
 
         protected override IEnumerable<Assembly> ValueConverterAssemblies
         {

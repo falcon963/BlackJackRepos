@@ -46,7 +46,6 @@ namespace TestProject.iOS.Views
             set.Bind(UserProfileImage).For(v => v.Image).To(vm => vm.Profile.ImagePath).WithConversion(new ImageValueConverter());
             set.Bind(source).For(x => x.ItemsSource).To(vm => vm.MenuItems);
             set.Bind(source).For(x => x.SelectionChangedCommand).To(vm => vm.ItemSelectCommand);
-            //set.Bind(ProfileView).To(vm => vm.OpenProfileCommand);
             set.Apply();
 
             NavigateList.Source = source;
