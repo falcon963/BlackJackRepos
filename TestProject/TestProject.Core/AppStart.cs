@@ -1,44 +1,41 @@
-﻿using System;
-using System.Threading.Tasks;
-using MvvmCross;
+﻿using MvvmCross;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
-using Plugin.SecureStorage;
-using TestProject.Core.Constants;
+using System.Threading.Tasks;
 using TestProject.Core.Helpers.Interfaces;
-using TestProject.Core.Models;
-using TestProject.Core.Repositories.Interfaces;
 using TestProject.Core.ViewModels;
 
 namespace TestProject.Core
 {
     public class AppStart : MvxAppStart
     {
-        public AppStart(IMvxApplication app, IMvxNavigationService mvxNavigationService)
+        IAccountCheckHelper _accountCheckHelper;
+        IUserHelper _userHelper;
+
+        public AppStart(IMvxApplication app, IMvxNavigationService mvxNavigationService, IAccountCheckHelper accountCheckHelper, IUserHelper userHelper)
             : base(app, mvxNavigationService)
         {
-            
+            _accountCheckHelper = accountCheckHelper;
+            _userHelper = userHelper;
         }
 
         protected override Task NavigateToFirstViewModel(object hint = null)
         {
-            IAccountCheckHelper accountCheckHelper = Mvx.IoCProvider.Resolve<IAccountCheckHelper>();
-            IUserHelper userHelper = Mvx.IoCProvider.Resolve<IUserHelper>();
 
-            if (accountCheckHelper.IsSocialNetworkLogin())
+            if (_accountCheckHelper.IsSocialNetworkLogin())
             {
                 return NavigationService.Navigate<MainViewModel>();
             }
-            if (userHelper.IsUserLogin)
+            if (_userHelper.IsUserLogin)
             {
-                if (!accountCheckHelper.IsCheckAccountAccess())
+                if (!_accountCheckHelper.IsCheckAccountAccess())
                 {
-                    userHelper.IsUserLogin = false;
+                    _userHelper.IsUserLogin = false;
 
                     return NavigationService.Navigate<MainRegistrationViewModel>();
                 }
 
-                userHelper.UserId = accountCheckHelper.GetUserId();
+                _userHelper.UserId = _accountCheckHelper.GetUserId();
 
                 return NavigationService.Navigate<MainViewModel>();
             }
