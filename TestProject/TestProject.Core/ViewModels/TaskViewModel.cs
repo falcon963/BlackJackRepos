@@ -16,16 +16,16 @@ using TestProject.Core.Constants;
 using System.Threading;
 using TestProject.Core.Servicies;
 using TestProject.Core.DBConnection;
-using TestProject.Core.Repositories.Interfacies;
+using TestProject.Core.Repositories.Interfaces;
 using TestProject.Resources;
 using TestProject.Core.Colors;
-using TestProject.Core.Servicies.Interfacies;
+using TestProject.Core.Servicies.Interfaces;
 using TestProject.Core.Helpers.Interfaces;
 
 namespace TestProject.Core.ViewModels
 {
     public class TaskViewModel
-        : BaseViewModel<Int32, ResultModel>
+        : BaseViewModel<int, ResultModel>
     {
         #region Fields
 
@@ -35,7 +35,8 @@ namespace TestProject.Core.ViewModels
         private readonly IDialogsService _dialogsService;
         private readonly IUserHelper _userHelper;
         private readonly IValidationService _validationService;
-        private UserTask _userTaskDublicate;
+
+        private UserTask _userTaskCopy;
 
         #endregion
 
@@ -57,6 +58,18 @@ namespace TestProject.Core.ViewModels
             }
         }
 
+        public bool IsDeleteButtonHidden
+        {
+            get
+            {
+                if(UserTask.Changes.Id == 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+
         #endregion
 
 
@@ -75,14 +88,14 @@ namespace TestProject.Core.ViewModels
             ListOfFiles = new MvxObservableCollection<FileItemViewModel>();
             UserTask = new ResultModel();
             UserTask.Changes = new UserTask();
-            UserTask.Result = new UserTaskResult();
+            UserTask.Result = UserTaskResult.NotChanged;
             #endregion
         }
 
         public override void Prepare()
         {
             base.Prepare();
-            ColorTheme = AppColors.LoginColor;
+            ColorTheme = AppColors.LoginBackgroundColor;
         }
 
         public override Task Initialize()
@@ -93,7 +106,7 @@ namespace TestProject.Core.ViewModels
 
         public async Task<MvxObservableCollection<FileItemViewModel>> TaskFilesInitialize()
         {
-            List<TaskFileModel> list = _fileService.GetRange(UserTask.Changes.Id).ToList();
+            List<TaskFileModel> list = _fileService.GetFilesList(UserTask.Changes.Id).ToList();
             foreach (var item in list)
             {
                 ListOfFiles.Add(new FileItemViewModel
@@ -106,8 +119,6 @@ namespace TestProject.Core.ViewModels
                     DeleteFile = (FileItemViewModel file) =>
                     {
                         ListOfFiles.Remove(file);
-                        RaisePropertyChanged(() => ListOfFiles);
-                        return true;
                     }
                 }
                 );
@@ -124,15 +135,15 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    if(!UserTask.Changes.Equals(_userTaskDublicate))
+                    if(!UserTask.Changes.Equals(_userTaskCopy))
                     {
-                        var userChose = await _dialogsService.ShowConfirmDialogAsync(message: Strings.ChangeLoseMessege, title: Strings.AlertMessege);
-                        if (!userChose)
+                        var isGoBackConfirmed = await _dialogsService.ShowConfirmDialogAsync(message: Strings.IfYouGoOnTaskyDropWithoutSaveYourChangesWillBeLoseDoYouWantThis,
+                            title: Strings.AlertMessege);
+                        if (!isGoBackConfirmed)
                         {
                             return;
                         }
                     }
-                    UserTask.Result = UserTaskResult.NotChanged;
                     await NavigationService.Close<ResultModel>(this, UserTask);
                 });
             }
@@ -145,23 +156,17 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    if(UserTask.Changes.Id == 0)
-                    {
-                        _dialogsService.ShowAlert(message: Strings.CantDelete);
-                        return;
-                    }
-                    var deleteUserRequest = await _dialogsService.ShowConfirmDialogAsync(message: Strings.DeleteMessege, title: Strings.AlertMessege);
+                    var deleteUserRequest = await _dialogsService.ShowConfirmDialogAsync(message: Strings.DoYouWantDeleteThisTask, title: Strings.AlertMessege);
+
                     if (!deleteUserRequest)
                     {
                         return;
                     }
-                    List<TaskFileModel> listFile = new List<TaskFileModel>();
-                    foreach(FileItemViewModel file in ListOfFiles)
-                    {
-                        _fileService.Delete(file.Id);
-                    }
-                    DeleteUserTask(UserTask.Changes);
+
+                    _taskService.Delete(UserTask.Changes);
+
                     UserTask.Result = UserTaskResult.Deleted;
+
                     await NavigationService.Close<ResultModel>(this, UserTask);
                 });
             }
@@ -177,26 +182,27 @@ namespace TestProject.Core.ViewModels
                         .FirstOrDefault(p => p.Name == file.Name && p.Extension == file.Extension);
                     if (modelToUpdate != null)
                     {
-                        int modelId = ListOfFiles.IndexOf(modelToUpdate);
-                        var oldFile = ListOfFiles[modelId];
-                        file.Id = oldFile.Id;
-                        file.ViewModel = oldFile.ViewModel;
-                        file.TaskId = oldFile.TaskId;
-                        ListOfFiles[modelId] = file;
-                        RaisePropertyChanged(() => ListOfFiles);
+                        int fileId = ListOfFiles.IndexOf(modelToUpdate);
+                        var oldFile = ListOfFiles[fileId];
+
+                        oldFile.Content = file.Content;
+
+                        ListOfFiles[fileId] = oldFile;
+
                         return;
                     }
-                    var addFile = new FileItemViewModel
+                    var newFile = new FileItemViewModel
                     {
-                        Id = 0,
                         TaskId = UserTask.Changes.Id,
                         Content = file.Content,
                         Extension = file.Extension,
                         Name = file.Name,
-                        ViewModel = this
+                        DeleteFile = (FileItemViewModel fileItem) =>
+                        {
+                            ListOfFiles.Remove(fileItem);
+                        }
                     };
-                    ListOfFiles.Add(addFile);
-                    RaisePropertyChanged(() => ListOfFiles);
+                    ListOfFiles.Add(newFile);
                 });
             }
         }
@@ -217,14 +223,15 @@ namespace TestProject.Core.ViewModels
 
                     if(!modelState.IsValid)
                     {
-                        foreach(string error in modelState.Errors)
-                        {
-                            _dialogsService.ShowAlert(message: error);
-                        }
+                        _dialogsService.ShowAlert(modelState.Errors[0]);
+
                         return;
                     }   
+
                         UserTask.Changes.UserId = _userHelper.UserId;
-                        int taskId = SaveTask(UserTask.Changes);
+
+                        int taskId = _taskService.Save(UserTask.Changes);
+                
                         TaskFileModel fileItem;
                         foreach (FileItemViewModel file in ListOfFiles)
                         {
@@ -239,7 +246,9 @@ namespace TestProject.Core.ViewModels
                             };
                             _fileService.Save(fileItem);
                         }
+
                         UserTask.Result = UserTaskResult.Saved;
+
                         await NavigationService.Close<ResultModel>(this, UserTask);             
                 });
             }
@@ -253,33 +262,20 @@ namespace TestProject.Core.ViewModels
             {
                 return false;
             }
+
             ListOfFiles.Remove(file);
-            RaisePropertyChanged(() => ListOfFiles);
+
             if(file.Id != 0)
             {
                 _fileService.Delete(file.Id);
             }
+
             return true;
-        }
-
-        private int SaveTask(UserTask userTask)
-        {
-            return _taskService.Save(userTask);
-        }
-
-        private void DeleteUserTask(UserTask userTask)
-        {
-            _taskService.Delete(userTask);
-        }
-
-        private UserTask GetTask(int taskId)
-        {
-            return _taskService.Get(taskId);
         }
 
         public override void Prepare(int taskId)
         {
-            UserTask task = GetTask(taskId);
+            UserTask task = _taskService.Get(taskId);
 
             if (task != null)
             {
@@ -293,7 +289,7 @@ namespace TestProject.Core.ViewModels
                     Status = task.Status
                 };
 
-                _userTaskDublicate = new UserTask(UserTask.Changes);
+                _userTaskCopy = new UserTask(UserTask.Changes);
             }
 
             if(task == null)
@@ -303,7 +299,7 @@ namespace TestProject.Core.ViewModels
                     Changes = new UserTask(),
                     Result = new UserTaskResult()
                 };
-                _userTaskDublicate = new UserTask();
+                _userTaskCopy = new UserTask();
             }
             
         }

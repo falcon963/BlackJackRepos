@@ -147,7 +147,7 @@ namespace TestProject.Droid.Fragments
         {
             if(item.ItemId == Resource.Id.home)
             {
-                ViewModel.GoBackCommand.Execute();
+                ViewModel.CloseCommand.Execute();
             }
             return base.OnOptionsItemSelected(item);
         }

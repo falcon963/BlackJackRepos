@@ -60,6 +60,7 @@ namespace TestProject.iOS.Views
             this.RefreshControl = refreshControl;
 
             var set = this.CreateBindingSet<TasksListView, TaskListViewModel>();
+
             set.Bind(refreshControl).For(r => r.IsRefreshing).To(vm => vm.IsRefreshing);
             set.Bind(refreshControl).For(r => r.RefreshCommand).To(vm => vm.RefreshTaskCommand);
             set.Bind(source).For(x => x.ItemsSource).To(vm => vm.ListOfTasks);

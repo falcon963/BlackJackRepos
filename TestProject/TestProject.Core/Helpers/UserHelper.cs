@@ -14,11 +14,11 @@ namespace TestProject.Core.Helpers
         {
             get
             {
-                return CrossSecureStorage.Current.GetValue(SecureConstant.Login);
+                return CrossSecureStorage.Current.GetValue(SecureConstants.Login);
             }
             set
             {
-                CrossSecureStorage.Current.SetValue(SecureConstant.Login, value.ToString());
+                CrossSecureStorage.Current.SetValue(SecureConstants.Login, value);
             }
         }
 
@@ -26,11 +26,11 @@ namespace TestProject.Core.Helpers
         {
             get
             {
-                return CrossSecureStorage.Current.GetValue(SecureConstant.Password);
+                return CrossSecureStorage.Current.GetValue(SecureConstants.Password);
             }
             set
             {
-                CrossSecureStorage.Current.SetValue(SecureConstant.Password, value.ToString());
+                CrossSecureStorage.Current.SetValue(SecureConstants.Password, value);
             }
         }
 
@@ -39,13 +39,15 @@ namespace TestProject.Core.Helpers
             get
             {
                 int userId;
-                string stringUserId = CrossSecureStorage.Current.GetValue(SecureConstant.UserId);
+                string stringUserId = CrossSecureStorage.Current.GetValue(SecureConstants.UserId);
+
                 Int32.TryParse(stringUserId, out userId);
+
                 return userId;
             }
             set
             {
-                CrossSecureStorage.Current.SetValue(SecureConstant.UserId, value.ToString());
+                CrossSecureStorage.Current.SetValue(SecureConstants.UserId, value.ToString());
             }
         }
 
@@ -53,11 +55,11 @@ namespace TestProject.Core.Helpers
         {
             get
             {
-                return CrossSecureStorage.Current.GetValue(SecureConstant.AccessToken);
+                return CrossSecureStorage.Current.GetValue(SecureConstants.AccessToken);
             }
             set
             {
-                CrossSecureStorage.Current.SetValue(SecureConstant.AccessToken, value.ToString());
+                CrossSecureStorage.Current.SetValue(SecureConstants.AccessToken, value);
             }
         }
 
@@ -66,24 +68,26 @@ namespace TestProject.Core.Helpers
             get
             {
                 bool userStatus;
-                string stringUserStatus = CrossSecureStorage.Current.GetValue(SecureConstant.Status);
+                string stringUserStatus = CrossSecureStorage.Current.GetValue(SecureConstants.Status);
+
                 Boolean.TryParse(stringUserStatus, out userStatus);
+
                 return userStatus;
             }
             set
             {
-                CrossSecureStorage.Current.SetValue(SecureConstant.Status, value.ToString());
+                CrossSecureStorage.Current.SetValue(SecureConstants.Status, value.ToString());
             }
         }
 
         public void DeleteUserStatus()
         {
-            CrossSecureStorage.Current.DeleteKey(SecureConstant.Status);
+            CrossSecureStorage.Current.DeleteKey(SecureConstants.Status);
         }
 
         public void DeleteUserAccessToken()
         {
-            CrossSecureStorage.Current.DeleteKey(SecureConstant.AccessToken);
+            CrossSecureStorage.Current.DeleteKey(SecureConstants.AccessToken);
         }
     }
 }

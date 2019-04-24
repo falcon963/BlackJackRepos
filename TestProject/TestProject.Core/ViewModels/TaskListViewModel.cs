@@ -13,9 +13,10 @@ using TestProject.Core.Constants;
 using Acr.UserDialogs;
 using System.Reflection;
 using MvvmCross.UI;
-using TestProject.Core.Repositories.Interfacies;
+using TestProject.Core.Repositories.Interfaces;
 using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Enums;
+using TestProject.Core.Colors;
 
 namespace TestProject.Core.ViewModels
 {
@@ -34,6 +35,7 @@ namespace TestProject.Core.ViewModels
         public TaskListViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs, IUserHelper userHelper) : base(navigationService)
         {
             ListOfTasks = new MvxObservableCollection<UserTask>();
+
             _taskService = taskService;
             _userDialogs = userDialogs;
             _userHelper = userHelper;
@@ -45,7 +47,7 @@ namespace TestProject.Core.ViewModels
 
         public MvxObservableCollection<UserTask> ListOfTasks { get; set; }
 
-        public virtual bool IsRefreshing { get; set; }
+        public bool IsRefreshing { get; set; }
 
         #endregion
 
@@ -59,36 +61,18 @@ namespace TestProject.Core.ViewModels
         {
             get
             {
-                return new MvxColor(251, 192, 45);
+                return AppColors.AppColorTheme;
             }
         }
 
         public async Task UserTaskInitialize()
         {
             var userId = _userHelper.UserId;
-            List<UserTask> list = _taskService.GetRange(userId).ToList();
-            foreach (var item in list)
-            {
-                ListOfTasks.Add(new UserTask
-                {
-                    Id = item.Id,
-                    UserId = item.UserId,
-                    ImagePath = item.ImagePath,
-                    Title = item.Title,
-                    Status = item.Status
-                });
-            }
+
+            List<UserTask> list = _taskService.GetTasksList(userId).ToList();
+
+            ListOfTasks.AddRange(list);
         }
-
-        
-
-        
-        public void UserTaskProcess(List<UserTask> tasks)
-        {
-            ListOfTasks = new MvxObservableCollection<UserTask>(tasks);
-        }
-
-
 
 
         #region Commands
@@ -111,10 +95,12 @@ namespace TestProject.Core.ViewModels
                 return new MvxAsyncCommand(async () =>
                 {
                     ResultModel result = await NavigationService.Navigate<TaskViewModel, int, ResultModel>(0);
+
                     if (result == null)
                     {
                         return;
                     }
+
                     if (result.Result == UserTaskResult.Saved)
                     {
                         ListOfTasks.Add(result.Changes);
@@ -131,9 +117,12 @@ namespace TestProject.Core.ViewModels
                 return new MvxCommand(() =>
                 {
                     IsRefreshing = true;
+
                     var userId = _userHelper.UserId;
-                    List<UserTask> list = _taskService.GetRange(userId).ToList();
                     var listTasks = new List<UserTask>();
+
+                    List<UserTask> list = _taskService.GetTasksList(userId).ToList();
+
                     foreach (var item in list)
                     {
                         listTasks.Add(new UserTask
@@ -145,6 +134,7 @@ namespace TestProject.Core.ViewModels
                             Status = item.Status
                         });
                     }
+
                     ListOfTasks.ReplaceWith(listTasks);
 
                     IsRefreshing = false;
@@ -160,28 +150,31 @@ namespace TestProject.Core.ViewModels
                 return new MvxCommand<UserTask>(async (item) =>
                 {
                     var result = await NavigationService.Navigate<TaskViewModel, int, ResultModel>(item.Id);
+
                     if (result == null)
                     {
                         return;
                     }
+
                     if(result.Result == UserTaskResult.Deleted)
                     {
                         var delete = ListOfTasks.FirstOrDefault(p => p.Id == result.Changes.Id);
+
                         if(delete == null)
                         {
                             return;
                         }
+
                         ListOfTasks.Remove(delete);
+
                         return;
                     }
-                    if(result.Result == UserTaskResult.NotChanged)
-                    {
-                        return;
-                    }
+
                     if (result.Result == UserTaskResult.Saved)
                     {
                         var modelToUpdate = ListOfTasks.FirstOrDefault(p => p.Id == result.Changes.Id);
                         var index = ListOfTasks.IndexOf(modelToUpdate);
+
                         ListOfTasks[index] = result.Changes;
                     }
                 });

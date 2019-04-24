@@ -8,10 +8,10 @@ namespace TestProject.Core.Models
 {
     public class TaskFieldValidationModel
     {
-        [Required(ErrorMessageResourceName = "TitleIsEmpty", ErrorMessageResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = "TitleMustBeRequired", ErrorMessageResourceType = typeof(Strings))]
         public string Title { get; set; }
 
-        [Required(ErrorMessageResourceName = "NoteIsEmpty", ErrorMessageResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = "NoteMustBeRequired", ErrorMessageResourceType = typeof(Strings))]
         public string Note { get; set; }
     }
 }

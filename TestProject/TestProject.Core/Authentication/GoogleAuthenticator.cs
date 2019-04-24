@@ -1,18 +1,20 @@
-﻿using Plugin.SecureStorage;
+﻿using MvvmCross;
+using Plugin.SecureStorage;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TestProject.Core.Authentication.Interfacies;
+using TestProject.Core.Authentication.Interfaces;
 using TestProject.Core.Constants;
+using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Models;
-using TestProject.Core.Servicies.Interfacies.SocialService.Google;
+using TestProject.Core.Servicies.Interfaces.SocialService.Google;
 using Xamarin.Auth;
 
 namespace TestProject.Core.Authentication
 {
     public class GoogleAuthenticator
     {
-        public static Uri AuthorizeUrl = new Uri(SocialConstant.AuthorizeUrlGoogle);
+        public static Uri AuthorizeUrl = new Uri(SocialConstants.AuthorizeUrlGoogle);
         private const bool IsUsingNativeUI = true;
 
 
@@ -22,10 +24,11 @@ namespace TestProject.Core.Authentication
         public GoogleAuthenticator(string clientId, string scope, Uri redirectUrl, IGoogleAuthenticationDelegate googleAuthenticationDelegate)
         {
             _authenticationDelegate = googleAuthenticationDelegate;
+
             _auth = new OAuth2Authenticator(clientId, string.Empty, scope,
                                             AuthorizeUrl,
                                             redirectUrl,
-                                            new Uri(SocialConstant.TokenUrlGoogle),
+                                            new Uri(SocialConstants.TokenUrlGoogle),
                                             null, IsUsingNativeUI);
             _auth.Completed += OnAuthenticationCompleted;
             _auth.Error += OnAuthenticationFailed;
@@ -45,8 +48,11 @@ namespace TestProject.Core.Authentication
         {
             if (e.IsAuthenticated)
             {
-                var token = e.Account.Properties[SocialConstant.CompletedProperties];
-                CrossSecureStorage.Current.SetValue(SecureConstant.AccessToken, token);
+                var token = e.Account.Properties[SocialConstants.CompletedProperties];
+                var userHelper = Mvx.IoCProvider.Resolve<IUserHelper>();
+
+                userHelper.UserAccessToken = token;
+
                 _authenticationDelegate.OnAuthenticationCompleted(token);
             }
             else

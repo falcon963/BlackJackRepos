@@ -16,7 +16,7 @@ namespace TestProject.Core.ViewModels
 
         public TaskViewModel ViewModel { get; set; }
 
-        public Func<FileItemViewModel, bool> DeleteFile { get; set; }
+        public Action<FileItemViewModel> DeleteFile { get; set; }
 
         public IMvxCommand DeleteFileCommand
         {

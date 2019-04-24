@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using TestProject.Core.Constants;
 using TestProject.Core.Helpers.Interfaces;
-using TestProject.Core.Repositories.Interfacies;
+using TestProject.Core.Repositories.Interfaces;
 
 namespace TestProject.Core.Helpers
 {
@@ -25,6 +25,7 @@ namespace TestProject.Core.Helpers
         public bool IsAccountStatus()
         {
             var statusValue = _userHelper.IsUserLogin;
+
             return statusValue;
         }
 
@@ -33,6 +34,7 @@ namespace TestProject.Core.Helpers
             var login = _userHelper.UserLogin;
             var password = _userHelper.UserPassword;
             var user = _loginRepository.GetAppRegistrateUserAccount(login, password);
+
             return user != null;
         }
 
@@ -41,12 +43,14 @@ namespace TestProject.Core.Helpers
             var login = _userHelper.UserLogin;
             var password = _userHelper.UserPassword;
             var user = _loginRepository.GetAppRegistrateUserAccount(login, password);
+
             return user.Id;
         }
 
         public bool IsSocialNetworkLogin()
         {
             var isSocialNetworkLogin = !String.IsNullOrEmpty(_userHelper.UserAccessToken);
+
             return isSocialNetworkLogin;
         }
     }

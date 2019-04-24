@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using TestProject.Core.Servicies.Interfacies;
+using TestProject.Core.Servicies.Interfaces;
 
 namespace TestProject.Core.Servicies
 {
@@ -14,13 +14,15 @@ namespace TestProject.Core.Servicies
     {
         private MvxGeoLocation _latestLocation;
 
-        private readonly object _lockObject = new object();
+        private readonly object _lockObject;
 
-        public IMvxLocationWatcher Watcher { get; }
+        private readonly IMvxLocationWatcher _watcher;
 
-        public LocationService(IMvxMainThreadDispatcher mvxMainThread)
+        public LocationService(IMvxMainThreadDispatcher mvxMainThread, IMvxLocationWatcher locationWatcher)
         {
-            Watcher = Mvx.Resolve<IMvxLocationWatcher>();
+            _lockObject = new object();
+
+            _watcher = locationWatcher;
         }
 
         private void OnSuccess(MvxGeoLocation location)
@@ -33,12 +35,12 @@ namespace TestProject.Core.Servicies
 
         public void Start()
         {
-            Watcher.Start(new MvxLocationOptions() { Accuracy = MvxLocationAccuracy.Coarse }, OnSuccess, OnError);
+            _watcher.Start(new MvxLocationOptions() { Accuracy = MvxLocationAccuracy.Coarse }, OnSuccess, OnError);
         }
 
         public void Stop()
         {
-            Watcher.Stop();
+            _watcher.Stop();
         }
 
         private void OnError(MvxLocationError error)
@@ -53,11 +55,13 @@ namespace TestProject.Core.Servicies
                 if (_latestLocation == null)
                 {
                     lat = lng = 0;
+
                     return false;
                 }
 
                 lat = _latestLocation.Coordinates.Latitude;
                 lng = _latestLocation.Coordinates.Longitude;
+
                 return true;
             }
         }

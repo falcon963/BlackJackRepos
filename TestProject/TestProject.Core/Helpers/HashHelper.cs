@@ -9,15 +9,11 @@ namespace TestProject.Core.Helpers
     public class HashHelper
         : IHashHelper
     {
-        public HashHelper()
-        {
 
-        }
-
-        public string GetHash(string password)
+        public string GetHash(string encryptedString)
         {
             MD5 md5 = MD5.Create();
-            byte[] inputBytes = Encoding.ASCII.GetBytes(password);
+            byte[] inputBytes = Encoding.ASCII.GetBytes(encryptedString);
             byte[] hash = md5.ComputeHash(inputBytes);
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < hash.Length; i++)

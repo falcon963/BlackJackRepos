@@ -25,7 +25,7 @@ namespace TestProject.iOS.Views
             base.ViewDidLoad();
 
             var set = this.CreateBindingSet<AppMapView, UserLocationViewModel>();
-            set.Bind(BackButton).To(vm => vm.GoBackCommand);
+            set.Bind(BackButton).To(vm => vm.CloseCommand);
             set.Apply();
 
             ViewModel.GetLocated.Execute();

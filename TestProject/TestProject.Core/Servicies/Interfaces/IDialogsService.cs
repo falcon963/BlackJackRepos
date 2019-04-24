@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestProject.Core.Servicies.Interfacies
+namespace TestProject.Core.Servicies.Interfaces
 {
     public interface IDialogsService
     {
         void ShowAlert(string message);
+
+        void ShowSuccessMessage(string message);
+
         Task<bool> ShowConfirmDialogAsync(string message, string title);
     }
 }

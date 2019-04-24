@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using TestProject.Core.Constants;
 using TestProject.Core.Models;
-using TestProject.Core.Repositories.Interfacies;
+using TestProject.Core.Repositories.Interfaces;
 
 namespace TestProject.Core.ViewModels
 {
@@ -32,7 +32,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxCommand(async () =>
                 {
-                    NavigationService.Navigate<LoginViewModel>();
+                    await NavigationService.Navigate<LoginViewModel>();
                 });
             }
         }

@@ -22,8 +22,8 @@ namespace TestProject.iOS.Database
         public SQLiteConnection DbConnection()
         {
             var dbName = "TaskyDB.db3";
-            var path = Path.Combine(System.Environment.
-            GetFolderPath(System.Environment.
+            var path = Path.Combine(Environment.
+            GetFolderPath(Environment.
             SpecialFolder.Personal), dbName);
             return new SQLiteConnection(path);
         }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using TestProject.Core.Constants;
-using TestProject.Core.Servicies.Interfacies;
+using TestProject.Core.Servicies.Interfaces;
 using TestProject.Resources;
 
 namespace TestProject.Core.Servicies
@@ -18,8 +18,8 @@ namespace TestProject.Core.Servicies
                             new AlertConfig
                             {
                                 Message = message,
-                                OkText = Strings.OkText,
-                                Title = Strings.ErrorAlert
+                                OkText = Strings.Ok,
+                                Title = Strings.Error
                             });
         }
 
@@ -28,11 +28,22 @@ namespace TestProject.Core.Servicies
             var alert = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig
             {
                 Message = message,
-                OkText = Strings.OkText,
+                OkText = Strings.Ok,
                 Title = title,
-                CancelText = Strings.NoText
+                CancelText = Strings.No
             });
             return alert;
+        }
+
+        public void ShowSuccessMessage(string message)
+        {
+            UserDialogs.Instance.Alert(
+                            new AlertConfig
+                            {
+                                Message = message,
+                                OkText = Strings.Ok,
+                                Title = Strings.Success
+                            });
         }
     }
 }

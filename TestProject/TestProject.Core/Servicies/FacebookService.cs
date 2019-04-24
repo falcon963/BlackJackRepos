@@ -6,24 +6,25 @@ using System.Threading.Tasks;
 using TestProject.Core.Models;
 using Newtonsoft.Json;
 using TestProject.Core.Helpers;
-using TestProject.Core.Servicies.Interfacies.SocialService.Facebook;
+using TestProject.Core.Servicies.Interfaces.SocialService.Facebook;
 using MvvmCross.Logging;
 using MvvmCross;
+using TestProject.Core.Helpers.Interfaces;
 
 namespace TestProject.Core.Servicies
 {
     public class FacebookService
         : IFacebookService
     {
-        private readonly HttpHelper _httpHelper;
+        private readonly IHttpHelper _httpHelper;
 
-        private readonly IMvxLog _log;
+        private readonly IMvxLog _mvxLog;
 
-        public FacebookService()
+        public FacebookService(IHttpHelper httpHelper, IMvxLog mvxLog)
         {
-            _httpHelper = new HttpHelper();
+            _httpHelper = httpHelper;
 
-            _log = Mvx.IoCProvider.Resolve<IMvxLog>();
+            _mvxLog = mvxLog;
         }
 
         public async Task<User> GetFacebookUserAsync(string accessToken)
@@ -33,9 +34,10 @@ namespace TestProject.Core.Servicies
             {
                 var reqrequestUrl = "https://graph.facebook.com/me?fields=email,id,name,picture&access_token=" + accessToken;
                 var model = await _httpHelper.Get<FacebookProfileModel>(reqrequestUrl);
-                if(model?.Picture?.Data?.Url != null)
+                string pictureUrl = model?.Picture?.Data?.Url;
+                if (pictureUrl != null)
                 {
-                    var image = await _httpHelper.GetByte(model?.Picture?.Data?.Url);
+                    var image = await _httpHelper.GetByte(pictureUrl);
                     account.ImagePath = Convert.ToBase64String(image);
                     account.Login = model?.Name;
                     account.FacebookId = model?.Id;
@@ -43,7 +45,7 @@ namespace TestProject.Core.Servicies
             }
             catch (Exception ex)
             {
-                _log.Trace(ex.Message);
+                _mvxLog.Trace(ex.Message);
             }
 
             return account;

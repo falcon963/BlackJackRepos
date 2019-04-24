@@ -71,7 +71,7 @@ namespace TestProject.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Alert!.
+        ///   Looks up a localized string similar to AlertMessege.
         /// </summary>
         public static string AlertMessege {
             get {
@@ -80,92 +80,83 @@ namespace TestProject.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You can`t delete task, because hi don`t created.
+        ///   Looks up a localized string similar to Changes accepted.
         /// </summary>
-        public static string CantDelete {
+        public static string ChangesAccepted {
             get {
-                return ResourceManager.GetString("CantDelete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to If you go on TaskyDrop whithout save, you changes will be lose! Do you want this?.
-        /// </summary>
-        public static string ChangeLoseMessege {
-            get {
-                return ResourceManager.GetString("ChangeLoseMessege", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ConfirmPassword must be required.
-        /// </summary>
-        public static string ConfirmPasswordFieldIsEmpty {
-            get {
-                return ResourceManager.GetString("ConfirmPasswordFieldIsEmpty", resourceCulture);
+                return ResourceManager.GetString("ChangesAccepted", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Confirm Password must be compare Password.
         /// </summary>
-        public static string ConfirmPasswordNotComparePassword {
+        public static string ConfirmPasswordMustBeComparePassword {
             get {
-                return ResourceManager.GetString("ConfirmPasswordNotComparePassword", resourceCulture);
+                return ResourceManager.GetString("ConfirmPasswordMustBeComparePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ConfirmPassword must be required.
+        /// </summary>
+        public static string ConfirmPasswordMustBeRequired {
+            get {
+                return ResourceManager.GetString("ConfirmPasswordMustBeRequired", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Do you want delete this task?.
         /// </summary>
-        public static string DeleteMessege {
+        public static string DoYouWantDeleteThisTask {
             get {
-                return ResourceManager.GetString("DeleteMessege", resourceCulture);
+                return ResourceManager.GetString("DoYouWantDeleteThisTask", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You can&apos;t registrate when field is empty!.
+        ///   Looks up a localized string similar to Do you want logout?.
         /// </summary>
-        public static string EmptyFieldRegistrateMessege {
+        public static string DoYouWantLogout {
             get {
-                return ResourceManager.GetString("EmptyFieldRegistrateMessege", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You can&apos;t save task when field is empty!.
-        /// </summary>
-        public static string EmptyTaskFieldMessege {
-            get {
-                return ResourceManager.GetString("EmptyTaskFieldMessege", resourceCulture);
+                return ResourceManager.GetString("DoYouWantLogout", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
-        public static string ErrorAlert {
+        public static string Error {
             get {
-                return ResourceManager.GetString("ErrorAlert", resourceCulture);
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you go on TaskyDrop whithout save, you changes will be lose! Do you want this?.
+        /// </summary>
+        public static string IfYouGoOnTaskyDropWithoutSaveYourChangesWillBeLoseDoYouWantThis {
+            get {
+                return ResourceManager.GetString("IfYouGoOnTaskyDropWithoutSaveYourChangesWillBeLoseDoYouWantThis", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Login already use!.
         /// </summary>
-        public static string Login {
+        public static string LoginAlreadyUse {
             get {
-                return ResourceManager.GetString("Login", resourceCulture);
+                return ResourceManager.GetString("LoginAlreadyUse", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Login must be required.
         /// </summary>
-        public static string LoginFieldIsEmpty {
+        public static string LoginMustBeRequired {
             get {
-                return ResourceManager.GetString("LoginFieldIsEmpty", resourceCulture);
+                return ResourceManager.GetString("LoginMustBeRequired", resourceCulture);
             }
         }
         
@@ -179,56 +170,47 @@ namespace TestProject.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you want logout?.
+        ///   Looks up a localized string similar to No.
         /// </summary>
-        public static string Logout {
+        public static string No {
             get {
-                return ResourceManager.GetString("Logout", resourceCulture);
+                return ResourceManager.GetString("No", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Note must be required.
         /// </summary>
-        public static string NoteIsEmpty {
+        public static string NoteMustBeRequired {
             get {
-                return ResourceManager.GetString("NoteIsEmpty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No.
-        /// </summary>
-        public static string NoText {
-            get {
-                return ResourceManager.GetString("NoText", resourceCulture);
+                return ResourceManager.GetString("NoteMustBeRequired", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
-        public static string OkText {
+        public static string Ok {
             get {
-                return ResourceManager.GetString("OkText", resourceCulture);
+                return ResourceManager.GetString("Ok", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Old password field must be required.
         /// </summary>
-        public static string OldPasswordFieldIsEmpty {
+        public static string OldPasswordFieldMustBeRequired {
             get {
-                return ResourceManager.GetString("OldPasswordFieldIsEmpty", resourceCulture);
+                return ResourceManager.GetString("OldPasswordFieldMustBeRequired", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Password must be required.
         /// </summary>
-        public static string PasswordFieldIsEmpty {
+        public static string PasswordMustBeRequired {
             get {
-                return ResourceManager.GetString("PasswordFieldIsEmpty", resourceCulture);
+                return ResourceManager.GetString("PasswordMustBeRequired", resourceCulture);
             }
         }
         
@@ -238,6 +220,15 @@ namespace TestProject.Resources {
         public static string PasswordMustContent8Char {
             get {
                 return ResourceManager.GetString("PasswordMustContent8Char", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password must content 8 char, number char and upper char..
+        /// </summary>
+        public static string PasswordMustContent8CharNumberCharAndUpperChar {
+            get {
+                return ResourceManager.GetString("PasswordMustContent8CharNumberCharAndUpperChar", resourceCulture);
             }
         }
         
@@ -260,29 +251,11 @@ namespace TestProject.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The fields Password and PasswordConfirmation should be equals.
-        /// </summary>
-        public static string PasswordNotEqualsPasswordConfirmation {
-            get {
-                return ResourceManager.GetString("PasswordNotEqualsPasswordConfirmation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Registrate successful! Return on Login Page?.
         /// </summary>
-        public static string Registrate {
+        public static string RegistrateSuccessfulReturnOnLoginPage {
             get {
-                return ResourceManager.GetString("Registrate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Password must content 8 char, number char and upper char..
-        /// </summary>
-        public static string RegularError {
-            get {
-                return ResourceManager.GetString("RegularError", resourceCulture);
+                return ResourceManager.GetString("RegistrateSuccessfulReturnOnLoginPage", resourceCulture);
             }
         }
         
@@ -296,47 +269,74 @@ namespace TestProject.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Title must be required.
+        ///   Looks up a localized string similar to The fields Password and PasswordConfirmation should be equals.
         /// </summary>
-        public static string TitleIsEmpty {
+        public static string TheFieldsPasswordAndPasswordConfirmationShouldBeEquals {
             get {
-                return ResourceManager.GetString("TitleIsEmpty", resourceCulture);
+                return ResourceManager.GetString("TheFieldsPasswordAndPasswordConfirmationShouldBeEquals", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wrong old password!.
+        ///   Looks up a localized string similar to Title must be required.
         /// </summary>
-        public static string UserPassword {
+        public static string TitleMustBeRequired {
             get {
-                return ResourceManager.GetString("UserPassword", resourceCulture);
+                return ResourceManager.GetString("TitleMustBeRequired", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Wrong data, account not found!.
         /// </summary>
-        public static string WrongData {
+        public static string WrongDataAccountNotFound {
             get {
-                return ResourceManager.GetString("WrongData", resourceCulture);
+                return ResourceManager.GetString("WrongDataAccountNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong old password!.
+        /// </summary>
+        public static string WrongOldPassword {
+            get {
+                return ResourceManager.GetString("WrongOldPassword", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Wrong Password confirm!.
         /// </summary>
-        public static string WrongPassword {
+        public static string WrongPasswordConfirm {
             get {
-                return ResourceManager.GetString("WrongPassword", resourceCulture);
+                return ResourceManager.GetString("WrongPasswordConfirm", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Yes.
         /// </summary>
-        public static string YesText {
+        public static string Yes {
             get {
-                return ResourceManager.GetString("YesText", resourceCulture);
+                return ResourceManager.GetString("Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can&apos;t registrate when field is empty!.
+        /// </summary>
+        public static string YouCantRegistrateWhenFieldIsEmpty {
+            get {
+                return ResourceManager.GetString("YouCantRegistrateWhenFieldIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can&apos;t save task when field is empty!.
+        /// </summary>
+        public static string YouCantSaveTaskWhenFieldIsEmpty {
+            get {
+                return ResourceManager.GetString("YouCantSaveTaskWhenFieldIsEmpty", resourceCulture);
             }
         }
     }

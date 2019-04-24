@@ -13,8 +13,8 @@ using TestProject.Core.Colors;
 using TestProject.Core.Constants;
 using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Models;
-using TestProject.Core.Repositories.Interfacies;
-using TestProject.Core.Servicies.Interfacies;
+using TestProject.Core.Repositories.Interfaces;
+using TestProject.Core.Servicies.Interfaces;
 using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
@@ -25,19 +25,12 @@ namespace TestProject.Core.ViewModels
         #region Fields
 
         private readonly ILoginRepository _loginService;
-
         private readonly IDialogsService _dialogsService;
-
         private readonly IValidationService _validationService;
+        private readonly IUserDialogs _userDialogs;
 
         private string _password;
         private string _passwordRevise;
-
-        private MvxColor _backgroundColor;
-        private MvxColor _passwordFieldColor;
-        private MvxColor _loginEnebleColor;
-
-        private readonly IUserDialogs _userDialogs;
 
         #endregion
 
@@ -48,6 +41,9 @@ namespace TestProject.Core.ViewModels
             _loginService = loginService;
             _dialogsService = dialogsService;
             _validationService = validationService;
+
+            LoginColor = AppColors.LoginBackgroundColor;
+            ValidateColor = AppColors.ValidateColor;
         }
 
         #region MvxColor
@@ -62,10 +58,10 @@ namespace TestProject.Core.ViewModels
 
         #region Propertys
 
-        [Required(ErrorMessageResourceName = "LoginFieldIsEmpty", ErrorMessageResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = "LoginMustBeRequired", ErrorMessageResourceType = typeof(Strings))]
         public string Login { get; set; }
 
-        [Required(ErrorMessageResourceName = "PasswordFieldIsEmpty", ErrorMessageResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = "PasswordMustBeRequired", ErrorMessageResourceType = typeof(Strings))]
         [RegularExpression(@"[0-9A-Z]+.{8,}", ErrorMessageResourceName = "RegularError", ErrorMessageResourceType = typeof(Strings))]
         public string Password
         {
@@ -76,12 +72,20 @@ namespace TestProject.Core.ViewModels
             set
             {
                 SetProperty(ref _password, value);
-                var passwordValidationModel = new PasswordValidationModel { Password = Password, PasswordConfirm = PasswordRevise };
+
+                var passwordValidationModel = new PasswordValidationModel
+                {
+                    Password = Password,
+                    PasswordConfirmation = PasswordRevise
+                };
+
                 var validationModel = _validationService.Validate(passwordValidationModel);
+
                 if (validationModel.IsValid)
                 {
                     ValidateColor = AppColors.NotValidateColor;
                 }
+
                 if (!validationModel.IsValid)
                 {
                     ValidateColor = AppColors.ValidateColor;
@@ -90,7 +94,7 @@ namespace TestProject.Core.ViewModels
         }
 
         [Required(ErrorMessageResourceName = "ConfirmPasswordFieldIsEmpty", ErrorMessageResourceType =typeof(Strings))]
-        [Compare(nameof(Password), ErrorMessageResourceName = "ConfirmPasswordNotComparePassword", ErrorMessageResourceType = typeof(Strings))]
+        [Compare(nameof(Password), ErrorMessageResourceName = "ConfirmPasswordMustBeComparePassword", ErrorMessageResourceType = typeof(Strings))]
         public string PasswordRevise
         {
             get
@@ -100,12 +104,20 @@ namespace TestProject.Core.ViewModels
             set
             {
                 SetProperty(ref _passwordRevise, value);
-                var passwordValidationModel = new PasswordValidationModel { Password = Password, PasswordConfirm = PasswordRevise };
+
+                var passwordValidationModel = new PasswordValidationModel
+                {
+                    Password = Password,
+                    PasswordConfirmation = PasswordRevise
+                };
+
                 var validationModel = _validationService.Validate(passwordValidationModel);
+
                 if (validationModel.IsValid)
                 {
                     ValidateColor = AppColors.NotValidateColor;
                 }
+
                 if (!validationModel.IsValid)
                 {
                     ValidateColor = AppColors.ValidateColor;
@@ -123,13 +135,6 @@ namespace TestProject.Core.ViewModels
 
         #endregion
 
-        public override void Prepare()
-        {
-            base.Prepare();
-            LoginColor = AppColors.LoginColor;
-            ValidateColor = AppColors.ValidateColor;
-        }
-
         #region Commands
 
         public IMvxAsyncCommand RegistrationCommand
@@ -139,20 +144,23 @@ namespace TestProject.Core.ViewModels
                 return new MvxAsyncCommand(async () =>
                 {
                     var valid = _loginService.CheckValidLogin(Login);
-                    var validationModel = _validationService.Validate(this);
-                    if (!validationModel.IsValid)
-                    {
-                        foreach (string error in validationModel.Errors)
-                        {
-                            _dialogsService.ShowAlert(error);
-                        }
-                        return;
-                    }
+
                     if (!valid)
                     {
-                        _dialogsService.ShowAlert(Strings.Login);
+                        _dialogsService.ShowAlert(Strings.LoginAlreadyUse);
+
                         return;
                     }
+
+                    var validationModel = _validationService.Validate(this);
+
+                    if (!validationModel.IsValid)
+                    {
+                        _dialogsService.ShowAlert(validationModel.Errors[0]);
+
+                        return;
+                    }
+
                     if (valid)
                     {
                         var user = new User()
@@ -160,8 +168,11 @@ namespace TestProject.Core.ViewModels
                             Login = Login,
                             Password = Password
                         };
+
                         _loginService.Save(user);
-                        var userChose = await _dialogsService.ShowConfirmDialogAsync(Strings.Registrate, Strings.Success);
+
+                        var userChose = await _dialogsService.ShowConfirmDialogAsync(Strings.RegistrateSuccessfulReturnOnLoginPage, Strings.Success);
+
                         if (!userChose)
                         {
                             return;
@@ -173,17 +184,6 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public IMvxAsyncCommand GoOnLoginCommand
-        {
-            get
-            {
-                return new MvxAsyncCommand(async () =>
-                {
-                    await NavigationService.Close(this);
-                });
-            }
-
             #endregion
-        }
     }
 }

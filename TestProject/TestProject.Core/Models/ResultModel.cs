@@ -8,6 +8,7 @@ namespace TestProject.Core.Models
     public class ResultModel
     {
         public UserTask Changes { get; set; }
+
         public UserTaskResult Result { get; set; }
     }
 }

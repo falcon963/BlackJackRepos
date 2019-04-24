@@ -6,6 +6,6 @@ namespace TestProject.Core.Helpers.Interfaces
 {
     interface IHashHelper
     {
-        string GetHash(string password);
+        string GetHash(string encryptedString);
     }
 }

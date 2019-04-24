@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using TestProject.Core.Models;
 using TestProject.Core.ViewModels;
 
-namespace TestProject.Core.Servicies.Interfacies
+namespace TestProject.Core.Servicies.Interfaces
 {
     public interface IValidationService
     {
-        ModelState Validate(object model);
+        ModelState Validate(object validateModel);
     }
 }

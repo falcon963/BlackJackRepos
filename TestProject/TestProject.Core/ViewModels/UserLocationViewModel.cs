@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-using TestProject.Core.Servicies.Interfacies;
+using TestProject.Core.Servicies.Interfaces;
 
 namespace TestProject.Core.ViewModels
 {
@@ -47,18 +47,6 @@ namespace TestProject.Core.ViewModels
         #region Commands
 
 
-        public IMvxAsyncCommand GoBackCommand
-        {
-            get
-            {
-                return new MvxAsyncCommand(async() =>
-                {
-                    _locationService.Stop();
-                    await NavigationService.Close(this);
-                });
-            }
-        }
-
         public IMvxAsyncCommand GetLocated
         {
             get
@@ -74,5 +62,11 @@ namespace TestProject.Core.ViewModels
 
         #endregion Commands
 
+
+        public override void ViewDestroy(bool viewFinishing = true)
+        {
+            base.ViewDestroy(viewFinishing);
+            _locationService.Stop();
+        }
     }
 }

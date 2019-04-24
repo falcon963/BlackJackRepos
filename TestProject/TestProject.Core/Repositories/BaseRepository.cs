@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using TestProject.Core.DBConnection;
 using TestProject.Core.DBConnection.Interfacies;
 using TestProject.Core.Models;
-using TestProject.Core.Repositories.Interfacies;
+using TestProject.Core.Repositories.Interfaces;
 
 namespace TestProject.Core.Repositories
 {
@@ -36,14 +36,10 @@ namespace TestProject.Core.Repositories
 
         public void DeleteRange(List<T> list)
         {
-            int count = 0;
             foreach (T file in list)
             {
                 _dbConnection.Database.Delete(file);
-                count++;
             }
-            var log = Mvx.IoCProvider.Resolve<IMvxLog>();
-            log.Trace(count.ToString());
         }
 
         public void Save(T item)
@@ -51,14 +47,24 @@ namespace TestProject.Core.Repositories
             if (item.Id == 0)
             {
                 _dbConnection.Database.Insert(item);
+                return;
             }
-            if (item.Id != 0)
-                _dbConnection.Database.Update(item);
+               _dbConnection.Database.Update(item);
         }
 
         public void SaveRange(List<T> list)
         {
-            _dbConnection.Database.InsertAll(list);
+            foreach(T item in list)
+            {
+                if (item.Id == 0)
+                {
+                    _dbConnection.Database.Insert(item);
+                }
+                if (item.Id != 0)
+                {
+                    _dbConnection.Database.Update(item);
+                }
+            }
         }
     }
 }

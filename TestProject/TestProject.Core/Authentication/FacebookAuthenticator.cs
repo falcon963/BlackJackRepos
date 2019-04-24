@@ -1,11 +1,13 @@
-﻿using Plugin.SecureStorage;
+﻿using MvvmCross;
+using Plugin.SecureStorage;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TestProject.Core.Authentication.Interfacies;
+using TestProject.Core.Authentication.Interfaces;
 using TestProject.Core.Constants;
+using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Models;
-using TestProject.Core.Servicies.Interfacies.SocialService.Facebook;
+using TestProject.Core.Servicies.Interfaces.SocialService.Facebook;
 using Xamarin.Auth;
 
 namespace TestProject.Core.Authentication
@@ -22,8 +24,8 @@ namespace TestProject.Core.Authentication
             _authentication = authentication;
 
             _auth = new OAuth2Authenticator(clientId, scope,
-                                            new Uri(SocialConstant.AuthorizeUrlFacebook),
-                                            new Uri(SocialConstant.RedirectUrlFacebook),
+                                            new Uri(SocialConstants.AuthorizeUrlFacebook),
+                                            new Uri(SocialConstants.RedirectUrlFacebook),
                                             null, IsUsingNativeUI);
 
             _auth.Completed += OnAuthenticationCompleted;
@@ -44,8 +46,11 @@ namespace TestProject.Core.Authentication
         {
             if (e.IsAuthenticated)
             {
-                var token = e.Account.Properties[SocialConstant.CompletedProperties];
-                CrossSecureStorage.Current.SetValue(SecureConstant.AccessToken, token);
+                var token = e.Account.Properties[SocialConstants.CompletedProperties];
+                var userHelper = Mvx.IoCProvider.Resolve<IUserHelper>();
+
+                userHelper.UserAccessToken = token;
+
                 _authentication.OnAuthenticationCompleted(token);
             }
             else

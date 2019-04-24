@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TestProject.Core.Models;
 
-namespace TestProject.Core.Authentication.Interfacies
+namespace TestProject.Core.Authentication.Interfaces
 {
     public interface IGoogleAuthenticationDelegate
     {

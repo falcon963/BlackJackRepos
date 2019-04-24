@@ -4,11 +4,11 @@ using System.Text;
 using System.Threading.Tasks;
 using TestProject.Core.Models;
 
-namespace TestProject.Core.Repositories.Interfacies
+namespace TestProject.Core.Repositories.Interfaces
 {
     public interface IFileRepository
         : IBaseRepository<TaskFileModel>
     {
-        IEnumerable<TaskFileModel> GetRange(int id);
+        IEnumerable<TaskFileModel> GetFilesList(int taskId);
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using SQLite;
+using SQLiteNetExtensions.Attributes;
 
 namespace TestProject.Core.Models
 {
@@ -16,5 +17,8 @@ namespace TestProject.Core.Models
         public string AccessToken { get; set; }
         public string FacebookId { get; set; }
         public string GoogleId { get; set; }
+
+        [OneToMany(CascadeOperations = CascadeOperation.All)]
+        public List<UserTask> Tasks { get; set; }
     }
 }

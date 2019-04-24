@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TestProject.Core.Models;
 
-namespace TestProject.Core.Servicies.Interfacies.SocialService.Facebook
+namespace TestProject.Core.Servicies.Interfaces.SocialService.Facebook
 {
     public interface IFacebookService
     {

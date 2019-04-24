@@ -8,7 +8,7 @@ using TestProject.Core.Models;
 using System.Threading.Tasks;
 using Plugin.SecureStorage;
 using TestProject.Core.Constants;
-using TestProject.Core.Repositories.Interfacies;
+using TestProject.Core.Repositories.Interfaces;
 
 namespace TestProject.Core.ViewModels
 {
@@ -38,18 +38,6 @@ namespace TestProject.Core.ViewModels
                         await NavigationService.Navigate<UserProfileViewModel>();
                         await NavigationService.Navigate<UserLocationViewModel>();
                     });
-            }
-        }
-
-
-        public IMvxAsyncCommand CloseMain
-        {
-            get
-            {
-                return new MvxAsyncCommand(async () =>
-                {
-                    await NavigationService.Close(this);
-                });
             }
         }
 

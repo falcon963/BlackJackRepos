@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TestProject.Core.Models;
 
-namespace TestProject.Core.Servicies.Interfacies.SocialService.Google
+namespace TestProject.Core.Servicies.Interfaces.SocialService.Google
 {
     public interface IGoogleService
     {

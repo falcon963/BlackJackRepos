@@ -13,8 +13,9 @@ namespace TestProject.Core.Models
     {
         [Required]
         public string Password { get; set; }
+
         [Required]
-        [Compare(nameof(Password), ErrorMessageResourceName = "Strings.PasswordNotEqualsPasswordConfirmation", ErrorMessageResourceType = typeof(ResourceManager))]
-        public string PasswordConfirm { get; set; }
+        [Compare(nameof(Password), ErrorMessageResourceName = "ConfirmPasswordMustBeComparePassword", ErrorMessageResourceType = typeof(Strings))]
+        public string PasswordConfirmation { get; set; }
     }
 }

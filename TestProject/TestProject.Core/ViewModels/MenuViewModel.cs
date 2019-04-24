@@ -10,7 +10,7 @@ using TestProject.Core.Models;
 using MvvmCross.ViewModels;
 using System.Threading.Tasks;
 using MvvmCross.UI;
-using TestProject.Core.Repositories.Interfacies;
+using TestProject.Core.Repositories.Interfaces;
 using TestProject.Core.Helpers.Interfaces;
 using TestProject.Resources;
 using TestProject.Core.Colors;
@@ -26,6 +26,8 @@ namespace TestProject.Core.ViewModels
 
         private readonly IUserHelper _userHelper;
 
+        private readonly ILoginRepository _loginRepository; 
+
         #endregion
 
         #region Propertys
@@ -40,7 +42,7 @@ namespace TestProject.Core.ViewModels
         {
             get
             {
-                return AppColors.MenuColor;
+                return AppColors.MenuBackgroundColor;
             }
         }
 
@@ -49,32 +51,40 @@ namespace TestProject.Core.ViewModels
         #endregion
 
 
-        public MenuViewModel(IMvxNavigationService navigationService, IUserDialogs userDialogs, ILoginRepository loginService, IUserHelper userHelper) : base(navigationService)
+        public MenuViewModel(IMvxNavigationService navigationService, IUserDialogs userDialogs, ILoginRepository loginRepository, IUserHelper userHelper) : base(navigationService)
         {
             _userDialogs = userDialogs;
             _userHelper = userHelper;
+            _loginRepository = loginRepository;
+        }
+
+        public override void Prepare()
+        {
+            base.Prepare();
+
             int userId = _userHelper.UserId;
-            Profile = loginService.Get(userId);
+            Profile = _loginRepository.Get(userId);
+
             MenuItems = new MvxObservableCollection<MenuItem>()
             {
                 new MenuItem
                 {
                     ItemAction = () => {
-                        LogOutCommand.Execute();
+                        LogOutCommand?.Execute();
                     },
                     ItemTitle = "Logout"
                 },
                 new MenuItem
                 {
-                    ItemAction = () => {
-                        GetLocationCommand.Execute();
+                    ItemAction = async () => {
+                        await NavigationService.Navigate<UserLocationViewModel>();
                     },
                     ItemTitle = "Map"
                 },
                 new MenuItem
                 {
-                    ItemAction = () => {
-                        OpenProfileCommand.Execute();
+                    ItemAction = async () => {
+                        await NavigationService.Navigate<UserProfileViewModel>();
                     },
                     ItemTitle = "Profile"
                 }
@@ -92,15 +102,18 @@ namespace TestProject.Core.ViewModels
                     var logOut = await _userDialogs.ConfirmAsync(new ConfirmConfig
                     {
                         Title = Strings.AlertMessege,
-                        Message = Strings.Logout,
-                        OkText = Strings.YesText,
-                        CancelText = Strings.NoText
+                        Message = Strings.DoYouWantLogout,
+                        OkText = Strings.Yes,
+                        CancelText = Strings.No
                     });
+
                     if (logOut)
                     {
                         _userHelper.DeleteUserStatus();
+
                         await NavigationService.Navigate<MainRegistrationViewModel>();
                     }
+
                     if (!logOut)
                     {
                         return;
@@ -115,30 +128,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxCommand<MenuItem>((item) =>
                 {
-                    item.ItemAction();
-                });
-            }
-        }
-
-        public IMvxAsyncCommand GetLocationCommand
-        {
-            get
-            {
-                return new MvxAsyncCommand(async () =>
-                {
-                    await NavigationService.Navigate<UserLocationViewModel>();
-                });
-            }
-        }
-
-
-        public IMvxAsyncCommand OpenProfileCommand
-        {
-            get
-            {
-                return new MvxAsyncCommand(async() =>
-                {
-                    await NavigationService.Navigate<UserProfileViewModel>();
+                    item?.ItemAction();
                 });
             }
         }

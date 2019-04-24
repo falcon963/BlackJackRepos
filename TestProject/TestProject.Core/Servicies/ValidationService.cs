@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestProject.Core.Models;
-using TestProject.Core.Servicies.Interfacies;
+using TestProject.Core.Servicies.Interfaces;
 using TestProject.Core.ViewModels;
 
 namespace TestProject.Core.Servicies
@@ -14,16 +14,12 @@ namespace TestProject.Core.Servicies
         : IValidationService
     {
 
-        public ValidationService()
-        {
-
-        }
-
-        public ModelState Validate(object view)
+        public ModelState Validate(object validateModel)
         {
             var result = new List<ValidationResult>();
-            var context = new ValidationContext(view);
-            bool isValid = Validator.TryValidateObject(view, context, result, true);
+            var context = new ValidationContext(validateModel);
+
+            bool isValid = Validator.TryValidateObject(validateModel, context, result, true);
 
             List<string> errorMessageList = result.Select(p => p.ErrorMessage).ToList();
 
@@ -32,6 +28,7 @@ namespace TestProject.Core.Servicies
                 IsValid = isValid,
                 Errors = errorMessageList
             };
+
             return modelState;
         }
     }

@@ -5,14 +5,17 @@ using System.Threading.Tasks;
 using TestProject.Core.Models;
 using TestProject.Core.ViewModels;
 
-namespace TestProject.Core.Repositories.Interfacies
+namespace TestProject.Core.Repositories.Interfaces
 {
     public interface ITasksRepository
         : IBaseRepository<UserTask>
     {
-        IEnumerable<int> GetUserTasksIdAsync(int id);
-        IEnumerable<UserTask> GetRange(int id);
-        int Save(UserTask id);
-        UserTask Get(int id);
+        IEnumerable<int> GetUserTasksIdAsync(int userId);
+
+        IEnumerable<UserTask> GetTasksList(int userId);
+
+        int Save(UserTask user);
+
+        UserTask Get(int taskId);
     }
 }

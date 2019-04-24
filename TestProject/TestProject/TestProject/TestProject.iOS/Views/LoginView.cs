@@ -14,7 +14,7 @@ using TestProject.Core.Authentication;
 using TestProject.Core.Models;
 using SafariServices;
 using CoreAnimation;
-using TestProject.Core.Authentication.Interfacies;
+using TestProject.Core.Authentication.Interfaces;
 using TestProject.Core.Constants;
 
 namespace TestProject.iOS.Views
@@ -121,7 +121,7 @@ namespace TestProject.iOS.Views
 
         #region SocialMedia
 
-        private void InitializeFacebokAuth() => _authFaceBook = new FacebookAuthenticator(SocialConstant.ClientIdiOSFacebook, SocialConstant.Scope, this);
+        private void InitializeFacebokAuth() => _authFaceBook = new FacebookAuthenticator(SocialConstants.ClientIdiOSFacebook, SocialConstants.Scope, this);
         private void InitializeGoogleAuth()
         {
             GoogleAuth = new GoogleAuthenticator("70862177039-jm46ae5e77822hk8qllegch1fqler0a4.apps.googleusercontent.com", "email",

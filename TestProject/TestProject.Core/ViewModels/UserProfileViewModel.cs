@@ -12,8 +12,8 @@ using TestProject.Core.Colors;
 using TestProject.Core.Constants;
 using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Models;
-using TestProject.Core.Repositories.Interfacies;
-using TestProject.Core.Servicies.Interfacies;
+using TestProject.Core.Repositories.Interfaces;
+using TestProject.Core.Servicies.Interfaces;
 using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
@@ -28,6 +28,8 @@ namespace TestProject.Core.ViewModels
         private readonly IUserDialogs _userDialogs;
         private readonly IUserHelper _userHelper;
         private readonly IValidationService _validationService;
+        private readonly IDialogsService _dialogsService;
+
         private string _oldPassword;
         private string _newPassword;
         private string _confirmPassword;
@@ -35,12 +37,17 @@ namespace TestProject.Core.ViewModels
         #endregion
 
         public UserProfileViewModel(IMvxNavigationService navigationService, ILoginRepository loginService,
-            IUserDialogs userDialogs, IUserHelper userHelper, IValidationService validationService) : base(navigationService)
+            IUserDialogs userDialogs, IUserHelper userHelper, IValidationService validationService, IDialogsService dialogsService) : base(navigationService)
         {
             _loginService = loginService;
             _userDialogs = userDialogs;
             _userHelper = userHelper;
             _validationService = validationService;
+            _dialogsService = dialogsService;
+
+            Background = AppColors.LoginBackgroundColor;
+            ConfirmColor = AppColors.ValidateColor;
+            OldPasswordFieldColor = AppColors.ValidateColor;
         }
 
         #region Propertys
@@ -73,7 +80,7 @@ namespace TestProject.Core.ViewModels
             {
                 SetProperty(ref _newPassword, value);
                 CheckEnableStatus();
-                var passwordValidationModel = new PasswordValidationModel { Password = NewPassword, PasswordConfirm = ConfirmPassword };
+                var passwordValidationModel = new PasswordValidationModel { Password = NewPassword, PasswordConfirmation = ConfirmPassword };
                 var validationModel = _validationService.Validate(passwordValidationModel);
                 if (validationModel.IsValid)
                 {
@@ -98,7 +105,7 @@ namespace TestProject.Core.ViewModels
             {
                 SetProperty(ref _confirmPassword, value);
                 CheckEnableStatus();
-                var passwordValidationModel = new PasswordValidationModel { Password = NewPassword, PasswordConfirm = ConfirmPassword };
+                var passwordValidationModel = new PasswordValidationModel { Password = NewPassword, PasswordConfirmation = ConfirmPassword };
                 var validationModel = _validationService.Validate(passwordValidationModel);
                 if (validationModel.IsValid)
                 {
@@ -142,77 +149,42 @@ namespace TestProject.Core.ViewModels
                 return new MvxCommand(() =>
                 {
                     var validationModel = _validationService.Validate(this);
-                    if (PassChangeEneble == true)
+
+                    if (PassChangeEneble)
                     {
                         _loginService.ChangePassword(Profile.Id, NewPassword);
+
                         _userHelper.UserPassword = NewPassword;
                     }
+
                     if (!validationModel.IsValid && OldPassword != Profile.Password)
                     {
-                        foreach (string errorMessage in validationModel.Errors) {
-                            var alertPass = UserDialogs.Instance.Alert(
-                                new AlertConfig
-                                {
-                                    Message = errorMessage,
-                                    OkText = Strings.OkText,
-                                });
-                        }
+                         _dialogsService.ShowAlert(message: validationModel.Errors[0]);
+
                         return;
                     }
-                    var alert = UserDialogs.Instance.Alert(
-                            new AlertConfig
-                            {
-                                Message = Strings.Success,
-                                OkText = Strings.OkText,
-                                Title = Strings.Success
-                            });
+
+                    _dialogsService.ShowSuccessMessage(message: Strings.ChangesAccepted);
                     _loginService.ChangeImage(Profile.Id, Profile.ImagePath);
                 });
             }
         }
 
-        public IMvxCommand LogOutCommand
+        public IMvxAsyncCommand LogOutCommand
         {
             get
             {
-                return new MvxCommand(async () =>
+                return new MvxAsyncCommand(async () =>
                 {
-                    var logOut = await _userDialogs.ConfirmAsync(new ConfirmConfig
-                    {
-                        Title = Strings.AlertMessege,
-                        Message = Strings.Logout,
-                        OkText = Strings.YesText,
-                        CancelText = Strings.NoText
-                    });
+                    var logOut = await _dialogsService.ShowConfirmDialogAsync(message: Strings.DoYouWantLogout, title: Strings.AlertMessege);
+
                     if (logOut)
                     {
                         _userHelper.DeleteUserStatus();
                         _userHelper.DeleteUserAccessToken();
+
                         await NavigationService.Navigate<MainRegistrationViewModel>();
                     }
-                    if (!logOut)
-                    {
-                        return;
-                    }
-                });
-            }
-        }
-
-
-        public IMvxCommand SaveImageChangeCommand
-        {
-            get
-            {
-                return new MvxCommand(() =>
-                {
-                    var alert = UserDialogs.Instance.Alert(
-                            new AlertConfig
-                            {
-                                Message = Strings.Success,
-                                OkText = Strings.OkText,
-                                Title = Strings.Success
-                            });
-                    _loginService.ChangeImage(Profile.Id, Profile.ImagePath);
                 });
             }
         }
@@ -224,10 +196,9 @@ namespace TestProject.Core.ViewModels
         public override void Prepare()
         {
             base.Prepare();
-            Background = AppColors.LoginColor;
-            ConfirmColor = AppColors.ValidateColor;
-            OldPasswordFieldColor = AppColors.ValidateColor;
+
             int userId = _userHelper.UserId;
+
             Profile = _loginService.Get(userId);
         }
 

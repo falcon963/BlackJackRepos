@@ -121,57 +121,54 @@
     <value>Account not found</value>
   </data>
   <data name="AlertMessege" xml:space="preserve">
-    <value>Alert!</value>
+    <value>AlertMessege</value>
   </data>
-  <data name="CantDelete" xml:space="preserve">
-    <value>You can`t delete task, because hi don`t created</value>
-  </data>
-  <data name="ChangeLoseMessege" xml:space="preserve">
+  <data name="IfYouGoOnTaskyDropWithoutSaveYourChangesWillBeLoseDoYouWantThis" xml:space="preserve">
     <value>If you go on TaskyDrop whithout save, you changes will be lose! Do you want this?</value>
   </data>
-  <data name="ConfirmPasswordFieldIsEmpty" xml:space="preserve">
+  <data name="ConfirmPasswordMustBeRequired" xml:space="preserve">
     <value>ConfirmPassword must be required</value>
   </data>
-  <data name="ConfirmPasswordNotComparePassword" xml:space="preserve">
+  <data name="ConfirmPasswordMustBeComparePassword" xml:space="preserve">
     <value>Confirm Password must be compare Password</value>
   </data>
-  <data name="DeleteMessege" xml:space="preserve">
+  <data name="DoYouWantDeleteThisTask" xml:space="preserve">
     <value>Do you want delete this task?</value>
   </data>
-  <data name="EmptyFieldRegistrateMessege" xml:space="preserve">
+  <data name="YouCantRegistrateWhenFieldIsEmpty" xml:space="preserve">
     <value>You can't registrate when field is empty!</value>
   </data>
-  <data name="EmptyTaskFieldMessege" xml:space="preserve">
+  <data name="YouCantSaveTaskWhenFieldIsEmpty" xml:space="preserve">
     <value>You can't save task when field is empty!</value>
   </data>
-  <data name="ErrorAlert" xml:space="preserve">
+  <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
-  <data name="Login" xml:space="preserve">
+  <data name="LoginAlreadyUse" xml:space="preserve">
     <value>Login already use!</value>
   </data>
-  <data name="LoginFieldIsEmpty" xml:space="preserve">
+  <data name="LoginMustBeRequired" xml:space="preserve">
     <value>Login must be required</value>
   </data>
   <data name="LoginUse" xml:space="preserve">
     <value>Login use</value>
   </data>
-  <data name="Logout" xml:space="preserve">
+  <data name="DoYouWantLogout" xml:space="preserve">
     <value>Do you want logout?</value>
   </data>
-  <data name="NoteIsEmpty" xml:space="preserve">
+  <data name="NoteMustBeRequired" xml:space="preserve">
     <value>Note must be required</value>
   </data>
-  <data name="NoText" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
-  <data name="OkText" xml:space="preserve">
+  <data name="Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
-  <data name="OldPasswordFieldIsEmpty" xml:space="preserve">
+  <data name="OldPasswordFieldMustBeRequired" xml:space="preserve">
     <value>Old password field must be required</value>
   </data>
-  <data name="PasswordFieldIsEmpty" xml:space="preserve">
+  <data name="PasswordMustBeRequired" xml:space="preserve">
     <value>Password must be required</value>
   </data>
   <data name="PasswordMustContent8Char" xml:space="preserve">
@@ -183,31 +180,34 @@
   <data name="PasswordMustContentUpperChar" xml:space="preserve">
     <value>Password must content upper char!</value>
   </data>
-  <data name="PasswordNotEqualsPasswordConfirmation" xml:space="preserve">
+  <data name="TheFieldsPasswordAndPasswordConfirmationShouldBeEquals" xml:space="preserve">
     <value>The fields Password and PasswordConfirmation should be equals</value>
   </data>
-  <data name="Registrate" xml:space="preserve">
+  <data name="RegistrateSuccessfulReturnOnLoginPage" xml:space="preserve">
     <value>Registrate successful! Return on Login Page?</value>
   </data>
-  <data name="RegularError" xml:space="preserve">
+  <data name="PasswordMustContent8CharNumberCharAndUpperChar" xml:space="preserve">
     <value>Password must content 8 char, number char and upper char.</value>
   </data>
   <data name="Success" xml:space="preserve">
     <value>Success!</value>
   </data>
-  <data name="TitleIsEmpty" xml:space="preserve">
+  <data name="TitleMustBeRequired" xml:space="preserve">
     <value>Title must be required</value>
   </data>
-  <data name="UserPassword" xml:space="preserve">
+  <data name="WrongOldPassword" xml:space="preserve">
     <value>Wrong old password!</value>
   </data>
-  <data name="WrongData" xml:space="preserve">
+  <data name="WrongDataAccountNotFound" xml:space="preserve">
     <value>Wrong data, account not found!</value>
   </data>
-  <data name="WrongPassword" xml:space="preserve">
+  <data name="WrongPasswordConfirm" xml:space="preserve">
     <value>Wrong Password confirm!</value>
   </data>
-  <data name="YesText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="ChangesAccepted" xml:space="preserve">
+    <value>Changes accepted</value>
   </data>
 </root>

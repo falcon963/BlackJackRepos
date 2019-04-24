@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TestProject.Core.Models;
 
-namespace TestProject.Core.Repositories.Interfacies
+namespace TestProject.Core.Repositories.Interfaces
 {
     public interface ILoginRepository
         : IBaseRepository<User>
@@ -15,6 +15,6 @@ namespace TestProject.Core.Repositories.Interfacies
         int GetSocialAccountUserId(User user);
         void ChangePassword(int userId, string password);
         void ChangeImage(int userId, string imagePath);
-        User Get(int id);
+        User Get(int userId);
     }
 }

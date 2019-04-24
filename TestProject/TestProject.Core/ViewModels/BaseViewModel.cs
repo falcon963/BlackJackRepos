@@ -1,4 +1,5 @@
-﻿using MvvmCross.Navigation;
+﻿using MvvmCross.Commands;
+using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,17 @@ namespace TestProject.Core.ViewModels
             NavigationService = navigationService;
         }
 
+        public IMvxAsyncCommand CloseCommand
+        {
+            get
+            {
+                return new MvxAsyncCommand(async () =>
+                {
+                    await NavigationService.Close(this);
+                });
+            }
+        }
+
     }
 
     public abstract class BaseViewModel<TParameter, TResult> 
@@ -27,6 +39,17 @@ namespace TestProject.Core.ViewModels
         {
             NavigationService = navigationService;
         }
+
+        public IMvxAsyncCommand CloseCommand
+        {
+            get
+            {
+                return new MvxAsyncCommand(async () =>
+                {
+                    await NavigationService.Close(this);
+                });
+            }
+        }
     }
 
     public abstract class BaseViewModel<TParameter> 
@@ -37,6 +60,17 @@ namespace TestProject.Core.ViewModels
         protected BaseViewModel(IMvxNavigationService navigationService)
         {
             NavigationService = navigationService;
+        }
+
+        public IMvxAsyncCommand CloseCommand
+        {
+            get
+            {
+                return new MvxAsyncCommand(async () =>
+                {
+                    await NavigationService.Close(this);
+                });
+            }
         }
     }
 }

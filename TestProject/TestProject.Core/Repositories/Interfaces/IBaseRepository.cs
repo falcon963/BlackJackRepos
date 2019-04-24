@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TestProject.Core.Models;
 
-namespace TestProject.Core.Repositories.Interfacies
+namespace TestProject.Core.Repositories.Interfaces
 {
     public interface IBaseRepository<T> where T : BaseModel
     {

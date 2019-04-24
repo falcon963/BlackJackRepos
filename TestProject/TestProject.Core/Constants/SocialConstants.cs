@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TestProject.Core.Constants
 {
-    public class SocialConstant
+    public class SocialConstants
     {
         public const string ClientIdiOSFacebook = "578268892583841";
         public const string ClientIdiOSGoogle = "70862177039-jm46ae5e77822hk8qllegch1fqler0a4.apps.googleusercontent.com";

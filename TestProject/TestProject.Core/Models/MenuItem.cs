@@ -8,6 +8,7 @@ namespace TestProject.Core.Models
     public class MenuItem
     {
         public string ItemTitle { get; set; }
+
         public Action ItemAction {get;set;}
     }
 }

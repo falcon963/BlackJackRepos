@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TestProject.Core.Helpers;
 using TestProject.Core.Models;
-using TestProject.Core.Servicies.Interfacies.SocialService.Google;
+using TestProject.Core.Servicies.Interfaces.SocialService.Google;
 
 namespace TestProject.Core.Servicies
 {
@@ -29,11 +29,13 @@ namespace TestProject.Core.Servicies
         public async Task<User> GetGoogleUserAsync(string accessToken)
         {
             User account = new User();
+
             try
             {
                 var reqrequestUrl = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + accessToken;
                 var model = await _httpHelper.Get<GoogleProfileModel>(reqrequestUrl);
                 var image = await _httpHelper.GetByte(model?.Picture?.Url);
+
                 if (model?.Picture?.Url != null)
                 {
                     account.ImagePath = Convert.ToBase64String(image);

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TestProject.Core.Constants
 {
-    public struct SecureConstant
+    public struct SecureConstants
     {
         public const string Password = "Password";
         public const string Login = "Login";

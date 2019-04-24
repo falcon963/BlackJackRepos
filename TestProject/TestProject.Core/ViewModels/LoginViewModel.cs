@@ -12,14 +12,14 @@ using TestProject.Core.Constants;
 using MvvmCross.UI;
 using Xamarin.Auth;
 using TestProject.Core.Servicies;
-using TestProject.Core.Repositories.Interfacies;
+using TestProject.Core.Repositories.Interfaces;
 using TestProject.Core.Helpers.Interfaces;
 using TestProject.Resources;
 using System.ComponentModel.DataAnnotations;
 using System.Resources;
-using TestProject.Core.Servicies.Interfacies.SocialService.Google;
-using TestProject.Core.Servicies.Interfacies.SocialService.Facebook;
-using TestProject.Core.Servicies.Interfacies;
+using TestProject.Core.Servicies.Interfaces.SocialService.Google;
+using TestProject.Core.Servicies.Interfaces.SocialService.Facebook;
+using TestProject.Core.Servicies.Interfaces;
 using TestProject.Core.Colors;
 
 namespace TestProject.Core.ViewModels
@@ -58,10 +58,10 @@ namespace TestProject.Core.ViewModels
 
         public OAuth2Authenticator Auth { get; set; }
 
-        [Required(ErrorMessageResourceName = "LoginFieldIsEmpty", ErrorMessageResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = "LoginMustBeRequired", ErrorMessageResourceType = typeof(Strings))]
         public string Login { get; set; }
 
-        [Required(ErrorMessageResourceName = "PasswordFieldIsEmpty", ErrorMessageResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = "PasswordMustBeRequired", ErrorMessageResourceType = typeof(Strings))]
         public string Password { get; set; }
 
         public bool IsRememberMeStatus
@@ -90,7 +90,7 @@ namespace TestProject.Core.ViewModels
         public override void Prepare()
         {
             base.Prepare();
-            LoginColor = AppColors.LoginColor;
+            LoginColor = AppColors.LoginBackgroundColor;
 
 
             if (_userHelper.IsUserLogin)
@@ -110,25 +110,26 @@ namespace TestProject.Core.ViewModels
                 return new MvxAsyncCommand(async () =>
                 {
                     var validationModel = _validationService.Validate(this);
+
                     if (!validationModel.IsValid)
                     {
-                        foreach (string error in validationModel.Errors)
-                        {
-                            _dialogsService.ShowAlert(error);
-                        }
+                        _dialogsService.ShowAlert(validationModel.Errors[0]);
+
                         return;
                     }
                     var account = _loginService.GetAppRegistrateUserAccount(Login, Password);
+                    if ((account == null))
+                    {
+                        _dialogsService.ShowAlert(Strings.WrongDataAccountNotFound);
+
+                        return;
+                    }
                     if (account != null)
                     {
                         _userHelper.UserId = account.Id;
+
                         await NavigationService.Navigate<MainViewModel>();
                         await NavigationService.Close(this);
-                    }
-                    if((account == null))
-                    {
-                        _dialogsService.ShowAlert(Strings.WrongData);
-                        return;
                     }
                 });
             }
@@ -169,12 +170,16 @@ namespace TestProject.Core.ViewModels
 
         async Task SingIn(Func<Task<User>> getUser){
             var token = _userHelper.UserAccessToken;
+
             if (string.IsNullOrEmpty(token))
             {
                 return;
             }
+
             User user = await getUser();
+
             var id = _loginService.GetSocialAccountUserId(user);
+
             await NavigationService.Navigate<MainViewModel>();
             await NavigationService.Close(this);
         }

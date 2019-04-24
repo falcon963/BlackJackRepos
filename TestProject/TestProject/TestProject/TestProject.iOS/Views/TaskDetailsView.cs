@@ -47,7 +47,8 @@ namespace TestProject.iOS.Views
 
             #region Init Property Sub
 
-            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+            //ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+            ViewModel.ListOfFiles.CollectionChanged +=   ListOfFiles_CollectionChanged;
 
             #endregion
 
@@ -60,6 +61,7 @@ namespace TestProject.iOS.Views
             set.Bind(TaskStatus).To(vm => vm.UserTask.Changes.Status);
             set.Bind(DeleteButton).To(vm => vm.DeleteUserTaskCommand);
             set.Bind(BackButton).To(vm => vm.ShowMenuCommand);
+            set.Bind(DeleteButton).For(v => v.Hidden).To(vm => vm.IsDeleteButtonHidden);
             set.Bind(source).For(x => x.ItemsSource).To(vm => vm.ListOfFiles);
             set.Bind(View).For(v => v.BackgroundColor).To(vm => vm.ColorTheme).WithConversion(new ColorValueConverter());
             set.Bind(TaskImage).To(vm => vm.UserTask.Changes.ImagePath).WithConversion(new ImageValueConverter());
@@ -121,13 +123,9 @@ namespace TestProject.iOS.Views
             FileList.ReloadData();
         }
 
-
-        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {         
-            if (e.PropertyName == "ListOfFiles")
-            {
-                InitFileList();
-            }
+        private void ListOfFiles_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            InitFileList();
         }
 
 
