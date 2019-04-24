@@ -7,7 +7,7 @@ namespace TestProject.Core.Repositories.Interfaces
 {
     public interface IBaseRepository<T> where T : BaseModel
     {
-        void Save(T item);
+        int Save(T item);
         void Delete(T item);
         void Delete(int id);
         void SaveRange(List<T> list);

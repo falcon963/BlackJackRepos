@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using TestProject.Core.Helpers;
+using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Models;
 using TestProject.Core.Servicies.Interfaces.SocialService.Google;
 
@@ -16,14 +17,14 @@ namespace TestProject.Core.Servicies
     public class GoogleService
         : IGoogleService
     {
-        private readonly HttpHelper _httpHelper;
+        private readonly IHttpHelper _httpHelper;
 
-        private readonly IMvxLog _log;
+        private readonly IMvxLog _mvxLog;
 
-        public GoogleService()
+        public GoogleService(IHttpHelper httpHelper, IMvxLog mvxLog)
         {
-                _httpHelper = new HttpHelper();
-                _log = Mvx.IoCProvider.Resolve<IMvxLog>();
+            _httpHelper = httpHelper;
+            _mvxLog = mvxLog;
         }
 
         public async Task<User> GetGoogleUserAsync(string accessToken)
@@ -45,7 +46,7 @@ namespace TestProject.Core.Servicies
             }
             catch (Exception ex)
             {
-                _log.Trace(ex.Message);
+                _mvxLog.Trace(ex.Message);
             }
 
             return account;

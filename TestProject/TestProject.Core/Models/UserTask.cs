@@ -15,14 +15,14 @@ namespace TestProject.Core.Models
 
         }
 
-        public UserTask(UserTask clon)
+        public UserTask(UserTask userTask)
         {
-            Id = clon.Id;
-            UserId = clon.Id;
-            ImagePath = clon.ImagePath;
-            Note = clon.Note;
-            Title = clon.Title;
-            Status = clon.Status;
+            Id = userTask.Id;
+            UserId = userTask.Id;
+            ImagePath = userTask.ImagePath;
+            Note = userTask.Note;
+            Title = userTask.Title;
+            Status = userTask.Status;
         }
 
         [ForeignKey(typeof(User))]
@@ -40,7 +40,7 @@ namespace TestProject.Core.Models
         [ManyToOne]
         public User User { get; set; }
 
-        #region OvverideMethods
+        #region overrides
 
         public override bool Equals(object obj)
         {

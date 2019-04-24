@@ -4,12 +4,12 @@ using System.Text;
 
 namespace TestProject.Core.Constants
 {
-    public struct SecureConstants
+    public class SecureConstants
     {
-        public const string Password = "Password";
-        public const string Login = "Login";
-        public const string Status = "Status";
-        public const string UserId = "UserId";
-        public const string AccessToken = "AccessToken";
+        public string Password { get; }
+        public string Login { get; }
+        public string Status { get; }
+        public string UserId { get; }
+        public string AccessToken { get; }
     }
 }

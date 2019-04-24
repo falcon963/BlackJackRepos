@@ -21,6 +21,7 @@ using TestProject.Core.Servicies.Interfaces.SocialService.Google;
 using TestProject.Core.Servicies.Interfaces.SocialService.Facebook;
 using TestProject.Core.Servicies.Interfaces;
 using TestProject.Core.Colors;
+using System.Linq;
 
 namespace TestProject.Core.ViewModels
 {
@@ -49,7 +50,9 @@ namespace TestProject.Core.ViewModels
                 _googleService = googleService;
                 _userHelper = userHelper;
                 _validationService = validationService;
-                _dialogsService = dialogsService;      
+                _dialogsService = dialogsService;
+
+            LoginColor = AppColors.LoginBackgroundColor;
         }
 
         #region Properties
@@ -90,8 +93,6 @@ namespace TestProject.Core.ViewModels
         public override void Prepare()
         {
             base.Prepare();
-            LoginColor = AppColors.LoginBackgroundColor;
-
 
             if (_userHelper.IsUserLogin)
             {
@@ -113,11 +114,13 @@ namespace TestProject.Core.ViewModels
 
                     if (!validationModel.IsValid)
                     {
-                        _dialogsService.ShowAlert(validationModel.Errors[0]);
+                        _dialogsService.ShowAlert(validationModel.Errors.FirstOrDefault());
 
                         return;
                     }
+
                     var account = _loginService.GetAppRegistrateUserAccount(Login, Password);
+
                     if ((account == null))
                     {
                         _dialogsService.ShowAlert(Strings.WrongDataAccountNotFound);

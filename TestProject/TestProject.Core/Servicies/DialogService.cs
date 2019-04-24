@@ -14,6 +14,11 @@ namespace TestProject.Core.Servicies
     {
         public void ShowAlert(string message)
         {
+            if (string.IsNullOrEmpty(message))
+            {
+                return;
+            }
+
             UserDialogs.Instance.Alert(
                             new AlertConfig
                             {
@@ -25,6 +30,11 @@ namespace TestProject.Core.Servicies
 
         public async Task<bool> ShowConfirmDialogAsync(string message, string title)
         {
+            if (string.IsNullOrEmpty(message) || string.IsNullOrEmpty(title))
+            {
+                return false;
+            }
+
             var alert = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig
             {
                 Message = message,
@@ -37,6 +47,11 @@ namespace TestProject.Core.Servicies
 
         public void ShowSuccessMessage(string message)
         {
+            if (string.IsNullOrEmpty(message))
+            {
+                return;
+            }
+
             UserDialogs.Instance.Alert(
                             new AlertConfig
                             {

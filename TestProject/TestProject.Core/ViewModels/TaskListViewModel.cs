@@ -61,7 +61,7 @@ namespace TestProject.Core.ViewModels
         {
             get
             {
-                return AppColors.AppColorTheme;
+                return AppColors.AppThemeColor;
             }
         }
 
@@ -69,7 +69,7 @@ namespace TestProject.Core.ViewModels
         {
             var userId = _userHelper.UserId;
 
-            List<UserTask> list = _taskService.GetTasksList(userId).ToList();
+            var list = _taskService.GetTasksList(userId);
 
             ListOfTasks.AddRange(list);
         }

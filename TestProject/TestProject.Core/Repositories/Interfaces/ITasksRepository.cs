@@ -14,8 +14,6 @@ namespace TestProject.Core.Repositories.Interfaces
 
         IEnumerable<UserTask> GetTasksList(int userId);
 
-        int Save(UserTask user);
-
         UserTask Get(int taskId);
     }
 }

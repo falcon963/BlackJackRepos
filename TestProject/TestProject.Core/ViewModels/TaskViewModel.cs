@@ -90,11 +90,7 @@ namespace TestProject.Core.ViewModels
             UserTask.Changes = new UserTask();
             UserTask.Result = UserTaskResult.NotChanged;
             #endregion
-        }
 
-        public override void Prepare()
-        {
-            base.Prepare();
             ColorTheme = AppColors.LoginBackgroundColor;
         }
 
@@ -223,7 +219,7 @@ namespace TestProject.Core.ViewModels
 
                     if(!modelState.IsValid)
                     {
-                        _dialogsService.ShowAlert(modelState.Errors[0]);
+                        _dialogsService.ShowAlert(modelState.Errors.FirstOrDefault());
 
                         return;
                     }   

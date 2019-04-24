@@ -14,6 +14,7 @@ using TestProject.Core.Repositories.Interfaces;
 using TestProject.Core.Helpers.Interfaces;
 using TestProject.Resources;
 using TestProject.Core.Colors;
+using TestProject.Core.Servicies.Interfaces;
 
 namespace TestProject.Core.ViewModels
 {
@@ -26,7 +27,9 @@ namespace TestProject.Core.ViewModels
 
         private readonly IUserHelper _userHelper;
 
-        private readonly ILoginRepository _loginRepository; 
+        private readonly ILoginRepository _loginRepository;
+
+        private readonly IDialogsService _dialogsService;
 
         #endregion
 
@@ -51,11 +54,47 @@ namespace TestProject.Core.ViewModels
         #endregion
 
 
-        public MenuViewModel(IMvxNavigationService navigationService, IUserDialogs userDialogs, ILoginRepository loginRepository, IUserHelper userHelper) : base(navigationService)
+        public MenuViewModel(IMvxNavigationService navigationService, IUserDialogs userDialogs, ILoginRepository loginRepository, IUserHelper userHelper, IDialogsService dialogsService) : base(navigationService)
         {
             _userDialogs = userDialogs;
             _userHelper = userHelper;
             _loginRepository = loginRepository;
+            _dialogsService = dialogsService;
+
+            #region InitObservableCollection
+            MenuItems = new MvxObservableCollection<MenuItem>()
+            {
+                new MenuItem
+                {
+                    ItemAction = async () => {
+
+                        bool isLogOut = await _dialogsService.ShowConfirmDialogAsync(message: Strings.DoYouWantLogout, title: Strings.AlertMessege);
+
+                        if (isLogOut)
+                            {
+                                _userHelper.DeleteUserStatus();
+
+                                await NavigationService.Navigate<MainRegistrationViewModel>();
+                            }
+                    },
+                    ItemTitle = Strings.Logout
+                },
+                new MenuItem
+                {
+                    ItemAction = async () => {
+                        await NavigationService.Navigate<UserLocationViewModel>();
+                    },
+                    ItemTitle = Strings.Map
+                },
+                new MenuItem
+                {
+                    ItemAction = async () => {
+                        await NavigationService.Navigate<UserProfileViewModel>();
+                    },
+                    ItemTitle = Strings.Profile
+                }
+            };
+            #endregion
         }
 
         public override void Prepare()
@@ -64,63 +103,9 @@ namespace TestProject.Core.ViewModels
 
             int userId = _userHelper.UserId;
             Profile = _loginRepository.Get(userId);
-
-            MenuItems = new MvxObservableCollection<MenuItem>()
-            {
-                new MenuItem
-                {
-                    ItemAction = () => {
-                        LogOutCommand?.Execute();
-                    },
-                    ItemTitle = "Logout"
-                },
-                new MenuItem
-                {
-                    ItemAction = async () => {
-                        await NavigationService.Navigate<UserLocationViewModel>();
-                    },
-                    ItemTitle = "Map"
-                },
-                new MenuItem
-                {
-                    ItemAction = async () => {
-                        await NavigationService.Navigate<UserProfileViewModel>();
-                    },
-                    ItemTitle = "Profile"
-                }
-            };
         }
 
         #region Commands
-
-        public IMvxCommand LogOutCommand
-        {
-            get
-            {
-                return new MvxCommand(async () =>
-                {
-                    var logOut = await _userDialogs.ConfirmAsync(new ConfirmConfig
-                    {
-                        Title = Strings.AlertMessege,
-                        Message = Strings.DoYouWantLogout,
-                        OkText = Strings.Yes,
-                        CancelText = Strings.No
-                    });
-
-                    if (logOut)
-                    {
-                        _userHelper.DeleteUserStatus();
-
-                        await NavigationService.Navigate<MainRegistrationViewModel>();
-                    }
-
-                    if (!logOut)
-                    {
-                        return;
-                    }
-                });
-            }
-        }
 
         public IMvxCommand<MenuItem> ItemSelectCommand
         {
@@ -128,7 +113,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxCommand<MenuItem>((item) =>
                 {
-                    item?.ItemAction();
+                    item?.ItemAction?.Invoke();
                 });
             }
         }

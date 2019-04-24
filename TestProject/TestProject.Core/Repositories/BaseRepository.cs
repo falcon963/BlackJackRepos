@@ -16,7 +16,7 @@ namespace TestProject.Core.Repositories
         : IBaseRepository<T> where T : BaseModel, new()
     {
 
-        public SqliteAppConnection _dbConnection;
+        protected readonly SqliteAppConnection _dbConnection;
 
         public BaseRepository(IDatabaseConnectionService dbConnection)
         {
@@ -30,26 +30,30 @@ namespace TestProject.Core.Repositories
 
         public void Delete(int id)
         {
-            var file = _dbConnection.Database.Table<T>().FirstOrDefault(i => i.Id == id);
-            _dbConnection.Database.Delete(file);
+            var item = _dbConnection.Database.Table<T>().FirstOrDefault(i => i.Id == id);
+
+            _dbConnection.Database.Delete(item);
         }
 
         public void DeleteRange(List<T> list)
         {
-            foreach (T file in list)
+            foreach (T item in list)
             {
-                _dbConnection.Database.Delete(file);
+                _dbConnection.Database.Delete(item);
             }
         }
 
-        public void Save(T item)
+        public int Save(T item)
         {
+            int id;
+
             if (item.Id == 0)
             {
-                _dbConnection.Database.Insert(item);
-                return;
+                id = _dbConnection.Database.Insert(item);
+                return id;
             }
-               _dbConnection.Database.Update(item);
+               id = _dbConnection.Database.Update(item);
+            return id;
         }
 
         public void SaveRange(List<T> list)

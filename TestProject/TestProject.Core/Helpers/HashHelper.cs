@@ -10,10 +10,10 @@ namespace TestProject.Core.Helpers
         : IHashHelper
     {
 
-        public string GetHash(string encryptedString)
+        public string GetHash(string content)
         {
             MD5 md5 = MD5.Create();
-            byte[] inputBytes = Encoding.ASCII.GetBytes(encryptedString);
+            byte[] inputBytes = Encoding.ASCII.GetBytes(content);
             byte[] hash = md5.ComputeHash(inputBytes);
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < hash.Length; i++)

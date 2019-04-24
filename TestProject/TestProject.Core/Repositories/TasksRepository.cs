@@ -38,22 +38,6 @@ namespace TestProject.Core.Repositories
             return listOfTasks;
         }
 
-        int ITasksRepository.Save(UserTask item)
-        {
-            int itemId;
-
-            if (item.Id == 0)
-            {
-                itemId = _dbConnection.Database.Insert(item);
-
-                return itemId;
-            }
-
-            itemId = _dbConnection.Database.Update(item);
-
-            return itemId;
-        }
-
         public UserTask Get(int taskId)
         {
             var user = _dbConnection.Database.Table<UserTask>().FirstOrDefault(v => v.Id == taskId);

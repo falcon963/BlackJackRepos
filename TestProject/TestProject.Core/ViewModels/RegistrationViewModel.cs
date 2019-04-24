@@ -6,6 +6,7 @@ using Plugin.SecureStorage;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Resources;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -43,7 +44,7 @@ namespace TestProject.Core.ViewModels
             _validationService = validationService;
 
             LoginColor = AppColors.LoginBackgroundColor;
-            ValidateColor = AppColors.ValidateColor;
+            ValidateColor = AppColors.ValidColor;
         }
 
         #region MvxColor
@@ -83,12 +84,12 @@ namespace TestProject.Core.ViewModels
 
                 if (validationModel.IsValid)
                 {
-                    ValidateColor = AppColors.NotValidateColor;
+                    ValidateColor = AppColors.InvalidColor;
                 }
 
                 if (!validationModel.IsValid)
                 {
-                    ValidateColor = AppColors.ValidateColor;
+                    ValidateColor = AppColors.ValidColor;
                 }
             }
         }
@@ -115,21 +116,13 @@ namespace TestProject.Core.ViewModels
 
                 if (validationModel.IsValid)
                 {
-                    ValidateColor = AppColors.NotValidateColor;
+                    ValidateColor = AppColors.InvalidColor;
                 }
 
                 if (!validationModel.IsValid)
                 {
-                    ValidateColor = AppColors.ValidateColor;
+                    ValidateColor = AppColors.ValidColor;
                 }
-            }
-        }
-
-        public bool CheckLogin
-        {
-            get
-            {
-                return _loginService.CheckValidLogin(Login);
             }
         }
 
@@ -156,7 +149,7 @@ namespace TestProject.Core.ViewModels
 
                     if (!validationModel.IsValid)
                     {
-                        _dialogsService.ShowAlert(validationModel.Errors[0]);
+                        _dialogsService.ShowAlert(validationModel.Errors.FirstOrDefault());
 
                         return;
                     }
@@ -171,9 +164,9 @@ namespace TestProject.Core.ViewModels
 
                         _loginService.Save(user);
 
-                        var userChose = await _dialogsService.ShowConfirmDialogAsync(Strings.RegistrateSuccessfulReturnOnLoginPage, Strings.Success);
+                        var isGoOnLogin = await _dialogsService.ShowConfirmDialogAsync(Strings.RegistrateSuccessfulReturnOnLoginPage, Strings.Success);
 
-                        if (!userChose)
+                        if (!isGoOnLogin)
                         {
                             return;
                         }

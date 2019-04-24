@@ -46,8 +46,8 @@ namespace TestProject.Core.ViewModels
             _dialogsService = dialogsService;
 
             Background = AppColors.LoginBackgroundColor;
-            ConfirmColor = AppColors.ValidateColor;
-            OldPasswordFieldColor = AppColors.ValidateColor;
+            ConfirmColor = AppColors.ValidColor;
+            OldPasswordFieldColor = AppColors.ValidColor;
         }
 
         #region Propertys
@@ -84,11 +84,11 @@ namespace TestProject.Core.ViewModels
                 var validationModel = _validationService.Validate(passwordValidationModel);
                 if (validationModel.IsValid)
                 {
-                    ConfirmColor = AppColors.NotValidateColor;
+                    ConfirmColor = AppColors.InvalidColor;
                 }
                 if(!validationModel.IsValid)
                 {
-                    ConfirmColor = AppColors.ValidateColor;
+                    ConfirmColor = AppColors.ValidColor;
                 }
             }
         }
@@ -109,11 +109,11 @@ namespace TestProject.Core.ViewModels
                 var validationModel = _validationService.Validate(passwordValidationModel);
                 if (validationModel.IsValid)
                 {
-                    ConfirmColor = AppColors.NotValidateColor;
+                    ConfirmColor = AppColors.InvalidColor;
                 }
                 if (!validationModel.IsValid)
                 {
-                    ConfirmColor = AppColors.ValidateColor;
+                    ConfirmColor = AppColors.ValidColor;
                 }
             }
         }
