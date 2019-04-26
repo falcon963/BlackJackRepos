@@ -27,14 +27,14 @@ namespace TestProject.Core.Servicies
             _mvxLog = mvxLog;
         }
 
-        public async Task<User> GetGoogleUserAsync(string accessToken)
+        public async Task<User> GetUserAsync(string accessToken)
         {
             User account = new User();
 
             try
             {
-                var reqrequestUrl = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + accessToken;
-                var model = await _httpHelper.Get<GoogleProfileModel>(reqrequestUrl);
+                var requestUrl = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + accessToken;
+                var model = await _httpHelper.Get<GoogleProfileModel>(requestUrl);
                 var image = await _httpHelper.GetByte(model?.Picture?.Url);
 
                 if (model?.Picture?.Url != null)

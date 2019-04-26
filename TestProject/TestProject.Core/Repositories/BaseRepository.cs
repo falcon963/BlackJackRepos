@@ -32,14 +32,14 @@ namespace TestProject.Core.Repositories
         {
             var item = _dbConnection.Database.Table<T>().FirstOrDefault(i => i.Id == id);
 
-            _dbConnection.Database.Delete(item);
+            Delete(item);
         }
 
         public void DeleteRange(List<T> list)
         {
             foreach (T item in list)
             {
-                _dbConnection.Database.Delete(item);
+                Delete(item);
             }
         }
 
@@ -60,15 +60,15 @@ namespace TestProject.Core.Repositories
         {
             foreach(T item in list)
             {
-                if (item.Id == 0)
-                {
-                    _dbConnection.Database.Insert(item);
-                }
-                if (item.Id != 0)
-                {
-                    _dbConnection.Database.Update(item);
-                }
+                Save(item);
             }
+        }
+
+        public T Get(int id)
+        {
+            var user = _dbConnection.Database.Table<T>().FirstOrDefault(v => v.Id == id);
+
+            return user;
         }
     }
 }

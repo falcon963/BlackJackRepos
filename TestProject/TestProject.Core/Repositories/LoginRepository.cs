@@ -24,12 +24,6 @@ namespace TestProject.Core.Repositories
             _userHelper = userHelper;
         }
 
-        public void SetLoginAndPassword(string login, string password)
-        {
-            _userHelper.UserLogin = login;
-            _userHelper.UserPassword = password;
-        }
-
         public User GetAppRegistrateUserAccount(string login, string password)
         {
             var user = _dbConnection.Database.Table<User>().FirstOrDefault(v => v.Login == login && v.Password == password);
@@ -66,6 +60,7 @@ namespace TestProject.Core.Repositories
         public int GetSocialAccountUserId(User user)
         {
             User createdUser = _dbConnection.Database.Table<User>().FirstOrDefault(v => v.FacebookId == user.FacebookId || v.GoogleId == user.GoogleId);
+
             if(createdUser != null)
             {
                 _userHelper.UserId = createdUser.Id;
@@ -83,13 +78,6 @@ namespace TestProject.Core.Repositories
                 return newUser.Id;
             }
             return 0;
-        }
-
-        public User Get(int userId)
-        {
-            var user = _dbConnection.Database.Table<User>().FirstOrDefault(v => v.Id == userId);
-
-            return user;
         }
     }
 }

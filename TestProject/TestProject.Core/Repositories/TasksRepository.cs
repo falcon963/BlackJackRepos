@@ -22,27 +22,11 @@ namespace TestProject.Core.Repositories
         {
         }
 
-        IEnumerable<int> ITasksRepository.GetUserTasksIdAsync(int userId)
-        {
-            List<UserTask> listOfTasks = _dbConnection.Database.Table<UserTask>().Where(i => i.UserId == userId).ToList();
-
-            List<int> listId = listOfTasks.Select(i => i.Id).ToList();
-
-            return listId;
-        }
-
         IEnumerable<UserTask> ITasksRepository.GetTasksList(int userId)
         {
-            List<UserTask> listOfTasks = _dbConnection.Database.Table<UserTask>().Where(i => i.UserId == userId).ToList();
+            IEnumerable<UserTask> listOfTasks = _dbConnection.Database.Table<UserTask>().Where(i => i.UserId == userId);
 
             return listOfTasks;
-        }
-
-        public UserTask Get(int taskId)
-        {
-            var user = _dbConnection.Database.Table<UserTask>().FirstOrDefault(v => v.Id == taskId);
-
-            return user;
         }
     }
 }

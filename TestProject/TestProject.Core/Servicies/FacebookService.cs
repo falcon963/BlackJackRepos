@@ -27,13 +27,13 @@ namespace TestProject.Core.Servicies
             _mvxLog = mvxLog;
         }
 
-        public async Task<User> GetFacebookUserAsync(string accessToken)
+        public async Task<User> GetUserAsync(string accessToken)
         {
             User account = new User();
             try
             {
-                var reqrequestUrl = "https://graph.facebook.com/me?fields=email,id,name,picture&access_token=" + accessToken;
-                var model = await _httpHelper.Get<FacebookProfileModel>(reqrequestUrl);
+                var requestUrl = "https://graph.facebook.com/me?fields=email,id,name,picture&access_token=" + accessToken;
+                var model = await _httpHelper.Get<FacebookProfileModel>(requestUrl);
                 string pictureUrl = model?.Picture?.Data?.Url;
                 if (pictureUrl != null)
                 {

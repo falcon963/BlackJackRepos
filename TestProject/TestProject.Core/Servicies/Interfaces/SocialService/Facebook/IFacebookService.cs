@@ -8,6 +8,6 @@ namespace TestProject.Core.Servicies.Interfaces.SocialService.Facebook
 {
     public interface IFacebookService
     {
-        Task<User> GetFacebookUserAsync(string accessToken);
+        Task<User> GetUserAsync(string accessToken);
     }
 }

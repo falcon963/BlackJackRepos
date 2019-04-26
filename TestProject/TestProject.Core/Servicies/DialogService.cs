@@ -30,7 +30,7 @@ namespace TestProject.Core.Servicies
 
         public async Task<bool> ShowConfirmDialogAsync(string message, string title)
         {
-            if (string.IsNullOrEmpty(message) || string.IsNullOrEmpty(title))
+            if (string.IsNullOrEmpty(message))
             {
                 return false;
             }

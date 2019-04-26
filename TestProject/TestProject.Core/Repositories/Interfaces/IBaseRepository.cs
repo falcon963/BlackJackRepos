@@ -12,5 +12,6 @@ namespace TestProject.Core.Repositories.Interfaces
         void Delete(int id);
         void SaveRange(List<T> list);
         void DeleteRange(List<T> list);
+        T Get(int id);
     }
 }

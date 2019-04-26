@@ -120,7 +120,7 @@ namespace TestProject.Core.ViewModels
 
         public MvxColor Background { get; set; }
 
-        public bool PassChangeEneble { get; set; }
+        public bool IsPasswordChangeConfirmed { get; set; }
 
         public MvxColor OldPasswordFieldColor { get; set; }
 
@@ -150,7 +150,7 @@ namespace TestProject.Core.ViewModels
                 {
                     var validationModel = _validationService.Validate(this);
 
-                    if (PassChangeEneble)
+                    if (IsPasswordChangeConfirmed)
                     {
                         _loginService.ChangePassword(Profile.Id, NewPassword);
 
@@ -176,9 +176,9 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    var logOut = await _dialogsService.ShowConfirmDialogAsync(message: Strings.DoYouWantLogout, title: Strings.AlertMessege);
+                    var isLoginRedirectConfirmed = await _dialogsService.ShowConfirmDialogAsync(message: Strings.DoYouWantLogout, title: Strings.AlertMessege);
 
-                    if (logOut)
+                    if (isLoginRedirectConfirmed)
                     {
                         _userHelper.DeleteUserStatus();
                         _userHelper.DeleteUserAccessToken();
@@ -207,7 +207,7 @@ namespace TestProject.Core.ViewModels
             if (OldPassword == Profile.Password
                     && _validationService.Validate(this).IsValid)
             {
-                PassChangeEneble = true;
+                IsPasswordChangeConfirmed = true;
             }
         }
     }

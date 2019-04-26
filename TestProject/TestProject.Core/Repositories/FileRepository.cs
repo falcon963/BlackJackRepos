@@ -19,7 +19,7 @@ namespace TestProject.Core.Repositories
 
         IEnumerable<TaskFileModel> IFileRepository.GetFilesList(int taskId)
         {
-            List<TaskFileModel> listOfFile = _dbConnection.Database.Table<TaskFileModel>().Where(i => i.TaskId == taskId).ToList();
+            IEnumerable<TaskFileModel> listOfFile = _dbConnection.Database.Table<TaskFileModel>().Where(i => i.TaskId == taskId);
 
             return listOfFile;
         }

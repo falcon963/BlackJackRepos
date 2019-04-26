@@ -79,7 +79,8 @@ namespace TestProject.Core.ViewModels
                 if (_rememberMe)
                 {
                     _userHelper.IsUserLogin = true;
-                    _loginService.SetLoginAndPassword(Login, Password);
+                    _userHelper.UserLogin = Login;
+                    _userHelper.UserPassword = Password;
                 }
                 if (!_rememberMe)
                 {
@@ -155,7 +156,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    await SingIn(async () => await _facebookService.GetFacebookUserAsync(_userHelper.UserAccessToken));
+                    await SingIn(async () => await _facebookService.GetUserAsync(_userHelper.UserAccessToken));
                 });
             }
         }
@@ -166,7 +167,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {                     
-                    await SingIn(async () => await _googleService.GetGoogleUserAsync(_userHelper.UserAccessToken));
+                    await SingIn(async () => await _googleService.GetUserAsync(_userHelper.UserAccessToken));
                 });
             }
         }

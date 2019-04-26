@@ -68,9 +68,9 @@ namespace TestProject.Core.ViewModels
                 {
                     ItemAction = async () => {
 
-                        bool isLogOut = await _dialogsService.ShowConfirmDialogAsync(message: Strings.DoYouWantLogout, title: Strings.AlertMessege);
+                        bool isLoginRedirectConfirmed = await _dialogsService.ShowConfirmDialogAsync(message: Strings.DoYouWantLogout, title: Strings.AlertMessege);
 
-                        if (isLogOut)
+                        if (isLoginRedirectConfirmed)
                             {
                                 _userHelper.DeleteUserStatus();
 
