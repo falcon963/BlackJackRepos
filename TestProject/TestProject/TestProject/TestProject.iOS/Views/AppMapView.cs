@@ -12,7 +12,7 @@ namespace TestProject.iOS.Views
 {
     [MvxTabPresentation(WrapInNavigationController = true, TabName = "Map", TabIconName = "icons8_google_maps_24")]
     public partial class AppMapView
-        : BaseMenuView<UserLocationViewModel>
+        : BaseMenuView<LocationViewModel>
     {
         MapView _mapView;
         bool _firstLocationUpdate;
@@ -24,7 +24,7 @@ namespace TestProject.iOS.Views
         {
             base.ViewDidLoad();
 
-            var set = this.CreateBindingSet<AppMapView, UserLocationViewModel>();
+            var set = this.CreateBindingSet<AppMapView, LocationViewModel>();
             set.Bind(BackButton).To(vm => vm.CloseCommand);
             set.Apply();
 

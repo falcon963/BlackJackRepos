@@ -12,7 +12,7 @@ namespace TestProject.iOS.Views
 {
     [MvxTabPresentation(WrapInNavigationController = true, TabName = "Profile", TabIconName = "icons8_user_24")]
     public partial class ProfileView 
-        : BaseMenuView<UserProfileViewModel>
+        : BaseMenuView<ProfileViewModel>
     {
         private UITapGestureRecognizer _tap;
 
@@ -35,7 +35,7 @@ namespace TestProject.iOS.Views
 
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, HandleKeyboardDidShow);
 
-            var set = this.CreateBindingSet<ProfileView, UserProfileViewModel>();
+            var set = this.CreateBindingSet<ProfileView, ProfileViewModel>();
 
             set.Bind(PasswordField).To(vm => vm.OldPassword);
             set.Bind(PasswordConfirmField).To(vm => vm.ConfirmPassword);

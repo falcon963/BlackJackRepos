@@ -44,39 +44,10 @@ namespace TestProject.Droid.Fragments
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
             _navigationView = view.FindViewById<MvxListView>(Resource.Id.mvxListView_menuItem);
+
             _navigationView.DividerHeight = 0;
-            _avatar = view.FindViewById<CircleImageView>(Resource.Id.avatar);
+
             _navigationView.ItemClick.CanExecuteChanged += (sender, e) => { ((MainActivity)Activity).DrawerLayout.CloseDrawers();  };
-
-            string imagePath = ViewModel.Profile.ImagePath;
-
-            if (imagePath == null)
-            {
-                try
-                {
-                    _bitmap = BitmapFactory.DecodeResource(Context.Resources, Resource.Drawable.placeholder);
-                    _avatar.SetImageBitmap(_bitmap);
-                }
-                catch (Java.Lang.OutOfMemoryError)
-                {
-                    GC.Collect();
-                }
-            }
-
-            if (imagePath != null)
-            {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.InSampleSize = 3;
-                try
-                {
-                    _bitmap = BitmapFactory.DecodeFile(imagePath, options);
-                    _avatar.SetImageBitmap(_bitmap);
-                }
-                catch (Java.Lang.OutOfMemoryError)
-                {
-                    GC.Collect();
-                }
-            }
 
             return view;
         }

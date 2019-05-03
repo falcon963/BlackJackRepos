@@ -22,48 +22,45 @@ using MvvmCross.ViewModels;
 using TestProject.Core.Models;
 using TestProject.Core.ViewModels;
 using TestProject.Droid.Fragments;
-using Boolean = System.Boolean;
 
 namespace TestProject.Droid.Adapters
 {
     public class RecyclerImageAdapter 
         : RecyclerView.Adapter
     {
-        private List<UserTask> _tasksList;
         private List<UserTask> _tasksListPendingRemoval;
+
         public event EventHandler<int> ItemClick;
+
         private readonly int PENDING_REMOVAL_TIMEOUT = 3000;
-        private TasksFragment _tasksFragment;
+
+        private TasksListFragment _tasksFragment;
 
         private Handler _handler = new Handler();
+
         Dictionary<UserTask, Action> _pendingRunnables = new Dictionary<UserTask, Action>();
 
-        public List<UserTask> Tasks
-        {
-            get
-            {
-                return _tasksList;
-            }
-            set
-            {
-                _tasksList = value;
-            }
-        }
+        public List<UserTask> Tasks { get; set; }
 
-        public RecyclerImageAdapter(TasksFragment view)
+        public RecyclerImageAdapter(TasksListFragment view)
         {
-            this.ItemClick += (sender, e) => { view.ViewModel.ItemSelectedCommand.Execute(view.ViewModel.ListOfTasks[e]); };
-            Tasks = view.ViewModel.ListOfTasks.ToList();
+            this.ItemClick += (sender, e) => { view?.ViewModel?.ItemSelectedCommand?.Execute(view.ViewModel.ListOfTasks[e]); };
+
+            Tasks = view?.ViewModel?.ListOfTasks?.ToList();
+
             _tasksListPendingRemoval = new List<UserTask>();
+
             this.NotifyDataSetChanged();
+
             _tasksFragment = view;
         }
 
         public override RecyclerView.ViewHolder 
             OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            View itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.ListItemView, parent, false);
+            View itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.TasksListItem, parent, false);
             ImageViewHolder holder = new ImageViewHolder(itemView, OnClick);
+
             return holder;
         }
 
@@ -86,15 +83,19 @@ namespace TestProject.Droid.Adapters
                 viewHolder.DeleteButton.Visibility = ViewStates.Visible;
                 viewHolder.DeleteButton.Click += (sender, e) =>
                 {
-                    Action pendingRemovalRunnable = _pendingRunnables.GetValueOrDefault(item);
+                    Action pendingRemovalRunnable = _pendingRunnables?.GetValueOrDefault(item);
+
                     _pendingRunnables.Remove(item);
+
                     if (pendingRemovalRunnable != null)
                     {
                         _handler.RemoveCallbacks(pendingRemovalRunnable);
                     }
                     UserTask task = _tasksFragment.ViewModel.ListOfTasks[position];
-                    _tasksFragment.ViewModel.DeleteTaskCommand.Execute(task);
-                    _tasksFragment.ViewModel.ListOfTasks.Remove(task);
+
+                    _tasksFragment?.ViewModel?.DeleteTaskCommand?.Execute(task);
+                    _tasksFragment?.ViewModel?.ListOfTasks?.Remove(task);
+
                     Tasks.Remove(item);
                 };
             }
@@ -110,33 +111,13 @@ namespace TestProject.Droid.Adapters
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.InSampleSize = CalculateInSampleSize(options, 60, 60);
-            var imagePath = Tasks[position].ImagePath;
-           
-            
-
-            try
-            {
-                var bitmap = BitmapFactory.DecodeFile(imagePath, options);
-                if (bitmap != null)
-                {
-                    viewHolder.Image.SetImageBitmap(bitmap);
-                }
-                if (bitmap == null)
-                {
-                    viewHolder.Image.SetImageResource(Resource.Drawable.placeholder);
-                }
-            }
-            catch (Java.Lang.OutOfMemoryError)
-            {
-                System.GC.Collect();
-            }
 
             if (_tasksFragment.ViewModel.ListOfTasks.ToList().Count == position + 1)
             {
                 viewHolder.Divider.Visibility = ViewStates.Invisible;
             }
 
-            viewHolder.Text.Text = Tasks[position].Title;
+            viewHolder.Text.Text = Tasks[position]?.Title;
             viewHolder.CheckBox.Checked = Tasks[position].Status;
             
         }
@@ -147,9 +128,13 @@ namespace TestProject.Droid.Adapters
             if (!_tasksListPendingRemoval.Contains(item))
             {
                 _tasksListPendingRemoval.Add(item);
+
                 NotifyItemChanged(position);
+
                 Action action = () => { Remove(Tasks.IndexOf(item)); };
+
                 _handler.PostDelayed(action, PENDING_REMOVAL_TIMEOUT);
+
                 if (!_pendingRunnables.ContainsKey(item))
                 {
                     _pendingRunnables.Add(item, action);
@@ -171,7 +156,7 @@ namespace TestProject.Droid.Adapters
             }
         }
 
-        public Boolean IsPendingRemoval(int position)
+        public bool IsPendingRemoval(int position)
         {
             UserTask item = Tasks[position];
             return _tasksListPendingRemoval.Contains(item);
@@ -202,7 +187,6 @@ namespace TestProject.Droid.Adapters
 
                 int halfHeight = height / 2;
                 int halfWidth = width / 2;
-
 
                 while ((halfHeight / inSampleSize) >= reqHeight
                         && (halfWidth / inSampleSize) >= reqWidth)

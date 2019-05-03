@@ -16,7 +16,7 @@ using Android.Widget;
 namespace TestProject.Droid.Adapters
 {
     public class AnimationDecoratorHelper
-        :RecyclerView.ItemDecoration
+        : RecyclerView.ItemDecoration
     {
         private Drawable _background;
         private bool _initiated;

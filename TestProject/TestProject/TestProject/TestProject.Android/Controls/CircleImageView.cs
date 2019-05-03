@@ -29,7 +29,7 @@ namespace TestProject.Droid.Controls
 
         private Shader _bitmapShader;
         private Matrix _shaderMatrix;
-        private bool _Initialized;
+        private bool _initialized;
 
         private RectF _bitmapDrawBounds;
         private RectF _strokeBounds;
@@ -60,7 +60,7 @@ namespace TestProject.Droid.Controls
                 a.Recycle();
             }
 
-            _Initialized = true;
+            _initialized = true;
 
             SetupBitmap();
         }
@@ -108,9 +108,12 @@ namespace TestProject.Droid.Controls
                 }
 
                 Canvas canvas = new Canvas(bitmap);
+
                 drawable.SetBounds(0, 0, canvas.Width, canvas.Height);
                 drawable.Draw(canvas);
+
                 bitmap.Recycle();
+
                 return bitmap;
             }
             catch (Exception)
@@ -121,7 +124,7 @@ namespace TestProject.Droid.Controls
 
         private void SetupBitmap()
         {
-            if (!_Initialized)
+            if (!_initialized)
             {
                 return;
             }
@@ -136,6 +139,7 @@ namespace TestProject.Droid.Controls
             _bitmapShader = new BitmapShader(_bitmap, Shader.TileMode.Clamp, Shader.TileMode.Clamp);
             _bitmapPaint.AntiAlias = true;
             _bitmapPaint.SetShader(_bitmapShader);
+
             UpdateCircleDrawBounds(_strokeBounds);
             UpdateBitmapSize();
         }
@@ -194,6 +198,7 @@ namespace TestProject.Droid.Controls
             float halfStrokeWidth = _strokePaint.StrokeWidth / 2f;
 
             UpdateCircleDrawBounds(_bitmapDrawBounds);
+
             _strokeBounds.Set(_bitmapDrawBounds);
             _strokeBounds.Inset(halfStrokeWidth, halfStrokeWidth);
 
@@ -240,8 +245,10 @@ namespace TestProject.Droid.Controls
                 dx = _bitmapDrawBounds.Left - (_bitmap.Width * scale / 2f) + (_bitmapDrawBounds.Width() / 2f);
                 dy = _bitmapDrawBounds.Top;
             }
+
             _shaderMatrix.SetScale(scale, scale);
             _shaderMatrix.PostTranslate(dx, dy);
+
             _bitmapShader.SetLocalMatrix(_shaderMatrix);
         }
 

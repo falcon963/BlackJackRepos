@@ -18,34 +18,36 @@ using TestProject.Droid.Fragments;
 using Android.Graphics.Drawables;
 using Android.Support.V4.Content;
 using TestProject.Droid.Views;
-using TestProject.Core.Enum;
+using TestProject.Core.Enums;
 
 namespace TestProject.Droid.Adapters
 {
     public class MyItemTouchHelper
         : ItemTouchHelper.Callback
     {
-        private TasksFragment _view;
-        private Boolean swipeBack = false;
+        private TasksListFragment _view;
+        private bool swipeBack = false;
         private ButtonState buttonShowedState = ButtonState.Gone;
         public EventHandler<int> RightClick;
 
         private RecyclerImageAdapter _adapter;
         private Drawable background;
         private Drawable xMark;
-        private Int32 xMarkMargin;
-        private Boolean _initiated;
+        private int xMarkMargin;
+        private bool _initiated;
 
         private void Init()
         {
             background = new ColorDrawable(new Color(251, 192, 45));
+
             xMark = ContextCompat.GetDrawable(_view.Context, Resource.Drawable.delete);
             xMark.SetColorFilter(Color.White, PorterDuff.Mode.DstAtop);
             xMarkMargin = (int)_view.Context.Resources.GetDimension(Resource.Dimension.ic_clear_margin);
+
             _initiated = true;
         }
 
-        public MyItemTouchHelper(TasksFragment view, RecyclerImageAdapter adapter)
+        public MyItemTouchHelper(TasksListFragment view, RecyclerImageAdapter adapter)
         {
             _view = view;
             _adapter = adapter;
@@ -54,6 +56,7 @@ namespace TestProject.Droid.Adapters
         public override int GetMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder)
         {
             int swipeFlags = ItemTouchHelper.Left;
+
             return MakeMovementFlags(0, swipeFlags);
         }
 
@@ -65,6 +68,7 @@ namespace TestProject.Droid.Adapters
         public override void OnSwiped(RecyclerView.ViewHolder viewHolder, int direction)
         {
             int position = viewHolder.AdapterPosition;
+
             _adapter.PendingRemoval(position);
         }
 
@@ -73,8 +77,10 @@ namespace TestProject.Droid.Adapters
             if (swipeBack)
             {
                 swipeBack = buttonShowedState != ButtonState.Gone;
+
                 return 0;
             }
+
             return base.ConvertToAbsoluteDirection(flags, layoutDirection);
         }
 
@@ -103,6 +109,7 @@ namespace TestProject.Droid.Adapters
             int xMarkRight = itemView.Right - xMarkMargin;
             int xMarkTop = itemView.Top + (itemHeight - intrinsicHeight) / 2;
             int xMarkBottom = xMarkTop + intrinsicHeight;
+
             xMark.SetBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom);
             xMark.Draw(c);
 

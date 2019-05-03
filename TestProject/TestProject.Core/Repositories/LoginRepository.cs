@@ -57,27 +57,10 @@ namespace TestProject.Core.Repositories
             _dbConnection.Database.Update(user);
         }
 
-        public int GetSocialAccountUserId(User user)
+        public int? GetSocialAccountUserId(User user)
         {
-            User createdUser = _dbConnection.Database.Table<User>().FirstOrDefault(v => v.FacebookId == user.FacebookId || v.GoogleId == user.GoogleId);
-
-            if(createdUser != null)
-            {
-                _userHelper.UserId = createdUser.Id;
-
-                return createdUser.Id;
-            }
-            if(createdUser == null)
-            {
-                _dbConnection.Database.Insert(user);
-
-                User newUser = _dbConnection.Database.Table<User>().FirstOrDefault(v => v.FacebookId == user.FacebookId || v.GoogleId == user.GoogleId);
-
-                _userHelper.UserId = newUser.Id;
-
-                return newUser.Id;
-            }
-            return 0;
+            User getUser = _dbConnection.Database.Table<User>().FirstOrDefault(v => v.FacebookId == user.FacebookId || v.GoogleId == user.GoogleId);
+            return getUser?.Id;
         }
     }
 }

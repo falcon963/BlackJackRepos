@@ -14,7 +14,9 @@ namespace TestProject.Droid.Converters
         protected override ColorDrawable Convert(MvxColor value, Type targetType, object parameter, CultureInfo culture)
         { 
             var color = Color.Rgb(value.R, value.G, value.B);
+
             var drawable = new ColorDrawable(color);
+
             return drawable;
         }
     }

@@ -82,14 +82,14 @@ namespace TestProject.Core.ViewModels
                 new MenuItem
                 {
                     ItemAction = async () => {
-                        await NavigationService.Navigate<UserLocationViewModel>();
+                        await NavigationService.Navigate<LocationViewModel>();
                     },
                     ItemTitle = Strings.Map
                 },
                 new MenuItem
                 {
                     ItemAction = async () => {
-                        await NavigationService.Navigate<UserProfileViewModel>();
+                        await NavigationService.Navigate<ProfileViewModel>();
                     },
                     ItemTitle = Strings.Profile
                 }

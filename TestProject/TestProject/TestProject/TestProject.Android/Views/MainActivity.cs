@@ -20,6 +20,7 @@ using Acr.UserDialogs;
 using Android.Graphics;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace TestProject.Droid.Views
 {
@@ -35,7 +36,7 @@ namespace TestProject.Droid.Views
 
         ActionBarDrawerToggle DrawerToggle { get; set; }
 
-        Android.Support.V7.Widget.Toolbar Toolbar { get; set; }
+        Toolbar Toolbar { get; set; }
 
         private bool _toolBarNavigationListenerIsRegistered = false;
 
@@ -53,7 +54,7 @@ namespace TestProject.Droid.Views
 
             if(bundle == null)
             {
-                ViewModel.ShowMenuCommand.Execute(null);
+                ViewModel?.ShowMenuCommand?.Execute(null);
             }
         }
 
@@ -86,8 +87,8 @@ namespace TestProject.Droid.Views
             {
                 DrawerLayout.CloseDrawers();
             }
-            else
-                return;
+
+            return;
         }
 
         public void HideSoftKeyboard()

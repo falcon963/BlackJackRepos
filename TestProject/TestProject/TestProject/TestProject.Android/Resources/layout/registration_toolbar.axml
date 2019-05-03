@@ -4,24 +4,31 @@
 	xmlns:local="http://schemas.android.com/apk/res-auto"
     android:id="@+id/registration_toolbar"
 	style = "@style/Toolbar">
+
 	<RelativeLayout
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
-	<ImageButton
-        android:id="@+id/fragment_button_menu"
-        android:layout_width="@dimen/toolbar_imagebutton"
-        android:layout_height="@dimen/toolbar_imagebutton"
-        android:layout_alignParentLeft="true"
-		android:scaleType="fitXY"
-		android:background="@drawable/left_arrow_button_white"
-		local:MvxBind="Click GoOnLoginCommand"/>
-	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_centerInParent="true"
-		android:fontWeight="800"
-		android:textStyle="italic"
-		android:text="Registration Page"
-		android:textColor="@color/white"/>
+
+		<ImageButton
+			android:id="@+id/fragment_button_menu"
+			android:layout_width="@dimen/toolbar_imagebutton"
+			android:layout_height="@dimen/toolbar_imagebutton"
+			android:layout_alignParentLeft="true"
+			android:scaleType="fitXY"
+			android:background="@drawable/back"
+			local:MvxBind="Click GoOnLoginCommand"
+		/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
+			android:fontWeight="800"
+			android:textStyle="italic"
+			android:text="Registration Page"
+			android:textColor="@color/white"
+		/>
+
 	</RelativeLayout>
+
 </android.support.v7.widget.Toolbar>

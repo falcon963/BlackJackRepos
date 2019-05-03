@@ -21,7 +21,7 @@ namespace TestProject.iOS.Views
 {
     [MvxTabPresentation(WrapInNavigationController = true, TabName = "Tasks", TabIconName = "icons8_task_24")]
     public partial class TasksListView 
-        : BaseMenuView<TaskListViewModel>
+        : BaseMenuView<TasksListViewModel>
     {
 
 
@@ -59,7 +59,7 @@ namespace TestProject.iOS.Views
             var refreshControl = new MvxUIRefreshControl();
             this.RefreshControl = refreshControl;
 
-            var set = this.CreateBindingSet<TasksListView, TaskListViewModel>();
+            var set = this.CreateBindingSet<TasksListView, TasksListViewModel>();
 
             set.Bind(refreshControl).For(r => r.IsRefreshing).To(vm => vm.IsRefreshing);
             set.Bind(refreshControl).For(r => r.RefreshCommand).To(vm => vm.RefreshTaskCommand);

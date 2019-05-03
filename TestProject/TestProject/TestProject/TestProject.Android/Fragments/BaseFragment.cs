@@ -28,7 +28,7 @@ namespace TestProject.Droid.Fragments
 
         protected abstract int FragmentId { get; }
 
-        protected Boolean ShowHumburgerMenu { get; set; } = false;
+        protected bool ShowHumburgerMenu { get; set; } = false;
 
         public BaseFragment()
         {

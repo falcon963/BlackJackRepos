@@ -6,86 +6,118 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 	local:MvxBind="Background Color(Background)">
-	<include layout = "@layout/profiletoolbar"/>
+
+	<include layout = "@layout/profile_toolbar"/>
+
 	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
-	<ScrollView
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:orientation="vertical"
-		android:isScrollContainer="false">
-	<LinearLayout
-		android:orientation="vertical"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent">
-	<TextView
-		android:layout_marginTop="30dp"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:paddingLeft="15dp"
-		android:text="Old password:"/>
-	<EditText
-		style="@style/RegistrationTextField"
-		android:layout_marginTop="@dimen/login_page_margin"
-		local:MvxBind="Text OldPassword; Background Color(OldPasswordFieldColor)"/>
-	<TextView
-		android:layout_marginTop="@dimen/login_page_margin"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:paddingLeft="15dp"
-		android:text="New password:"/>
-	<EditText
-		style="@style/RegistrationTextField"
-		android:layout_marginTop="@dimen/login_page_margin"
-		android:password="true"
-		local:MvxBind="Background Color(ConfirmColor); Text NewPassword"/>
-	<TextView
-		android:layout_marginTop="@dimen/login_page_margin"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:paddingLeft="15dp"
-		android:text="Confirm new password:"/>
-	<EditText
-		style="@style/RegistrationTextField"
-		android:layout_marginTop="@dimen/login_page_margin"
-		android:password="true"
-		local:MvxBind="Background Color(ConfirmColor); Text ConfirmPassword"/>
-			<RelativeLayout
+
+			<ScrollView
 				android:layout_width="match_parent"
-				android:layout_height="100dp">
-				<Button
-					android:layout_centerInParent="true"
-					android:layout_marginTop="20dp"
-					android:layout_marginLeft="50dp"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="Save new Password"
-					local:MvxBind="Click SavePasswordChangeCommand; Enabled PassChangeEneble"/>
-			</RelativeLayout>
-				<RelativeLayout
-					android:layout_width="match_parent"
-					android:layout_height="@dimen/taskdetails_imagelayout">
-			    <ImageView
-					android:id="@+id/profileImage_view"
-					android:layout_height="@dimen/taskdetails_image"
-					android:layout_width="@dimen/taskdetails_image"
-		            android:scaleType="centerCrop"
-		            android:layout_centerInParent = "true"/>
-					</RelativeLayout>
-				<RelativeLayout
-					android:layout_width="match_parent"
-					android:layout_height="100dp">
-						<Button
-							android:layout_centerInParent="true"
-							android:layout_marginTop="20dp"
-							android:layout_marginLeft="50dp"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:text="Save profile-image"
-							local:MvxBind="Click SaveImageChangeCommand"/>
-				</RelativeLayout>
-				</LinearLayout>
+				android:layout_height="match_parent"
+				android:orientation="vertical"
+				android:isScrollContainer="false">
+
+					<LinearLayout
+						android:orientation="vertical"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent">
+
+							<TextView
+								android:layout_marginTop="30dp"
+								android:layout_width="match_parent"
+								android:layout_height="wrap_content"
+								android:paddingLeft="15dp"
+								android:text="Old password:"
+				            />
+
+							<EditText
+								style="@style/RegistrationTextField"
+								android:layout_marginTop="@dimen/login_page_margin"
+								local:MvxBind="Text OldPassword; Background Color(OldPasswordFieldColor)"
+				            />
+
+							<TextView
+								android:layout_marginTop="@dimen/login_page_margin"
+								android:layout_width="match_parent"
+								android:layout_height="wrap_content"
+								android:paddingLeft="15dp"
+								android:text="New password:"
+				            />
+
+							<EditText
+								style="@style/RegistrationTextField"
+								android:layout_marginTop="@dimen/login_page_margin"
+								android:password="true"
+								local:MvxBind="Background Color(ConfirmColor); Text NewPassword"
+				            />
+
+							<TextView
+								android:layout_marginTop="@dimen/login_page_margin"
+								android:layout_width="match_parent"
+								android:layout_height="wrap_content"
+								android:paddingLeft="15dp"
+								android:text="Confirm new password:"
+				            />
+
+							<EditText
+								style="@style/RegistrationTextField"
+								android:layout_marginTop="@dimen/login_page_margin"
+								android:password="true"
+								local:MvxBind="Background Color(ConfirmColor); Text ConfirmPassword"
+				            />
+
+							<RelativeLayout
+								android:layout_width="match_parent"
+								android:layout_height="100dp">
+
+								<Button
+									android:layout_centerInParent="true"
+									android:layout_marginTop="20dp"
+									android:layout_marginLeft="50dp"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="Save new Password"
+									local:MvxBind="Click SavePasswordChangeCommand; Enabled PassChangeEneble"
+					            />
+
+							</RelativeLayout>
+
+							<RelativeLayout
+								android:layout_width="match_parent"
+								android:layout_height="@dimen/taskdetails_imagelayout">
+
+			    				<ImageView
+									android:id="@+id/profileImage_view"
+									android:layout_height="@dimen/taskdetails_image"
+									android:layout_width="@dimen/taskdetails_image"
+		            				android:scaleType="centerCrop"
+		            				android:layout_centerInParent = "true"
+					            />
+
+							</RelativeLayout>
+
+							<RelativeLayout
+								android:layout_width="match_parent"
+								android:layout_height="100dp">
+
+								<Button
+									android:layout_centerInParent="true"
+									android:layout_marginTop="20dp"
+									android:layout_marginLeft="50dp"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="Save profile-image"
+									local:MvxBind="Click SaveImageChangeCommand"
+					            />
+
+							</RelativeLayout>
+
+					</LinearLayout>
+
 			</ScrollView>
-		</RelativeLayout>
+
+	</RelativeLayout>
+
 </LinearLayout>

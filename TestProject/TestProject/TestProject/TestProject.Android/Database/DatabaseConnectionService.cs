@@ -1,8 +1,8 @@
 ﻿using SQLite;
 using LocalDataAccess.Droid;
 using System.IO;
-using TestProject.Core.Interfacies;
 using TestProject.Core.Models;
+using TestProject.Core.DBConnection.Interfacies;
 
 namespace LocalDataAccess.Droid
 {
@@ -17,9 +17,11 @@ namespace LocalDataAccess.Droid
         public SQLiteConnection DbConnection()
         {
             var dbName = "TaskyDB.db3";
+
             var path = Path.Combine(System.Environment.
               GetFolderPath(System.Environment.
               SpecialFolder.Personal), dbName);
+
             return new SQLiteConnection(path);
         }
     }

@@ -11,7 +11,7 @@ namespace TestProject.Core.Repositories.Interfaces
     {
         User GetAppRegistrateUserAccount(string login, string password);
         bool CheckValidLogin(string login);
-        int GetSocialAccountUserId(User user);
+        int? GetSocialAccountUser(User user);
         void ChangePassword(int userId, string password);
         void ChangeImage(int userId, string imagePath);
     }

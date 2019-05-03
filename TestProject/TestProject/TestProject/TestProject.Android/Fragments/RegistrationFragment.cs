@@ -40,14 +40,16 @@ namespace TestProject.Droid.Fragments
 
         public void HideSoftKeyboard()
         {
-            InputMethodManager close = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+            InputMethodManager close = (InputMethodManager)Activity?.GetSystemService(Context.InputMethodService);
             close.HideSoftInputFromWindow(_linearLayout.WindowToken, 0);
         }
 
         public override void OnDestroyView()
         {
-            InputMethodManager inputManager = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+            InputMethodManager inputManager = (InputMethodManager)Activity?.GetSystemService(Context.InputMethodService);
+
             var currentFocus = Activity.CurrentFocus;
+
             inputManager.HideSoftInputFromWindow(currentFocus.WindowToken, 0);
             base.OnDestroyView();
         }

@@ -18,7 +18,6 @@ using Android.Support.V4.View;
 using Android.Views.InputMethods;
 using Acr.UserDialogs;
 using static Android.Gms.Common.Apis.GoogleApiClient;
-using TestProject.Core.Interfacies.SocialService.Google;
 using Xamarin.Facebook;
 using Android.Gms.Common;
 using Java.Lang;
@@ -28,6 +27,7 @@ using Xamarin.Facebook.Login.Widget;
 using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Common.Apis;
 using Android.Gms.Auth.Api;
+using TestProject.Core.Authentication.Interfaces;
 
 namespace TestProject.Droid.Fragments
 {
@@ -42,15 +42,13 @@ namespace TestProject.Droid.Fragments
         protected override int FragmentId => Resource.Layout.LoginFragment;
 
         private LinearLayout _linearLayout;
+        private SignInButton _googleButton;
+        private LoginButton _facebookButton;
+        private GoogleApiClient _googleApiClient;
 
         public static ICallbackManager _callbackManager;
 
-        private GoogleApiClient _googleApiClient;
-
         private int SIGN_IN_GOOGLE_ID = 9001;
-
-        private SignInButton _googleButton;
-        private LoginButton _facebookButton;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -79,8 +77,11 @@ namespace TestProject.Droid.Fragments
         public override void OnDestroyView()
         {
             InputMethodManager inputManager = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+
             var currentFocus = Activity.CurrentFocus;
+
             inputManager.HideSoftInputFromWindow(currentFocus.WindowToken, 0);
+
             base.OnDestroyView();
         }
 
@@ -96,7 +97,7 @@ namespace TestProject.Droid.Fragments
 
         void IFacebookCallback.OnSuccess(Java.Lang.Object result)
         {
-            ViewModel.SignInWithFacebookCommand.Execute();
+            ViewModel?.SignInWithFacebookCommand?.Execute();
         }
 
 
@@ -117,7 +118,7 @@ namespace TestProject.Droid.Fragments
 
         void IGoogleAuthenticationDelegate.OnAuthenticationCompleted(string token)
         {
-            ViewModel.SignInWithGoogleCommand.Execute();
+            ViewModel?.SignInWithGoogleCommand?.Execute();
         }
 
 
@@ -146,7 +147,6 @@ namespace TestProject.Droid.Fragments
             var signInIntent = Auth.GoogleSignInApi.GetSignInIntent(_googleApiClient);
 
             StartActivityForResult(signInIntent, SIGN_IN_GOOGLE_ID);
-
         }
 
         #region AuthSocialInitialize
@@ -156,6 +156,7 @@ namespace TestProject.Droid.Fragments
             FacebookSdk.SdkInitialize(Application.Context);
 
             _callbackManager = CallbackManagerFactory.Create();
+
             _facebookButton.SetReadPermissions(new List<string> { "public_profile" });
             _facebookButton.RegisterCallback(_callbackManager, this);
         }
@@ -166,11 +167,13 @@ namespace TestProject.Droid.Fragments
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
                 .RequestEmail()
                 .Build();
+
             _googleApiClient = new GoogleApiClient.Builder(Application.Context)
                .EnableAutoManage(Activity, FailedHandlerGoogleAuth)
                .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
                .AddConnectionCallbacks(CallBackGoogle)
                .Build();
+
             _googleButton.Click += delegate {
                 SignIn();
             };

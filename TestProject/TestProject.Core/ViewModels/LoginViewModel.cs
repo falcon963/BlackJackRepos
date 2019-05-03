@@ -37,12 +37,13 @@ namespace TestProject.Core.ViewModels
         private readonly IUserHelper _userHelper;
         private readonly IValidationService _validationService;
         private readonly IDialogsService _dialogsService;
+        private readonly IUserService _userService;
         private bool _rememberMe;
 
         #endregion
 
         public LoginViewModel(IMvxNavigationService navigationService,ILoginRepository loginService, ITasksRepository taskService, IGoogleService googleService, 
-            IFacebookService facebookService, IUserHelper userHelper, IValidationService validationService, IDialogsService dialogsService) : base(navigationService)
+            IFacebookService facebookService, IUserHelper userHelper, IValidationService validationService, IDialogsService dialogsService, IUserService userService) : base(navigationService)
         {
                 _facebookService = facebookService;
                 _loginService = loginService;
@@ -51,6 +52,7 @@ namespace TestProject.Core.ViewModels
                 _userHelper = userHelper;
                 _validationService = validationService;
                 _dialogsService = dialogsService;
+                _userService = userService;
 
             LoginColor = AppColors.LoginBackgroundColor;
         }
@@ -182,7 +184,7 @@ namespace TestProject.Core.ViewModels
 
             User user = await getUser();
 
-            var id = _loginService.GetSocialAccountUserId(user);
+            var id = _userService.LoginInSocialAccount(user);
 
             await NavigationService.Navigate<MainViewModel>();
             await NavigationService.Close(this);

@@ -9,15 +9,14 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using TestProject.Core.ViewModels;
 using MvvmCross.Droid.Support.V7.AppCompat;
-using TestProject.Core;
+using MainApp = TestProject.Core.App;
 
 namespace TestProject.Droid
 {
     [Application]
     public class MainApplication 
-        : MvxAppCompatApplication<Setup, TestProject.Core.App>
+        : MvxAppCompatApplication<Setup, MainApp>
     {
         public MainApplication()
         {

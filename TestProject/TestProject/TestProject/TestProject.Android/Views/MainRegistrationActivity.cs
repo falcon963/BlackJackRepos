@@ -43,7 +43,7 @@ namespace TestProject.Droid.Views
 
             if (bundle == null)
             {
-                ViewModel.ShowLoginPageCommand.Execute();
+                ViewModel?.ShowLoginPageCommand?.Execute();
             }
         }
 
