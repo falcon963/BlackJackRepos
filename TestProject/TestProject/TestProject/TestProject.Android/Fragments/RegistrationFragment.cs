@@ -18,41 +18,21 @@ namespace TestProject.Droid.Fragments
     [MvxFragmentPresentation(
         typeof(MainRegistrationViewModel),
         Resource.Id.login_frame, true)]
-    [Register("testproject.droid.fragments.RegistrationFragment")]
     public class RegistrationFragment
         : BaseFragment<RegistrationViewModel>
     {
         protected override int FragmentId => Resource.Layout.RegistrationFragment;
 
-        private LinearLayout _linearLayout;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-            _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.registration_linearlayout);
-
-            _linearLayout.Click += delegate { HideSoftKeyboard(); };
-
+            LinearLayout = view.FindViewById<LinearLayout>(Resource.Id.registration_linearlayout);
 
             return view;
         }
 
-        public void HideSoftKeyboard()
-        {
-            InputMethodManager close = (InputMethodManager)Activity?.GetSystemService(Context.InputMethodService);
-            close.HideSoftInputFromWindow(_linearLayout.WindowToken, 0);
-        }
-
-        public override void OnDestroyView()
-        {
-            InputMethodManager inputManager = (InputMethodManager)Activity?.GetSystemService(Context.InputMethodService);
-
-            var currentFocus = Activity.CurrentFocus;
-
-            inputManager.HideSoftInputFromWindow(currentFocus.WindowToken, 0);
-            base.OnDestroyView();
-        }
     
     }
 }

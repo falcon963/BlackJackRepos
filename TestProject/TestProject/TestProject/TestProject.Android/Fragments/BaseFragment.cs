@@ -16,6 +16,9 @@ using MvvmCross.Droid.Support.V4;
 using Android.Content.Res;
 using Android.Support.V7.Widget;
 using TestProject.Droid.Views;
+using Android.Views.InputMethods;
+using Android.Widget;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace TestProject.Droid.Fragments
 {
@@ -25,6 +28,8 @@ namespace TestProject.Droid.Fragments
         protected Toolbar Toolbar { get; private set; }
 
         protected MvxActionBarDrawerToggle DrawerToggle { get; private set; }
+
+        protected LinearLayout LinearLayout { get; set; }
 
         protected abstract int FragmentId { get; }
 
@@ -47,6 +52,8 @@ namespace TestProject.Droid.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var view = this.BindingInflate(FragmentId, null);
+
+            LinearLayout.Click += delegate { HideSoftKeyboard(); };
 
             Toolbar = view.FindViewById<Toolbar>(Resource.Id.toolbar);
 
@@ -92,6 +99,23 @@ namespace TestProject.Droid.Fragments
             {
                 DrawerToggle?.SyncState();
             }
+        }
+
+        public void HideSoftKeyboard()
+        {
+            InputMethodManager close = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+            close.HideSoftInputFromWindow(LinearLayout.WindowToken, 0);
+        }
+
+        public override void OnDestroyView()
+        {
+            InputMethodManager inputManager = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+
+            var currentFocus = Activity.CurrentFocus;
+
+            inputManager.HideSoftInputFromWindow(currentFocus.WindowToken, 0);
+
+            base.OnDestroyView();
         }
 
     }

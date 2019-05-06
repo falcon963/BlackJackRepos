@@ -7,7 +7,7 @@ using TestProject.Core.Authentication.Interfaces;
 using TestProject.Core.Constants;
 using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Models;
-using TestProject.Core.Servicies.Interfaces.SocialService.Google;
+using TestProject.Core.Services.Interfaces.SocialService.Google;
 using Xamarin.Auth;
 
 namespace TestProject.Core.Authentication

@@ -10,7 +10,7 @@ using UIKit;
 
 namespace TestProject.iOS.Views
 {
-    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Profile", TabIconName = "icons8_user_24")]
+    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Profile", TabIconName = "profile")]
     public partial class ProfileView 
         : BaseMenuView<ProfileViewModel>
     {
@@ -18,7 +18,7 @@ namespace TestProject.iOS.Views
 
         private UIImagePickerController _imagePickerController = new UIImagePickerController();
 
-        public override UIScrollView ScrollView { get => base.ScrollView; set => base.ScrollView = value; }
+        protected override UIScrollView ScrollView { get => base.ScrollView; set => base.ScrollView = value; }
 
         public ProfileView () : base ("ProfileView", null)
         {
@@ -101,7 +101,7 @@ namespace TestProject.iOS.Views
         {
             var data = ProfileImage.Image.AsJPEG();
             ViewModel.Profile.ImagePath = data.GetBase64EncodedString(NSDataBase64EncodingOptions.SixtyFourCharacterLineLength);
-            this.ViewModel.SavePasswordChangeCommand.Execute();
+            this.ViewModel.UpdateProfileCommand.Execute();
         }
 
         private void Canceled(object sender, EventArgs e)

@@ -11,6 +11,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Droid.Support.V7.RecyclerView;
 using MvvmCross.IoC;
+using MvvmCross.Localization;
 using MvvmCross.Platforms.Android.Presenters;
 using MvvmCross.ViewModels;
 using TestProject.Core;
@@ -58,6 +59,7 @@ namespace TestProject.Droid
         {
             base.FillValueConverters(registry);
             registry.AddOrOverwrite("Color", new ColorValueConverter());
+            registry.AddOrOverwrite("Language", new MvxLanguageConverter());
         }
 
     }

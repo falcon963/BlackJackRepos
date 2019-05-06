@@ -29,7 +29,6 @@ namespace TestProject.Droid.Fragments
     [MvxFragmentPresentation(
         typeof(MainViewModel),
         Resource.Id.navigation_frame)]
-    [Register("testproject.droid.fragments.MenuView")]
     public class MenuFragment 
         : BaseFragment<MenuViewModel>
     {
@@ -50,11 +49,6 @@ namespace TestProject.Droid.Fragments
             _navigationView.ItemClick.CanExecuteChanged += (sender, e) => { ((MainActivity)Activity).DrawerLayout.CloseDrawers();  };
 
             return view;
-        }
-
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
         }
     }
 }

@@ -34,7 +34,7 @@ namespace TestProject.Core.ViewModels
 
         public TasksListViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs, IUserHelper userHelper) : base(navigationService)
         {
-            ListOfTasks = new MvxObservableCollection<UserTask>();
+            Tasks = new MvxObservableCollection<UserTask>();
 
             _taskService = taskService;
             _userDialogs = userDialogs;
@@ -45,7 +45,7 @@ namespace TestProject.Core.ViewModels
 
         public ResultModel UserTask { get; set; }
 
-        public MvxObservableCollection<UserTask> ListOfTasks { get; set; }
+        public MvxObservableCollection<UserTask> Tasks { get; set; }
 
         public bool IsRefreshing { get; set; }
 
@@ -71,7 +71,7 @@ namespace TestProject.Core.ViewModels
 
             var list = _taskService.GetTasksList(userId);
 
-            ListOfTasks.AddRange(list);
+            Tasks.AddRange(list);
         }
 
 
@@ -88,7 +88,7 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public IMvxAsyncCommand ShowTaskCommand
+        public IMvxAsyncCommand CreateTaskCommand
         {
             get
             {
@@ -103,7 +103,7 @@ namespace TestProject.Core.ViewModels
 
                     if (result.Result == UserTaskResult.Saved)
                     {
-                        ListOfTasks.Add(result.Changes);
+                        Tasks.Add(result.Changes);
                     }
                 });
 
@@ -119,23 +119,10 @@ namespace TestProject.Core.ViewModels
                     IsRefreshing = true;
 
                     var userId = _userHelper.UserId;
-                    var listTasks = new List<UserTask>();
 
                     List<UserTask> list = _taskService.GetTasksList(userId).ToList();
 
-                    foreach (var item in list)
-                    {
-                        listTasks.Add(new UserTask
-                        {
-                            Id = item.Id,
-                            UserId = item.UserId,
-                            ImagePath = item.ImagePath,
-                            Title = item.Title,
-                            Status = item.Status
-                        });
-                    }
-
-                    ListOfTasks.ReplaceWith(listTasks);
+                    Tasks.ReplaceWith(list);
 
                     IsRefreshing = false;
                 });
@@ -158,24 +145,24 @@ namespace TestProject.Core.ViewModels
 
                     if(result.Result == UserTaskResult.Deleted)
                     {
-                        var delete = ListOfTasks.FirstOrDefault(p => p.Id == result.Changes.Id);
+                        var delete = Tasks.FirstOrDefault(p => p.Id == result.Changes.Id);
 
                         if(delete == null)
                         {
                             return;
                         }
 
-                        ListOfTasks.Remove(delete);
+                        Tasks.Remove(delete);
 
                         return;
                     }
 
                     if (result.Result == UserTaskResult.Saved)
                     {
-                        var modelToUpdate = ListOfTasks.FirstOrDefault(p => p.Id == result.Changes.Id);
-                        var index = ListOfTasks.IndexOf(modelToUpdate);
+                        var modelToUpdate = Tasks.FirstOrDefault(p => p.Id == result.Changes.Id);
+                        var index = Tasks.IndexOf(modelToUpdate);
 
-                        ListOfTasks[index] = result.Changes;
+                        Tasks[index] = result.Changes;
                     }
                 });
             }

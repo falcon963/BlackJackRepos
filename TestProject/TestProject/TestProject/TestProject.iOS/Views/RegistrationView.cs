@@ -39,7 +39,7 @@ namespace TestProject.iOS.Views
             set.Bind(RegistrationButton).To(vm => vm.RegistrationCommand);
             set.Bind(LoginField).To(vm => vm.Login);
             set.Bind(PasswordField).To(vm => vm.Password);
-            set.Bind(PasswordConfirmField).To(vm => vm.PasswordRevise);
+            set.Bind(PasswordConfirmField).To(vm => vm.PasswordConfirmation);
             set.Bind(LoginField).For(v => v.BackgroundColor).To(vm => vm.LoginEnebleColor).WithConversion(new ColorValueConverter());
             set.Bind(PasswordField).For(v => v.BackgroundColor).To(vm => vm.ValidateColor).WithConversion(new ColorValueConverter());
             set.Bind(PasswordConfirmField).For(v => v.BackgroundColor).To(vm => vm.ValidateColor).WithConversion(new ColorValueConverter());

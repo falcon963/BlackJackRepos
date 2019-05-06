@@ -31,7 +31,7 @@ namespace TestProject.Droid.Converters
                 return decodedByte;
             }
 
-            var placeholder = BitmapFactory.DecodeResource(Resources.System, Resource.Mipmap.placeholder);
+            var placeholder = BitmapFactory.DecodeResource(Resources.System, Resource.Drawable.placeholder);
 
             return placeholder;
         }

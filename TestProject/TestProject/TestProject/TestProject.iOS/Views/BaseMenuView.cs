@@ -11,10 +11,10 @@ using UIKit;
 
 namespace TestProject.iOS.Views
 {
-    public abstract class BaseMenuView<TParam>
-        :MvxViewController<TParam> where TParam : MvxViewModel
+    public abstract class BaseMenuView
+        : MvxViewController
     {
-        public virtual UIScrollView ScrollView { get; set; }
+        protected virtual UIScrollView ScrollView { get; set; }
 
         private CGSize SizeScroll { get; set; }
 
@@ -45,7 +45,7 @@ namespace TestProject.iOS.Views
         {
 
             SizeScroll = ScrollView.ContentSize;
-            ScrollView.ContentSize = new CoreGraphics.CGSize(View.Frame.Width, View.Frame.Height + UIKeyboard.FrameBeginFromNotification(obj).Height / 2);
+            ScrollView.ContentSize = new CGSize(View.Frame.Width, View.Frame.Height + UIKeyboard.FrameBeginFromNotification(obj).Height / 2);
         }
 
         public virtual void HandleKeyboardDidHide(NSNotification obj)
@@ -138,11 +138,25 @@ namespace TestProject.iOS.Views
 
             shadowView.Layer.MasksToBounds = false;
             var shadowImage = new UIImageView();
-            shadowImage.Image = UIImage.FromFile("shadow_backinput_1444.png");
+            shadowImage.Image = UIImage.FromBundle("shadow");
             shadowImage.Frame = new CGRect(0, 0, inputView.Frame.Width, inputView.Frame.Height);
             shadowImage.Bounds = shadowView.Bounds;
             shadowView.AddSubview(shadowImage);
             shadowView.Layer.Mask = shadowLayer;
+        }
+    }
+
+    public abstract class BaseMenuView<TParam>
+        : BaseMenuView where TParam : class, IMvxViewModel
+    {
+        public BaseMenuView(string nibName, NSBundle bundle) : base(nibName, bundle)
+        {
+        }
+
+        public new TParam ViewModel
+        {
+            get { return (TParam)base.ViewModel; }
+            set { base.ViewModel = value; }
         }
     }
 }

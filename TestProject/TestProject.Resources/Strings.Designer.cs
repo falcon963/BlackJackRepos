@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TestProject.Resources {
+namespace TestProject.LanguageResources {
     using System;
     using System.Reflection;
     
@@ -40,7 +40,7 @@ namespace TestProject.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TestProject.Resources.Strings", typeof(Strings).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TestProject.LanguageResources.Strings", typeof(Strings).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -80,11 +80,56 @@ namespace TestProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Camera.
+        /// </summary>
+        public static string Camera {
+            get {
+                return ResourceManager.GetString("Camera", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Changes accepted.
         /// </summary>
         public static string ChangesAccepted {
             get {
                 return ResourceManager.GetString("ChangesAccepted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose a source.
+        /// </summary>
+        public static string ChooseASource {
+            get {
+                return ResourceManager.GetString("ChooseASource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        public static string Confirm {
+            get {
+                return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm new password:.
+        /// </summary>
+        public static string ConfirmNewPassword {
+            get {
+                return ResourceManager.GetString("ConfirmNewPassword", resourceCulture);
             }
         }
         
@@ -103,6 +148,24 @@ namespace TestProject.Resources {
         public static string ConfirmPasswordMustBeRequired {
             get {
                 return ResourceManager.GetString("ConfirmPasswordMustBeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        public static string Done {
+            get {
+                return ResourceManager.GetString("Done", resourceCulture);
             }
         }
         
@@ -134,11 +197,38 @@ namespace TestProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File doesn&apos;t exist. Maybe you moved or Exported it earlier. Re run the app..
+        /// </summary>
+        public static string FileDoesntExistMaybeYouMovedOrExportedItEarlieReRunTheApp {
+            get {
+                return ResourceManager.GetString("FileDoesntExistMaybeYouMovedOrExportedItEarlieReRunTheApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gallery.
+        /// </summary>
+        public static string Gallery {
+            get {
+                return ResourceManager.GetString("Gallery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to If you go on TaskyDrop whithout save, you changes will be lose! Do you want this?.
         /// </summary>
         public static string IfYouGoOnTaskyDropWithoutSaveYourChangesWillBeLoseDoYouWantThis {
             get {
                 return ResourceManager.GetString("IfYouGoOnTaskyDropWithoutSaveYourChangesWillBeLoseDoYouWantThis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string Login {
+            get {
+                return ResourceManager.GetString("Login", resourceCulture);
             }
         }
         
@@ -188,6 +278,42 @@ namespace TestProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Menu.
+        /// </summary>
+        public static string Menu {
+            get {
+                return ResourceManager.GetString("Menu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My located.
+        /// </summary>
+        public static string MyLocated {
+            get {
+                return ResourceManager.GetString("MyLocated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New password:.
+        /// </summary>
+        public static string NewPassword {
+            get {
+                return ResourceManager.GetString("NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New task.
+        /// </summary>
+        public static string NewTask {
+            get {
+                return ResourceManager.GetString("NewTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         public static string No {
@@ -211,6 +337,15 @@ namespace TestProject.Resources {
         public static string Ok {
             get {
                 return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Old password:.
+        /// </summary>
+        public static string OldPassword {
+            get {
+                return ResourceManager.GetString("OldPassword", resourceCulture);
             }
         }
         
@@ -269,6 +404,15 @@ namespace TestProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Photo Source.
+        /// </summary>
+        public static string PhotoSource {
+            get {
+                return ResourceManager.GetString("PhotoSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Profile.
         /// </summary>
         public static string Profile {
@@ -283,6 +427,42 @@ namespace TestProject.Resources {
         public static string RegistrateSuccessfulReturnOnLoginPage {
             get {
                 return ResourceManager.GetString("RegistrateSuccessfulReturnOnLoginPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration.
+        /// </summary>
+        public static string Registration {
+            get {
+                return ResourceManager.GetString("Registration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration Page.
+        /// </summary>
+        public static string RegistrationPage {
+            get {
+                return ResourceManager.GetString("RegistrationPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Picture.
+        /// </summary>
+        public static string SelectPicture {
+            get {
+                return ResourceManager.GetString("SelectPicture", resourceCulture);
             }
         }
         
@@ -310,6 +490,15 @@ namespace TestProject.Resources {
         public static string TitleMustBeRequired {
             get {
                 return ResourceManager.GetString("TitleMustBeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        public static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
         
@@ -364,6 +553,15 @@ namespace TestProject.Resources {
         public static string YouCantSaveTaskWhenFieldIsEmpty {
             get {
                 return ResourceManager.GetString("YouCantSaveTaskWhenFieldIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You don&apos;t have camera.
+        /// </summary>
+        public static string YouDontHaveCamera {
+            get {
+                return ResourceManager.GetString("YouDontHaveCamera", resourceCulture);
             }
         }
     }

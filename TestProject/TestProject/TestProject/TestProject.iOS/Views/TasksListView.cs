@@ -19,7 +19,7 @@ using Xam.iOS.Fab.Views;
 
 namespace TestProject.iOS.Views
 {
-    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Tasks", TabIconName = "icons8_task_24")]
+    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Tasks", TabIconName = "task")]
     public partial class TasksListView 
         : BaseMenuView<TasksListViewModel>
     {
@@ -63,10 +63,10 @@ namespace TestProject.iOS.Views
 
             set.Bind(refreshControl).For(r => r.IsRefreshing).To(vm => vm.IsRefreshing);
             set.Bind(refreshControl).For(r => r.RefreshCommand).To(vm => vm.RefreshTaskCommand);
-            set.Bind(source).For(x => x.ItemsSource).To(vm => vm.ListOfTasks);
+            set.Bind(source).For(x => x.ItemsSource).To(vm => vm.Tasks);
             set.Bind(source).For(x => x.SelectionChangedCommand).To(vm => vm.ItemSelectedCommand);            
             set.Bind(TasksList).For(v => v.BackgroundColor).To(vm => vm.TasksListColor).WithConversion(new ColorValueConverter());
-            set.Bind(FabButton).To(vm => vm.ShowTaskCommand);
+            set.Bind(FabButton).To(vm => vm.CreateTaskCommand);
             set.Apply();
 
             TasksList.AddSubview(refreshControl);

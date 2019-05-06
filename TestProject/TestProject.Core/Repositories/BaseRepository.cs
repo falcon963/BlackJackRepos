@@ -52,7 +52,8 @@ namespace TestProject.Core.Repositories
                 id = _dbConnection.Database.Insert(item);
                 return id;
             }
-               id = _dbConnection.Database.Update(item);
+            id = Update(item);
+
             return id;
         }
 
@@ -69,6 +70,12 @@ namespace TestProject.Core.Repositories
             var user = _dbConnection.Database.Table<T>().FirstOrDefault(v => v.Id == id);
 
             return user;
+        }
+
+        public int Update(T item)
+        {
+            int id = _dbConnection.Database.Update(item);
+            return id;
         }
     }
 }

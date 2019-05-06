@@ -26,13 +26,13 @@ using Android.Support.V7.App;
 using Android.Support.V4.Widget;
 using TestProject.Droid.Adapters;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
+using TestProject.Droid.Helpers;
 
 namespace TestProject.Droid.Fragments
 {
     [MvxFragmentPresentation(
         typeof(MainViewModel),
         Resource.Id.content_frame)]
-    [Register("testProject.droid.fragments.TasksFragment")]
     public class TasksListFragment
         : BaseFragment<TasksListViewModel>
     {
@@ -44,7 +44,7 @@ namespace TestProject.Droid.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            ViewModel.ListOfTasks.CollectionChanged += ViewModel_CollectionChanged;
+            ViewModel.Tasks.CollectionChanged += ViewModel_CollectionChanged;
 
             ShowHumburgerMenu = true;
 
@@ -56,7 +56,9 @@ namespace TestProject.Droid.Fragments
 
             var fabButton = view.FindViewById<FloatingActionButton>(Resource.Id.fab);
 
-            fabButton.Click += (sender, e) => { ViewModel?.ShowTaskCommand?.Execute(); };
+            var set = this.CreateBindingSet<TasksListFragment, TasksListViewModel>();
+            set.Bind(fabButton).To(v => v.CreateTaskCommand);
+
             fabButton.Show();
 
             _imageAdapter = new RecyclerImageAdapter(this);
@@ -70,7 +72,7 @@ namespace TestProject.Droid.Fragments
 
         private void ViewModel_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            _imageAdapter.Tasks = ViewModel.ListOfTasks.ToList();
+            _imageAdapter.Tasks = ViewModel.Tasks.ToList();
 
             SetupRecyclerView();
 
@@ -79,29 +81,18 @@ namespace TestProject.Droid.Fragments
             _recyclerView.Invalidate();
         }
 
-        public override void OnDestroyView()
-        {
-            InputMethodManager inputManager = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
-
-            var currentFocus = Activity.CurrentFocus;
-
-            inputManager.HideSoftInputFromWindow(currentFocus.WindowToken, 0);
-
-            base.OnDestroyView();
-        }
-
         void OnSwipe(object sender, int position)
         {
-            UserTask task = ViewModel.ListOfTasks[position];
+            UserTask task = ViewModel.Tasks[position];
 
             ViewModel?.DeleteTaskCommand?.Execute(task);
-            ViewModel?.ListOfTasks?.Remove(task);
+            ViewModel?.Tasks?.Remove(task);
         }
 
 
         void OnItemClick(object sender, int position)
         {
-            ViewModel?.ItemSelectedCommand?.Execute(ViewModel.ListOfTasks[position]);
+            ViewModel?.ItemSelectedCommand?.Execute(ViewModel.Tasks[position]);
         }
 
         private void SetupRecyclerView()

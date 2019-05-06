@@ -219,4 +219,70 @@
   <data name="Profile" xml:space="preserve">
     <value>Profile</value>
   </data>
+  <data name="Camera" xml:space="preserve">
+    <value>Camera</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Gallery</value>
+  </data>
+  <data name="MyLocated" xml:space="preserve">
+    <value>My located</value>
+  </data>
+  <data name="SelectPicture" xml:space="preserve">
+    <value>Select Picture</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ConfirmNewPassword" xml:space="preserve">
+    <value>Confirm new password:</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>New password:</value>
+  </data>
+  <data name="NewTask" xml:space="preserve">
+    <value>New task</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>Old password:</value>
+  </data>
+  <data name="Registration" xml:space="preserve">
+    <value>Registration</value>
+  </data>
+  <data name="RegistrationPage" xml:space="preserve">
+    <value>Registration Page</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ChooseASource" xml:space="preserve">
+    <value>Choose a source</value>
+  </data>
+  <data name="FileDoesntExistMaybeYouMovedOrExportedItEarlieReRunTheApp" xml:space="preserve">
+    <value>File doesn't exist. Maybe you moved or Exported it earlier. Re run the app.</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="PhotoSource" xml:space="preserve">
+    <value>Photo Source</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="YouDontHaveCamera" xml:space="preserve">
+    <value>You don't have camera</value>
+  </data>
 </root>

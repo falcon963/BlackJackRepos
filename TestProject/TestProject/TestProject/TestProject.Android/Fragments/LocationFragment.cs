@@ -18,6 +18,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.ViewModels;
 using TestProject.Droid.Views;
+using TestProject.LanguageResources;
 
 namespace TestProject.Droid.Fragments
 {
@@ -25,7 +26,6 @@ namespace TestProject.Droid.Fragments
         typeof(MainViewModel),
         Resource.Id.content_frame,
         true)]
-    [Register("testproject.droid.fragments.UserLocationFragment")]
     public class LocationFragment 
         : BaseFragment<LocationViewModel>,
         IOnMapReadyCallback
@@ -34,7 +34,6 @@ namespace TestProject.Droid.Fragments
 
         private GoogleMap _googleMap;
         private MapView _mapView;
-        private object thisLock = new object();
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -61,7 +60,7 @@ namespace TestProject.Droid.Fragments
         {
             ViewModel.GetLocated.Execute();
 
-            this._googleMap = googleMap;
+            _googleMap = googleMap;
 
             _googleMap.MapType = GoogleMap.MapTypeNormal;
             _googleMap.UiSettings.MyLocationButtonEnabled = true;
@@ -75,7 +74,7 @@ namespace TestProject.Droid.Fragments
 
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.SetPosition(latlng);
-            markerOptions.SetTitle("My located");
+            markerOptions.SetTitle(Strings.MyLocated);
 
             BitmapDescriptor mapIcon = BitmapDescriptorFactory.FromResource(Resource.Drawable.location);
             markerOptions.SetIcon(mapIcon);

@@ -14,7 +14,7 @@ using TestProject.Core.Repositories.Interfaces;
 using TestProject.Core.Helpers.Interfaces;
 using TestProject.Resources;
 using TestProject.Core.Colors;
-using TestProject.Core.Servicies.Interfaces;
+using TestProject.Core.Services.Interfaces;
 
 namespace TestProject.Core.ViewModels
 {
@@ -22,8 +22,6 @@ namespace TestProject.Core.ViewModels
         : BaseViewModel
     {
         #region Fields
-
-        private readonly IUserDialogs _userDialogs;
 
         private readonly IUserHelper _userHelper;
 
@@ -54,9 +52,8 @@ namespace TestProject.Core.ViewModels
         #endregion
 
 
-        public MenuViewModel(IMvxNavigationService navigationService, IUserDialogs userDialogs, ILoginRepository loginRepository, IUserHelper userHelper, IDialogsService dialogsService) : base(navigationService)
+        public MenuViewModel(IMvxNavigationService navigationService, ILoginRepository loginRepository, IUserHelper userHelper, IDialogsService dialogsService) : base(navigationService)
         {
-            _userDialogs = userDialogs;
             _userHelper = userHelper;
             _loginRepository = loginRepository;
             _dialogsService = dialogsService;

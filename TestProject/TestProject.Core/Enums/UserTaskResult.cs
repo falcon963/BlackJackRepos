@@ -6,9 +6,9 @@ namespace TestProject.Core.Enums
 {
     public enum UserTaskResult
     {
-        Deleted = 0,
+        NotChanged = 0,
         Saved = 1,
-        NotChanged = 2,
+        Deleted = 2,
         Updated = 3
     }
 }

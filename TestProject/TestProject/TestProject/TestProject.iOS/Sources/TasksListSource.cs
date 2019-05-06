@@ -60,8 +60,8 @@ namespace TestProject.iOS.Sources
             var action = UIContextualAction.FromContextualActionStyle(UIContextualActionStyle.Normal, "Delete", (DeleteAction, view, success) =>
             {
                 var vm = _view.ViewModel;
-                vm.DeleteTaskCommand.Execute(vm.ListOfTasks[row]);
-                vm.ListOfTasks.RemoveAt(row);
+                vm.DeleteTaskCommand.Execute(vm.Tasks[row]);
+                vm.Tasks.RemoveAt(row);
                 success(true);
             });
 
@@ -75,7 +75,7 @@ namespace TestProject.iOS.Sources
             var action = UIContextualAction.FromContextualActionStyle(UIContextualActionStyle.Normal, "Edit", (EditAction, view, success) =>
             {
                 var vm = _view.ViewModel;
-                vm.ItemSelectedCommand.Execute(vm.ListOfTasks[row]);
+                vm.ItemSelectedCommand.Execute(vm.Tasks[row]);
                 success(true);
             });
 
@@ -91,7 +91,7 @@ namespace TestProject.iOS.Sources
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return _view.ViewModel.ListOfTasks.Count;
+            return _view.ViewModel.Tasks.Count;
         }
     }
 }

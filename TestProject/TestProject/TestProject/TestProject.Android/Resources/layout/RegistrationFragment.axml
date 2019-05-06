@@ -26,7 +26,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:paddingLeft="15dp"
-					android:text="Login:"
+					local:MvxLang="Text Login"
 				/>
 
 				<EditText
@@ -40,7 +40,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:paddingLeft="15dp"
-					android:text="Password:"
+					local:MvxLang="Text Password"
 				/>
 
 				<EditText
@@ -55,7 +55,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:paddingLeft="15dp"
-					android:text="Confirm password:"
+					local:MvxLang="Text Confirm"
 				/>
 
 				<EditText
@@ -74,7 +74,7 @@
 						android:layout_height="wrap_content"
 						android:layout_marginTop="15dp"
 						android:layout_centerInParent="true"
-						android:text="Registration"
+						local:MvxLang="Text Registration"
 						local:MvxBind="Click RegistrationCommand"
 					/>
 

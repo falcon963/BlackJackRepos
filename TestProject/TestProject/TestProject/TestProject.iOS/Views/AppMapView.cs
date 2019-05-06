@@ -10,7 +10,7 @@ using MvvmCross.Platforms.Ios.Presenters.Attributes;
 
 namespace TestProject.iOS.Views
 {
-    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Map", TabIconName = "icons8_google_maps_24")]
+    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Map", TabIconName = "map")]
     public partial class AppMapView
         : BaseMenuView<LocationViewModel>
     {
@@ -42,7 +42,7 @@ namespace TestProject.iOS.Views
             _mapView.Settings.ZoomGestures = true;
             MapFrameView.AddSubview(_mapView);
 
-            BackButton.Image = UIImage.FromFile("back_to_50.png");
+            BackButton.Image = UIImage.FromBundle("back");
 
             InvokeOnMainThread(() => _mapView.MyLocationEnabled = true);
 

@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject.UWP", "TestProj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject.Core", "TestProject.Core\TestProject.Core.csproj", "{0E73DE40-F3E4-41BC-BE15-2A75B4285170}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject.Resources", "TestProject.Resources\TestProject.Resources.csproj", "{1EC4533C-95CD-49A4-B569-3D24AAC00EF1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject.LanguageResources", "TestProject.Resources\TestProject.LanguageResources.csproj", "{1EC4533C-95CD-49A4-B569-3D24AAC00EF1}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

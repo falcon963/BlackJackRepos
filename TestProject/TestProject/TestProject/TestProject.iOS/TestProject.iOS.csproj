@@ -219,6 +219,15 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\back.imageset\back.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\back.imageset\back@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\back.imageset\back@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
@@ -285,6 +294,114 @@
     <ImageAsset Include="Assets.xcassets\Icon8Google.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\back.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\map.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\menu.imageset\menu.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\menu.imageset\menu@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\menu.imageset\menu@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\profile.imageset\profile.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\profile.imageset\profile@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\profile.imageset\profile@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\task.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\menu.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\profile.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\map.imageset\map.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\map.imageset\map@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\map.imageset\map@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\shadow.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Placeholder.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Jpg.imageset\jpg.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Jpg.imageset\jpg@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Jpg.imageset\jpg@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Pdf.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Jpg.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Placeholder.imageset\placeholder.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Placeholder.imageset\placeholder@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Placeholder.imageset\placeholder@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Png.imageset\png.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Png.imageset\png@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Png.imageset\png@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Rtf.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\shadow.imageset\shadow.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\shadow.imageset\shadow@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\shadow.imageset\shadow@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\task.imageset\task.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\task.imageset\task@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\task.imageset\task@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Txt.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Png.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\Menu_ic.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
@@ -295,6 +412,33 @@
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\Menu_ic.imageset\icon_menu1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Pdf.imageset\pdf.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Pdf.imageset\pdf@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Pdf.imageset\pdf@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Rtf.imageset\rtf.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Rtf.imageset\rtf@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Rtf.imageset\rtf@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Txt.imageset\txt.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Txt.imageset\txt@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Txt.imageset\txt@3x.png">
       <Visible>false</Visible>
     </ImageAsset>
   </ItemGroup>
@@ -344,6 +488,8 @@
     <Compile Include="Converters\ImageValueConverter.cs" />
     <Compile Include="Converters\TaskTitleValueConverter.cs" />
     <Compile Include="ResourcesHelpers\ResourceHelper.cs" />
+    <Compile Include="Services\DocumentsService.cs" />
+    <Compile Include="Services\PhotoService.cs" />
     <Compile Include="Sources\TaskFilesListSource.cs" />
     <Compile Include="Views\AppMapView.cs" />
     <Compile Include="Views\AppMapView.designer.cs">
@@ -407,13 +553,7 @@
     <BundleResource Include="Resources\cropped.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\icons8_xbox_menu_filled_50.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\back_to_50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\placeholder.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\add_button_ios.png" />
@@ -422,78 +562,19 @@
     <BundleResource Include="Resources\icons8_plus_24_white.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\icons8_menu_50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\icons8_task_50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\icons8_menu_26.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\icons8_task_24.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\icons8_shutdown_50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\icons8_user_24.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\icons8_google_maps_24.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\login-button-png-18029.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\shadow_trapezium.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\shadow-oval.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\shadow_backinput.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\shadow_backinput_1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\shadow_backinput_3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\shadow_backinput_333.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\shadow_backinput_33.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\shadow_backinput_14.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\shadow_backinput_144.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\shadow_backinput_1444.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\jpg_24.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\pdf_24.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\png_24.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\rtf_24.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\txt_24.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\TestProject.Core\TestProject.Core.csproj">
       <Project>{0e73de40-f3e4-41bc-be15-2a75b4285170}</Project>
       <Name>TestProject.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\TestProject.Resources\TestProject.LanguageResources.csproj">
+      <Project>{1ec4533c-95cd-49a4-b569-3d24aac00ef1}</Project>
+      <Name>TestProject.LanguageResources</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\TestProject\TestProject.projitems" Label="Shared" />

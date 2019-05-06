@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_marginTop="4dp"
-                    android:text="View Profile"
+                    local:MvxLang="Text Profile"
                     android:textColor="#fff"
                     android:textSize="12sp"
 				/>

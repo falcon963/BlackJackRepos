@@ -15,7 +15,7 @@ using TestProject.Core.Constants;
 using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Models;
 using TestProject.Core.Repositories.Interfaces;
-using TestProject.Core.Servicies.Interfaces;
+using TestProject.Core.Services.Interfaces;
 using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
@@ -29,6 +29,7 @@ namespace TestProject.Core.ViewModels
         private readonly IDialogsService _dialogsService;
         private readonly IValidationService _validationService;
         private readonly IUserDialogs _userDialogs;
+        private readonly IUserService _userService;
 
         private string _password;
         private string _passwordRevise;
@@ -36,12 +37,13 @@ namespace TestProject.Core.ViewModels
         #endregion
 
         public RegistrationViewModel(IMvxNavigationService navigationService, ILoginRepository loginService,
-            IUserDialogs userDialogs, IDialogsService dialogsService, IValidationService validationService) : base(navigationService)
+            IUserDialogs userDialogs, IDialogsService dialogsService, IValidationService validationService, IUserService userService) : base(navigationService)
         {
             _userDialogs = userDialogs;
             _loginService = loginService;
             _dialogsService = dialogsService;
             _validationService = validationService;
+            _userService = userService;
 
             LoginColor = AppColors.LoginBackgroundColor;
             ValidateColor = AppColors.ValidColor;
@@ -77,7 +79,7 @@ namespace TestProject.Core.ViewModels
                 var passwordValidationModel = new PasswordValidationModel
                 {
                     Password = Password,
-                    PasswordConfirmation = PasswordRevise
+                    PasswordConfirmation = PasswordConfirmation
                 };
 
                 var validationModel = _validationService.Validate(passwordValidationModel);
@@ -96,7 +98,7 @@ namespace TestProject.Core.ViewModels
 
         [Required(ErrorMessageResourceName = "ConfirmPasswordFieldIsEmpty", ErrorMessageResourceType =typeof(Strings))]
         [Compare(nameof(Password), ErrorMessageResourceName = "ConfirmPasswordMustBeComparePassword", ErrorMessageResourceType = typeof(Strings))]
-        public string PasswordRevise
+        public string PasswordConfirmation
         {
             get
             {
@@ -109,7 +111,7 @@ namespace TestProject.Core.ViewModels
                 var passwordValidationModel = new PasswordValidationModel
                 {
                     Password = Password,
-                    PasswordConfirmation = PasswordRevise
+                    PasswordConfirmation = PasswordConfirmation
                 };
 
                 var validationModel = _validationService.Validate(passwordValidationModel);
@@ -136,7 +138,7 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    var valid = _loginService.CheckValidLogin(Login);
+                    var valid = _userService.IsValidLogin(Login);
 
                     if (!valid)
                     {
@@ -154,25 +156,23 @@ namespace TestProject.Core.ViewModels
                         return;
                     }
 
-                    if (valid)
+                    var user = new User()
                     {
-                        var user = new User()
-                        {
-                            Login = Login,
-                            Password = Password
-                        };
+                        Login = Login,
+                        Password = Password
+                    };
 
-                        _loginService.Save(user);
+                    _loginService.Save(user);
 
-                        var isGoOnLogin = await _dialogsService.ShowConfirmDialogAsync(Strings.RegistrateSuccessfulReturnOnLoginPage, Strings.Success);
+                    var userConfirm = await _dialogsService.ShowConfirmDialogAsync(Strings.RegistrateSuccessfulReturnOnLoginPage, Strings.Success);
 
-                        if (!isGoOnLogin)
-                        {
-                            return;
-                        }
-
-                        await NavigationService.Close(this);
+                    if (!userConfirm)
+                    {
+                        return;
                     }
+
+                    await NavigationService.Close(this);
+
                 });
             }
         }

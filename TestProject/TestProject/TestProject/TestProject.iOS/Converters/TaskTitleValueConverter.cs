@@ -6,6 +6,7 @@ using System.Text;
 
 using Foundation;
 using MvvmCross.Converters;
+using TestProject.LanguageResources;
 using UIKit;
 
 namespace TestProject.iOS.Converters
@@ -17,7 +18,7 @@ namespace TestProject.iOS.Converters
         {
             if(value == null)
             {
-                string title = "New Task";
+                string title = Strings.NewTask;
                 return title;
             }
             return value;

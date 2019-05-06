@@ -12,6 +12,8 @@ using Android.Views.InputMethods;
 using Android.Widget;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.ViewModels;
+using TestProject.Droid.Helpers.Interfaces;
+using TestProject.Droid.Services;
 using TestProject.Droid.Views;
 using File = Java.IO.File;
 using Uri = Android.Net.Uri;
@@ -22,31 +24,37 @@ namespace TestProject.Droid.Fragments
         typeof(MainViewModel),
         Resource.Id.content_frame,
         true)]
-    [Register("testproject.droid.fragments.ProfileFragment")]
     public class ProfileFragment
         : BaseFragment<ProfileViewModel>
     {
-        private LinearLayout _linearLayout;
         private ImageView _imageView;
-        private static readonly int REQUEST_CAMERA = 0;
-        private static readonly int SELECT_FILE = 1;
         private Bitmap _bitmap;
+
+        private readonly MultimediaService<ProfileFragment> _multimediaService;
+        private readonly IImageHelper _imageHelper;
+        private readonly IUriHelper<ProfileFragment> _uriHelper;
 
         protected override int FragmentId => Resource.Layout.ProfileFragment;
 
         public Uri ImageUri { get; set; }
 
+        public ProfileFragment(IUriHelper<ProfileFragment> uriHelper, IImageHelper imageHelper)
+        {
+            _imageHelper = imageHelper;
+            _uriHelper = uriHelper;
+            _multimediaService = new MultimediaService<ProfileFragment>(this, _imageView, ImageUri);
+        }
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-            _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.profileLinearLayout);
+            LinearLayout = view.FindViewById<LinearLayout>(Resource.Id.profileLinearLayout);
             _imageView = view.FindViewById<ImageView>(Resource.Id.profileImage_view);
 
             ((MainActivity)ParentActivity).DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
 
-            _imageView.Click += OnAddPhotoClicked;
-            _linearLayout.Click += delegate { HideSoftKeyboard(); };
+            _imageView.Click += _multimediaService.OnAddPhotoClicked;
 
             return view;
         }
@@ -65,7 +73,9 @@ namespace TestProject.Droid.Fragments
             if (resultCode == -1
                 && requestCode == 1)
             {
-                Bitmap bitmapImage = BitmapFactory.DecodeFile(GetRealPathFromURI(data.Data));
+                string realPath = _uriHelper.GetRealPathFromURI(data.Data, this);
+
+                Bitmap bitmapImage = BitmapFactory.DecodeFile(realPath);
 
                 SaveImage(bitmapImage);
             }
@@ -76,105 +86,16 @@ namespace TestProject.Droid.Fragments
             }
         }
 
-        private Uri GetImageUri(Context context, Bitmap inImage)
-        {
-            string path = MediaStore.Images.Media.InsertImage(context.ContentResolver, inImage, "Title", null);
-
-            var imageUri = Uri.Parse(path);
-
-            return imageUri;
-        }
-
-
-        public File GetPhotoFileUri(string fileName)
-        {
-            File mediaStorageDir = new File(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath);
-
-            File file = new File(mediaStorageDir.Path + File.Separator + fileName);
-
-            return file;
-        }
-
-        public string GetRealPathFromURI(Uri contentUri)
-        {
-            string[] proj = { MediaStore.Images.Media.InterfaceConsts.Data };
-
-            var cursor = this?.Activity?.ContentResolver?.Query(contentUri, proj, null, null, null);
-            int column_index = cursor.GetColumnIndexOrThrow(MediaStore.Images.Media.InterfaceConsts.Data);
-
-            cursor.MoveToFirst();
-
-            return cursor.GetString(column_index);
-        }
-
-        public void OnAddPhotoClicked(object sender, EventArgs e)
-        {
-            var popup = new Android.Support.V7.Widget.PopupMenu(Activity, _imageView);
-
-            popup.Menu.Add("Camera");
-            popup.Menu.Add("Gallery");
-            popup.Menu.Add("Cancel");
-            popup.MenuItemClick += OnMenuItemClicked;
-            popup.Show();
-        }
-
-        private void OnMenuItemClicked(object sender, Android.Support.V7.Widget.PopupMenu.MenuItemClickEventArgs e)
-        {
-            var label = e.Item.TitleFormatted.ToString();
-
-            if (label == "Camera")
-            {
-                var sdCardPath = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
-                string name = "Test_Project_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
-                var filePath = System.IO.Path.Combine(sdCardPath, name);
-
-                File image = new File(filePath);
-
-                ImageUri = Uri.FromFile(image);
-
-                var intent = new Intent(MediaStore.ActionImageCapture);
-                intent.PutExtra(MediaStore.ExtraOutput, ImageUri);
-                this.StartActivityForResult(intent, REQUEST_CAMERA);
-            }
-            if (label == "Gallery")
-            {
-                var intent = new Intent(Intent.ActionPick, MediaStore.Images.Media.ExternalContentUri);
-                intent.SetType("image/*");
-
-                this.StartActivityForResult(Intent.CreateChooser(intent, "Select Picture"), SELECT_FILE);
-            }
-            if (label == "Cancel")
-            {
-
-            }
-        }
-
         public void SaveImage(Bitmap image)
         {
-            try
+            var encodedImage = _imageHelper.ImageEncoding(image);
+
+            if (string.IsNullOrEmpty(encodedImage))
             {
-                using (MemoryStream writer = new MemoryStream())
-                {
-                    image.Compress(Bitmap.CompressFormat.Png, 40, writer);
-
-                    byte[] byteArray = writer.ToArray();
-
-                    string encodedImage = Base64.EncodeToString(byteArray, Base64Flags.Default);
-
-                    ViewModel.Profile.ImagePath = encodedImage;
-                }
+                return;
             }
-            catch (Java.Lang.OutOfMemoryError)
-            {
-                GC.Collect();
-            }
-        }
 
-        public void HideSoftKeyboard()
-        {
-            InputMethodManager close = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
-
-            close.HideSoftInputFromWindow(_linearLayout.WindowToken, 0);
+            ViewModel.Profile.ImagePath = encodedImage;
         }
     }
 }

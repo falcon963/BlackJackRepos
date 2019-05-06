@@ -15,32 +15,12 @@ namespace TestProject.iOS.Converters
     {
         protected override UIImage Convert(String value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == "png")
+            if (string.IsNullOrEmpty(value))
             {
-                UIImage image = UIImage.FromFile("png_24.png");
-                return image;
+                return UIImage.FromBundle("Placeholder");
             }
-            if (value == "pdf")
-            {
-                UIImage image = UIImage.FromFile("pdf_24.png");
-                return image;
-            }
-            if (value == "rtf")
-            {
-                UIImage image = UIImage.FromFile("rtf_24.png");
-                return image;
-            }
-            if (value == "jpg")
-            {
-                UIImage image = UIImage.FromFile("jpg_24.png");
-                return image;
-            }
-            if (value == "txt")
-            {
-                UIImage image = UIImage.FromFile("txt_24.png");
-                return image;
-            }
-            return UIImage.FromFile("placeholder.png");
+
+            return UIImage.FromBundle(value);
         }
     }
 }

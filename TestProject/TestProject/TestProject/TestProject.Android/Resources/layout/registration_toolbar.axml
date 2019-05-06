@@ -25,7 +25,7 @@
 			android:layout_centerInParent="true"
 			android:fontWeight="800"
 			android:textStyle="italic"
-			android:text="Registration Page"
+			local:MvxLang="Text RegistrationPage"
 			android:textColor="@color/white"
 		/>
 

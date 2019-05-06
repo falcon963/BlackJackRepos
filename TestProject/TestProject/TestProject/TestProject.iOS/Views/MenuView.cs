@@ -15,12 +15,12 @@ using TestProject.Core.ViewModels;
 using TestProject.iOS.Converters;
 using TestProject.iOS.Sources;
 using TestProject.iOS.Views.Cells;
+using TestProject.LanguageResources;
 using UIKit;
-//using MvvmCross.iOS.Support.XamarinSidebar;
 
 namespace TestProject.iOS.Views
 {
-    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Menu", TabIconName = "icons8_menu_26")]
+    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Menu", TabIconName = "menu")]
     public partial class MenuView 
         : BaseMenuView<MenuViewModel>
     {
@@ -38,7 +38,7 @@ namespace TestProject.iOS.Views
             var source = new MenuItemSource(NavigateList);
 
 
-            NavigationController.NavigationBar.TopItem.Title = "Menu";
+            NavigationController.NavigationBar.TopItem.Title = Strings.Menu;
 
 
             var set = this.CreateBindingSet<MenuView, MenuViewModel>();

@@ -17,11 +17,10 @@ namespace TestProject.Core.Repositories
     public class LoginRepository
         : BaseRepository<User>, ILoginRepository
     {
-        private readonly IUserHelper _userHelper;
 
-        public LoginRepository(IDatabaseConnectionService dbConnection, IUserHelper userHelper) : base(dbConnection)
+        public LoginRepository(IDatabaseConnectionService dbConnection) : base(dbConnection)
         {
-            _userHelper = userHelper;
+
         }
 
         public User GetAppRegistrateUserAccount(string login, string password)
@@ -31,36 +30,20 @@ namespace TestProject.Core.Repositories
             return user;
         }
 
-        public bool CheckValidLogin(string login)
-        {
-
-            User result = _dbConnection.Database.Table<User>().FirstOrDefault(v => v.Login == login);
-
-            return result == null;
-
-        }
-
-        public void ChangePassword(int userId, string password)
-        {
-            User user = _dbConnection.Database.Table<User>().FirstOrDefault(u => u.Id == userId);
-
-            user.Password = password;
-
-            _dbConnection.Database.Update(user);
-        }
-        public void ChangeImage(int userId, string imagePath)
-        {
-            User user = _dbConnection.Database.Table<User>().FirstOrDefault(u => u.Id == userId);
-
-            user.ImagePath = imagePath;
-
-            _dbConnection.Database.Update(user);
-        }
-
         public int? GetSocialAccountUserId(User user)
         {
             User getUser = _dbConnection.Database.Table<User>().FirstOrDefault(v => v.FacebookId == user.FacebookId || v.GoogleId == user.GoogleId);
             return getUser?.Id;
+        }
+
+
+        public string GetUserLogin(string login)
+        {
+
+            string userLogin = _dbConnection.Database.Table<User>().FirstOrDefault(v => v.Login == login).Login;
+
+            return userLogin;
+
         }
     }
 }

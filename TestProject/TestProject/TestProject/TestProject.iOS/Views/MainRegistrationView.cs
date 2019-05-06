@@ -11,7 +11,6 @@ using UIKit;
 
 namespace TestProject.iOS.Views
 {
-    //[MvxRootPresentation]
     public class MainRegistrationView
         : MvxViewController<MainRegistrationViewModel>
     {

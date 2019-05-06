@@ -6,6 +6,7 @@ using Plugin.SecureStorage;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Resources;
 using System.Text;
 using TestProject.Core.Colors;
@@ -13,7 +14,7 @@ using TestProject.Core.Constants;
 using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Models;
 using TestProject.Core.Repositories.Interfaces;
-using TestProject.Core.Servicies.Interfaces;
+using TestProject.Core.Services.Interfaces;
 using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
@@ -29,6 +30,7 @@ namespace TestProject.Core.ViewModels
         private readonly IUserHelper _userHelper;
         private readonly IValidationService _validationService;
         private readonly IDialogsService _dialogsService;
+        private readonly IUserService _userService;
 
         private string _oldPassword;
         private string _newPassword;
@@ -37,13 +39,14 @@ namespace TestProject.Core.ViewModels
         #endregion
 
         public ProfileViewModel(IMvxNavigationService navigationService, ILoginRepository loginService,
-            IUserDialogs userDialogs, IUserHelper userHelper, IValidationService validationService, IDialogsService dialogsService) : base(navigationService)
+            IUserDialogs userDialogs, IUserHelper userHelper, IValidationService validationService, IDialogsService dialogsService, IUserService userService) : base(navigationService)
         {
             _loginService = loginService;
             _userDialogs = userDialogs;
             _userHelper = userHelper;
             _validationService = validationService;
             _dialogsService = dialogsService;
+            _userService = userService;
 
             Background = AppColors.LoginBackgroundColor;
             ConfirmColor = AppColors.ValidColor;
@@ -64,7 +67,6 @@ namespace TestProject.Core.ViewModels
             set
             {
                 SetProperty(ref _oldPassword, value);
-                CheckEnableStatus();
             }
         }
 
@@ -79,7 +81,6 @@ namespace TestProject.Core.ViewModels
             set
             {
                 SetProperty(ref _newPassword, value);
-                CheckEnableStatus();
                 var passwordValidationModel = new PasswordValidationModel { Password = NewPassword, PasswordConfirmation = ConfirmPassword };
                 var validationModel = _validationService.Validate(passwordValidationModel);
                 if (validationModel.IsValid)
@@ -104,14 +105,13 @@ namespace TestProject.Core.ViewModels
             set
             {
                 SetProperty(ref _confirmPassword, value);
-                CheckEnableStatus();
                 var passwordValidationModel = new PasswordValidationModel { Password = NewPassword, PasswordConfirmation = ConfirmPassword };
                 var validationModel = _validationService.Validate(passwordValidationModel);
-                if (validationModel.IsValid)
+                if (!validationModel.IsValid)
                 {
                     ConfirmColor = AppColors.InvalidColor;
                 }
-                if (!validationModel.IsValid)
+                if (validationModel.IsValid)
                 {
                     ConfirmColor = AppColors.ValidColor;
                 }
@@ -142,7 +142,7 @@ namespace TestProject.Core.ViewModels
         }
 
 
-        public IMvxCommand SavePasswordChangeCommand
+        public IMvxCommand UpdateProfileCommand
         {
             get
             {
@@ -152,20 +152,20 @@ namespace TestProject.Core.ViewModels
 
                     if (IsPasswordChangeConfirmed)
                     {
-                        _loginService.ChangePassword(Profile.Id, NewPassword);
+                        _userService.ChangePassword(Profile.Id, NewPassword);
 
                         _userHelper.UserPassword = NewPassword;
                     }
 
                     if (!validationModel.IsValid && OldPassword != Profile.Password)
                     {
-                         _dialogsService.ShowAlert(message: validationModel.Errors[0]);
+                         _dialogsService.ShowAlert(message: validationModel.Errors.FirstOrDefault());
 
                         return;
                     }
 
                     _dialogsService.ShowSuccessMessage(message: Strings.ChangesAccepted);
-                    _loginService.ChangeImage(Profile.Id, Profile.ImagePath);
+                    _userService.ChangeImage(Profile.Id, Profile.ImagePath);
                 });
             }
         }
@@ -200,15 +200,6 @@ namespace TestProject.Core.ViewModels
             int userId = _userHelper.UserId;
 
             Profile = _loginService.Get(userId);
-        }
-
-        public void CheckEnableStatus()
-        {
-            if (OldPassword == Profile.Password
-                    && _validationService.Validate(this).IsValid)
-            {
-                IsPasswordChangeConfirmed = true;
-            }
         }
     }
 }

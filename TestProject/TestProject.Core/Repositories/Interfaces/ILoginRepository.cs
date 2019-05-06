@@ -10,9 +10,7 @@ namespace TestProject.Core.Repositories.Interfaces
         : IBaseRepository<User>
     {
         User GetAppRegistrateUserAccount(string login, string password);
-        bool CheckValidLogin(string login);
-        int? GetSocialAccountUser(User user);
-        void ChangePassword(int userId, string password);
-        void ChangeImage(int userId, string imagePath);
+        string GetUserLogin(string login);
+        int? GetSocialAccountUserId(User user);
     }
 }

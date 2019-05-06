@@ -44,9 +44,9 @@ namespace TestProject.Droid.Adapters
 
         public RecyclerImageAdapter(TasksListFragment view)
         {
-            this.ItemClick += (sender, e) => { view?.ViewModel?.ItemSelectedCommand?.Execute(view.ViewModel.ListOfTasks[e]); };
+            this.ItemClick += (sender, e) => { view?.ViewModel?.ItemSelectedCommand?.Execute(view.ViewModel.Tasks[e]); };
 
-            Tasks = view?.ViewModel?.ListOfTasks?.ToList();
+            Tasks = view?.ViewModel?.Tasks?.ToList();
 
             _tasksListPendingRemoval = new List<UserTask>();
 
@@ -91,10 +91,10 @@ namespace TestProject.Droid.Adapters
                     {
                         _handler.RemoveCallbacks(pendingRemovalRunnable);
                     }
-                    UserTask task = _tasksFragment.ViewModel.ListOfTasks[position];
+                    UserTask task = _tasksFragment.ViewModel.Tasks[position];
 
                     _tasksFragment?.ViewModel?.DeleteTaskCommand?.Execute(task);
-                    _tasksFragment?.ViewModel?.ListOfTasks?.Remove(task);
+                    _tasksFragment?.ViewModel?.Tasks?.Remove(task);
 
                     Tasks.Remove(item);
                 };
@@ -112,7 +112,7 @@ namespace TestProject.Droid.Adapters
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.InSampleSize = CalculateInSampleSize(options, 60, 60);
 
-            if (_tasksFragment.ViewModel.ListOfTasks.ToList().Count == position + 1)
+            if (_tasksFragment.ViewModel.Tasks.ToList().Count == position + 1)
             {
                 viewHolder.Divider.Visibility = ViewStates.Invisible;
             }
@@ -198,4 +198,25 @@ namespace TestProject.Droid.Adapters
             return inSampleSize;
         }
     }
+
+    public class ImageViewHolder : RecyclerView.ViewHolder
+    {
+        public TextView Text { get; private set; }
+        public CircleImageView Image { get; private set; }
+        public CheckBox CheckBox { get; private set; }
+        public View Divider { get; private set; }
+        public Button DeleteButton { get; private set; }
+
+        public ImageViewHolder(View itemView, Action<int> listener) : base(itemView)
+        {
+            Text = itemView.FindViewById<TextView>(Resource.Id.task_name);
+            Image = itemView.FindViewById<CircleImageView>(Resource.Id.tasklist_image);
+            CheckBox = itemView.FindViewById<CheckBox>(Resource.Id.list_checkbox);
+            Divider = itemView.FindViewById<View>(Resource.Id.divider);
+            DeleteButton = itemView.FindViewById<Button>(Resource.Id.undoButton);
+
+            itemView.Click += (sender, e) => listener(obj: base.AdapterPosition);
+        }
+    }
+
 }

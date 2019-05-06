@@ -29,7 +29,7 @@
 								android:layout_width="match_parent"
 								android:layout_height="wrap_content"
 								android:paddingLeft="15dp"
-								android:text="Old password:"
+								local:MvxLang="Text OldPassword"
 				            />
 
 							<EditText
@@ -43,7 +43,7 @@
 								android:layout_width="match_parent"
 								android:layout_height="wrap_content"
 								android:paddingLeft="15dp"
-								android:text="New password:"
+					            local:MvxLang="Text NewPassword"
 				            />
 
 							<EditText
@@ -58,7 +58,7 @@
 								android:layout_width="match_parent"
 								android:layout_height="wrap_content"
 								android:paddingLeft="15dp"
-								android:text="Confirm new password:"
+					            local:MvxLang="Text ConfirmNewPassword"
 				            />
 
 							<EditText
@@ -78,7 +78,7 @@
 									android:layout_marginLeft="50dp"
 									android:layout_width="wrap_content"
 									android:layout_height="wrap_content"
-									android:text="Save new Password"
+						            local:MvxLang="Text Save"
 									local:MvxBind="Click SavePasswordChangeCommand; Enabled PassChangeEneble"
 					            />
 

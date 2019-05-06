@@ -21,30 +21,32 @@ using static Android.Gms.Common.Apis.GoogleApiClient;
 using Xamarin.Facebook;
 using Android.Gms.Common;
 using Java.Lang;
-using TestProject.Core.Servicies;
+using TestProject.Core.Services;
 using System.Threading.Tasks;
 using Xamarin.Facebook.Login.Widget;
 using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Common.Apis;
 using Android.Gms.Auth.Api;
 using TestProject.Core.Authentication.Interfaces;
+using MvvmCross;
+using MvvmCross.Logging;
 
 namespace TestProject.Droid.Fragments
 {
     [MvxFragmentPresentation(
         typeof(MainRegistrationViewModel), 
         Resource.Id.login_frame)]
-    [Register("testproject.droid.fragments.LoginFragment")]
     public class LoginFragment 
         : BaseFragment<LoginViewModel>, IConnectionCallbacks, IOnConnectionFailedListener, IGoogleAuthenticationDelegate, IFacebookCallback
     {
 
         protected override int FragmentId => Resource.Layout.LoginFragment;
 
-        private LinearLayout _linearLayout;
         private SignInButton _googleButton;
         private LoginButton _facebookButton;
         private GoogleApiClient _googleApiClient;
+
+        private const string publicProfile = "public_profile";
 
         public static ICallbackManager _callbackManager;
 
@@ -54,9 +56,7 @@ namespace TestProject.Droid.Fragments
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-            _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.login_linearlayout);
-
-            _linearLayout.Click += delegate { HideSoftKeyboard(); };
+            LinearLayout = view.FindViewById<LinearLayout>(Resource.Id.login_linearlayout);
 
             _googleButton = view.FindViewById<SignInButton>(Resource.Id.btnGoogleSignIn);
 
@@ -66,23 +66,6 @@ namespace TestProject.Droid.Fragments
             InitializeGoogleAuth();
 
             return view;
-        }
-
-        public void HideSoftKeyboard()
-        {
-            InputMethodManager close = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
-            close.HideSoftInputFromWindow(_linearLayout.WindowToken, 0);
-        }
-
-        public override void OnDestroyView()
-        {
-            InputMethodManager inputManager = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
-
-            var currentFocus = Activity.CurrentFocus;
-
-            inputManager.HideSoftInputFromWindow(currentFocus.WindowToken, 0);
-
-            base.OnDestroyView();
         }
 
         void IFacebookCallback.OnCancel()
@@ -134,7 +117,8 @@ namespace TestProject.Droid.Fragments
 
         private void FailedHandlerGoogleAuth(ConnectionResult obj)
         {
-            Console.WriteLine(obj.ErrorCode);
+            var logger = Mvx.IoCProvider.Resolve<IMvxLog>();
+            logger.Trace(obj.ErrorMessage);
         }
 
         private void CallBackGoogle(Bundle obj)
@@ -157,7 +141,7 @@ namespace TestProject.Droid.Fragments
 
             _callbackManager = CallbackManagerFactory.Create();
 
-            _facebookButton.SetReadPermissions(new List<string> { "public_profile" });
+            _facebookButton.SetReadPermissions(new List<string> { publicProfile });
             _facebookButton.RegisterCallback(_callbackManager, this);
         }
 

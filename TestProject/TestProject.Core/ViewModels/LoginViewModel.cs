@@ -11,15 +11,15 @@ using Plugin.SecureStorage;
 using TestProject.Core.Constants;
 using MvvmCross.UI;
 using Xamarin.Auth;
-using TestProject.Core.Servicies;
+using TestProject.Core.Services;
 using TestProject.Core.Repositories.Interfaces;
 using TestProject.Core.Helpers.Interfaces;
 using TestProject.Resources;
 using System.ComponentModel.DataAnnotations;
 using System.Resources;
-using TestProject.Core.Servicies.Interfaces.SocialService.Google;
-using TestProject.Core.Servicies.Interfaces.SocialService.Facebook;
-using TestProject.Core.Servicies.Interfaces;
+using TestProject.Core.Services.Interfaces.SocialService.Google;
+using TestProject.Core.Services.Interfaces.SocialService.Facebook;
+using TestProject.Core.Services.Interfaces;
 using TestProject.Core.Colors;
 using System.Linq;
 
@@ -83,10 +83,6 @@ namespace TestProject.Core.ViewModels
                     _userHelper.IsUserLogin = true;
                     _userHelper.UserLogin = Login;
                     _userHelper.UserPassword = Password;
-                }
-                if (!_rememberMe)
-                {
-                    _userHelper.DeleteUserStatus();
                 }
             }
         }
