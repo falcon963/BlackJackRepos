@@ -22,33 +22,34 @@ namespace TestProject.iOS.Views
 {
     [MvxTabPresentation(WrapInNavigationController = true, TabName = "Menu", TabIconName = "menu")]
     public partial class MenuView 
-        : BaseMenuView<MenuViewModel>
+        : BaseView<MenuView ,MenuViewModel>
     {
-
+        private MenuItemSource _source;
         public static NSString MyCellId = new NSString("ContentNavigateCell");
 
         public MenuView() : base("MenuView", null)
         {
         }
 
+        public override bool SetupBindings()
+        {
+            BindingSet.Bind(NavigateList).For(v => v.BackgroundColor).To(vm => vm.MenuColor).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(UserProfileImage).For(v => v.Image).To(vm => vm.Profile.ImagePath).WithConversion(new ImageValueConverter());
+            BindingSet.Bind(_source).For(x => x.ItemsSource).To(vm => vm.MenuItems);
+            BindingSet.Bind(_source).For(x => x.SelectionChangedCommand).To(vm => vm.ItemSelectCommand);
+
+            return base.SetupBindings();
+        }
+
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            var source = new MenuItemSource(NavigateList);
-
+            _source = new MenuItemSource(NavigateList);
 
             NavigationController.NavigationBar.TopItem.Title = Strings.Menu;
 
-
-            var set = this.CreateBindingSet<MenuView, MenuViewModel>();
-            set.Bind(NavigateList).For(v => v.BackgroundColor).To(vm => vm.MenuColor).WithConversion(new ColorValueConverter());
-            set.Bind(UserProfileImage).For(v => v.Image).To(vm => vm.Profile.ImagePath).WithConversion(new ImageValueConverter());
-            set.Bind(source).For(x => x.ItemsSource).To(vm => vm.MenuItems);
-            set.Bind(source).For(x => x.SelectionChangedCommand).To(vm => vm.ItemSelectCommand);
-            set.Apply();
-
-            NavigateList.Source = source;
+            NavigateList.Source = _source;
 ;
             this.AutomaticallyAdjustsScrollViewInsets = false;
             NavigateList.ScrollEnabled = false;

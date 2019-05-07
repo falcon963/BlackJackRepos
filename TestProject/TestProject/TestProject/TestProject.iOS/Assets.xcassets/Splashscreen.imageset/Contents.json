@@ -1,0 +1,24 @@
+{
+  "images": [
+    {
+      "scale": "1x",
+      "idiom": "iphone",
+      "filename": "splashscreen.jpg"
+    },
+    {
+      "scale": "2x",
+      "idiom": "iphone",
+      "filename": "splashscreen@2x.jpg"
+    },
+    {
+      "scale": "3x",
+      "idiom": "iphone",
+      "filename": "splashscreen@3x.jpg"
+    }
+  ],
+  "properties": {},
+  "info": {
+    "version": 1,
+    "author": ""
+  }
+}

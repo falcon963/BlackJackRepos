@@ -21,7 +21,7 @@ namespace TestProject.iOS.Views
 {
     [MvxTabPresentation(WrapInNavigationController = true, TabName = "Tasks", TabIconName = "task")]
     public partial class TasksListView 
-        : BaseMenuView<TasksListViewModel>
+        : BaseView<TasksListView, TasksListViewModel>
     {
 
 
@@ -30,6 +30,10 @@ namespace TestProject.iOS.Views
         private bool _isMenuOpen = false;
 
         private CATransition _transition  = new CATransition();
+
+        private TasksListSource _source;
+
+        private MvxUIRefreshControl _refreshControl;
 
 
         #region Property
@@ -48,6 +52,18 @@ namespace TestProject.iOS.Views
 
         #endregion
 
+        public override bool SetupBindings()
+        {
+            BindingSet.Bind(_refreshControl).For(r => r.IsRefreshing).To(vm => vm.IsRefreshing);
+            BindingSet.Bind(_refreshControl).For(r => r.RefreshCommand).To(vm => vm.RefreshTaskCommand);
+            BindingSet.Bind(_source).For(x => x.ItemsSource).To(vm => vm.Tasks);
+            BindingSet.Bind(_source).For(x => x.SelectionChangedCommand).To(vm => vm.ItemSelectedCommand);
+            BindingSet.Bind(TasksList).For(v => v.BackgroundColor).To(vm => vm.TasksListColor).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(FabButton).To(vm => vm.CreateTaskCommand);
+
+            return base.SetupBindings();
+        }
+
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -55,22 +71,12 @@ namespace TestProject.iOS.Views
             NavigationController.NavigationBar.TopItem.Title = "Tasks List";
             
 
-            var source = new TasksListSource(TasksList, this);
-            var refreshControl = new MvxUIRefreshControl();
-            this.RefreshControl = refreshControl;
+            _source = new TasksListSource(TasksList, this);
+            _refreshControl = new MvxUIRefreshControl();
+            this.RefreshControl = _refreshControl;
 
-            var set = this.CreateBindingSet<TasksListView, TasksListViewModel>();
-
-            set.Bind(refreshControl).For(r => r.IsRefreshing).To(vm => vm.IsRefreshing);
-            set.Bind(refreshControl).For(r => r.RefreshCommand).To(vm => vm.RefreshTaskCommand);
-            set.Bind(source).For(x => x.ItemsSource).To(vm => vm.Tasks);
-            set.Bind(source).For(x => x.SelectionChangedCommand).To(vm => vm.ItemSelectedCommand);            
-            set.Bind(TasksList).For(v => v.BackgroundColor).To(vm => vm.TasksListColor).WithConversion(new ColorValueConverter());
-            set.Bind(FabButton).To(vm => vm.CreateTaskCommand);
-            set.Apply();
-
-            TasksList.AddSubview(refreshControl);
-            TasksList.Source = source;
+            TasksList.AddSubview(_refreshControl);
+            TasksList.Source = _source;
             TasksList.RegisterNibForCellReuse(UINib.FromName("ContentTasksCell", NSBundle.MainBundle), ContentTasksCell.Key);
             TasksList.RowHeight = 60;
             TasksList.ReloadData();

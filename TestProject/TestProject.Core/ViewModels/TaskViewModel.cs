@@ -17,7 +17,6 @@ using System.Threading;
 using TestProject.Core.Services;
 using TestProject.Core.DBConnection;
 using TestProject.Core.Repositories.Interfaces;
-using TestProject.Resources;
 using TestProject.Core.Colors;
 using TestProject.Core.Services.Interfaces;
 using TestProject.Core.Helpers.Interfaces;

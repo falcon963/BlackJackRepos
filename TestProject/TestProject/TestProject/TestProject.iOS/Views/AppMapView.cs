@@ -12,26 +12,29 @@ namespace TestProject.iOS.Views
 {
     [MvxTabPresentation(WrapInNavigationController = true, TabName = "Map", TabIconName = "map")]
     public partial class AppMapView
-        : BaseMenuView<LocationViewModel>
+        : BaseView<AppMapView ,LocationViewModel>
     {
         MapView _mapView;
         bool _firstLocationUpdate;
+
         public AppMapView() : base("AppMapView", null)
         {
+        }
+
+        public override bool SetupBindings()
+        {
+            BindingSet.Bind(BackButton).To(vm => vm.CloseCommand);
+            return base.SetupBindings();
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            var set = this.CreateBindingSet<AppMapView, LocationViewModel>();
-            set.Bind(BackButton).To(vm => vm.CloseCommand);
-            set.Apply();
-
             ViewModel.GetLocated.Execute();
 
             var camera = CameraPosition.FromCamera(
-                new CoreLocation.CLLocationCoordinate2D(
+                new CLLocationCoordinate2D(
                     ViewModel.Latitude, ViewModel.Longitude), 12);
 
             var frame = MapFrameView.Frame;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -34,12 +35,12 @@ namespace TestProject.iOS.ResourcesHelpers
                             ExtensionHidden = true
                         };
                         fileManager.SetAttributes(attributes, dst.Path);
-                        Console.WriteLine("Copied file: {0} to: {1}.", src.AbsoluteString, dst.AbsoluteString);
+                        Debug.WriteLine("Copied file: {0} to: {1}.", src.AbsoluteString, dst.AbsoluteString);
                     }
                 });
 
                 if (!success)
-                    Console.WriteLine("Couldn't copy file: {0} to: {1}. Error: {2}.", fromUrl.AbsoluteString,
+                    Debug.WriteLine("Couldn't copy file: {0} to: {1}. Error: {2}.", fromUrl.AbsoluteString,
                         toURL.AbsoluteString, (coordinationError ?? copyError).Description);
 
                 tcs.SetResult(toURL);

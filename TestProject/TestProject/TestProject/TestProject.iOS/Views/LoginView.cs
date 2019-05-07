@@ -21,7 +21,7 @@ namespace TestProject.iOS.Views
 {
     [MvxModalPresentation(WrapInNavigationController = true)]
     public partial class LoginView
-        : BaseMenuView<LoginViewModel>, IFacebookAuthentication, IGoogleAuthenticationDelegate
+        : BaseView<LoginView ,LoginViewModel>, IFacebookAuthentication, IGoogleAuthenticationDelegate
     {
 
         #region Fields
@@ -44,10 +44,23 @@ namespace TestProject.iOS.Views
 
         public LoginView() : base("LoginView", null)
         {
-            HideKeyboard(_tap);
+            ;
         }
 
         #endregion
+
+        public override bool SetupBindings()
+        {
+            BindingSet.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(RegistrationButton).To(vm => vm.GoRegistrationPageCommand);
+            BindingSet.Bind(RememberSwitch).To(vm => vm.IsRememberMeStatus);
+            BindingSet.Bind(LoginButton).To(vm => vm.LoginCommand);
+            BindingSet.Bind(PasswordField).To(vm => vm.Password);
+            BindingSet.Bind(LoginField).To(vm => vm.Login);
+
+            return base.SetupBindings();
+        }
 
         public override void ViewDidLoad()
         {
@@ -64,18 +77,9 @@ namespace TestProject.iOS.Views
             LoginFacebookButton.AddGestureRecognizer(facebookButton);
             LoginGoogleButton.AddGestureRecognizer(googleButton);
 
-            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, HandleKeyboardDidHide);
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, OnKeyboardWillHide);
 
-            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, HandleKeyboardDidShow);
-
-            var set = this.CreateBindingSet<LoginView, LoginViewModel>();
-            set.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion(new ColorValueConverter());
-            set.Bind(RegistrationButton).To(vm => vm.GoRegistrationPageCommand);
-            set.Bind(RememberSwitch).To(vm => vm.IsRememberMeStatus);
-            set.Bind(LoginButton).To(vm => vm.LoginCommand);
-            set.Bind(PasswordField).To(vm => vm.Password);
-            set.Bind(LoginField).To(vm => vm.Login);
-            set.Apply();
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, OnKeyboardWillShow);
 
             ShadowCreate(PasswordField, ShadowViewPasswordField);
             ShadowCreate(LoginField, ShadowView);
@@ -101,20 +105,6 @@ namespace TestProject.iOS.Views
             var authenticator = GoogleAuth.GetAuthenticator();
             var viewController = authenticator.GetUI();
             PresentViewController(viewController, true, null);
-        }
-
-        #endregion
-
-        #region Keyboard
-
-        public override void HandleKeyboardDidHide(NSNotification obj)
-        {
-            base.HandleKeyboardDidHide(obj);
-        }
-
-        public override void HandleKeyboardDidShow(NSNotification obj)
-        {
-            base.HandleKeyboardDidShow(obj);
         }
 
         #endregion

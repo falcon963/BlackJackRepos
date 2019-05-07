@@ -18,37 +18,51 @@ namespace TestProject.iOS.Views
 {
     [MvxModalPresentation]
     public partial class TaskDetailsView 
-        : BaseMenuView<TaskViewModel>
+        : BaseView<TaskDetailsView ,TaskViewModel>
     {
         #region Init Fealds
         private UITapGestureRecognizer _tap;
 
         private UIDocumentMenuViewController _documentPickerController;
 
-        private readonly PhotoService<TaskDetailsView> _photoService;
+        private readonly PhotoService<TaskDetailsView, TaskViewModel> _photoService;
 
-        private readonly DocumentsService<TaskDetailsView> _documentsService;
+        private readonly DocumentsService<TaskDetailsView, TaskViewModel> _documentsService;
+
+        private TaskFilesListSource _source;
 
         #endregion
 
-        protected override UIScrollView ScrollView { get => base.ScrollView; set => base.ScrollView = value; }
+        public override bool SetupBindings()
+        {
+            BindingSet.Bind(TaskName).To(vm => vm.UserTask.Changes.Title);
+            BindingSet.Bind(TaskName).For(v => v.Enabled).To(vm => vm.IsTitleEnabled);
+            BindingSet.Bind(TaskNote).To(vm => vm.UserTask.Changes.Note);
+            BindingSet.Bind(TaskStatus).To(vm => vm.UserTask.Changes.Status);
+            BindingSet.Bind(DeleteButton).To(vm => vm.DeleteUserTaskCommand);
+            BindingSet.Bind(BackButton).To(vm => vm.ShowMenuCommand);
+            BindingSet.Bind(DeleteButton).For(v => v.Hidden).To(vm => vm.IsDeleteButtonHidden);
+            BindingSet.Bind(_source).For(x => x.ItemsSource).To(vm => vm.Files);
+            BindingSet.Bind(View).For(v => v.BackgroundColor).To(vm => vm.ColorTheme).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(TaskImage).To(vm => vm.UserTask.Changes.ImagePath).WithConversion(new ImageValueConverter());
+            BindingSet.Bind(TaskTitle).For(x => x.Title).To(vm => vm.UserTask.Changes.Title).WithConversion(new TaskTitleValueConverter());
+
+            return base.SetupBindings();
+        }
 
         public TaskDetailsView() : base("TaskDetailsView", null)
         {
             Action<FileItemViewModel> saveAction = (FileItemViewModel file) => { ViewModel.AddFileCommand.Execute(file); };
-            _photoService = new PhotoService<TaskDetailsView>(this, TaskImage);
-            _documentsService = new DocumentsService<TaskDetailsView>(this, saveAction);
-            HideKeyboard(_tap);
+            _photoService = new PhotoService<TaskDetailsView, TaskViewModel>(this, TaskImage);
+            _documentsService = new DocumentsService<TaskDetailsView, TaskViewModel>(this, saveAction);
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            ScrollView = MainScrollView;
-
             FileList.BackgroundColor = UIColor.Clear;
-            var source = new TaskFilesListSource(FileList, this);
+            _source = new TaskFilesListSource(FileList, this);
 
             #region Init Property Sub
 
@@ -57,26 +71,8 @@ namespace TestProject.iOS.Views
 
             #endregion
 
-            #region Init MvvmCrossBinds
-
-            var set = this.CreateBindingSet<TaskDetailsView, TaskViewModel>();
-            set.Bind(TaskName).To(vm => vm.UserTask.Changes.Title);
-            set.Bind(TaskName).For(v => v.Enabled).To(vm => vm.IsTitleEnabled);
-            set.Bind(TaskNote).To(vm => vm.UserTask.Changes.Note);
-            set.Bind(TaskStatus).To(vm => vm.UserTask.Changes.Status);
-            set.Bind(DeleteButton).To(vm => vm.DeleteUserTaskCommand);
-            set.Bind(BackButton).To(vm => vm.ShowMenuCommand);
-            set.Bind(DeleteButton).For(v => v.Hidden).To(vm => vm.IsDeleteButtonHidden);
-            set.Bind(source).For(x => x.ItemsSource).To(vm => vm.Files);
-            set.Bind(View).For(v => v.BackgroundColor).To(vm => vm.ColorTheme).WithConversion(new ColorValueConverter());
-            set.Bind(TaskImage).To(vm => vm.UserTask.Changes.ImagePath).WithConversion(new ImageValueConverter());
-            set.Bind(TaskTitle).For(x => x.Title).To(vm => vm.UserTask.Changes.Title).WithConversion(new TaskTitleValueConverter());
-            set.Apply();
-
-            #endregion
-
             FileList.RowHeight = 40;
-            FileList.Source = source;
+            FileList.Source = _source;
             InitFileList();
            
 
@@ -93,14 +89,14 @@ namespace TestProject.iOS.Views
             
 
             #region Init NSNotificationCenter.Keyboard
-            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, HandleKeyboardDidHide);
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, OnKeyboardWillHide);
 
-            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, HandleKeyboardDidShow);
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, OnKeyboardWillShow);
             #endregion
 
             #region Init TapRecognizer
 
-            UITapGestureRecognizer recognizer = new UITapGestureRecognizer(_photoService.OpenCamera);
+            UITapGestureRecognizer recognizer = new UITapGestureRecognizer(_photoService.OpenImage);
             TaskImage.AddGestureRecognizer(recognizer);
 
             #endregion
@@ -148,16 +144,6 @@ namespace TestProject.iOS.Views
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
-        }
-
-        public override void HandleKeyboardDidShow(NSNotification obj)
-        {
-            base.HandleKeyboardDidShow(obj);
-        }
-
-        public override void HandleKeyboardDidHide(NSNotification obj)
-        {
-            base.HandleKeyboardDidHide(obj);
         }
 
         #endregion

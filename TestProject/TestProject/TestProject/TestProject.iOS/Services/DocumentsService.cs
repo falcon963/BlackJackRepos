@@ -5,6 +5,7 @@ using System.Text;
 
 using Foundation;
 using MobileCoreServices;
+using MvvmCross.ViewModels;
 using TestProject.Core.ViewModels;
 using TestProject.iOS.Views;
 using TestProject.LanguageResources;
@@ -12,12 +13,12 @@ using UIKit;
 
 namespace TestProject.iOS.Services
 {
-    public class DocumentsService<T> where T 
-        : BaseMenuView
+    public class DocumentsService<TView, TViewModel> where TView
+        : BaseView<TView, TViewModel>, new() where TViewModel : class, IMvxViewModel, IMvxNotifyPropertyChanged
     {
         #region Fields
 
-        private readonly T _view;
+        private readonly TView _view;
 
         private String[] _allowedUTIs;
         private NSUrl _documentURL;
@@ -28,7 +29,7 @@ namespace TestProject.iOS.Services
 
         #region ctor
 
-        public DocumentsService(T view, Action<FileItemViewModel> saveAction)
+        public DocumentsService(TView view, Action<FileItemViewModel> saveAction)
         {
             _view = view;
             SaveAction = saveAction;

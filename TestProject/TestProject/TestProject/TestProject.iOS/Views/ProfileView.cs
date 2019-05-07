@@ -6,49 +6,50 @@ using MvvmCross.Platforms.Ios.Views;
 using System;
 using TestProject.Core.ViewModels;
 using TestProject.iOS.Converters;
+using TestProject.iOS.Services;
 using UIKit;
 
 namespace TestProject.iOS.Views
 {
     [MvxTabPresentation(WrapInNavigationController = true, TabName = "Profile", TabIconName = "profile")]
     public partial class ProfileView 
-        : BaseMenuView<ProfileViewModel>
+        : BaseView<ProfileView, ProfileViewModel>
     {
         private UITapGestureRecognizer _tap;
 
         private UIImagePickerController _imagePickerController = new UIImagePickerController();
 
-        protected override UIScrollView ScrollView { get => base.ScrollView; set => base.ScrollView = value; }
+        private readonly PhotoService<ProfileView, ProfileViewModel> _photoService;
 
         public ProfileView () : base ("ProfileView", null)
         {
-            HideKeyboard(_tap);
+            _photoService = new PhotoService<ProfileView, ProfileViewModel>(this, ProfileImage);
+        }
+
+        public override bool SetupBindings()
+        {
+            BindingSet.Bind(PasswordField).To(vm => vm.OldPassword);
+            BindingSet.Bind(PasswordConfirmField).To(vm => vm.ConfirmPassword);
+            BindingSet.Bind(NewPasswordField).To(vm => vm.NewPassword);
+            BindingSet.Bind(MainScrollView).For(v => v.BackgroundColor).To(vm => vm.Background).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(ProfileImage).To(vm => vm.Profile.ImagePath).WithConversion(new ImageValueConverter());
+            BindingSet.Bind(PasswordField).For(v => v.BackgroundColor).To(vm => vm.ConfirmPassword).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(NewPasswordField).For(v => v.BackgroundColor).To(vm => vm.ConfirmColor).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(PasswordConfirmField).For(v => v.BackgroundColor).To(vm => vm.ConfirmColor).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(LogoutButton).To(vm => vm.LogOutCommand);
+
+            return base.SetupBindings();
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            ScrollView = MainScrollView;
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, OnKeyboardWillHide);
 
-            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, HandleKeyboardDidHide);
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, OnKeyboardWillShow);
 
-            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, HandleKeyboardDidShow);
-
-            var set = this.CreateBindingSet<ProfileView, ProfileViewModel>();
-
-            set.Bind(PasswordField).To(vm => vm.OldPassword);
-            set.Bind(PasswordConfirmField).To(vm => vm.ConfirmPassword);
-            set.Bind(NewPasswordField).To(vm => vm.NewPassword);
-            set.Bind(MainScrollView).For(v => v.BackgroundColor).To(vm => vm.Background).WithConversion(new ColorValueConverter());
-            set.Bind(ProfileImage).To(vm => vm.Profile.ImagePath).WithConversion(new ImageValueConverter());
-            set.Bind(PasswordField).For(v => v.BackgroundColor).To(vm => vm.ConfirmPassword).WithConversion(new ColorValueConverter());
-            set.Bind(NewPasswordField).For(v => v.BackgroundColor).To(vm => vm.ConfirmColor).WithConversion(new ColorValueConverter());
-            set.Bind(PasswordConfirmField).For(v => v.BackgroundColor).To(vm => vm.ConfirmColor).WithConversion(new ColorValueConverter());
-            set.Bind(LogoutButton).To(vm => vm.LogOutCommand);
-            set.Apply();
-
-            UITapGestureRecognizer recognizer = new UITapGestureRecognizer(OpenImage);
+            UITapGestureRecognizer recognizer = new UITapGestureRecognizer(_photoService.OpenImage);
             ProfileImage.AddGestureRecognizer(recognizer);
 
             AddShadow(PasswordField);
@@ -58,94 +59,17 @@ namespace TestProject.iOS.Views
             AddShadow(LogoutButton);
             AddShadow(ProfileImage);
 
-            MainScrollView.ContentSize = new CoreGraphics.CGSize(0, MainScrollView.Frame.Height - 80);
+            MainScrollView.ContentSize = new CGSize(0, MainScrollView.Frame.Height - 80);
 
             this.AutomaticallyAdjustsScrollViewInsets = false;
         }
 
-        public override void HandleKeyboardDidHide(NSNotification obj)
-        {
-            base.HandleKeyboardDidHide(obj);
-        }
-
-        public override void HandleKeyboardDidShow(NSNotification obj)
-        {
-            base.HandleKeyboardDidShow(obj);
-        }
-
-        public void OpenImage()
-        {
-
-            var actionSheet = UIAlertController.Create("Photo Source", "Choose a source", UIAlertControllerStyle.ActionSheet);
-
-            actionSheet.AddAction(UIAlertAction.Create("Camera", UIAlertActionStyle.Default, (actionCamera) =>
-            {
-                OpenCamera();
-            }));
-
-            actionSheet.AddAction(UIAlertAction.Create("Gallery", UIAlertActionStyle.Default, (actionLibrary) =>
-            {
-                OpenLibrary();
-            }));
-
-            actionSheet.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null));
-
-            _imagePickerController.Canceled += Canceled;
-
-            _imagePickerController.FinishedPickingMedia += Handle_FinishedPickingMedia;
-
-            this.PresentViewController(actionSheet, true, null);
-        }
 
         partial void SaveImagePress(UIButton sender)
         {
             var data = ProfileImage.Image.AsJPEG();
             ViewModel.Profile.ImagePath = data.GetBase64EncodedString(NSDataBase64EncodingOptions.SixtyFourCharacterLineLength);
             this.ViewModel.UpdateProfileCommand.Execute();
-        }
-
-        private void Canceled(object sender, EventArgs e)
-        {
-            _imagePickerController.DismissModalViewController(true);
-        }
-
-        private void Handle_FinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
-        {
-
-            UIImage originalImage = e.Info[UIImagePickerController.EditedImage] as UIImage;
-
-            if (originalImage != null)
-            {
-                ProfileImage.Image = originalImage;
-            }
-
-            _imagePickerController.DismissViewController(true, null);
-        }
-
-        private void OpenLibrary()
-        {
-            _imagePickerController.Canceled += (sender, e) => { _imagePickerController.DismissViewController(true, null); };
-            _imagePickerController.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
-            _imagePickerController.AllowsEditing = true;
-
-            this.PresentViewController(_imagePickerController, true, null);
-        }
-
-        private void OpenCamera()
-        {
-            if (UIImagePickerController.IsSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
-            {
-                _imagePickerController.Canceled += (sender, e) => { _imagePickerController.DismissViewController(true, null); };
-                _imagePickerController.SourceType = UIImagePickerControllerSourceType.Camera;
-                _imagePickerController.AllowsEditing = true;
-                this.PresentViewController(_imagePickerController, true, null);
-            }
-            else
-            {
-                var alert = UIAlertController.Create("Warning", "You don't have camera", UIAlertControllerStyle.Alert);
-                alert.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Default, null));
-                this.PresentViewController(alert, true, null);
-            }
         }
 
         public override void DidReceiveMemoryWarning()

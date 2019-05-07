@@ -183,6 +183,15 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
+    <ImageAsset Include="Assets.xcassets\add.imageset\plus.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\add.imageset\plus@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\add.imageset\plus@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icons8_iconIos_120px.png">
       <Visible>false</Visible>
     </ImageAsset>
@@ -297,6 +306,36 @@
     <ImageAsset Include="Assets.xcassets\back.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\shutdown.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\add.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\plus.imageset\add.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\plus.imageset\add@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\plus.imageset\add@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\plus.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\shutdown.imageset\exit.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\shutdown.imageset\exit@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\shutdown.imageset\exit@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Splashscreen.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\map.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
@@ -316,6 +355,15 @@
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\profile.imageset\profile@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Splashscreen.imageset\splashscreen.jpg">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Splashscreen.imageset\splashscreen@2x.jpg">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Splashscreen.imageset\splashscreen@3x.jpg">
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\task.imageset\Contents.json">
@@ -443,9 +491,6 @@
     </ImageAsset>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\border.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="credentials.plist">
       <SubType>Designer</SubType>
     </None>
@@ -487,6 +532,7 @@
     <Compile Include="Converters\FileExtensionImageConverter.cs" />
     <Compile Include="Converters\ImageValueConverter.cs" />
     <Compile Include="Converters\TaskTitleValueConverter.cs" />
+    <Compile Include="Loader\LoadingOverlay.cs" />
     <Compile Include="ResourcesHelpers\ResourceHelper.cs" />
     <Compile Include="Services\DocumentsService.cs" />
     <Compile Include="Services\PhotoService.cs" />
@@ -502,11 +548,12 @@
     <Compile Include="Views\Cells\FileCell.designer.cs">
       <DependentUpon>FileCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Interfaces\IBaseView.cs" />
     <Compile Include="Views\MainRegistrationView.cs" />
     <Compile Include="Views\MainView.cs" />
     <Compile Include="Sources\MenuItemSource.cs" />
     <Compile Include="Sources\TasksListSource.cs" />
-    <Compile Include="Views\BaseMenuView.cs" />
+    <Compile Include="Views\BaseView.cs" />
     <Compile Include="Views\Cells\BaseTableViewCell.cs" />
     <Compile Include="Views\Cells\ContentCell.cs" />
     <Compile Include="Views\Cells\ContentCell.designer.cs">
@@ -550,24 +597,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\cropped.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\back_to_50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\add_button_ios.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\icons8_plus_24_white.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\icons8_shutdown_50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\login-button-png-18029.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\TestProject.Core\TestProject.Core.csproj">
       <Project>{0e73de40-f3e4-41bc-be15-2a75b4285170}</Project>
       <Name>TestProject.Core</Name>
@@ -576,6 +605,9 @@
       <Project>{1ec4533c-95cd-49a4-b569-3d24aac00ef1}</Project>
       <Name>TestProject.LanguageResources</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="..\TestProject\TestProject.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

@@ -4,19 +4,21 @@ using System.Linq;
 using System.Text;
 
 using Foundation;
+using MvvmCross.ViewModels;
+using TestProject.Core.ViewModels;
 using TestProject.iOS.Views;
 using TestProject.LanguageResources;
 using UIKit;
 
 namespace TestProject.iOS.Services
 {
-    public class PhotoService<T> where T
-        : BaseMenuView
+    public class PhotoService<TView, TViewModel> where TView
+        : BaseView<TView, TViewModel>, new() where TViewModel : class, IMvxViewModel, IMvxNotifyPropertyChanged
     {
         #region fields
 
         private readonly UIImagePickerController _imagePickerController;
-        private readonly T _view;
+        private readonly TView _view;
         private UIImageView _image;
 
         #endregion
@@ -24,7 +26,7 @@ namespace TestProject.iOS.Services
 
         #region ctor
 
-        public PhotoService(T view, UIImageView image)
+        public PhotoService(TView view, UIImageView image)
         {
             _view = view;
             _image = image;
