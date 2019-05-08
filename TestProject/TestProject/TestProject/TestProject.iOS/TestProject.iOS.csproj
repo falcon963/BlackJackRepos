@@ -555,10 +555,6 @@
     <Compile Include="Sources\TasksListSource.cs" />
     <Compile Include="Views\BaseView.cs" />
     <Compile Include="Views\Cells\BaseTableViewCell.cs" />
-    <Compile Include="Views\Cells\ContentCell.cs" />
-    <Compile Include="Views\Cells\ContentCell.designer.cs">
-      <DependentUpon>ContentCell.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\Cells\ContentNavigateCell.cs" />
     <Compile Include="Views\Cells\ContentNavigateCell.designer.cs">
       <DependentUpon>ContentNavigateCell.cs</DependentUpon>

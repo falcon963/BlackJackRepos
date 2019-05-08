@@ -16,6 +16,7 @@ namespace TestProject.iOS.Views
     {
         MapView _mapView;
         bool _firstLocationUpdate;
+        private const string myLocation = "myLocation";
 
         public AppMapView() : base("AppMapView", null)
         {
@@ -54,13 +55,13 @@ namespace TestProject.iOS.Views
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
-            _mapView.AddObserver(this, new NSString("myLocation"), NSKeyValueObservingOptions.New, IntPtr.Zero);
+            _mapView.AddObserver(this, new NSString(myLocation), NSKeyValueObservingOptions.New, IntPtr.Zero);
         }
 
         public override void ViewDidDisappear(bool animated)
         {
             base.ViewDidDisappear(animated);
-            _mapView.RemoveObserver(this, new NSString("myLocation"));
+            _mapView.RemoveObserver(this, new NSString(myLocation));
         }
 
         public override void ObserveValue(NSString keyPath, NSObject ofObject, NSDictionary change, IntPtr context)

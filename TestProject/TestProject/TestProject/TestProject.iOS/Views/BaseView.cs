@@ -152,8 +152,8 @@ namespace TestProject.iOS.Views
         }
     }
 
-        public class BaseView<TView, TViewModel> : MvxViewController<TViewModel>, IBaseView, IMvxBindingContextOwner where TViewModel 
-            : class, IMvxViewModel, IMvxNotifyPropertyChanged where TView : MvxViewController, IBaseView, new()
+    public class BaseView<TView, TViewModel> : MvxViewController<TViewModel>, IBaseView, IMvxBindingContextOwner where TViewModel 
+          : class, IMvxViewModel, IMvxNotifyPropertyChanged where TView : MvxViewController, IBaseView, new()
     {
 
         public nfloat KeyboardHeight { get; set; }
