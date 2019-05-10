@@ -17,7 +17,7 @@ namespace TestProject.iOS.Views.Cells
 
         static ContentTasksCell()
         {
-            Nib = UINib.FromName("ContentTasksCell", NSBundle.MainBundle);
+            Nib = UINib.FromName(nameof(ContentTasksCell), NSBundle.MainBundle);
         }
 
         protected ContentTasksCell(IntPtr handle) : base(handle)

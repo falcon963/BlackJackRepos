@@ -19,26 +19,41 @@ using TestProject.Droid.Fragments;
 using Android.Graphics;
 using Android.Util;
 using TestProject.LanguageResources;
+using TestProject.Droid.Helpers.Interfaces;
+using MvvmCross;
 
 namespace TestProject.Droid.Services
 {
-    public class MultimediaService<T>
-        : IMultimediaService where T : BaseFragment
+    public class MultimediaService<T> where T : BaseFragment
     {
-        private static readonly Int32 REQUEST_CAMERA = 0;
-        private static readonly Int32 SELECT_FILE = 1;
+
+        private const int REQUEST_CAMERA = 0;
+
+        private const int REQUEST_GALLERY = 1;
+
+        private const int RESULT_CODE_OK = -1;
+
+        private const int RESULT_CODE_CANCEL = 0;
 
         private ImageView _imageView;
 
-        public Uri ImageUri { get; set; }
-
         private readonly T _fragment;
 
-        public MultimediaService(T fragment, ImageView imageView, Uri imageUri)
+        private IImageHelper _imageHelper;
+        private IUriHelper<T> _uriHelper;
+
+        private Action<string> SaveImageAction { get; set; }
+
+        public Uri _imageUri;
+
+        public MultimediaService(T fragment, ImageView imageView, Uri imageUri, Action<string> action)
         {
+            SaveImageAction = action;
             _fragment = fragment;
             _imageView = imageView;
-            ImageUri = imageUri;
+            _imageUri = imageUri;
+            _uriHelper = Mvx.IoCProvider.Resolve<IUriHelper<T>>();
+            _imageHelper = Mvx.IoCProvider.Resolve<IImageHelper>();
         }
 
         public void OnAddPhotoClicked(object sender, EventArgs e)
@@ -64,10 +79,10 @@ namespace TestProject.Droid.Services
                 var filePath = Path.Combine(sdCardPath, name);
 
                 File image = new File(filePath);
-                ImageUri = Uri.FromFile(image);
+                _imageUri = Uri.FromFile(image);
 
                 var intent = new Intent(MediaStore.ActionImageCapture);
-                intent.PutExtra(MediaStore.ExtraOutput, ImageUri);
+                intent.PutExtra(MediaStore.ExtraOutput, _imageUri);
 
                 _fragment.StartActivityForResult(intent, REQUEST_CAMERA);
             }
@@ -76,12 +91,50 @@ namespace TestProject.Droid.Services
                 var intent = new Intent(Intent.ActionPick, MediaStore.Images.Media.ExternalContentUri);
                 intent.SetType("image/*");
 
-                _fragment.StartActivityForResult(Intent.CreateChooser(intent, Strings.SelectPicture), SELECT_FILE);
+                _fragment.StartActivityForResult(Intent.CreateChooser(intent, Strings.SelectPicture), REQUEST_GALLERY);
             }
             if (label == Strings.Cancel)
             {
 
             }
+        }
+
+        public void ActivityResult(int requestCode, int resultCode, Intent data, T fragment)
+        {
+            if (resultCode == RESULT_CODE_CANCEL)
+            {
+                return;
+            }
+
+            if (resultCode == RESULT_CODE_OK
+                && requestCode == REQUEST_CAMERA)
+            {
+                Bitmap bitmapImage = BitmapFactory.DecodeFile(_imageUri.Path);
+
+                SaveImage(bitmapImage);
+            }
+
+            if (resultCode == RESULT_CODE_OK
+                && requestCode == REQUEST_GALLERY)
+            {
+                string realPath = _uriHelper.GetRealPathFromURI(data.Data, fragment);
+
+                Bitmap bitmapImage = BitmapFactory.DecodeFile(realPath);
+
+                SaveImage(bitmapImage);
+            }
+        }
+
+        public void SaveImage(Bitmap image)
+        {
+            var encodedImage = _imageHelper.ImageEncoding(image);
+
+            if (string.IsNullOrEmpty(encodedImage))
+            {
+                return;
+            }
+
+            SaveImageAction(encodedImage);
         }
     }
 }

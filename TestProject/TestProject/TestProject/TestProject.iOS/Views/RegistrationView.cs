@@ -27,10 +27,10 @@ namespace TestProject.iOS.Views
             BindingSet.Bind(LoginField).To(vm => vm.Login);
             BindingSet.Bind(PasswordField).To(vm => vm.Password);
             BindingSet.Bind(PasswordConfirmField).To(vm => vm.PasswordConfirmation);
-            BindingSet.Bind(LoginField).For(v => v.BackgroundColor).To(vm => vm.LoginEnebleColor).WithConversion(new ColorValueConverter());
-            BindingSet.Bind(PasswordField).For(v => v.BackgroundColor).To(vm => vm.ValidateColor).WithConversion(new ColorValueConverter());
-            BindingSet.Bind(PasswordConfirmField).For(v => v.BackgroundColor).To(vm => vm.ValidateColor).WithConversion(new ColorValueConverter());
-            BindingSet.Bind(View).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(LoginField).For(v => v.BackgroundColor).To(vm => vm.LoginEnebleColor).WithConversion("NativeColor");
+            BindingSet.Bind(PasswordField).For(v => v.BackgroundColor).To(vm => vm.ValidateColor).WithConversion("NativeColor");
+            BindingSet.Bind(PasswordConfirmField).For(v => v.BackgroundColor).To(vm => vm.ValidateColor).WithConversion("NativeColor");
+            BindingSet.Bind(View).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion("NativeColor");
 
             return base.SetupBindings();
         }

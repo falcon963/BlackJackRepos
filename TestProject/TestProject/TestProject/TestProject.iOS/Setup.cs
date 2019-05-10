@@ -45,17 +45,6 @@ namespace TestProject.iOS
         }
 
 
-        protected override IEnumerable<Assembly> ValueConverterAssemblies
-        {
-            get
-            {
-                var assemblies = base.ValueConverterAssemblies;
-                var valueConverterAssemblies = assemblies as Assembly[] ?? assemblies.ToArray();
-                valueConverterAssemblies.ToList().Add(typeof(ColorValueConverter).Assembly);
-                return valueConverterAssemblies;
-            }
-        }
-
         protected override IMvxApplication CreateApp()
         {
             CreatableTypes()

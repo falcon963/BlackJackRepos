@@ -9,6 +9,6 @@ namespace TestProject.Core.Repositories.Interfaces
     public interface IFileRepository
         : IBaseRepository<TaskFileModel>
     {
-        IEnumerable<TaskFileModel> GetFilesList(int taskId);
+        IEnumerable<TaskFileModel> GetFiles(int taskId);
     }
 }

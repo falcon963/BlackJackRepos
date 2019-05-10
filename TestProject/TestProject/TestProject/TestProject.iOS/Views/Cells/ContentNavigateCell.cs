@@ -17,7 +17,7 @@ namespace TestProject.iOS.Views.Cells
 
         static ContentNavigateCell()
         {
-            Nib = UINib.FromName("ContentNavigateCell", NSBundle.MainBundle);
+            Nib = UINib.FromName(nameof(ContentNavigateCell), NSBundle.MainBundle);
         }
 
         protected ContentNavigateCell(IntPtr handle) : base(handle)

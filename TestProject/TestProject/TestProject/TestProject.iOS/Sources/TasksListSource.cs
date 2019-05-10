@@ -7,6 +7,7 @@ using Foundation;
 using MvvmCross.Platforms.Ios.Binding.Views;
 using TestProject.Core.Models;
 using TestProject.Core.ViewModels;
+using TestProject.iOS.Constants;
 using TestProject.iOS.Views;
 using TestProject.iOS.Views.Cells;
 using UIKit;
@@ -20,6 +21,8 @@ namespace TestProject.iOS.Sources
         public string cellIdentifier = "ContentTasksCell";
 
         private TasksListView _view;
+
+        public const int sectionsNumber = 1;
 
         public TasksListSource(UITableView tableView, TasksListView view) : base(tableView)
         {
@@ -35,8 +38,8 @@ namespace TestProject.iOS.Sources
                 return new MvxTableViewCell();
             }
             cell.Layer.BorderColor = UIColor.Black.CGColor;
-            cell.Layer.BorderWidth = 1;
-            cell.Layer.CornerRadius = 8;
+            cell.Layer.BorderWidth = SizeConstants.borderWidth;
+            cell.Layer.CornerRadius = SizeConstants.cornerRadius;
             if (item is UserTask taskItem)
             {
                 (cell as ContentTasksCell).UpdateCell(taskItem);
@@ -86,7 +89,7 @@ namespace TestProject.iOS.Sources
 
         public override nint NumberOfSections(UITableView tableView)
         {
-            return 1;
+            return sectionsNumber;
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)

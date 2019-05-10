@@ -36,7 +36,7 @@ namespace TestProject.Droid.Fragments
     public class TasksListFragment
         : BaseFragment<TasksListViewModel>
     {
-        protected override int FragmentId => Resource.Layout.TasksListFragment;
+        protected override int _fragmentId => Resource.Layout.TasksListFragment;
 
         private RecyclerView _recyclerView;
         private RecyclerImageAdapter _imageAdapter;
@@ -46,7 +46,7 @@ namespace TestProject.Droid.Fragments
         {
             ViewModel.Tasks.CollectionChanged += ViewModel_CollectionChanged;
 
-            ShowHumburgerMenu = true;
+            _showHumburgerMenu = true;
 
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
@@ -79,20 +79,6 @@ namespace TestProject.Droid.Fragments
             _imageAdapter.NotifyDataSetChanged();
 
             _recyclerView.Invalidate();
-        }
-
-        void OnSwipe(object sender, int position)
-        {
-            UserTask task = ViewModel.Tasks[position];
-
-            ViewModel?.DeleteTaskCommand?.Execute(task);
-            ViewModel?.Tasks?.Remove(task);
-        }
-
-
-        void OnItemClick(object sender, int position)
-        {
-            ViewModel?.ItemSelectedCommand?.Execute(ViewModel.Tasks[position]);
         }
 
         private void SetupRecyclerView()

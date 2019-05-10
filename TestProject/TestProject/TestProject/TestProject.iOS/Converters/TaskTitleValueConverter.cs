@@ -16,7 +16,7 @@ namespace TestProject.iOS.Converters
     {
         protected override string Convert(string value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value == null)
+            if(string.IsNullOrEmpty(value))
             {
                 string title = Strings.NewTask;
                 return title;

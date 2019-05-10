@@ -33,8 +33,8 @@ namespace TestProject.iOS.Views
 
         public override bool SetupBindings()
         {
-            BindingSet.Bind(NavigateList).For(v => v.BackgroundColor).To(vm => vm.MenuColor).WithConversion(new ColorValueConverter());
-            BindingSet.Bind(UserProfileImage).For(v => v.Image).To(vm => vm.Profile.ImagePath).WithConversion(new ImageValueConverter());
+            BindingSet.Bind(NavigateList).For(v => v.BackgroundColor).To(vm => vm.MenuColor).WithConversion("NativeColor");
+            BindingSet.Bind(UserProfileImage).For(v => v.Image).To(vm => vm.Profile.ImagePath).WithConversion("NativeColor");
             BindingSet.Bind(_source).For(x => x.ItemsSource).To(vm => vm.MenuItems);
             BindingSet.Bind(_source).For(x => x.SelectionChangedCommand).To(vm => vm.ItemSelectCommand);
 

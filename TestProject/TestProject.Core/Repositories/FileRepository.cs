@@ -17,11 +17,11 @@ namespace TestProject.Core.Repositories
         {
         }
 
-        IEnumerable<TaskFileModel> IFileRepository.GetFilesList(int taskId)
+        IEnumerable<TaskFileModel> IFileRepository.GetFiles(int taskId)
         {
-            IEnumerable<TaskFileModel> listOfFile = _dbConnection.Database.Table<TaskFileModel>().Where(i => i.TaskId == taskId);
+            IEnumerable<TaskFileModel> files = _dbConnection.Database.Table<TaskFileModel>().Where(i => i.TaskId == taskId);
 
-            return listOfFile;
+            return files;
         }
     }
 }

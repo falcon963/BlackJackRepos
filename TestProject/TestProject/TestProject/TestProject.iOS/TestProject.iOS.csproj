@@ -529,6 +529,7 @@
     </InterfaceDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\SizeConstants.cs" />
     <Compile Include="Converters\FileExtensionImageConverter.cs" />
     <Compile Include="Converters\ImageValueConverter.cs" />
     <Compile Include="Converters\TaskTitleValueConverter.cs" />
@@ -541,9 +542,7 @@
     <Compile Include="Views\AppMapView.designer.cs">
       <DependentUpon>AppMapView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Converters\ColorValueConverter.cs" />
     <Compile Include="Database\DatabaseConnectionService.cs" />
-    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Views\Cells\FileCell.cs" />
     <Compile Include="Views\Cells\FileCell.designer.cs">
       <DependentUpon>FileCell.cs</DependentUpon>
@@ -597,12 +596,9 @@
       <Project>{0e73de40-f3e4-41bc-be15-2a75b4285170}</Project>
       <Name>TestProject.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\TestProject.Resources\TestProject.LanguageResources.csproj">
-      <Project>{1ec4533c-95cd-49a4-b569-3d24aac00ef1}</Project>
-      <Name>TestProject.LanguageResources</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Helpers\" />
     <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="..\TestProject\TestProject.projitems" Label="Shared" />

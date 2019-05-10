@@ -34,7 +34,9 @@ namespace TestProject.Droid.Fragments
         private readonly IImageHelper _imageHelper;
         private readonly IUriHelper<ProfileFragment> _uriHelper;
 
-        protected override int FragmentId => Resource.Layout.ProfileFragment;
+        public Action<string> SaveImage { get; set; }
+
+        protected override int _fragmentId => Resource.Layout.ProfileFragment;
 
         public Uri ImageUri { get; set; }
 
@@ -42,14 +44,15 @@ namespace TestProject.Droid.Fragments
         {
             _imageHelper = imageHelper;
             _uriHelper = uriHelper;
-            _multimediaService = new MultimediaService<ProfileFragment>(this, _imageView, ImageUri);
+            SaveImage = SaveEncodedImage;
+            _multimediaService = new MultimediaService<ProfileFragment>(this, _imageView, ImageUri, SaveImage);
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-            LinearLayout = view.FindViewById<LinearLayout>(Resource.Id.profileLinearLayout);
+            _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.profileLinearLayout);
             _imageView = view.FindViewById<ImageView>(Resource.Id.profileImage_view);
 
             ((MainActivity)ParentActivity).DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
@@ -63,38 +66,11 @@ namespace TestProject.Droid.Fragments
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            if (resultCode == -1 && requestCode == 0)
-            {
-                Bitmap bitmapImage = BitmapFactory.DecodeFile(ImageUri.Path);
-
-                SaveImage(bitmapImage);
-            }
-
-            if (resultCode == -1
-                && requestCode == 1)
-            {
-                string realPath = _uriHelper.GetRealPathFromURI(data.Data, this);
-
-                Bitmap bitmapImage = BitmapFactory.DecodeFile(realPath);
-
-                SaveImage(bitmapImage);
-            }
-
-            if (resultCode == 0)
-            {
-
-            }
+            _multimediaService.ActivityResult(requestCode, resultCode, data, this);
         }
 
-        public void SaveImage(Bitmap image)
+        public void SaveEncodedImage(string encodedImage)
         {
-            var encodedImage = _imageHelper.ImageEncoding(image);
-
-            if (string.IsNullOrEmpty(encodedImage))
-            {
-                return;
-            }
-
             ViewModel.Profile.ImagePath = encodedImage;
         }
     }

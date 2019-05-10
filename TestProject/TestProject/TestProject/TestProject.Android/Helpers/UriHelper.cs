@@ -24,7 +24,7 @@ namespace TestProject.Droid.Helpers
 
         public Uri GetImageUri(Context context, Bitmap inImage)
         {
-            String path = MediaStore.Images.Media.InsertImage(context.ContentResolver, inImage, "Title", null);
+            string path = MediaStore.Images.Media.InsertImage(context.ContentResolver, inImage, "Title", null);
 
             var imageUri = Uri.Parse(path);
 
@@ -32,7 +32,7 @@ namespace TestProject.Droid.Helpers
         }
 
 
-        public File GetPhotoFileUri(String fileName)
+        public File GetPhotoFileByUri(string fileName)
         {
             File mediaStorageDir = new File(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath);
 
@@ -41,9 +41,9 @@ namespace TestProject.Droid.Helpers
             return file;
         }
 
-        public String GetRealPathFromURI(Uri contentUri, T fragment)
+        public string GetRealPathFromURI(Uri contentUri, T fragment)
         {
-            String[] proj = { MediaStore.Images.Media.InterfaceConsts.Data };
+            string[] proj = { MediaStore.Images.Media.InterfaceConsts.Data };
             var cursor = fragment?.Activity?.ContentResolver?.Query(contentUri, proj, null, null, null);
             int column_index = cursor.GetColumnIndexOrThrow(MediaStore.Images.Media.InterfaceConsts.Data);
 

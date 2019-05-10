@@ -31,11 +31,11 @@ namespace TestProject.iOS.Views
             BindingSet.Bind(PasswordField).To(vm => vm.OldPassword);
             BindingSet.Bind(PasswordConfirmField).To(vm => vm.ConfirmPassword);
             BindingSet.Bind(NewPasswordField).To(vm => vm.NewPassword);
-            BindingSet.Bind(MainScrollView).For(v => v.BackgroundColor).To(vm => vm.Background).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(MainScrollView).For(v => v.BackgroundColor).To(vm => vm.Background).WithConversion("NativeColor");
             BindingSet.Bind(ProfileImage).To(vm => vm.Profile.ImagePath).WithConversion(new ImageValueConverter());
-            BindingSet.Bind(PasswordField).For(v => v.BackgroundColor).To(vm => vm.ConfirmPassword).WithConversion(new ColorValueConverter());
-            BindingSet.Bind(NewPasswordField).For(v => v.BackgroundColor).To(vm => vm.ConfirmColor).WithConversion(new ColorValueConverter());
-            BindingSet.Bind(PasswordConfirmField).For(v => v.BackgroundColor).To(vm => vm.ConfirmColor).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(PasswordField).For(v => v.BackgroundColor).To(vm => vm.ConfirmPassword).WithConversion("NativeColor");
+            BindingSet.Bind(NewPasswordField).For(v => v.BackgroundColor).To(vm => vm.ConfirmColor).WithConversion("NativeColor");
+            BindingSet.Bind(PasswordConfirmField).For(v => v.BackgroundColor).To(vm => vm.ConfirmColor).WithConversion("NativeColor");
             BindingSet.Bind(LogoutButton).To(vm => vm.LogOutCommand);
 
             return base.SetupBindings();

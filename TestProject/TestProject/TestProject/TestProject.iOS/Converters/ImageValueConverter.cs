@@ -17,7 +17,7 @@ namespace TestProject.iOS.Converters
         {
             if(value == null)
             {
-                UIImage image = UIImage.FromFile("placeholder.png");
+                UIImage image = UIImage.FromBundle("Placeholder");
                 return image;
             }
             var data = new NSData(value, NSDataBase64DecodingOptions.IgnoreUnknownCharacters);

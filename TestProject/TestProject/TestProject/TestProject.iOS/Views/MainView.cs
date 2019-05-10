@@ -32,10 +32,6 @@ namespace TestProject.iOS.Views
                 return;
 
             base.ViewDidLoad();
-
-            var vm = (MainViewModel)this.ViewModel;
-            if (vm == null)
-                return;
         }
 
         public override void ViewWillAppear(bool animated)

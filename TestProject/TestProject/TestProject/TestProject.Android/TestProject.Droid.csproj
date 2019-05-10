@@ -33,6 +33,7 @@
     <BundleAssemblies>false</BundleAssemblies>
     <AndroidSupportedAbis />
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
+    <MandroidI18n />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -261,7 +262,9 @@
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Interfaces\IMultimediaService.cs" />
+    <Compile Include="Services\GoogleAuthenticationService.cs" />
+    <Compile Include="Services\Interfaces\ILocationService.cs" />
+    <Compile Include="Services\LocationService.cs" />
     <Compile Include="Services\MultimediaService.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="SplashScreen.cs" />
@@ -415,10 +418,6 @@
     <ProjectReference Include="..\..\..\TestProject.Core\TestProject.Core.csproj">
       <Project>{0e73de40-f3e4-41bc-be15-2a75b4285170}</Project>
       <Name>TestProject.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\TestProject.Resources\TestProject.LanguageResources.csproj">
-      <Project>{1ec4533c-95cd-49a4-b569-3d24aac00ef1}</Project>
-      <Name>TestProject.LanguageResources</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

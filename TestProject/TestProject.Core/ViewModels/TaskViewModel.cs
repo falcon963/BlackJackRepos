@@ -100,7 +100,7 @@ namespace TestProject.Core.ViewModels
 
         public async Task<MvxObservableCollection<FileItemViewModel>> TaskFilesInitialize()
         {
-            List<TaskFileModel> list = _fileService.GetFilesList(UserTask.Changes.Id).ToList();
+            List<TaskFileModel> list = _fileService.GetFiles(UserTask.Changes.Id).ToList();
             foreach (var item in list)
             {
                 Files.Add(new FileItemViewModel
@@ -257,30 +257,31 @@ namespace TestProject.Core.ViewModels
         {
             UserTask task = _taskService.Get(taskId);
 
-            if (task != null)
-            {
-                UserTask.Changes = new UserTask
-                {
-                    Id = task.Id,
-                    UserId = task.UserId,
-                    ImagePath = task.ImagePath,
-                    Note = task.Note,
-                    Title = task.Title,
-                    Status = task.Status
-                };
-
-                _userTaskCopy = new UserTask(UserTask.Changes);
-            }
-
-            if(task == null)
+            if (task == null)
             {
                 UserTask = new ResultModel
                 {
                     Changes = new UserTask(),
                     Result = new UserTaskResult()
                 };
+
                 _userTaskCopy = new UserTask();
+
+                return;
             }
+
+             UserTask.Changes = new UserTask
+             {
+                 Id = task.Id,
+                 UserId = task.UserId,
+                 ImagePath = task.ImagePath,
+                 Note = task.Note,
+                 Title = task.Title,
+                 Status = task.Status
+             };
+
+             _userTaskCopy = new UserTask(UserTask.Changes);
+            
             
         }
     }

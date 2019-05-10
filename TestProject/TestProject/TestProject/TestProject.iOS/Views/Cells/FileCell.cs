@@ -18,7 +18,7 @@ namespace TestProject.iOS.Views.Cells
 
         static FileCell()
         {
-            Nib = UINib.FromName("FileCell", NSBundle.MainBundle);
+            Nib = UINib.FromName(nameof(FileCell), NSBundle.MainBundle);
         }
 
         protected FileCell(IntPtr handle) : base(handle)

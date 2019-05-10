@@ -30,6 +30,7 @@ using Android.Gms.Auth.Api;
 using TestProject.Core.Authentication.Interfaces;
 using MvvmCross;
 using MvvmCross.Logging;
+using TestProject.Droid.Services;
 
 namespace TestProject.Droid.Fragments
 {
@@ -37,14 +38,16 @@ namespace TestProject.Droid.Fragments
         typeof(MainRegistrationViewModel), 
         Resource.Id.login_frame)]
     public class LoginFragment 
-        : BaseFragment<LoginViewModel>, IConnectionCallbacks, IOnConnectionFailedListener, IGoogleAuthenticationDelegate, IFacebookCallback
+        : BaseFragment<LoginViewModel>, IOnConnectionFailedListener, IGoogleAuthenticationDelegate, IFacebookCallback
     {
 
-        protected override int FragmentId => Resource.Layout.LoginFragment;
+        protected override int _fragmentId => Resource.Layout.LoginFragment;
 
         private SignInButton _googleButton;
         private LoginButton _facebookButton;
         private GoogleApiClient _googleApiClient;
+        private Action _singInCommand;
+        private GoogleAuthenticationService _googleAuthentication;
 
         private const string publicProfile = "public_profile";
 
@@ -52,11 +55,17 @@ namespace TestProject.Droid.Fragments
 
         private int SIGN_IN_GOOGLE_ID = 9001;
 
+        public LoginFragment()
+        {
+            _singInCommand = () => { ViewModel?.SignInWithGoogleCommand?.Execute(); };
+            _googleAuthentication = new GoogleAuthenticationService(_singInCommand);
+        }
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-            LinearLayout = view.FindViewById<LinearLayout>(Resource.Id.login_linearlayout);
+            _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.login_linearlayout);
 
             _googleButton = view.FindViewById<SignInButton>(Resource.Id.btnGoogleSignIn);
 
@@ -81,17 +90,6 @@ namespace TestProject.Droid.Fragments
         void IFacebookCallback.OnSuccess(Java.Lang.Object result)
         {
             ViewModel?.SignInWithFacebookCommand?.Execute();
-        }
-
-
-        void IConnectionCallbacks.OnConnected(Bundle connectionHint)
-        {
-
-        }
-
-        void IConnectionCallbacks.OnConnectionSuspended(int cause)
-        {
-
         }
 
         void IOnConnectionFailedListener.OnConnectionFailed(ConnectionResult result)
@@ -123,7 +121,7 @@ namespace TestProject.Droid.Fragments
 
         private void CallBackGoogle(Bundle obj)
         {
-
+            
         }
 
         private void SignIn()
@@ -158,7 +156,7 @@ namespace TestProject.Droid.Fragments
                .AddConnectionCallbacks(CallBackGoogle)
                .Build();
 
-            _googleButton.Click += delegate {
+            _googleButton.Click += (sender, e) => {
                 SignIn();
             };
         }

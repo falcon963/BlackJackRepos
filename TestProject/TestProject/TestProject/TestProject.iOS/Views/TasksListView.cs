@@ -58,7 +58,7 @@ namespace TestProject.iOS.Views
             BindingSet.Bind(_refreshControl).For(r => r.RefreshCommand).To(vm => vm.RefreshTaskCommand);
             BindingSet.Bind(_source).For(x => x.ItemsSource).To(vm => vm.Tasks);
             BindingSet.Bind(_source).For(x => x.SelectionChangedCommand).To(vm => vm.ItemSelectedCommand);
-            BindingSet.Bind(TasksList).For(v => v.BackgroundColor).To(vm => vm.TasksListColor).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(TasksList).For(v => v.BackgroundColor).To(vm => vm.TasksListColor).WithConversion("NativeColor");
             BindingSet.Bind(FabButton).To(vm => vm.CreateTaskCommand);
 
             return base.SetupBindings();

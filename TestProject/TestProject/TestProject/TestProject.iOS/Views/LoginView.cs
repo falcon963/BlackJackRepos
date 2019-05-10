@@ -51,8 +51,8 @@ namespace TestProject.iOS.Views
 
         public override bool SetupBindings()
         {
-            BindingSet.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion(new ColorValueConverter());
-            BindingSet.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion("NativeColor");
+            BindingSet.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion("NativeColor"); ;
             BindingSet.Bind(RegistrationButton).To(vm => vm.GoRegistrationPageCommand);
             BindingSet.Bind(RememberSwitch).To(vm => vm.IsRememberMeStatus);
             BindingSet.Bind(LoginButton).To(vm => vm.LoginCommand);

@@ -19,7 +19,7 @@ namespace TestProject.Droid.Helpers.Interfaces
     public interface IUriHelper<T> where T: BaseFragment
     {
         Uri GetImageUri(Context context, Bitmap inImage);
-        File GetPhotoFileUri(String fileName);
+        File GetPhotoFileByUri(String fileName);
         String GetRealPathFromURI(Uri contentUri, T fragment);
     }
 }
