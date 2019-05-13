@@ -16,12 +16,14 @@ using SafariServices;
 using CoreAnimation;
 using TestProject.Core.Authentication.Interfaces;
 using TestProject.Core.Constants;
+using TestProject.iOS.Services;
+using TestProject.iOS.Models;
 
 namespace TestProject.iOS.Views
 {
     [MvxModalPresentation(WrapInNavigationController = true)]
     public partial class LoginView
-        : BaseView<LoginView ,LoginViewModel>, IFacebookAuthentication, IGoogleAuthenticationDelegate
+        : BaseView<LoginView ,LoginViewModel>
     {
 
         #region Fields
@@ -30,13 +32,13 @@ namespace TestProject.iOS.Views
 
         private FacebookAuthenticator _authFaceBook;
 
+        private AuthenticationService _authenticationService;
+
         #endregion
 
         #region Propertys
 
         public static GoogleAuthenticator GoogleAuth { get; private set; } = null;
-
-        public override UIScrollView ScrollView { get => base.ScrollView; set => base.ScrollView = value; }
 
         #endregion
 
@@ -44,7 +46,15 @@ namespace TestProject.iOS.Views
 
         public LoginView() : base("LoginView", null)
         {
-            ;
+            var authenticationModel = new AuthenticationModel
+            {
+                DissmisController = () => DismissViewController(true, null),
+                FacebookInitialize = () => InitializeFacebokAuth(),
+                GoogleInitialize = () => InitializeGoogleAuth(),
+                FacebookOnAuthenticationCompleted = () => ViewModel.SignInWithFacebookCommand.Execute(),
+                GoogleOnAuthenticationCompleted = () => ViewModel.SignInWithGoogleCommand.Execute()
+            };
+            _authenticationService = new AuthenticationService(authenticationModel);
         }
 
         #endregion
@@ -68,8 +78,6 @@ namespace TestProject.iOS.Views
 
             InitializeFacebokAuth();
             InitializeGoogleAuth();
-
-            ScrollView = LoginScrollView;
 
             UITapGestureRecognizer facebookButton = new UITapGestureRecognizer(FacebookLogin);
             UITapGestureRecognizer googleButton = new UITapGestureRecognizer(GoogleLogin);
@@ -111,41 +119,13 @@ namespace TestProject.iOS.Views
 
         #region SocialMedia
 
-        private void InitializeFacebokAuth() => _authFaceBook = new FacebookAuthenticator(SocialConstants.ClientIdiOSFacebook, SocialConstants.Scope, this);
+        private void InitializeFacebokAuth() => _authFaceBook = new FacebookAuthenticator(SocialConstants.ClientIdiOSFacebook, SocialConstants.Scope, _authenticationService);
         private void InitializeGoogleAuth()
         {
             GoogleAuth = new GoogleAuthenticator("70862177039-jm46ae5e77822hk8qllegch1fqler0a4.apps.googleusercontent.com", "email",
-                new Uri("com.googleusercontent.apps.70862177039-jm46ae5e77822hk8qllegch1fqler0a4:/oauth2redirect"), this);
+                new Uri("com.googleusercontent.apps.70862177039-jm46ae5e77822hk8qllegch1fqler0a4:/oauth2redirect"), _authenticationService);
         }
 
-        void IGoogleAuthenticationDelegate.OnAuthenticationCompleted(String token)
-        {
-            ViewModel.SignInWithFacebookCommand.Execute();
-            DismissViewController(true, null);
-        }
-        void IGoogleAuthenticationDelegate.OnAuthenticationFailed(String message, Exception exception)
-        {
-            DismissViewController(true, null);
-        }
-        void IGoogleAuthenticationDelegate.OnAuthenticationCanceled()
-        {
-            //DismissViewController(true, null);
-        }
-
-        void IFacebookAuthentication.OnAuthenticationCompleted(String token)
-        {
-            ViewModel.SignInWithFacebookCommand.Execute();
-            DismissViewController(true, null);
-        }
-        void IFacebookAuthentication.OnAuthenticationFailed(String message, Exception exception)
-        {
-            DismissViewController(true, null);
-        }
-        void IFacebookAuthentication.OnAuthenticationCanceled()
-        {
-            //DismissViewController(true, null);
-            InitializeFacebokAuth();
-        }
         #endregion
     }
 }

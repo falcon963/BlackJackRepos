@@ -534,8 +534,10 @@
     <Compile Include="Converters\ImageValueConverter.cs" />
     <Compile Include="Converters\TaskTitleValueConverter.cs" />
     <Compile Include="Loader\LoadingOverlay.cs" />
+    <Compile Include="Models\AuthenticationModel.cs" />
     <Compile Include="ResourcesHelpers\ResourceHelper.cs" />
     <Compile Include="Services\DocumentsService.cs" />
+    <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\PhotoService.cs" />
     <Compile Include="Sources\TaskFilesListSource.cs" />
     <Compile Include="Views\AppMapView.cs" />

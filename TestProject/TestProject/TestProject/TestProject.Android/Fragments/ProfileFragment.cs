@@ -32,7 +32,7 @@ namespace TestProject.Droid.Fragments
 
         private readonly MultimediaService<ProfileFragment> _multimediaService;
         private readonly IImageHelper _imageHelper;
-        private readonly IUriHelper<ProfileFragment> _uriHelper;
+        private readonly IUriHelper _uriHelper;
 
         public Action<string> SaveImage { get; set; }
 
@@ -40,7 +40,7 @@ namespace TestProject.Droid.Fragments
 
         public Uri ImageUri { get; set; }
 
-        public ProfileFragment(IUriHelper<ProfileFragment> uriHelper, IImageHelper imageHelper)
+        public ProfileFragment(IUriHelper uriHelper, IImageHelper imageHelper)
         {
             _imageHelper = imageHelper;
             _uriHelper = uriHelper;

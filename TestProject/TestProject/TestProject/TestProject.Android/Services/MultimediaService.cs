@@ -40,7 +40,7 @@ namespace TestProject.Droid.Services
         private readonly T _fragment;
 
         private IImageHelper _imageHelper;
-        private IUriHelper<T> _uriHelper;
+        private IUriHelper _uriHelper;
 
         private Action<string> SaveImageAction { get; set; }
 
@@ -52,7 +52,7 @@ namespace TestProject.Droid.Services
             _fragment = fragment;
             _imageView = imageView;
             _imageUri = imageUri;
-            _uriHelper = Mvx.IoCProvider.Resolve<IUriHelper<T>>();
+            _uriHelper = Mvx.IoCProvider.Resolve<IUriHelper>();
             _imageHelper = Mvx.IoCProvider.Resolve<IImageHelper>();
         }
 

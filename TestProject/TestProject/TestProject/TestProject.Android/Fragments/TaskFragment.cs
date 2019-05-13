@@ -49,7 +49,7 @@ namespace TestProject.Droid.Fragments
 
         private readonly MultimediaService<TaskFragment> _multimediaService;
         private readonly IImageHelper _imageHelper;
-        private readonly IUriHelper<TaskFragment> _uriHelper;
+        private readonly IUriHelper _uriHelper;
 
         public Action<string> SaveImage { get; set; }
 
@@ -57,7 +57,7 @@ namespace TestProject.Droid.Fragments
 
         public Uri ImageUri { get; set; }
 
-        public TaskFragment(IUriHelper<TaskFragment> uriHelper, IImageHelper imageHelper)
+        public TaskFragment(IUriHelper uriHelper, IImageHelper imageHelper)
         {
             _imageHelper = imageHelper;
             _uriHelper = uriHelper;
