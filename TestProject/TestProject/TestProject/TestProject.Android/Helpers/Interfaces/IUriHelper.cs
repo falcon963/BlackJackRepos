@@ -16,10 +16,10 @@ using Uri = Android.Net.Uri;
 
 namespace TestProject.Droid.Helpers.Interfaces
 {
-    public interface IUriHelper<T> where T: BaseFragment
+    public interface IUriHelper
     {
         Uri GetImageUri(Context context, Bitmap inImage);
-        File GetPhotoFileUri(String fileName);
-        String GetRealPathFromURI(Uri contentUri, T fragment);
+        File GetPhotoFileByUri(String fileName);
+        String GetRealPathFromURI(Uri contentUri, BaseFragment fragment);
     }
 }

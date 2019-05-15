@@ -22,6 +22,7 @@ using TestProject.Core.Services.Interfaces.SocialService.Facebook;
 using TestProject.Core.Services.Interfaces;
 using TestProject.Core.Colors;
 using System.Linq;
+using TestProject.LanguageResources;
 
 namespace TestProject.Core.ViewModels
 {
@@ -126,13 +127,11 @@ namespace TestProject.Core.ViewModels
 
                         return;
                     }
-                    if (account != null)
-                    {
-                        _userHelper.UserId = account.Id;
 
-                        await NavigationService.Navigate<MainViewModel>();
-                        await NavigationService.Close(this);
-                    }
+                    _userHelper.UserId = account.Id;
+
+                    await NavigationService.Navigate<MainViewModel>();
+                    await NavigationService.Close(this);
                 });
             }
         }

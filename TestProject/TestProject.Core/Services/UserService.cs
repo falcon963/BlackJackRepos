@@ -60,6 +60,8 @@ namespace TestProject.Core.Services
             user.Password = password;
 
             _loginRepository.Update(user);
+
+            _userHelper.UserPassword = password;
         }
 
         public bool IsValidLogin(string login)
@@ -69,6 +71,12 @@ namespace TestProject.Core.Services
 
             return result == null;
 
+        }
+
+        public void Logout()
+        {
+            _userHelper.DeleteUserStatus();
+            _userHelper.DeleteUserAccessToken();
         }
     }
 }

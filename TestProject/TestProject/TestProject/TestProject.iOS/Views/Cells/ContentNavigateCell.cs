@@ -12,12 +12,12 @@ namespace TestProject.iOS.Views.Cells
     public partial class ContentNavigateCell 
         : MvxTableViewCell
     {
-        public static readonly NSString Key = new NSString("ContentNavigateCell");
+        public static readonly NSString Key = new NSString(nameof(ContentNavigateCell));
         public static readonly UINib Nib;
 
         static ContentNavigateCell()
         {
-            Nib = UINib.FromName("ContentNavigateCell", NSBundle.MainBundle);
+            Nib = UINib.FromName(Key, NSBundle.MainBundle);
         }
 
         protected ContentNavigateCell(IntPtr handle) : base(handle)

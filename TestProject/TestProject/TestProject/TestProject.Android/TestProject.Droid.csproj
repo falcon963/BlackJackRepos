@@ -253,7 +253,7 @@
     <Compile Include="Converters\ColorValueConverter.cs" />
     <Compile Include="Controls\CircleImageView.cs" />
     <Compile Include="Converters\ImageValueConverter.cs" />
-    <Compile Include="Database\DatabaseConnectionService.cs" />
+    <Compile Include="Providers\DatabaseConnectionService.cs" />
     <Compile Include="Fragments\ProfileFragment.cs" />
     <Compile Include="Fragments\RegistrationFragment.cs" />
     <Compile Include="Fragments\TasksListFragment.cs" />
@@ -261,7 +261,13 @@
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FacebookAuthenticationService.cs" />
+    <Compile Include="Services\GoogleAuthenticationApiService.cs" />
+    <Compile Include="Services\GoogleAuthenticationService.cs" />
+    <Compile Include="Services\Interfaces\IFacebookAuthenticationService.cs" />
+    <Compile Include="Services\Interfaces\ILocationService.cs" />
     <Compile Include="Services\Interfaces\IMultimediaService.cs" />
+    <Compile Include="Services\LocationService.cs" />
     <Compile Include="Services\MultimediaService.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="SplashScreen.cs" />

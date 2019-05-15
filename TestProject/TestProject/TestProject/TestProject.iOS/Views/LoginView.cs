@@ -16,43 +16,72 @@ using SafariServices;
 using CoreAnimation;
 using TestProject.Core.Authentication.Interfaces;
 using TestProject.Core.Constants;
+using TestProject.iOS.Services;
+using TestProject.iOS.Services.Interfaces;
 
 namespace TestProject.iOS.Views
 {
     [MvxModalPresentation(WrapInNavigationController = true)]
     public partial class LoginView
-        : BaseView<LoginView ,LoginViewModel>, IFacebookAuthentication, IGoogleAuthenticationDelegate
+        : BaseView<LoginView ,LoginViewModel>
     {
 
         #region Fields
 
         private UITapGestureRecognizer _tap;
 
-        private FacebookAuthenticator _authFaceBook;
+        private IAuthenticationGoogleService _googleAuthenticationService;
+
+        private IAuthenticationFacebookService _facebookAuthenticationService;
 
         #endregion
 
-        #region Propertys
-
-        public static GoogleAuthenticator GoogleAuth { get; private set; } = null;
-
-        public override UIScrollView ScrollView { get => base.ScrollView; set => base.ScrollView = value; }
-
-        #endregion
 
         #region ctor
 
-        public LoginView() : base("LoginView", null)
+        public LoginView() : base(nameof(LoginView), null)
         {
             ;
+        }
+
+        public LoginView(IAuthenticationFacebookService facebookAuthenticationService, IAuthenticationGoogleService googleAuthenticationService) : base(nameof(LoginView), null)
+        {
+            _googleAuthenticationService = googleAuthenticationService;
+            _facebookAuthenticationService = facebookAuthenticationService;
+        }
+
+        public override bool SetupEvents()
+        {
+            _googleAuthenticationService.OnAuthenticationCanceled += (sender, e) => { };
+
+            _googleAuthenticationService.OnAuthenticationCompleted += (senser, e) => {
+                ViewModel?.SignInWithFacebookCommand?.Execute();
+                DismissViewController(true, null);
+            };
+
+            _googleAuthenticationService.OnAuthenticationFailed += (sender, e) => {
+                DismissViewController(true, null); };
+
+            _facebookAuthenticationService.OnAuthenticationCompleted += (sender, e) => {
+                ViewModel.SignInWithFacebookCommand.Execute();
+                DismissViewController(true, null);
+            };
+
+            _facebookAuthenticationService.OnAuthenticationCanceled += (sender, e) => { };
+
+            _facebookAuthenticationService.OnAuthenticationFailed += (sender, e) => {
+                DismissViewController(true, null);
+            };
+
+            return base.SetupEvents();
         }
 
         #endregion
 
         public override bool SetupBindings()
         {
-            BindingSet.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion(new ColorValueConverter());
-            BindingSet.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion("NativeColor");
+            BindingSet.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion("NativeColor");
             BindingSet.Bind(RegistrationButton).To(vm => vm.GoRegistrationPageCommand);
             BindingSet.Bind(RememberSwitch).To(vm => vm.IsRememberMeStatus);
             BindingSet.Bind(LoginButton).To(vm => vm.LoginCommand);
@@ -65,11 +94,6 @@ namespace TestProject.iOS.Views
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
-            InitializeFacebokAuth();
-            InitializeGoogleAuth();
-
-            ScrollView = LoginScrollView;
 
             UITapGestureRecognizer facebookButton = new UITapGestureRecognizer(FacebookLogin);
             UITapGestureRecognizer googleButton = new UITapGestureRecognizer(GoogleLogin);
@@ -95,57 +119,18 @@ namespace TestProject.iOS.Views
 
         void FacebookLogin()
         {
-            var authenticator = _authFaceBook.GetAuthenticator();
+            var authenticator = _facebookAuthenticationService.GetAuthenticator();
             var view = authenticator.GetUI();
             PresentViewController(view, true, () => { });
         }
 
         void GoogleLogin()
         {
-            var authenticator = GoogleAuth.GetAuthenticator();
+            var authenticator = _googleAuthenticationService.GetAuthenticator();
             var viewController = authenticator.GetUI();
             PresentViewController(viewController, true, null);
         }
 
-        #endregion
-
-        #region SocialMedia
-
-        private void InitializeFacebokAuth() => _authFaceBook = new FacebookAuthenticator(SocialConstants.ClientIdiOSFacebook, SocialConstants.Scope, this);
-        private void InitializeGoogleAuth()
-        {
-            GoogleAuth = new GoogleAuthenticator("70862177039-jm46ae5e77822hk8qllegch1fqler0a4.apps.googleusercontent.com", "email",
-                new Uri("com.googleusercontent.apps.70862177039-jm46ae5e77822hk8qllegch1fqler0a4:/oauth2redirect"), this);
-        }
-
-        void IGoogleAuthenticationDelegate.OnAuthenticationCompleted(String token)
-        {
-            ViewModel.SignInWithFacebookCommand.Execute();
-            DismissViewController(true, null);
-        }
-        void IGoogleAuthenticationDelegate.OnAuthenticationFailed(String message, Exception exception)
-        {
-            DismissViewController(true, null);
-        }
-        void IGoogleAuthenticationDelegate.OnAuthenticationCanceled()
-        {
-            //DismissViewController(true, null);
-        }
-
-        void IFacebookAuthentication.OnAuthenticationCompleted(String token)
-        {
-            ViewModel.SignInWithFacebookCommand.Execute();
-            DismissViewController(true, null);
-        }
-        void IFacebookAuthentication.OnAuthenticationFailed(String message, Exception exception)
-        {
-            DismissViewController(true, null);
-        }
-        void IFacebookAuthentication.OnAuthenticationCanceled()
-        {
-            //DismissViewController(true, null);
-            InitializeFacebokAuth();
-        }
         #endregion
     }
 }

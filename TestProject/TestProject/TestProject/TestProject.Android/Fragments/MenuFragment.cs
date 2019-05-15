@@ -36,7 +36,7 @@ namespace TestProject.Droid.Fragments
         private CircleImageView _avatar;
         private Bitmap _bitmap;
 
-        protected override int FragmentId => Resource.Layout.MenuFragment;
+        protected override int _fragmentId => Resource.Layout.MenuFragment;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

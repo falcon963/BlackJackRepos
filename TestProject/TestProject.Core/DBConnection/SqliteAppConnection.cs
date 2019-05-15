@@ -15,7 +15,8 @@ namespace TestProject.Core.DBConnection
 
         public SqliteAppConnection(IDatabaseConnectionService connectionService)
         {
-            Database = connectionService.DbConnection();
+            string dbName = "TaskyDrop";
+            Database = connectionService.GetDBConnection(dbName);
             Database.CreateTable<UserTask>();
             Database.CreateTable<User>();
             Database.CreateTable<TaskFileModel>();

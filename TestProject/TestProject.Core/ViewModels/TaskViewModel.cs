@@ -20,6 +20,7 @@ using TestProject.Core.Repositories.Interfaces;
 using TestProject.Core.Colors;
 using TestProject.Core.Services.Interfaces;
 using TestProject.Core.Helpers.Interfaces;
+using TestProject.LanguageResources;
 
 namespace TestProject.Core.ViewModels
 {
@@ -34,6 +35,7 @@ namespace TestProject.Core.ViewModels
         private readonly IDialogsService _dialogsService;
         private readonly IUserHelper _userHelper;
         private readonly IValidationService _validationService;
+        private readonly IDocumentPickerService _documentPickerService;
 
         private UserTask _userTaskCopy;
 
@@ -72,7 +74,7 @@ namespace TestProject.Core.ViewModels
         #endregion
 
 
-        public TaskViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs, IFileRepository fileService, IDialogsService dialogsService, IUserHelper userHelper, IValidationService validationService):base(navigationService)
+        public TaskViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs, IFileRepository fileService, IDialogsService dialogsService, IUserHelper userHelper, IValidationService validationService, IDocumentPickerService documentPickerService):base(navigationService)
         {
             #region Init Service`s
             _taskService = taskService;
@@ -81,6 +83,7 @@ namespace TestProject.Core.ViewModels
             _dialogsService = dialogsService;
             _userHelper = userHelper;
             _validationService = validationService;
+            _documentPickerService = documentPickerService;
             #endregion
 
             #region Init Fields
@@ -100,7 +103,7 @@ namespace TestProject.Core.ViewModels
 
         public async Task<MvxObservableCollection<FileItemViewModel>> TaskFilesInitialize()
         {
-            List<TaskFileModel> list = _fileService.GetFilesList(UserTask.Changes.Id).ToList();
+            List<TaskFileModel> list = _fileService.GetFiles(UserTask.Changes.Id).ToList();
             foreach (var item in list)
             {
                 Files.Add(new FileItemViewModel
@@ -165,12 +168,19 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        public IMvxCommand<FileItemViewModel> AddFileCommand
+        public IMvxAsyncCommand AddFileCommand
         {
             get
             {
-                return new MvxCommand<FileItemViewModel>((file) =>
+                return new MvxAsyncCommand(async () =>
                 {
+                    var file = await _documentPickerService.GetPickedFile();
+
+                    if(file == null)
+                    {
+                        return;
+                    }
+
                     var modelToUpdate = Files
                         .FirstOrDefault(p => p.Name == file.Name && p.Extension == file.Extension);
                     if (modelToUpdate != null)
@@ -236,7 +246,7 @@ namespace TestProject.Core.ViewModels
                                 FileExtension = file.Extension,
                                 FileName = file.Name
                             };
-                            _fileService.Save(fileItem);
+                            _documentPickerService.SaveFile(fileItem);
                         }
 
                         UserTask.Result = UserTaskResult.Saved;
@@ -257,31 +267,31 @@ namespace TestProject.Core.ViewModels
         {
             UserTask task = _taskService.Get(taskId);
 
-            if (task != null)
-            {
-                UserTask.Changes = new UserTask
-                {
-                    Id = task.Id,
-                    UserId = task.UserId,
-                    ImagePath = task.ImagePath,
-                    Note = task.Note,
-                    Title = task.Title,
-                    Status = task.Status
-                };
-
-                _userTaskCopy = new UserTask(UserTask.Changes);
-            }
-
-            if(task == null)
+            if (task == null)
             {
                 UserTask = new ResultModel
                 {
                     Changes = new UserTask(),
                     Result = new UserTaskResult()
                 };
+
                 _userTaskCopy = new UserTask();
+
+                return;
             }
-            
+
+            UserTask.Changes = new UserTask
+            {
+                Id = task.Id,
+                UserId = task.UserId,
+                ImagePath = task.ImagePath,
+                Note = task.Note,
+                Title = task.Title,
+                Status = task.Status
+            };
+
+            _userTaskCopy = new UserTask(UserTask.Changes);
+
         }
     }
 }

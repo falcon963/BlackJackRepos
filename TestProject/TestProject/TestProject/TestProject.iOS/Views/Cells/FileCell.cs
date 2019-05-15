@@ -13,12 +13,12 @@ namespace TestProject.iOS.Views.Cells
     public partial class FileCell 
         : MvxTableViewCell
     {
-        public static readonly NSString Key = new NSString("FileCell");
+        public static readonly NSString Key = new NSString(nameof(FileCell));
         public static readonly UINib Nib;
 
         static FileCell()
         {
-            Nib = UINib.FromName("FileCell", NSBundle.MainBundle);
+            Nib = UINib.FromName(Key, NSBundle.MainBundle);
         }
 
         protected FileCell(IntPtr handle) : base(handle)

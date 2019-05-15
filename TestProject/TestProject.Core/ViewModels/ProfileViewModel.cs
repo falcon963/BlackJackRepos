@@ -15,6 +15,7 @@ using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Models;
 using TestProject.Core.Repositories.Interfaces;
 using TestProject.Core.Services.Interfaces;
+using TestProject.LanguageResources;
 using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
@@ -180,8 +181,7 @@ namespace TestProject.Core.ViewModels
 
                     if (isLoginRedirectConfirmed)
                     {
-                        _userHelper.DeleteUserStatus();
-                        _userHelper.DeleteUserAccessToken();
+                        _userService.Logout();
 
                         await NavigationService.Navigate<MainRegistrationViewModel>();
                     }

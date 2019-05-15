@@ -7,6 +7,6 @@ namespace TestProject.Core.DBConnection.Interfacies
 {
     public interface IDatabaseConnectionService
     {
-        SQLiteConnection DbConnection();
+        SQLiteConnection GetDBConnection(string dbName);
     }
 }

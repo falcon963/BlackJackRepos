@@ -529,19 +529,23 @@
     </InterfaceDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\SizeConstants.cs" />
     <Compile Include="Converters\FileExtensionImageConverter.cs" />
     <Compile Include="Converters\ImageValueConverter.cs" />
     <Compile Include="Converters\TaskTitleValueConverter.cs" />
     <Compile Include="Loader\LoadingOverlay.cs" />
     <Compile Include="ResourcesHelpers\ResourceHelper.cs" />
+    <Compile Include="Services\AuthenticationFacebookService.cs" />
+    <Compile Include="Services\AuthenticationGoogleService.cs" />
     <Compile Include="Services\DocumentsService.cs" />
+    <Compile Include="Services\Interfaces\IAuthenticationService.cs" />
+    <Compile Include="Services\Interfaces\IDocumentPickerService.cs" />
     <Compile Include="Services\PhotoService.cs" />
     <Compile Include="Sources\TaskFilesListSource.cs" />
     <Compile Include="Views\AppMapView.cs" />
     <Compile Include="Views\AppMapView.designer.cs">
       <DependentUpon>AppMapView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Converters\ColorValueConverter.cs" />
     <Compile Include="Database\DatabaseConnectionService.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Views\Cells\FileCell.cs" />

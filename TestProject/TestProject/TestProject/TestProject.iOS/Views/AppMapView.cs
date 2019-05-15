@@ -18,7 +18,7 @@ namespace TestProject.iOS.Views
         bool _firstLocationUpdate;
         private const string myLocation = "myLocation";
 
-        public AppMapView() : base("AppMapView", null)
+        public AppMapView() : base(nameof(AppMapView), null)
         {
         }
 

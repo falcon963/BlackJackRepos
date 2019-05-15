@@ -18,6 +18,7 @@ using Android.Support.V4.View;
 using Android.Views.InputMethods;
 using Acr.UserDialogs;
 using static Android.Gms.Common.Apis.GoogleApiClient;
+using LoginResult = Xamarin.Facebook.Login.LoginResult;
 using Xamarin.Facebook;
 using Android.Gms.Common;
 using Java.Lang;
@@ -30,96 +31,96 @@ using Android.Gms.Auth.Api;
 using TestProject.Core.Authentication.Interfaces;
 using MvvmCross;
 using MvvmCross.Logging;
+using TestProject.Droid.Services;
+using Xamarin.Facebook.Share.Widget;
+using Xamarin.Facebook.Share.Model;
+using UriParse = Android.Net.Uri;
+using TestProject.Core.Authentication;
+using TestProject.Droid.Services.Interfaces;
 
 namespace TestProject.Droid.Fragments
 {
     [MvxFragmentPresentation(
         typeof(MainRegistrationViewModel), 
         Resource.Id.login_frame)]
-    public class LoginFragment 
-        : BaseFragment<LoginViewModel>, IConnectionCallbacks, IOnConnectionFailedListener, IGoogleAuthenticationDelegate, IFacebookCallback
+    public class LoginFragment
+        : BaseFragment<LoginViewModel>, IOnConnectionFailedListener, IConnectionCallbacks
     {
 
-        protected override int FragmentId => Resource.Layout.LoginFragment;
+        protected override int _fragmentId => Resource.Layout.LoginFragment;
 
         private SignInButton _googleButton;
         private LoginButton _facebookButton;
         private GoogleApiClient _googleApiClient;
+        private Action _singInCommand;
+        private GoogleAuthenticationService _googleAuthentication;
+        private IFacebookAuthenticationService _facebookAuthenticationService;
+        private IMvxLog _mvxLog;
 
         private const string publicProfile = "public_profile";
 
-        public static ICallbackManager _callbackManager;
-
         private int SIGN_IN_GOOGLE_ID = 9001;
+
+        public LoginFragment(IFacebookAuthenticationService facebookAuthenticationService, IMvxLog mvxLog)
+        {
+            _facebookAuthenticationService = facebookAuthenticationService;
+            _mvxLog = mvxLog;
+
+            _facebookAuthenticationService.OnAuthenticationCompleted += FacebookOnAuthenticationCompleted;
+        }
+
+        private void FacebookOnAuthenticationCompleted(object sender, EventArgs e)
+        {
+            ViewModel?.SignInWithFacebookCommand?.Execute();
+        }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-            LinearLayout = view.FindViewById<LinearLayout>(Resource.Id.login_linearlayout);
+            _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.login_linearlayout);
 
             _googleButton = view.FindViewById<SignInButton>(Resource.Id.btnGoogleSignIn);
 
             _facebookButton = view.FindViewById<LoginButton>(Resource.Id.btnFacebookSignIn);
 
-            InitializeFacebookAuth();
+            _facebookButton.Click += OnFacebookLoginButtonClicked;
+
             InitializeGoogleAuth();
 
             return view;
         }
 
-        void IFacebookCallback.OnCancel()
+        public override void OnActivityResult(int requestCode, int resultCode, Intent data)
         {
+            base.OnActivityResult(requestCode, resultCode, data);
 
+            if (requestCode == SIGN_IN_GOOGLE_ID)
+            {
+                var result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
+                HandleSignInGoogleResult(result);
+            }
         }
 
-        void IFacebookCallback.OnError(FacebookException error)
+        private void HandleSignInGoogleResult(GoogleSignInResult result)
         {
-
-        }
-
-        void IFacebookCallback.OnSuccess(Java.Lang.Object result)
-        {
-            ViewModel?.SignInWithFacebookCommand?.Execute();
-        }
-
-
-        void IConnectionCallbacks.OnConnected(Bundle connectionHint)
-        {
-
-        }
-
-        void IConnectionCallbacks.OnConnectionSuspended(int cause)
-        {
-
+            if (result.IsSuccess)
+            {
+                var accountData = result.SignInAccount;
+                ViewModel?.SignInWithGoogleCommand?.Execute();
+            }
         }
 
         void IOnConnectionFailedListener.OnConnectionFailed(ConnectionResult result)
         {
-
-        }
-
-        void IGoogleAuthenticationDelegate.OnAuthenticationCompleted(string token)
-        {
-            ViewModel?.SignInWithGoogleCommand?.Execute();
-        }
-
-
-        void IGoogleAuthenticationDelegate.OnAuthenticationCanceled()
-        {
-
-        }
-
-        void IGoogleAuthenticationDelegate.OnAuthenticationFailed(string message, System.Exception exception)
-        {
-
+            _mvxLog.Trace(result.ErrorMessage);
         }
 
         private void FailedHandlerGoogleAuth(ConnectionResult obj)
         {
-            var logger = Mvx.IoCProvider.Resolve<IMvxLog>();
-            logger.Trace(obj.ErrorMessage);
+            _mvxLog.Trace(obj.ErrorMessage);
         }
+
 
         private void CallBackGoogle(Bundle obj)
         {
@@ -135,16 +136,6 @@ namespace TestProject.Droid.Fragments
 
         #region AuthSocialInitialize
 
-        private void InitializeFacebookAuth()
-        {
-            FacebookSdk.SdkInitialize(Application.Context);
-
-            _callbackManager = CallbackManagerFactory.Create();
-
-            _facebookButton.SetReadPermissions(new List<string> { publicProfile });
-            _facebookButton.RegisterCallback(_callbackManager, this);
-        }
-
         private void InitializeGoogleAuth()
         {
 
@@ -158,11 +149,42 @@ namespace TestProject.Droid.Fragments
                .AddConnectionCallbacks(CallBackGoogle)
                .Build();
 
-            _googleButton.Click += delegate {
+            _googleButton.Click += (sender, e) => {
                 SignIn();
             };
         }
 
         #endregion
+
+        private void OnFacebookLoginButtonClicked(object sender, EventArgs e)
+        {
+            var authenticator = _facebookAuthenticationService.GetAuthenticator();
+            var intent = authenticator.GetUI(Context);
+            StartActivity(intent);
+        }
+
+        private void OnGoogleLoginButtonClicked(object sender, EventArgs e)
+        {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
+                .RequestEmail()
+                .Build();
+        }
+
+        public void OnConnected(Bundle connectionHint)
+        {
+            
+        }
+
+        public void OnConnectionSuspended(int cause)
+        {
+            
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _facebookAuthenticationService.OnAuthenticationCompleted -= FacebookOnAuthenticationCompleted;
+
+            base.Dispose(disposing);
+        }
     }
 }

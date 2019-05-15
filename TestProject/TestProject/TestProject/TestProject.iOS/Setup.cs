@@ -51,7 +51,6 @@ namespace TestProject.iOS
             {
                 var assemblies = base.ValueConverterAssemblies;
                 var valueConverterAssemblies = assemblies as Assembly[] ?? assemblies.ToArray();
-                valueConverterAssemblies.ToList().Add(typeof(ColorValueConverter).Assembly);
                 return valueConverterAssemblies;
             }
         }

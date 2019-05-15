@@ -21,14 +21,14 @@ namespace TestProject.Droid.Fragments
     public class RegistrationFragment
         : BaseFragment<RegistrationViewModel>
     {
-        protected override int FragmentId => Resource.Layout.RegistrationFragment;
+        protected override int _fragmentId => Resource.Layout.RegistrationFragment;
 
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-            LinearLayout = view.FindViewById<LinearLayout>(Resource.Id.registration_linearlayout);
+            _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.registration_linearlayout);
 
             return view;
         }

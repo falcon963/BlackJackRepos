@@ -17,6 +17,7 @@ using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.ViewModels;
+using TestProject.Droid.Services.Interfaces;
 using TestProject.Droid.Views;
 using TestProject.LanguageResources;
 
@@ -30,10 +31,17 @@ namespace TestProject.Droid.Fragments
         : BaseFragment<LocationViewModel>,
         IOnMapReadyCallback
     {
-        protected override int FragmentId => Resource.Layout.LocationFragment;
+        protected override int _fragmentId => Resource.Layout.LocationFragment;
 
         private GoogleMap _googleMap;
         private MapView _mapView;
+
+        private ILocationService _locationService;
+
+        public LocationFragment(ILocationService locationService)
+        {
+            _locationService = locationService;
+        }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -44,7 +52,7 @@ namespace TestProject.Droid.Fragments
 
             _mapView.OnCreate(savedInstanceState);
 
-            ParentActivity.SetSupportActionBar(Toolbar);
+            ParentActivity.SetSupportActionBar(_toolbar);
 
             if (_googleMap == null)
             {
@@ -81,43 +89,9 @@ namespace TestProject.Droid.Fragments
 
             _googleMap.AddMarker(markerOptions);
 
-            GetRandomLocation(latlng, 80);
+            _locationService.GetRandomLocation(latlng, 80, _googleMap);
         }
 
-
-
-        public void GetRandomLocation(LatLng point, int radius)
-        {
-                for (int i = 0; i < 5; i++)
-                {
-                    Thread.Sleep(10);
-                    Random random = new Random();
-
-                    double x0 = point.Latitude;
-                    double y0 = point.Longitude;
-
-                    double radiusInDegrees = radius / 111000f;
-
-                    double u = random.NextDouble();
-                    double v = random.NextDouble();
-                    double w = radiusInDegrees * Math.Sqrt(u);
-                    double t = 2 * Math.PI * v;
-                    double x = w * Math.Cos(t);
-                    double y = w * Math.Sin(t);
-
-                    double new_x = x / Math.Cos(y0);
-
-                    double foundLatitude = new_x + x0;
-                    double foundLongitude = y + y0;
-
-                    LatLng randomLatLng = new LatLng(foundLatitude, foundLongitude);
-
-                    MarkerOptions markerRandomOptions = new MarkerOptions();
-                    markerRandomOptions.SetPosition(randomLatLng);
-
-                    _googleMap.AddMarker(markerRandomOptions);
-                }
-        }
 
 
         public override void OnResume()

@@ -6,6 +6,7 @@ using MvvmCross.Platforms.Ios.Presenters.Attributes;
 using MvvmCross.Platforms.Ios.Views;
 using System;
 using System.Linq;
+using TestProject.Core.Services.Interfaces;
 using TestProject.Core.ViewModels;
 using TestProject.iOS.Converters;
 using TestProject.iOS.ResourcesHelpers;
@@ -13,6 +14,7 @@ using TestProject.iOS.Services;
 using TestProject.iOS.Sources;
 using TestProject.LanguageResources;
 using UIKit;
+using IDocumentPickerService = TestProject.iOS.Services.Interfaces.IDocumentPickerService;
 
 namespace TestProject.iOS.Views
 {
@@ -27,7 +29,7 @@ namespace TestProject.iOS.Views
 
         private readonly PhotoService<TaskDetailsView, TaskViewModel> _photoService;
 
-        private readonly DocumentsService<TaskDetailsView, TaskViewModel> _documentsService;
+        private readonly IDocumentPickerService _documentsPickerService;
 
         private TaskFilesListSource _source;
 
@@ -40,21 +42,35 @@ namespace TestProject.iOS.Views
             BindingSet.Bind(TaskNote).To(vm => vm.UserTask.Changes.Note);
             BindingSet.Bind(TaskStatus).To(vm => vm.UserTask.Changes.Status);
             BindingSet.Bind(DeleteButton).To(vm => vm.DeleteUserTaskCommand);
+            BindingSet.Bind(AddFileButton).To(vm => vm.AddFileCommand);
             BindingSet.Bind(BackButton).To(vm => vm.ShowMenuCommand);
             BindingSet.Bind(DeleteButton).For(v => v.Hidden).To(vm => vm.IsDeleteButtonHidden);
             BindingSet.Bind(_source).For(x => x.ItemsSource).To(vm => vm.Files);
-            BindingSet.Bind(View).For(v => v.BackgroundColor).To(vm => vm.ColorTheme).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(View).For(v => v.BackgroundColor).To(vm => vm.ColorTheme).WithConversion("NativeColor");
             BindingSet.Bind(TaskImage).To(vm => vm.UserTask.Changes.ImagePath).WithConversion(new ImageValueConverter());
             BindingSet.Bind(TaskTitle).For(x => x.Title).To(vm => vm.UserTask.Changes.Title).WithConversion(new TaskTitleValueConverter());
 
             return base.SetupBindings();
         }
 
-        public TaskDetailsView() : base("TaskDetailsView", null)
+        public TaskDetailsView() : base(nameof(TaskDetailsView), null)
+        {
+
+        }
+
+        public TaskDetailsView(IDocumentPickerService documentPickerService) : base(nameof(TaskDetailsView), null)
         {
             Action<FileItemViewModel> saveAction = (FileItemViewModel file) => { ViewModel.AddFileCommand.Execute(file); };
             _photoService = new PhotoService<TaskDetailsView, TaskViewModel>(this, TaskImage);
-            _documentsService = new DocumentsService<TaskDetailsView, TaskViewModel>(this, saveAction);
+            _documentsPickerService = documentPickerService;
+
+            _documentsPickerService.PresentedDocumentPicker += (sender, e) => {
+                PresentViewController(e, true, null);
+            };
+
+            _documentsPickerService.PresentedMenuDocumentPicker += (sender, e) => {
+                PresentViewController(e, true, null);
+            };
         }
 
         public override void ViewDidLoad()

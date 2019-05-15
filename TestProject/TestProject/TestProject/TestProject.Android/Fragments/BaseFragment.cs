@@ -25,15 +25,15 @@ namespace TestProject.Droid.Fragments
     public abstract class BaseFragment
         : MvxFragment
     {
-        protected Toolbar Toolbar { get; private set; }
+        protected Toolbar _toolbar { get; private set; }
 
-        protected MvxActionBarDrawerToggle DrawerToggle { get; private set; }
+        protected MvxActionBarDrawerToggle _drawerToggle { get; private set; }
 
-        protected LinearLayout LinearLayout { get; set; }
+        protected LinearLayout _linearLayout { get; set; }
 
-        protected abstract int FragmentId { get; }
+        protected abstract int _fragmentId { get; }
 
-        protected bool ShowHumburgerMenu { get; set; } = false;
+        protected bool _showHumburgerMenu { get; set; } = false;
 
         public BaseFragment()
         {
@@ -51,30 +51,30 @@ namespace TestProject.Droid.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
-            var view = this.BindingInflate(FragmentId, null);
+            var view = this.BindingInflate(_fragmentId, null);
 
-            LinearLayout.Click += delegate { HideSoftKeyboard(); };
+            _linearLayout.Click += delegate { HideSoftKeyboard(); };
 
-            Toolbar = view.FindViewById<Toolbar>(Resource.Id.toolbar);
+            _toolbar = view.FindViewById<Toolbar>(Resource.Id.toolbar);
 
-            if (Toolbar != null)
+            if (_toolbar != null)
             {
-                ParentActivity.SetSupportActionBar(Toolbar);
-                if (ShowHumburgerMenu)
+                ParentActivity.SetSupportActionBar(_toolbar);
+                if (_showHumburgerMenu)
                 {
                     ParentActivity.SupportActionBar?.SetDisplayHomeAsUpEnabled(true);
 
-                    DrawerToggle = new MvxActionBarDrawerToggle(
+                    _drawerToggle = new MvxActionBarDrawerToggle(
                         Activity,
                         ((MainActivity)ParentActivity).DrawerLayout,
-                        Toolbar,
+                        _toolbar,
                         Resource.String.drawer_open,
                         Resource.String.drawer_close
                     );
 
-                    DrawerToggle.DrawerOpened += (object sender, ActionBarDrawerEventArgs e) => ((MainActivity)Activity)?.HideSoftKeyboard();
+                    _drawerToggle.DrawerOpened += (object sender, ActionBarDrawerEventArgs e) => ((MainActivity)Activity)?.HideSoftKeyboard();
 
-                    ((MainActivity)ParentActivity).DrawerLayout.AddDrawerListener(DrawerToggle);
+                    ((MainActivity)ParentActivity).DrawerLayout.AddDrawerListener(_drawerToggle);
                 }
             }
 
@@ -85,9 +85,9 @@ namespace TestProject.Droid.Fragments
         {
             base.OnConfigurationChanged(newConfig);
 
-            if (Toolbar != null)
+            if (_toolbar != null)
             {
-                DrawerToggle?.OnConfigurationChanged(newConfig);
+                _drawerToggle?.OnConfigurationChanged(newConfig);
             }
         }
 
@@ -95,16 +95,16 @@ namespace TestProject.Droid.Fragments
         {
             base.OnActivityCreated(savedInstanceState);
 
-            if (Toolbar != null)
+            if (_toolbar != null)
             {
-                DrawerToggle?.SyncState();
+                _drawerToggle?.SyncState();
             }
         }
 
         public void HideSoftKeyboard()
         {
             InputMethodManager close = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
-            close.HideSoftInputFromWindow(LinearLayout.WindowToken, 0);
+            close.HideSoftInputFromWindow(_linearLayout.WindowToken, 0);
         }
 
         public override void OnDestroyView()

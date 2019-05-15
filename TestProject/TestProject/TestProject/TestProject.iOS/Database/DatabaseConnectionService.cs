@@ -14,17 +14,11 @@ namespace TestProject.iOS.Database
     public class DatabaseConnectionService
         : IDatabaseConnectionService
     {
-        public DatabaseConnectionService()
+        public SQLiteConnection GetDBConnection(string dbName)
         {
-            var database = DbConnection();
-        }
-
-        public SQLiteConnection DbConnection()
-        {
-            var dbName = "TaskyDB.db3";
             var path = Path.Combine(Environment.
             GetFolderPath(Environment.
-            SpecialFolder.Personal), dbName);
+            SpecialFolder.Personal), $"{dbName}.db3");
             return new SQLiteConnection(path);
         }
     }

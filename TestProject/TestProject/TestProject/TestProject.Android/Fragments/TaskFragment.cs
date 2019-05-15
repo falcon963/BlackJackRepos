@@ -39,39 +39,42 @@ namespace TestProject.Droid.Fragments
         typeof(MainViewModel),
         Resource.Id.content_frame,
         true)]
-    public class TaskFragment 
+    public class TaskFragment
         : BaseFragment<TaskViewModel>
     {
-       
+
         private Toolbar _toolbar;
         private ImageView _imageView;
         private Bitmap _bitmap;
 
         private readonly MultimediaService<TaskFragment> _multimediaService;
         private readonly IImageHelper _imageHelper;
-        private readonly IUriHelper<TaskFragment> _uriHelper;
+        private readonly IUriHelper _uriHelper;
 
-        protected override int FragmentId => Resource.Layout.TaskFragment;
+        public Action<string> SaveImage { get; set; }
+
+        protected override int _fragmentId => Resource.Layout.TaskFragment;
 
         public Uri ImageUri { get; set; }
 
-        public TaskFragment(IUriHelper<TaskFragment> uriHelper, IImageHelper imageHelper)
+        public TaskFragment(IUriHelper uriHelper, IImageHelper imageHelper)
         {
             _imageHelper = imageHelper;
             _uriHelper = uriHelper;
-            _multimediaService = new MultimediaService<TaskFragment>(this, _imageView, ImageUri);
+            SaveImage = SaveEncodedImage;
+            _multimediaService = new MultimediaService<TaskFragment>(this, _imageView, ImageUri, SaveImage);
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-            LinearLayout = view.FindViewById<LinearLayout>(Resource.Id.task_linearlayout);
+            _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.task_linearlayout);
             _toolbar = view.FindViewById<Toolbar>(Resource.Id.task_toolbar);
             _imageView = view.FindViewById<ImageView>(Resource.Id.image_view);
 
             _imageView.Click += _multimediaService.OnAddPhotoClicked;
-            _toolbar.Click += delegate { HideSoftKeyboard(); };
+            _toolbar.Click += (sender, e) => { HideSoftKeyboard(); };
 
             ((MainActivity)ParentActivity).DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
 
@@ -82,30 +85,10 @@ namespace TestProject.Droid.Fragments
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            if (resultCode == -1 && requestCode == 0)
-            {
-                Bitmap bitmapImage = BitmapFactory.DecodeFile(ImageUri.Path);
-
-                SaveImage(bitmapImage);
-            }
-
-            if (resultCode == -1 
-                && requestCode == 1)
-            {
-                string realPath = _uriHelper.GetRealPathFromURI(data.Data, this);
-
-                Bitmap bitmapImage = BitmapFactory.DecodeFile(realPath);
-
-                SaveImage(bitmapImage);
-            }
-
-            if (resultCode == 0)
-            {
-
-            }
+            _multimediaService.ActivityResult(requestCode, resultCode, data, this);
         }
 
-        
+
 
         private void UnbindDrawables(View view)
         {
@@ -124,23 +107,9 @@ namespace TestProject.Droid.Fragments
             }
         }
 
-        public void SaveImage(Bitmap image)
+        public void SaveEncodedImage(string encodedImage)
         {
-            var encodedImage = _imageHelper.ImageEncoding(image);
-
-            if (string.IsNullOrEmpty(encodedImage))
-            {
-                return;
-            }
-
             ViewModel.UserTask.Changes.ImagePath = encodedImage;
-        }
-
-        public void ShowInputMethod()
-        {
-            InputMethodManager methodManager = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
-
-            methodManager.ToggleSoftInput(ShowFlags.Forced, HideSoftInputFlags.ImplicitOnly);
         }
 
         public override void OnDestroyView()

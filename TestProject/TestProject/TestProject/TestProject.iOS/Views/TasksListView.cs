@@ -25,7 +25,7 @@ namespace TestProject.iOS.Views
     {
 
 
-        public static NSString MyCellId = new NSString("ContentTasksCell");
+        public static NSString MyCellId = new NSString(nameof(ContentNavigateCell));
 
         private bool _isMenuOpen = false;
 
@@ -45,7 +45,7 @@ namespace TestProject.iOS.Views
         #region ctor
 
 
-        public TasksListView() : base("TasksListView", null)
+        public TasksListView() : base(nameof(TasksListView), null)
         {
 
         }
@@ -58,7 +58,7 @@ namespace TestProject.iOS.Views
             BindingSet.Bind(_refreshControl).For(r => r.RefreshCommand).To(vm => vm.RefreshTaskCommand);
             BindingSet.Bind(_source).For(x => x.ItemsSource).To(vm => vm.Tasks);
             BindingSet.Bind(_source).For(x => x.SelectionChangedCommand).To(vm => vm.ItemSelectedCommand);
-            BindingSet.Bind(TasksList).For(v => v.BackgroundColor).To(vm => vm.TasksListColor).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(TasksList).For(v => v.BackgroundColor).To(vm => vm.TasksListColor).WithConversion("NativeColor");
             BindingSet.Bind(FabButton).To(vm => vm.CreateTaskCommand);
 
             return base.SetupBindings();
@@ -77,7 +77,7 @@ namespace TestProject.iOS.Views
 
             TasksList.AddSubview(_refreshControl);
             TasksList.Source = _source;
-            TasksList.RegisterNibForCellReuse(UINib.FromName("ContentTasksCell", NSBundle.MainBundle), ContentTasksCell.Key);
+            TasksList.RegisterNibForCellReuse(UINib.FromName(nameof(ContentTasksCell), NSBundle.MainBundle), ContentTasksCell.Key);
             TasksList.RowHeight = 60;
             TasksList.ReloadData();
         }

@@ -16,6 +16,7 @@ using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Models;
 using TestProject.Core.Repositories.Interfaces;
 using TestProject.Core.Services.Interfaces;
+using TestProject.LanguageResources;
 using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
@@ -138,9 +139,9 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    var valid = _userService.IsValidLogin(Login);
+                    var isLoginFree = _userService.IsValidLogin(Login);
 
-                    if (!valid)
+                    if (!isLoginFree)
                     {
                         _dialogsService.ShowAlert(Strings.LoginAlreadyUse);
 

@@ -15,9 +15,9 @@ namespace TestProject.iOS.Converters
     {
         protected override UIImage Convert(string value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value == null)
+            if (value == null)
             {
-                UIImage image = UIImage.FromFile("placeholder.png");
+                UIImage image = UIImage.FromBundle("Placeholder");
                 return image;
             }
             var data = new NSData(value, NSDataBase64DecodingOptions.IgnoreUnknownCharacters);
