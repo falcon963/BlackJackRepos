@@ -244,6 +244,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fragments\Interfaces\IFragmentLifecycle.cs" />
     <Compile Include="Helpers\AnimationDecoratorHelper.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\Interfaces\IImageHelper.cs" />
@@ -253,6 +254,7 @@
     <Compile Include="Converters\ColorValueConverter.cs" />
     <Compile Include="Controls\CircleImageView.cs" />
     <Compile Include="Converters\ImageValueConverter.cs" />
+    <Compile Include="Models\ResultEventArgs.cs" />
     <Compile Include="Providers\DatabaseConnectionService.cs" />
     <Compile Include="Fragments\ProfileFragment.cs" />
     <Compile Include="Fragments\RegistrationFragment.cs" />

@@ -16,7 +16,7 @@ using IDocumentPickerService = TestProject.iOS.Services.Interfaces.IDocumentPick
 namespace TestProject.iOS.Services
 {
     public class DocumentsService
-        : IDocumentPicker, IDocumentPickerService
+        : IDocumentPickerPlatformService, IDocumentPickerService
     {
         #region Fields
 

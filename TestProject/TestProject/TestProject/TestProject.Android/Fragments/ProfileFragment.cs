@@ -12,7 +12,9 @@ using Android.Views.InputMethods;
 using Android.Widget;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.ViewModels;
+using TestProject.Droid.Fragments.Interfaces;
 using TestProject.Droid.Helpers.Interfaces;
+using TestProject.Droid.Models;
 using TestProject.Droid.Services;
 using TestProject.Droid.Views;
 using File = Java.IO.File;
@@ -25,7 +27,7 @@ namespace TestProject.Droid.Fragments
         Resource.Id.content_frame,
         true)]
     public class ProfileFragment
-        : BaseFragment<ProfileViewModel>
+        : BaseFragment<ProfileViewModel>, IFragmentLifecycle
     {
         private ImageView _imageView;
         private Bitmap _bitmap;
@@ -33,6 +35,8 @@ namespace TestProject.Droid.Fragments
         private readonly MultimediaService<ProfileFragment> _multimediaService;
         private readonly IImageHelper _imageHelper;
         private readonly IUriHelper _uriHelper;
+
+        public event EventHandler<ResultEventArgs> SubscribeOnResult;
 
         public Action<string> SaveImage { get; set; }
 
@@ -45,7 +49,7 @@ namespace TestProject.Droid.Fragments
             _imageHelper = imageHelper;
             _uriHelper = uriHelper;
             SaveImage = SaveEncodedImage;
-            _multimediaService = new MultimediaService<ProfileFragment>(this, _imageView, ImageUri, SaveImage);
+            _multimediaService = new MultimediaService<ProfileFragment>(this, _imageView);
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -57,7 +61,7 @@ namespace TestProject.Droid.Fragments
 
             ((MainActivity)ParentActivity).DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
 
-            _imageView.Click += _multimediaService.OnAddPhotoClicked;
+            _imageView.Click += (sender, e) => { ViewModel?.PickPhotoCommand?.Execute(); };
 
             return view;
         }
@@ -66,7 +70,7 @@ namespace TestProject.Droid.Fragments
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            _multimediaService.ActivityResult(requestCode, resultCode, data, this);
+            SubscribeOnResult?.Invoke(this, new ResultEventArgs(requestCode, resultCode, data));
         }
 
         public void SaveEncodedImage(string encodedImage)

@@ -12,10 +12,10 @@ namespace TestProject.Core.Services
     public class DocumentPickerService
         : IDocumentPickerService
     {
-        private readonly IDocumentPicker _documentPicker;
+        private readonly IDocumentPickerPlatformService _documentPicker;
         private readonly IFileRepository _fileRepository;
 
-        public DocumentPickerService(IDocumentPicker documentPicker, IFileRepository fileRepository)
+        public DocumentPickerService(IDocumentPickerPlatformService documentPicker, IFileRepository fileRepository)
         {
             _documentPicker = documentPicker;
             _fileRepository = fileRepository;

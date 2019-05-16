@@ -32,6 +32,9 @@ using File = Java.IO.File;
 using Android.Util;
 using TestProject.Droid.Services;
 using TestProject.Droid.Helpers.Interfaces;
+using TestProject.Droid.Models;
+using TestProject.Droid.Fragments.Interfaces;
+using MvvmCross.Binding.BindingContext;
 
 namespace TestProject.Droid.Fragments
 {
@@ -40,7 +43,7 @@ namespace TestProject.Droid.Fragments
         Resource.Id.content_frame,
         true)]
     public class TaskFragment
-        : BaseFragment<TaskViewModel>
+        : BaseFragment<TaskViewModel>, IFragmentLifecycle
     {
 
         private Toolbar _toolbar;
@@ -50,6 +53,8 @@ namespace TestProject.Droid.Fragments
         private readonly MultimediaService<TaskFragment> _multimediaService;
         private readonly IImageHelper _imageHelper;
         private readonly IUriHelper _uriHelper;
+
+        public event EventHandler<ResultEventArgs> SubscribeOnResult;
 
         public Action<string> SaveImage { get; set; }
 
@@ -62,7 +67,8 @@ namespace TestProject.Droid.Fragments
             _imageHelper = imageHelper;
             _uriHelper = uriHelper;
             SaveImage = SaveEncodedImage;
-            _multimediaService = new MultimediaService<TaskFragment>(this, _imageView, ImageUri, SaveImage);
+            _multimediaService = new MultimediaService<TaskFragment>(this, _imageView);
+
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -73,7 +79,7 @@ namespace TestProject.Droid.Fragments
             _toolbar = view.FindViewById<Toolbar>(Resource.Id.task_toolbar);
             _imageView = view.FindViewById<ImageView>(Resource.Id.image_view);
 
-            _imageView.Click += _multimediaService.OnAddPhotoClicked;
+            _imageView.Click += (sender, e) => { ViewModel?.PickPhotoCommand?.Execute(); };
             _toolbar.Click += (sender, e) => { HideSoftKeyboard(); };
 
             ((MainActivity)ParentActivity).DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
@@ -85,7 +91,7 @@ namespace TestProject.Droid.Fragments
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            _multimediaService.ActivityResult(requestCode, resultCode, data, this);
+            SubscribeOnResult?.Invoke(this, new ResultEventArgs(requestCode, resultCode, data));
         }
 
 

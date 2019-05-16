@@ -11,6 +11,7 @@ using TestProject.Core.ViewModels;
 using TestProject.iOS.Converters;
 using TestProject.iOS.ResourcesHelpers;
 using TestProject.iOS.Services;
+using TestProject.iOS.Services.Interfaces;
 using TestProject.iOS.Sources;
 using TestProject.LanguageResources;
 using UIKit;
@@ -27,7 +28,7 @@ namespace TestProject.iOS.Views
 
         private UIDocumentMenuViewController _documentPickerController;
 
-        private readonly PhotoService<TaskDetailsView, TaskViewModel> _photoService;
+        private readonly IPhotoService _photoService;
 
         private readonly IDocumentPickerService _documentsPickerService;
 
@@ -44,6 +45,7 @@ namespace TestProject.iOS.Views
             BindingSet.Bind(DeleteButton).To(vm => vm.DeleteUserTaskCommand);
             BindingSet.Bind(AddFileButton).To(vm => vm.AddFileCommand);
             BindingSet.Bind(BackButton).To(vm => vm.ShowMenuCommand);
+            BindingSet.Bind(SaveButton).To(vm => vm.SaveUserTaskCommand);
             BindingSet.Bind(DeleteButton).For(v => v.Hidden).To(vm => vm.IsDeleteButtonHidden);
             BindingSet.Bind(_source).For(x => x.ItemsSource).To(vm => vm.Files);
             BindingSet.Bind(View).For(v => v.BackgroundColor).To(vm => vm.ColorTheme).WithConversion("NativeColor");
@@ -58,10 +60,9 @@ namespace TestProject.iOS.Views
 
         }
 
-        public TaskDetailsView(IDocumentPickerService documentPickerService) : base(nameof(TaskDetailsView), null)
+        public TaskDetailsView(IDocumentPickerService documentPickerService, IPhotoService photoService) : base(nameof(TaskDetailsView), null)
         {
-            Action<FileItemViewModel> saveAction = (FileItemViewModel file) => { ViewModel.AddFileCommand.Execute(file); };
-            _photoService = new PhotoService<TaskDetailsView, TaskViewModel>(this, TaskImage);
+            _photoService = photoService;
             _documentsPickerService = documentPickerService;
 
             _documentsPickerService.PresentedDocumentPicker += (sender, e) => {
@@ -69,6 +70,18 @@ namespace TestProject.iOS.Views
             };
 
             _documentsPickerService.PresentedMenuDocumentPicker += (sender, e) => {
+                PresentViewController(e, true, null);
+            };
+
+            _photoService.ImagePickerDelegateSubscription += (sender, e) => {
+                e = this;
+            };
+
+            _photoService.PresentPicker += (sender, e) => {
+                PresentViewController(e, true, null);
+            };
+
+            _photoService.PresentAlert += (sender, e) => {
                 PresentViewController(e, true, null);
             };
         }
@@ -112,7 +125,7 @@ namespace TestProject.iOS.Views
 
             #region Init TapRecognizer
 
-            UITapGestureRecognizer recognizer = new UITapGestureRecognizer(_photoService.OpenImage);
+            UITapGestureRecognizer recognizer = new UITapGestureRecognizer(() => { ViewModel?.PickPhotoCommand?.Execute(); });
             TaskImage.AddGestureRecognizer(recognizer);
 
             #endregion
@@ -164,20 +177,5 @@ namespace TestProject.iOS.Views
 
         #endregion
 
-        #region ButtonEvents
-
-        partial void PressSaveButton(UIButton sender)
-        {
-            var data = TaskImage.Image.AsJPEG();
-            ViewModel.UserTask.Changes.ImagePath = data.GetBase64EncodedString(NSDataBase64EncodingOptions.SixtyFourCharacterLineLength);
-            ViewModel.SaveUserTaskCommand.Execute();
-        }
-
-        partial void PressAddButton(UIButton sender)
-        {
-            _documentsService.ImportFromDocMenu(sender);
-        }
-
-        #endregion
     }
 }

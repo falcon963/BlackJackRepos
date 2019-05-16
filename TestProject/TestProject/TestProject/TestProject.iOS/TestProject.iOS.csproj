@@ -540,6 +540,7 @@
     <Compile Include="Services\DocumentsService.cs" />
     <Compile Include="Services\Interfaces\IAuthenticationService.cs" />
     <Compile Include="Services\Interfaces\IDocumentPickerService.cs" />
+    <Compile Include="Services\Interfaces\IPhotoService.cs" />
     <Compile Include="Services\PhotoService.cs" />
     <Compile Include="Sources\TaskFilesListSource.cs" />
     <Compile Include="Views\AppMapView.cs" />

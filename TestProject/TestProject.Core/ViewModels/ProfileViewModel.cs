@@ -16,7 +16,6 @@ using TestProject.Core.Models;
 using TestProject.Core.Repositories.Interfaces;
 using TestProject.Core.Services.Interfaces;
 using TestProject.LanguageResources;
-using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
 {
@@ -32,6 +31,7 @@ namespace TestProject.Core.ViewModels
         private readonly IValidationService _validationService;
         private readonly IDialogsService _dialogsService;
         private readonly IUserService _userService;
+        private readonly IImagePickerService _imagePickerService;
 
         private string _oldPassword;
         private string _newPassword;
@@ -40,7 +40,7 @@ namespace TestProject.Core.ViewModels
         #endregion
 
         public ProfileViewModel(IMvxNavigationService navigationService, ILoginRepository loginService,
-            IUserDialogs userDialogs, IUserHelper userHelper, IValidationService validationService, IDialogsService dialogsService, IUserService userService) : base(navigationService)
+            IUserDialogs userDialogs, IUserHelper userHelper, IValidationService validationService, IDialogsService dialogsService, IUserService userService, IImagePickerService imagePickerService) : base(navigationService)
         {
             _loginService = loginService;
             _userDialogs = userDialogs;
@@ -48,6 +48,7 @@ namespace TestProject.Core.ViewModels
             _validationService = validationService;
             _dialogsService = dialogsService;
             _userService = userService;
+            _imagePickerService = imagePickerService;
 
             Background = AppColors.LoginBackgroundColor;
             ConfirmColor = AppColors.ValidColor;
@@ -185,6 +186,24 @@ namespace TestProject.Core.ViewModels
 
                         await NavigationService.Navigate<MainRegistrationViewModel>();
                     }
+                });
+            }
+        }
+
+        public IMvxAsyncCommand PickPhotoCommand
+        {
+            get
+            {
+                return new MvxAsyncCommand(async () => {
+
+                    var imageString = await _imagePickerService.GetImageBase64();
+
+                    if (imageString == null)
+                    {
+                        return;
+                    }
+
+                    Profile.ImagePath = imageString;
                 });
             }
         }

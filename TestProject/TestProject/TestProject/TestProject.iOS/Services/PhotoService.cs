@@ -2,42 +2,114 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Foundation;
 using MvvmCross.ViewModels;
+using TestProject.Core.Services.Interfaces;
 using TestProject.Core.ViewModels;
+using TestProject.iOS.Services.Interfaces;
 using TestProject.iOS.Views;
 using TestProject.LanguageResources;
 using UIKit;
 
 namespace TestProject.iOS.Services
 {
-    public class PhotoService<TView, TViewModel> where TView
-        : BaseView<TView, TViewModel>, new() where TViewModel : class, IMvxViewModel, IMvxNotifyPropertyChanged
+    public class PhotoService
+        : IImagePickerPlatformService, IPhotoService
     {
         #region fields
 
         private readonly UIImagePickerController _imagePickerController;
-        private readonly TView _view;
-        private UIImageView _image;
+
+        public event EventHandler<UIImagePickerController> PresentPicker;
+        public event EventHandler<UIAlertController> PresentAlert;
+        public event EventHandler<NSObject> ImagePickerDelegateSubscription;
 
         #endregion
 
 
         #region ctor
 
-        public PhotoService(TView view, UIImageView image)
+        public PhotoService()
         {
-            _view = view;
-            _image = image;
             _imagePickerController = new UIImagePickerController();
-            _imagePickerController.Delegate = view;
         }
 
         #endregion
 
-        public void OpenImage()
+
+        public async Task<byte[]> GetPhoto()
         {
+            var image = await OpenImage();
+
+            if(image == null)
+            {
+                return null;
+            }
+
+            using (NSData imageData = image.AsPNG())
+            {
+                Byte[] imageByteArray = new Byte[imageData.Length];
+                System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, imageByteArray, 0, Convert.ToInt32(imageData.Length));
+                return imageByteArray;
+            }
+        }
+
+        public Task<UIImage> OpenImage()
+        {
+            ImagePickerDelegateSubscription?.Invoke(this, _imagePickerController.Delegate);
+
+            TaskCompletionSource<UIImage> taskCompletionSource = new TaskCompletionSource<UIImage>();
+
+            #region hendlers
+
+            void Handle_FinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
+            {
+                UIImage originalImage = e.Info[UIImagePickerController.EditedImage] as UIImage;
+
+                taskCompletionSource.TrySetResult(originalImage);
+
+                _imagePickerController.DismissViewController(true, null);
+            }
+
+            void Canceled(object sender, EventArgs e)
+            {
+                _imagePickerController.DismissViewController(true, null);
+
+                taskCompletionSource.TrySetResult(null);
+            }
+
+            void OpenCamera()
+            {
+                if (UIImagePickerController.IsSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
+                {
+                    _imagePickerController.Canceled += Canceled;
+                    _imagePickerController.SourceType = UIImagePickerControllerSourceType.Camera;
+                    _imagePickerController.AllowsEditing = true;
+
+                    PresentPicker.Invoke(this, _imagePickerController);
+                }
+                else
+                {
+                    var alert = UIAlertController.Create(Strings.Warning, Strings.YouDontHaveCamera, UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create(Strings.Ok, UIAlertActionStyle.Default, null));
+
+                    PresentAlert?.Invoke(this, alert);
+                }
+            }
+
+
+            void OpenLibrary()
+            {
+                _imagePickerController.Canceled += Canceled;
+                _imagePickerController.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
+                _imagePickerController.AllowsEditing = true;
+
+                PresentPicker?.Invoke(this, _imagePickerController);
+            }
+
+            #endregion
+
             var actionSheet = UIAlertController.Create(Strings.PhotoSource, Strings.ChooseASource, UIAlertControllerStyle.ActionSheet);
 
             actionSheet.AddAction(UIAlertAction.Create(Strings.Camera, UIAlertActionStyle.Default, (actionCamera) =>
@@ -54,53 +126,12 @@ namespace TestProject.iOS.Services
 
             _imagePickerController.FinishedPickingMedia += Handle_FinishedPickingMedia;
 
-            _view.PresentViewController(actionSheet, true, null);
+            PresentAlert?.Invoke(this, actionSheet);
+
+            return taskCompletionSource.Task;
         }
 
 
-        public void OpenCamera()
-        {
-            if (UIImagePickerController.IsSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
-            {
-                _imagePickerController.Canceled += (sender, e) => { _imagePickerController.DismissViewController(true, null); };
-                _imagePickerController.SourceType = UIImagePickerControllerSourceType.Camera;
-                _imagePickerController.AllowsEditing = true;
-                _view.PresentViewController(_imagePickerController, true, null);
-            }
-            else
-            {
-                var alert = UIAlertController.Create(Strings.Warning, Strings.YouDontHaveCamera, UIAlertControllerStyle.Alert);
-                alert.AddAction(UIAlertAction.Create(Strings.Ok, UIAlertActionStyle.Default, null));
-                _view.PresentViewController(alert, true, null);
-            }
-        }
-
-
-        public void OpenLibrary()
-        {
-            _imagePickerController.Canceled += (sender, e) => { _imagePickerController.DismissViewController(true, null); };
-            _imagePickerController.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
-            _imagePickerController.AllowsEditing = true;
-
-            _view.PresentViewController(_imagePickerController, true, null);
-        }
-
-        public void Canceled(object sender, EventArgs e)
-        {
-            _imagePickerController.DismissViewController(true, null);
-        }
-
-        protected void Handle_FinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
-        {
-            UIImage originalImage = e.Info[UIImagePickerController.EditedImage] as UIImage;
-
-            if (originalImage != null)
-            {
-                _image.Image = originalImage;
-            }
-
-            _imagePickerController.DismissViewController(true, null);
-        }
 
     }
 }

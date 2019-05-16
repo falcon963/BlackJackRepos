@@ -7,6 +7,7 @@ using System;
 using TestProject.Core.ViewModels;
 using TestProject.iOS.Converters;
 using TestProject.iOS.Services;
+using TestProject.iOS.Services.Interfaces;
 using UIKit;
 
 namespace TestProject.iOS.Views
@@ -19,12 +20,33 @@ namespace TestProject.iOS.Views
 
         private UIImagePickerController _imagePickerController = new UIImagePickerController();
 
-        private readonly PhotoService<ProfileView, ProfileViewModel> _photoService;
+        private readonly IPhotoService _photoService;
 
-        public ProfileView () : base (nameof(ProfileView), null)
+        #region ctor
+
+        public ProfileView() : base(nameof(ProfileView), null)
         {
-            _photoService = new PhotoService<ProfileView, ProfileViewModel>(this, ProfileImage);
+
         }
+
+        public ProfileView (IPhotoService photoService) : base (nameof(ProfileView), null)
+        {
+            _photoService = photoService;
+
+            _photoService.ImagePickerDelegateSubscription += (sender, e) => {
+                e = this;
+            };
+
+            _photoService.PresentPicker += (sender, e) => {
+                PresentViewController(e, true, null);
+            };
+
+            _photoService.PresentAlert += (sender, e) => {
+                PresentViewController(e, true, null);
+            };
+        }
+
+        #endregion
 
         public override bool SetupBindings()
         {
@@ -36,6 +58,7 @@ namespace TestProject.iOS.Views
             BindingSet.Bind(PasswordField).For(v => v.BackgroundColor).To(vm => vm.ConfirmPassword).WithConversion("NativeColor");
             BindingSet.Bind(NewPasswordField).For(v => v.BackgroundColor).To(vm => vm.ConfirmColor).WithConversion("NativeColor");
             BindingSet.Bind(PasswordConfirmField).For(v => v.BackgroundColor).To(vm => vm.ConfirmColor).WithConversion("NativeColor");
+            BindingSet.Bind(SaveButton).To(vm => vm.UpdateProfileCommand);
             BindingSet.Bind(LogoutButton).To(vm => vm.LogOutCommand);
 
             return base.SetupBindings();
@@ -49,7 +72,7 @@ namespace TestProject.iOS.Views
 
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, OnKeyboardWillShow);
 
-            UITapGestureRecognizer recognizer = new UITapGestureRecognizer(_photoService.OpenImage);
+            UITapGestureRecognizer recognizer = new UITapGestureRecognizer(() => { ViewModel?.PickPhotoCommand?.Execute(); });
             ProfileImage.AddGestureRecognizer(recognizer);
 
             AddShadow(PasswordField);
@@ -62,14 +85,6 @@ namespace TestProject.iOS.Views
             MainScrollView.ContentSize = new CGSize(0, MainScrollView.Frame.Height - 80);
 
             this.AutomaticallyAdjustsScrollViewInsets = false;
-        }
-
-
-        partial void SaveImagePress(UIButton sender)
-        {
-            var data = ProfileImage.Image.AsJPEG();
-            ViewModel.Profile.ImagePath = data.GetBase64EncodedString(NSDataBase64EncodingOptions.SixtyFourCharacterLineLength);
-            this.ViewModel.UpdateProfileCommand.Execute();
         }
 
         public override void DidReceiveMemoryWarning()

@@ -15,16 +15,21 @@ using TestProject.Droid.Services.Interfaces;
 using Path = System.IO.Path;
 using File = Java.IO.File;
 using Uri = Android.Net.Uri;
+using PopupMenu = Android.Support.V7.Widget.PopupMenu;
 using TestProject.Droid.Fragments;
 using Android.Graphics;
 using Android.Util;
 using TestProject.LanguageResources;
 using MvvmCross;
 using TestProject.Droid.Helpers.Interfaces;
+using TestProject.Core.Services.Interfaces;
+using System.Threading.Tasks;
+using TestProject.Droid.Fragments.Interfaces;
+using TestProject.Droid.Models;
 
 namespace TestProject.Droid.Services
 {
-    public class MultimediaService<T> where T : BaseFragment
+    public class MultimediaService<T>: IImagePickerPlatformService where T : BaseFragment, IFragmentLifecycle
     {
 
         private const int REQUEST_CAMERA = 0;
@@ -35,106 +40,119 @@ namespace TestProject.Droid.Services
 
         private const int RESULT_CODE_CANCEL = 0;
 
-        private ImageView _imageView;
-
         private readonly T _fragment;
+        private View _imageView;
 
-        private IImageHelper _imageHelper;
         private IUriHelper _uriHelper;
-
-        private Action<string> SaveImageAction { get; set; }
 
         public Uri _imageUri;
 
-        public MultimediaService(T fragment, ImageView imageView, Uri imageUri, Action<string> action)
+        public MultimediaService(T fragment, View imageView)
         {
-            SaveImageAction = action;
             _fragment = fragment;
             _imageView = imageView;
-            _imageUri = imageUri;
             _uriHelper = Mvx.IoCProvider.Resolve<IUriHelper>();
-            _imageHelper = Mvx.IoCProvider.Resolve<IImageHelper>();
         }
 
-        public void OnAddPhotoClicked(object sender, EventArgs e)
+        public Task<byte[]> GetPhoto()
         {
-            var popup = new Android.Support.V7.Widget.PopupMenu(_fragment.Activity, _imageView);
+            TaskCompletionSource<byte[]> taskCompletionSource = new TaskCompletionSource<byte[]>();
+
+            void OnMenuItemClicked(object sender, PopupMenu.MenuItemClickEventArgs e)
+            {
+                var label = e.Item.TitleFormatted.ToString();
+
+                if (label == Strings.Camera)
+                {
+                    var sdCardPath = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
+                    string time = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                    string name = $"Test_Project_{time}.jpg";
+                    var filePath = Path.Combine(sdCardPath, name);
+
+                    File image = new File(filePath);
+                    _imageUri = Uri.FromFile(image);
+
+                    var intent = new Intent(MediaStore.ActionImageCapture);
+                    intent.PutExtra(MediaStore.ExtraOutput, _imageUri);
+
+                    _fragment.StartActivityForResult(intent, REQUEST_CAMERA);
+                }
+
+                if (label == Strings.Gallery)
+                {
+                    var intent = new Intent(Intent.ActionPick, MediaStore.Images.Media.ExternalContentUri);
+                    intent.SetType("image/*");
+
+                    _fragment.StartActivityForResult(Intent.CreateChooser(intent, Strings.SelectPicture), REQUEST_GALLERY);
+                }
+
+                if (label == Strings.Cancel)
+                {
+
+                }
+
+                
+            }
+
+            void ActivityResult(object sender1, ResultEventArgs args)
+            {
+                if (args?.ResultCode == RESULT_CODE_CANCEL)
+                {
+                    taskCompletionSource.TrySetResult(null);
+                }
+
+                if (args?.ResultCode == RESULT_CODE_OK
+                    && args?.RequestCode == REQUEST_CAMERA)
+                {
+                    Bitmap bitmapImage = BitmapFactory.DecodeFile(_imageUri.Path);
+
+                    var imageBytes = GetImageByteArray(bitmapImage);
+
+                    taskCompletionSource.TrySetResult(imageBytes);
+                }
+
+                if (args?.ResultCode == RESULT_CODE_OK
+                    && args?.RequestCode == REQUEST_GALLERY)
+                {
+                    string realPath = _uriHelper.GetRealPathFromURI(args?.Data?.Data, _fragment);
+
+                    Bitmap bitmapImage = BitmapFactory.DecodeFile(realPath);
+
+                    var imageBytes = GetImageByteArray(bitmapImage);
+
+                    taskCompletionSource.TrySetResult(imageBytes);
+                }
+            }
+
+            _fragment.SubscribeOnResult += ActivityResult;
+
+            var popup = new PopupMenu(_fragment.Activity, _imageView);
 
             popup.Menu.Add(Strings.Camera);
             popup.Menu.Add(Strings.Gallery);
             popup.Menu.Add(Strings.Cancel);
             popup.MenuItemClick += OnMenuItemClicked;
             popup.Show();
+
+            return taskCompletionSource.Task;
         }
 
-        private void OnMenuItemClicked(object sender, Android.Support.V7.Widget.PopupMenu.MenuItemClickEventArgs e)
+        public byte[] GetImageByteArray(Bitmap image)
         {
-            var label = e.Item.TitleFormatted.ToString();
-
-            if (label == Strings.Camera)
+            if (image == null)
             {
-                var sdCardPath = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
-                string time = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                string name = $"Test_Project_{time}.jpg";
-                var filePath = Path.Combine(sdCardPath, name);
-
-                File image = new File(filePath);
-                _imageUri = Uri.FromFile(image);
-
-                var intent = new Intent(MediaStore.ActionImageCapture);
-                intent.PutExtra(MediaStore.ExtraOutput, _imageUri);
-
-                _fragment.StartActivityForResult(intent, REQUEST_CAMERA);
-            }
-            if (label == Strings.Gallery)
-            {
-                var intent = new Intent(Intent.ActionPick, MediaStore.Images.Media.ExternalContentUri);
-                intent.SetType("image/*");
-
-                _fragment.StartActivityForResult(Intent.CreateChooser(intent, Strings.SelectPicture), REQUEST_GALLERY);
-            }
-            if (label == Strings.Cancel)
-            {
-
-            }
-        }
-
-        public void ActivityResult(int requestCode, int resultCode, Intent data, T fragment)
-        {
-            if (resultCode == RESULT_CODE_CANCEL)
-            {
-                return;
+                return null;
             }
 
-            if (resultCode == RESULT_CODE_OK
-                && requestCode == REQUEST_CAMERA)
-            {
-                Bitmap bitmapImage = BitmapFactory.DecodeFile(_imageUri.Path);
+            byte[] bitmapData;
 
-                SaveImage(bitmapImage);
+            using (var stream = new MemoryStream())
+            {
+                image.Compress(Bitmap.CompressFormat.Png, 80, stream);
+                bitmapData = stream.ToArray();
             }
 
-            if (resultCode == RESULT_CODE_OK
-                && requestCode == REQUEST_GALLERY)
-            {
-                string realPath = _uriHelper.GetRealPathFromURI(data.Data, fragment);
-
-                Bitmap bitmapImage = BitmapFactory.DecodeFile(realPath);
-
-                SaveImage(bitmapImage);
-            }
-        }
-
-        public void SaveImage(Bitmap image)
-        {
-            var encodedImage = _imageHelper.ImageEncoding(image);
-
-            if (string.IsNullOrEmpty(encodedImage))
-            {
-                return;
-            }
-
-            SaveImageAction(encodedImage);
+            return bitmapData;
         }
     }
 }

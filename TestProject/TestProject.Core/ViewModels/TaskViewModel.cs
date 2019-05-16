@@ -36,6 +36,7 @@ namespace TestProject.Core.ViewModels
         private readonly IUserHelper _userHelper;
         private readonly IValidationService _validationService;
         private readonly IDocumentPickerService _documentPickerService;
+        private readonly IImagePickerService _imagePickerService;
 
         private UserTask _userTaskCopy;
 
@@ -74,7 +75,8 @@ namespace TestProject.Core.ViewModels
         #endregion
 
 
-        public TaskViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs, IFileRepository fileService, IDialogsService dialogsService, IUserHelper userHelper, IValidationService validationService, IDocumentPickerService documentPickerService):base(navigationService)
+        public TaskViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs, IFileRepository fileService, IDialogsService dialogsService, 
+            IUserHelper userHelper, IValidationService validationService, IDocumentPickerService documentPickerService, ImagePickerService imagePickerService):base(navigationService)
         {
             #region Init Service`s
             _taskService = taskService;
@@ -84,6 +86,7 @@ namespace TestProject.Core.ViewModels
             _userHelper = userHelper;
             _validationService = validationService;
             _documentPickerService = documentPickerService;
+            _imagePickerService = imagePickerService;
             #endregion
 
             #region Init Fields
@@ -141,6 +144,23 @@ namespace TestProject.Core.ViewModels
                     {
                         return;
                     }
+                });
+            }
+        }
+
+        public IMvxAsyncCommand PickPhotoCommand
+        {
+            get
+            {
+                return new MvxAsyncCommand(async () => {
+                    var imageString = await _imagePickerService.GetImageBase64();
+
+                    if(imageString == null)
+                    {
+                        return;
+                    }
+
+                    UserTask.Changes.ImagePath = imageString;
                 });
             }
         }

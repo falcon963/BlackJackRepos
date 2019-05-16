@@ -6,7 +6,7 @@ using TestProject.Core.ViewModels;
 
 namespace TestProject.Core.Services.Interfaces
 {
-    public interface IDocumentPicker
+    public interface IDocumentPickerPlatformService
     {
         Task<FileItemViewModel> ImportFromDocMenu();
     }
