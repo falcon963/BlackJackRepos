@@ -59,7 +59,7 @@ namespace TestProject.Core.ViewModels
 
         public User Profile { get; set; }
 
-        [Required(ErrorMessageResourceName = "OldPasswordFieldIsEmpty", ErrorMessageResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = nameof(Strings.OldPasswordFieldMustBeRequired), ErrorMessageResourceType = typeof(Strings))]
         public string OldPassword
         {
             get
@@ -72,8 +72,8 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        [Required(ErrorMessageResourceName = "PasswordFieldIsEmpty", ErrorMessageResourceType = typeof(Strings))]
-        [RegularExpression(@"[0-9A-Z]+.{8,}", ErrorMessageResourceName = "RegularError", ErrorMessageResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = nameof(Strings.PasswordMustBeRequired), ErrorMessageResourceType = typeof(Strings))]
+        [RegularExpression(@"[0-9A-Z]+.{8,}", ErrorMessageResourceName = nameof(Strings.RegularError), ErrorMessageResourceType = typeof(Strings))]
         public string NewPassword
         {
             get
@@ -96,8 +96,8 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        [Required(ErrorMessageResourceName = "ConfirmPasswordFieldIsEmpty", ErrorMessageResourceType = typeof(Strings))]
-        [Compare("UserProfileViewModel.Password", ErrorMessageResourceName = "ConfirmPasswordNotComparePassword", ErrorMessageResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = nameof(Strings.ConfirmPasswordMustBeRequired), ErrorMessageResourceType = typeof(Strings))]
+        [Compare("UserProfileViewModel.Password", ErrorMessageResourceName = nameof(Strings.ConfirmPasswordMustBeComparePassword), ErrorMessageResourceType = typeof(Strings))]
         public string ConfirmPassword
         {
             get

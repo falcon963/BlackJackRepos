@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using TestProject.Core.DBConnection.Interfacies;
+using TestProject.Core.Providers.Interfacies;
 using TestProject.Core.Models;
 
-namespace TestProject.Core.DBConnection
+namespace TestProject.Core.Providers
 {
-    public class SqliteAppConnection
+    public class SqliteAppConnectionProvider
     {
         public SQLiteConnection Database { get; set; }
 
-        public SqliteAppConnection(IDatabaseConnectionService connectionService)
+        public SqliteAppConnectionProvider(IDatabaseConnectionProvider connectionService)
         {
             string dbName = "TaskyDrop";
             Database = connectionService.GetDBConnection(dbName);

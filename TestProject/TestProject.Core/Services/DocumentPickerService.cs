@@ -14,11 +14,13 @@ namespace TestProject.Core.Services
     {
         private readonly IDocumentPickerPlatformService _documentPicker;
         private readonly IFileRepository _fileRepository;
+        private readonly IFileService _fileService;
 
-        public DocumentPickerService(IDocumentPickerPlatformService documentPicker, IFileRepository fileRepository)
+        public DocumentPickerService(IDocumentPickerPlatformService documentPicker, IFileRepository fileRepository, IFileService fileService)
         {
             _documentPicker = documentPicker;
             _fileRepository = fileRepository;
+            _fileService = fileService;
         }
 
         public async Task<FileItemViewModel> GetPickedFile()
@@ -30,7 +32,7 @@ namespace TestProject.Core.Services
 
         public void SaveFile(TaskFileModel file)
         {
-            _fileRepository.Save(file);
+            _fileService.SaveFile(file);
         }
     }
 }

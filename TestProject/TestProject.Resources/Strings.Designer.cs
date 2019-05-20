@@ -188,6 +188,15 @@ namespace TestProject.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string Error {
@@ -449,6 +458,15 @@ namespace TestProject.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Regular Error.
+        /// </summary>
+        public static string RegularError {
+            get {
+                return ResourceManager.GetString("RegularError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string Save {
@@ -472,6 +490,15 @@ namespace TestProject.LanguageResources {
         public static string Success {
             get {
                 return ResourceManager.GetString("Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tasks List.
+        /// </summary>
+        public static string TasksList {
+            get {
+                return ResourceManager.GetString("TasksList", resourceCulture);
             }
         }
         

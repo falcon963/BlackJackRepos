@@ -12,7 +12,7 @@ namespace TestProject.Core.Models
     {
         public UserTask()
         {
-
+            ;
         }
 
         public UserTask(UserTask userTask)

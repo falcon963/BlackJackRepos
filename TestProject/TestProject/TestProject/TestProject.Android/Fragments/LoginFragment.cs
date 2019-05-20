@@ -44,7 +44,7 @@ namespace TestProject.Droid.Fragments
         typeof(MainRegistrationViewModel), 
         Resource.Id.login_frame)]
     public class LoginFragment
-        : BaseFragment<LoginViewModel>, IOnConnectionFailedListener, IConnectionCallbacks
+        : BaseFragment<LoginViewModel>
     {
 
         protected override int _fragmentId => Resource.Layout.LoginFragment;
@@ -53,18 +53,17 @@ namespace TestProject.Droid.Fragments
         private LoginButton _facebookButton;
         private GoogleApiClient _googleApiClient;
         private Action _singInCommand;
-        private GoogleAuthenticationService _googleAuthentication;
         private IFacebookAuthenticationService _facebookAuthenticationService;
-        private IMvxLog _mvxLog;
+        private IGoogleAuthenticationApiService _googleAuthenticationApiService;
 
         private const string publicProfile = "public_profile";
 
-        private int SIGN_IN_GOOGLE_ID = 9001;
+        private const int SignInGoogleId = 9001;
 
-        public LoginFragment(IFacebookAuthenticationService facebookAuthenticationService, IMvxLog mvxLog)
+        public LoginFragment(IFacebookAuthenticationService facebookAuthenticationService, IGoogleAuthenticationApiService googleAuthenticationApiService)
         {
             _facebookAuthenticationService = facebookAuthenticationService;
-            _mvxLog = mvxLog;
+            _googleAuthenticationApiService = googleAuthenticationApiService;
 
             _facebookAuthenticationService.OnAuthenticationCompleted += FacebookOnAuthenticationCompleted;
         }
@@ -95,7 +94,7 @@ namespace TestProject.Droid.Fragments
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            if (requestCode == SIGN_IN_GOOGLE_ID)
+            if (requestCode == SignInGoogleId)
             {
                 var result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
                 HandleSignInGoogleResult(result);
@@ -111,42 +110,25 @@ namespace TestProject.Droid.Fragments
             }
         }
 
-        void IOnConnectionFailedListener.OnConnectionFailed(ConnectionResult result)
-        {
-            _mvxLog.Trace(result.ErrorMessage);
-        }
-
-        private void FailedHandlerGoogleAuth(ConnectionResult obj)
-        {
-            _mvxLog.Trace(obj.ErrorMessage);
-        }
-
-
-        private void CallBackGoogle(Bundle obj)
-        {
-
-        }
-
         private void SignIn()
         {
             var signInIntent = Auth.GoogleSignInApi.GetSignInIntent(_googleApiClient);
 
-            StartActivityForResult(signInIntent, SIGN_IN_GOOGLE_ID);
+            StartActivityForResult(signInIntent, SignInGoogleId);
         }
 
         #region AuthSocialInitialize
 
         private void InitializeGoogleAuth()
         {
-
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
                 .RequestEmail()
                 .Build();
 
             _googleApiClient = new GoogleApiClient.Builder(Application.Context)
-               .EnableAutoManage(Activity, FailedHandlerGoogleAuth)
+               .EnableAutoManage(Activity, _googleAuthenticationApiService.OnConnectionFailed)
                .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
-               .AddConnectionCallbacks(CallBackGoogle)
+               .AddConnectionCallbacks(_googleAuthenticationApiService.OnConnected)
                .Build();
 
             _googleButton.Click += (sender, e) => {
@@ -161,23 +143,6 @@ namespace TestProject.Droid.Fragments
             var authenticator = _facebookAuthenticationService.GetAuthenticator();
             var intent = authenticator.GetUI(Context);
             StartActivity(intent);
-        }
-
-        private void OnGoogleLoginButtonClicked(object sender, EventArgs e)
-        {
-            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
-                .RequestEmail()
-                .Build();
-        }
-
-        public void OnConnected(Bundle connectionHint)
-        {
-            
-        }
-
-        public void OnConnectionSuspended(int cause)
-        {
-            
         }
 
         protected override void Dispose(bool disposing)

@@ -41,7 +41,7 @@ namespace TestProject.Core.Helpers
                 int userId;
                 string stringUserId = CrossSecureStorage.Current.GetValue(nameof(SecureConstants.UserId));
 
-                Int32.TryParse(stringUserId, out userId);
+                int.TryParse(stringUserId, out userId);
 
                 return userId;
             }
@@ -70,7 +70,7 @@ namespace TestProject.Core.Helpers
                 bool userStatus;
                 string stringUserStatus = CrossSecureStorage.Current.GetValue(nameof(SecureConstants.Status));
 
-                Boolean.TryParse(stringUserStatus, out userStatus);
+                bool.TryParse(stringUserStatus, out userStatus);
 
                 return userStatus;
             }

@@ -3,8 +3,8 @@ using MvvmCross.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TestProject.Core.DBConnection;
-using TestProject.Core.DBConnection.Interfacies;
+using TestProject.Core.Providers;
+using TestProject.Core.Providers.Interfacies;
 using TestProject.Core.Models;
 using TestProject.Core.Repositories.Interfaces;
 
@@ -13,7 +13,7 @@ namespace TestProject.Core.Repositories
     public class FileRepository
         : BaseRepository<TaskFileModel>, IFileRepository
     {
-        public FileRepository(IDatabaseConnectionService dbConnection) : base(dbConnection)
+        public FileRepository(IDatabaseConnectionProvider dbConnection) : base(dbConnection)
         {
         }
 

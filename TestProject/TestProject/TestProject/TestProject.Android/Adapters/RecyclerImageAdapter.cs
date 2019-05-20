@@ -32,7 +32,7 @@ namespace TestProject.Droid.Adapters
 
         public event EventHandler<int> ItemClick;
 
-        private readonly int PENDING_REMOVAL_TIMEOUT = 3000;
+        private readonly int PendingRemovalTimeout = 3000;
 
         private TasksListFragment _tasksFragment;
 
@@ -133,7 +133,7 @@ namespace TestProject.Droid.Adapters
 
                 Action action = () => { Remove(Tasks.IndexOf(item)); };
 
-                _handler.PostDelayed(action, PENDING_REMOVAL_TIMEOUT);
+                _handler.PostDelayed(action, PendingRemovalTimeout);
 
                 if (!_pendingRunnables.ContainsKey(item))
                 {

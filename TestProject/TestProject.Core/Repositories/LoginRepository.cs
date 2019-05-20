@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TestProject.Core.Constants;
 using TestProject.Core.Models;
-using TestProject.Core.DBConnection;
+using TestProject.Core.Providers;
 using TestProject.Core.Repositories.Interfaces;
-using TestProject.Core.DBConnection.Interfacies;
+using TestProject.Core.Providers.Interfacies;
 using TestProject.Core.Helpers.Interfaces;
 using MvvmCross;
 
@@ -18,7 +18,7 @@ namespace TestProject.Core.Repositories
         : BaseRepository<User>, ILoginRepository
     {
 
-        public LoginRepository(IDatabaseConnectionService dbConnection) : base(dbConnection)
+        public LoginRepository(IDatabaseConnectionProvider dbConnection) : base(dbConnection)
         {
 
         }
@@ -33,6 +33,7 @@ namespace TestProject.Core.Repositories
         public int? GetSocialAccountUserId(User user)
         {
             User getUser = _dbConnection.Database.Table<User>().FirstOrDefault(v => v.FacebookId == user.FacebookId || v.GoogleId == user.GoogleId);
+
             return getUser?.Id;
         }
 

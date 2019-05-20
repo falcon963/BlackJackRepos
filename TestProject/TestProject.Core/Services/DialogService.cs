@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TestProject.Core.Constants;
 using TestProject.Core.Services.Interfaces;
-using TestProject.Resources;
+using TestProject.LanguageResources;
 
 namespace TestProject.Core.Services
 {

@@ -7,8 +7,10 @@ using Foundation;
 using MvvmCross.Platforms.Ios.Binding.Views;
 using TestProject.Core.Models;
 using TestProject.Core.ViewModels;
+using TestProject.iOS.Constants;
 using TestProject.iOS.Views;
 using TestProject.iOS.Views.Cells;
+using TestProject.LanguageResources;
 using UIKit;
 
 namespace TestProject.iOS.Sources
@@ -17,9 +19,11 @@ namespace TestProject.iOS.Sources
         : MvxTableViewSource
     {
 
-        public string cellIdentifier = "ContentTasksCell";
+        public string cellIdentifier = nameof(ContentTasksCell);
 
         private TasksListView _view;
+
+        public const int sectionsNumber = 1;
 
         public TasksListSource(UITableView tableView, TasksListView view) : base(tableView)
         {
@@ -35,8 +39,8 @@ namespace TestProject.iOS.Sources
                 return new MvxTableViewCell();
             }
             cell.Layer.BorderColor = UIColor.Black.CGColor;
-            cell.Layer.BorderWidth = 1;
-            cell.Layer.CornerRadius = 8;
+            cell.Layer.BorderWidth = SizeConstants.BorderWidth;
+            cell.Layer.CornerRadius = SizeConstants.CornerRadius;
             if (item is UserTask taskItem)
             {
                 (cell as ContentTasksCell).UpdateCell(taskItem);
@@ -57,7 +61,7 @@ namespace TestProject.iOS.Sources
 
         public UIContextualAction ContextualDeleteAction(int row)
         {
-            var action = UIContextualAction.FromContextualActionStyle(UIContextualActionStyle.Normal, "Delete", (DeleteAction, view, success) =>
+            var action = UIContextualAction.FromContextualActionStyle(UIContextualActionStyle.Normal, Strings.Delete , (DeleteAction, view, success) =>
             {
                 var vm = _view.ViewModel;
                 vm.DeleteTaskCommand.Execute(vm.Tasks[row]);
@@ -72,7 +76,7 @@ namespace TestProject.iOS.Sources
 
         public UIContextualAction ContextualEditAction(int row)
         {
-            var action = UIContextualAction.FromContextualActionStyle(UIContextualActionStyle.Normal, "Edit", (EditAction, view, success) =>
+            var action = UIContextualAction.FromContextualActionStyle(UIContextualActionStyle.Normal, Strings.Edit, (EditAction, view, success) =>
             {
                 var vm = _view.ViewModel;
                 vm.ItemSelectedCommand.Execute(vm.Tasks[row]);
@@ -86,7 +90,7 @@ namespace TestProject.iOS.Sources
 
         public override nint NumberOfSections(UITableView tableView)
         {
-            return 1;
+            return sectionsNumber;
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)

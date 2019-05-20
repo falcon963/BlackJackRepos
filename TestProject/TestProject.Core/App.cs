@@ -8,7 +8,7 @@ using MvvmCross;
 using Acr.UserDialogs;
 using TestProject.Core.Services;
 using MvvmCross.Localization;
-using TestProject.Resources;
+using TestProject.LanguageResources;
 
 namespace TestProject.Core
 {

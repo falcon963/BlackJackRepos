@@ -10,7 +10,6 @@ namespace TestProject.Core.Repositories.Interfaces
     public interface ITasksRepository
         : IBaseRepository<UserTask>
     {
-
         IEnumerable<UserTask> GetTasksList(int userId);
     }
 }

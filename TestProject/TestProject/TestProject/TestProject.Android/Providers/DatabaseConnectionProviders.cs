@@ -1,12 +1,12 @@
 ﻿using SQLite;
 using System.IO;
 using TestProject.Core.Models;
-using TestProject.Core.DBConnection.Interfacies;
+using TestProject.Core.Providers.Interfacies;
 
 namespace TestProject.Droid.Providers
 {
     public class DatabaseConnectionProvider
-        : IDatabaseConnectionService
+        : IDatabaseConnectionProvider
     {
         public SQLiteConnection GetDBConnection(string dbName)
         {

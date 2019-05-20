@@ -5,7 +5,7 @@ using System.Linq;
 using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
-using TestProject.Resources;
+using TestProject.LanguageResources;
 
 namespace TestProject.Core.Models
 {
@@ -15,7 +15,9 @@ namespace TestProject.Core.Models
         public string Password { get; set; }
 
         [Required]
-        [Compare(nameof(Password), ErrorMessageResourceName = "ConfirmPasswordMustBeComparePassword", ErrorMessageResourceType = typeof(Strings))]
+        [Compare(nameof(Password), 
+            ErrorMessageResourceName = nameof(Strings.ConfirmPasswordMustBeComparePassword), 
+            ErrorMessageResourceType = typeof(Strings))]
         public string PasswordConfirmation { get; set; }
     }
 }

@@ -25,15 +25,15 @@ namespace TestProject.iOS.Views
         : BaseView<MenuView ,MenuViewModel>
     {
         private MenuItemSource _source;
-        public static NSString MyCellId = new NSString("ContentNavigateCell");
+        public static NSString MyCellId = new NSString(nameof(ContentNavigateCell));
 
-        public MenuView() : base("MenuView", null)
+        public MenuView() : base(nameof(MenuView), null)
         {
         }
 
         public override bool SetupBindings()
         {
-            BindingSet.Bind(NavigateList).For(v => v.BackgroundColor).To(vm => vm.MenuColor).WithConversion(new ColorValueConverter());
+            BindingSet.Bind(NavigateList).For(v => v.BackgroundColor).To(vm => vm.MenuColor).WithConversion("NativeColor");
             BindingSet.Bind(UserProfileImage).For(v => v.Image).To(vm => vm.Profile.ImagePath).WithConversion(new ImageValueConverter());
             BindingSet.Bind(_source).For(x => x.ItemsSource).To(vm => vm.MenuItems);
             BindingSet.Bind(_source).For(x => x.SelectionChangedCommand).To(vm => vm.ItemSelectCommand);
@@ -51,7 +51,7 @@ namespace TestProject.iOS.Views
 
             NavigateList.Source = _source;
 ;
-            this.AutomaticallyAdjustsScrollViewInsets = false;
+            AutomaticallyAdjustsScrollViewInsets = false;
             NavigateList.ScrollEnabled = false;
 
             var transition = new CATransition();
@@ -60,7 +60,7 @@ namespace TestProject.iOS.Views
             transition.Type = CATransition.TransitionPush;
             transition.Subtype = CATransition.TransitionFromLeft;
 
-            this.NavigationController.View.Layer.AddAnimation(transition, null);
+            NavigationController.View.Layer.AddAnimation(transition, null);
 
             UserProfileImage.Layer.BorderWidth = 3;
             UserProfileImage.Layer.BorderColor = UIColor.White.CGColor;

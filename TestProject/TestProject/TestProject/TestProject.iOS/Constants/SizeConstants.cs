@@ -10,7 +10,7 @@ namespace TestProject.iOS.Constants
 {
     public class SizeConstants
     {
-        public const int cornerRadius = 8;
-        public const int borderWidth = 1;
+        public const int CornerRadius = 8;
+        public const int BorderWidth = 1;
     }
 }

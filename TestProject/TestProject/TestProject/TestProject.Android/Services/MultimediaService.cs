@@ -29,16 +29,17 @@ using TestProject.Droid.Models;
 
 namespace TestProject.Droid.Services
 {
-    public class MultimediaService<T>: IImagePickerPlatformService where T : BaseFragment, IFragmentLifecycle
+    public class MultimediaService<T>:
+        IImagePickerPlatformService where T : BaseFragment, IFragmentLifecycle
     {
 
-        private const int REQUEST_CAMERA = 0;
+        private const int RequestCamera = 0;
 
-        private const int REQUEST_GALLERY = 1;
+        private const int RequestGallery = 1;
 
-        private const int RESULT_CODE_OK = -1;
+        private const int ResultCodeOk = -1;
 
-        private const int RESULT_CODE_CANCEL = 0;
+        private const int ResultCodeCancel = 0;
 
         private readonly T _fragment;
         private View _imageView;
@@ -58,74 +59,66 @@ namespace TestProject.Droid.Services
         {
             TaskCompletionSource<byte[]> taskCompletionSource = new TaskCompletionSource<byte[]>();
 
-            void OnMenuItemClicked(object sender, PopupMenu.MenuItemClickEventArgs e)
-            {
-                var label = e.Item.TitleFormatted.ToString();
-
-                if (label == Strings.Camera)
-                {
-                    var sdCardPath = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
-                    string time = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                    string name = $"Test_Project_{time}.jpg";
-                    var filePath = Path.Combine(sdCardPath, name);
-
-                    File image = new File(filePath);
-                    _imageUri = Uri.FromFile(image);
-
-                    var intent = new Intent(MediaStore.ActionImageCapture);
-                    intent.PutExtra(MediaStore.ExtraOutput, _imageUri);
-
-                    _fragment.StartActivityForResult(intent, REQUEST_CAMERA);
-                }
-
-                if (label == Strings.Gallery)
-                {
-                    var intent = new Intent(Intent.ActionPick, MediaStore.Images.Media.ExternalContentUri);
-                    intent.SetType("image/*");
-
-                    _fragment.StartActivityForResult(Intent.CreateChooser(intent, Strings.SelectPicture), REQUEST_GALLERY);
-                }
-
-                if (label == Strings.Cancel)
-                {
-
-                }
-
-                
-            }
-
             void ActivityResult(object sender1, ResultEventArgs args)
             {
-                if (args?.ResultCode == RESULT_CODE_CANCEL)
+                if (args?.ResultCode == ResultCodeCancel)
                 {
                     taskCompletionSource.TrySetResult(null);
                 }
 
-                if (args?.ResultCode == RESULT_CODE_OK
-                    && args?.RequestCode == REQUEST_CAMERA)
+                if (args?.ResultCode == ResultCodeOk
+                    && args?.RequestCode == RequestCamera)
                 {
-                    Bitmap bitmapImage = BitmapFactory.DecodeFile(_imageUri.Path);
-
-                    var imageBytes = GetImageByteArray(bitmapImage);
-
-                    taskCompletionSource.TrySetResult(imageBytes);
+                    SetResult(taskCompletionSource ,_imageUri.Path);
                 }
 
-                if (args?.ResultCode == RESULT_CODE_OK
-                    && args?.RequestCode == REQUEST_GALLERY)
+                if (args?.ResultCode == ResultCodeOk
+                    && args?.RequestCode == RequestGallery)
                 {
                     string realPath = _uriHelper.GetRealPathFromURI(args?.Data?.Data, _fragment);
 
-                    Bitmap bitmapImage = BitmapFactory.DecodeFile(realPath);
-
-                    var imageBytes = GetImageByteArray(bitmapImage);
-
-                    taskCompletionSource.TrySetResult(imageBytes);
+                    SetResult(taskCompletionSource, realPath);
                 }
             }
 
             _fragment.SubscribeOnResult += ActivityResult;
 
+            ShowPopupMenu();
+
+            return taskCompletionSource.Task;
+        }
+
+        private void OnMenuItemClicked(object sender, PopupMenu.MenuItemClickEventArgs e)
+        {
+            var label = e.Item.TitleFormatted.ToString();
+
+            if (label == Strings.Camera)
+            {
+                var sdCardPath = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
+                string time = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                string name = $"Test_Project_{time}.jpg";
+                var filePath = Path.Combine(sdCardPath, name);
+
+                File image = new File(filePath);
+                _imageUri = Uri.FromFile(image);
+
+                var intent = new Intent(MediaStore.ActionImageCapture);
+                intent.PutExtra(MediaStore.ExtraOutput, _imageUri);
+
+                _fragment.StartActivityForResult(intent, RequestCamera);
+            }
+
+            if (label == Strings.Gallery)
+            {
+                var intent = new Intent(Intent.ActionPick, MediaStore.Images.Media.ExternalContentUri);
+                intent.SetType("image/*");
+
+                _fragment.StartActivityForResult(Intent.CreateChooser(intent, Strings.SelectPicture), RequestGallery);
+            }
+        }
+
+        private void ShowPopupMenu()
+        {
             var popup = new PopupMenu(_fragment.Activity, _imageView);
 
             popup.Menu.Add(Strings.Camera);
@@ -133,11 +126,9 @@ namespace TestProject.Droid.Services
             popup.Menu.Add(Strings.Cancel);
             popup.MenuItemClick += OnMenuItemClicked;
             popup.Show();
-
-            return taskCompletionSource.Task;
         }
 
-        public byte[] GetImageByteArray(Bitmap image)
+        public byte[] GetImageByteArray(Bitmap image, int quality)
         {
             if (image == null)
             {
@@ -148,11 +139,21 @@ namespace TestProject.Droid.Services
 
             using (var stream = new MemoryStream())
             {
-                image.Compress(Bitmap.CompressFormat.Png, 80, stream);
+                image.Compress(Bitmap.CompressFormat.Png, quality, stream);
                 bitmapData = stream.ToArray();
             }
 
             return bitmapData;
+        }
+
+        public void SetResult(
+            TaskCompletionSource<byte[]> taskCompletion, string imageName)
+        {
+            Bitmap bitmapImage = BitmapFactory.DecodeFile(imageName);
+
+            var imageBytes = GetImageByteArray(bitmapImage, 80);
+
+            taskCompletion.TrySetResult(imageBytes);
         }
     }
 }

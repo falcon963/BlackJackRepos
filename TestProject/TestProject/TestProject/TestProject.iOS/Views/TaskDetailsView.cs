@@ -9,7 +9,7 @@ using System.Linq;
 using TestProject.Core.Services.Interfaces;
 using TestProject.Core.ViewModels;
 using TestProject.iOS.Converters;
-using TestProject.iOS.ResourcesHelpers;
+using TestProject.iOS.Helpers;
 using TestProject.iOS.Services;
 using TestProject.iOS.Services.Interfaces;
 using TestProject.iOS.Sources;
@@ -24,7 +24,6 @@ namespace TestProject.iOS.Views
         : BaseView<TaskDetailsView ,TaskViewModel>
     {
         #region Init Fealds
-        private UITapGestureRecognizer _tap;
 
         private UIDocumentMenuViewController _documentPickerController;
 
@@ -55,6 +54,21 @@ namespace TestProject.iOS.Views
             return base.SetupBindings();
         }
 
+        public override bool SetupEvents()
+        {
+            _documentsPickerService.PresentedDocumentPicker += _documentsPickerService_PresentedDocumentPicker;
+
+            _documentsPickerService.PresentedMenuDocumentPicker += _documentsPickerService_PresentedMenuDocumentPicker;
+
+            _photoService.ImagePickerDelegateSubscription += _photoService_ImagePickerDelegateSubscription;
+
+            _photoService.PresentPicker += _photoService_PresentPicker;
+
+            _photoService.PresentAlert += _photoService_PresentAlert;
+
+            return base.SetupEvents();
+        }
+
         public TaskDetailsView() : base(nameof(TaskDetailsView), null)
         {
 
@@ -64,27 +78,36 @@ namespace TestProject.iOS.Views
         {
             _photoService = photoService;
             _documentsPickerService = documentPickerService;
-
-            _documentsPickerService.PresentedDocumentPicker += (sender, e) => {
-                PresentViewController(e, true, null);
-            };
-
-            _documentsPickerService.PresentedMenuDocumentPicker += (sender, e) => {
-                PresentViewController(e, true, null);
-            };
-
-            _photoService.ImagePickerDelegateSubscription += (sender, e) => {
-                e = this;
-            };
-
-            _photoService.PresentPicker += (sender, e) => {
-                PresentViewController(e, true, null);
-            };
-
-            _photoService.PresentAlert += (sender, e) => {
-                PresentViewController(e, true, null);
-            };
         }
+
+        #region Handlers
+
+        private void _photoService_ImagePickerDelegateSubscription(object sender, NSObject e)
+        {
+            e = this;
+        }
+
+        private void _documentsPickerService_PresentedDocumentPicker(object sender, UIDocumentPickerViewController e)
+        {
+            PresentViewController(e, true, null);
+        }
+
+        private void _documentsPickerService_PresentedMenuDocumentPicker(object sender, UIDocumentMenuViewController e)
+        {
+            PresentViewController(e, true, null);
+        }
+
+        private void _photoService_PresentPicker(object sender, UIImagePickerController e)
+        {
+            PresentViewController(e, true, null);
+        }
+
+        private void _photoService_PresentAlert(object sender, UIAlertController e)
+        {
+            PresentViewController(e, true, null);
+        }
+
+        #endregion
 
         public override void ViewDidLoad()
         {
@@ -95,7 +118,6 @@ namespace TestProject.iOS.Views
 
             #region Init Property Sub
 
-            //ViewModel.PropertyChanged += ViewModel_PropertyChanged;
             ViewModel.Files.CollectionChanged +=   ListOfFiles_CollectionChanged;
 
             #endregion
@@ -177,5 +199,20 @@ namespace TestProject.iOS.Views
 
         #endregion
 
+
+        protected override void Dispose(bool disposing)
+        {
+            _documentsPickerService.PresentedDocumentPicker -= _documentsPickerService_PresentedDocumentPicker;
+
+            _documentsPickerService.PresentedMenuDocumentPicker -= _documentsPickerService_PresentedMenuDocumentPicker;
+
+            _photoService.ImagePickerDelegateSubscription -= _photoService_ImagePickerDelegateSubscription;
+
+            _photoService.PresentPicker -= _photoService_PresentPicker;
+
+            _photoService.PresentAlert -= _photoService_PresentAlert;
+
+            base.Dispose(disposing);
+        }
     }
 }

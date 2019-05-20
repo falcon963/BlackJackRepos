@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Foundation;
 using UIKit;
 
-namespace TestProject.iOS.ResourcesHelpers
+namespace TestProject.iOS.Helpers
 {
     public static class ResourceHelper
     {

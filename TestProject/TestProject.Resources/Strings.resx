@@ -285,4 +285,13 @@
   <data name="YouDontHaveCamera" xml:space="preserve">
     <value>You don't have camera</value>
   </data>
+  <data name="RegularError" xml:space="preserve">
+    <value>Regular Error</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="TasksList" xml:space="preserve">
+    <value>Tasks List</value>
+  </data>
 </root>

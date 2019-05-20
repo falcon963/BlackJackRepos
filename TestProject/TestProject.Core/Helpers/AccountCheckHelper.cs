@@ -49,7 +49,7 @@ namespace TestProject.Core.Helpers
 
         public bool IsSocialNetworkLogin()
         {
-            var isSocialNetworkLogin = !String.IsNullOrEmpty(_userHelper.UserAccessToken);
+            var isSocialNetworkLogin = !string.IsNullOrEmpty(_userHelper.UserAccessToken);
 
             return isSocialNetworkLogin;
         }

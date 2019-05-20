@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TestProject.Core.DBConnection.Interfacies
+namespace TestProject.Core.Providers.Interfacies
 {
-    public interface IDatabaseConnectionService
+    public interface IDatabaseConnectionProvider
     {
         SQLiteConnection GetDBConnection(string dbName);
     }

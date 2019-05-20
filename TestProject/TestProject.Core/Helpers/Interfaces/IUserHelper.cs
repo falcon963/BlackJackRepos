@@ -6,7 +6,6 @@ namespace TestProject.Core.Helpers.Interfaces
 {
     public interface IUserHelper
     {
-
         void DeleteUserStatus();
         void DeleteUserAccessToken();
         string UserLogin { get; set; }

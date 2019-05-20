@@ -15,7 +15,7 @@ using Plugin.SecureStorage;
 using TestProject.Core.Constants;
 using System.Threading;
 using TestProject.Core.Services;
-using TestProject.Core.DBConnection;
+using TestProject.Core.Providers;
 using TestProject.Core.Repositories.Interfaces;
 using TestProject.Core.Colors;
 using TestProject.Core.Services.Interfaces;
@@ -29,7 +29,7 @@ namespace TestProject.Core.ViewModels
     {
         #region Fields
 
-        private readonly ITasksRepository _taskService;
+        private readonly ITasksRepository _tasksRepository;
         private readonly IUserDialogs _userDialogs;
         private readonly IFileRepository _fileService;
         private readonly IDialogsService _dialogsService;
@@ -37,6 +37,7 @@ namespace TestProject.Core.ViewModels
         private readonly IValidationService _validationService;
         private readonly IDocumentPickerService _documentPickerService;
         private readonly IImagePickerService _imagePickerService;
+        private readonly ITaskService _taskService;
 
         private UserTask _userTaskCopy;
 
@@ -56,7 +57,7 @@ namespace TestProject.Core.ViewModels
         {
             get
             {
-                return String.IsNullOrEmpty(UserTask.Changes.Title);
+                return string.IsNullOrEmpty(UserTask.Changes.Title);
             }
         }
 
@@ -75,15 +76,16 @@ namespace TestProject.Core.ViewModels
         #endregion
 
 
-        public TaskViewModel(IMvxNavigationService navigationService, ITasksRepository taskService, IUserDialogs userDialogs, IFileRepository fileService, IDialogsService dialogsService, 
-            IUserHelper userHelper, IValidationService validationService, IDocumentPickerService documentPickerService, ImagePickerService imagePickerService):base(navigationService)
+        public TaskViewModel(IMvxNavigationService navigationService, ITaskService taskService, IUserDialogs userDialogs, IFileRepository fileService, IDialogsService dialogsService, 
+            IUserHelper userHelper, IValidationService validationService, IDocumentPickerService documentPickerService, ImagePickerService imagePickerService, ITasksRepository tasksRepository):base(navigationService)
         {
             #region Init Service`s
-            _taskService = taskService;
+            _tasksRepository = tasksRepository;
             _userDialogs = userDialogs;
             _fileService = fileService;
             _dialogsService = dialogsService;
             _userHelper = userHelper;
+            _taskService = taskService;
             _validationService = validationService;
             _documentPickerService = documentPickerService;
             _imagePickerService = imagePickerService;
@@ -179,7 +181,7 @@ namespace TestProject.Core.ViewModels
                         return;
                     }
 
-                    _taskService.Delete(UserTask.Changes);
+                    _tasksRepository.Delete(UserTask.Changes);
 
                     UserTask.Result = UserTaskResult.Deleted;
 
@@ -252,7 +254,7 @@ namespace TestProject.Core.ViewModels
 
                         UserTask.Changes.UserId = _userHelper.UserId;
 
-                        int taskId = _taskService.Save(UserTask.Changes);
+                        int taskId = _taskService.SaveTask(UserTask.Changes);
                 
                         TaskFileModel fileItem;
                         foreach (FileItemViewModel file in Files)
@@ -285,7 +287,7 @@ namespace TestProject.Core.ViewModels
 
         public override void Prepare(int taskId)
         {
-            UserTask task = _taskService.Get(taskId);
+            UserTask task = _tasksRepository.Get(taskId);
 
             if (task == null)
             {

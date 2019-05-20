@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestProject.Core.DBConnection;
-using TestProject.Core.DBConnection.Interfacies;
+using TestProject.Core.Providers;
+using TestProject.Core.Providers.Interfacies;
 using TestProject.Core.Models;
 using TestProject.Core.Repositories.Interfaces;
 
@@ -16,11 +16,11 @@ namespace TestProject.Core.Repositories
         : IBaseRepository<T> where T : BaseModel, new()
     {
 
-        protected readonly SqliteAppConnection _dbConnection;
+        protected readonly SqliteAppConnectionProvider _dbConnection;
 
-        public BaseRepository(IDatabaseConnectionService dbConnection)
+        public BaseRepository(IDatabaseConnectionProvider dbConnection)
         {
-            _dbConnection = new SqliteAppConnection(dbConnection);
+            _dbConnection = new SqliteAppConnectionProvider(dbConnection);
         }
 
         public void Delete(T item)
@@ -45,14 +45,7 @@ namespace TestProject.Core.Repositories
 
         public int Save(T item)
         {
-            int id;
-
-            if (item.Id == 0)
-            {
-                id = _dbConnection.Database.Insert(item);
-                return id;
-            }
-            id = Update(item);
+            int id = _dbConnection.Database.Insert(item);
 
             return id;
         }

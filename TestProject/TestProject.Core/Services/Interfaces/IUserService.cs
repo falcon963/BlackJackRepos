@@ -12,6 +12,7 @@ namespace TestProject.Core.Services.Interfaces
         void ChangeImage(int userId, string imagePath);
         void ChangePassword(int userId, string password);
         bool IsValidLogin(string login);
+        int SaveCreatedUser(User user);
 
         void Logout();
     }

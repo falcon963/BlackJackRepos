@@ -28,14 +28,11 @@ namespace TestProject.iOS.Views
 
         #region Fields
 
-        private UITapGestureRecognizer _tap;
-
         private IAuthenticationGoogleService _googleAuthenticationService;
 
         private IAuthenticationFacebookService _facebookAuthenticationService;
 
         #endregion
-
 
         #region ctor
 
@@ -52,28 +49,36 @@ namespace TestProject.iOS.Views
 
         public override bool SetupEvents()
         {
-            _googleAuthenticationService.OnAuthenticationCanceled += (sender, e) => { };
+            _googleAuthenticationService.OnAuthenticationCompleted += _googleAuthenticationService_OnAuthenticationCompleted;
 
-            _googleAuthenticationService.OnAuthenticationCompleted += (senser, e) => {
-                ViewModel?.SignInWithFacebookCommand?.Execute();
-                DismissViewController(true, null);
-            };
+            _googleAuthenticationService.OnAuthenticationFailed += AuthenticationService_OnAuthenticationFailed;
 
-            _googleAuthenticationService.OnAuthenticationFailed += (sender, e) => {
-                DismissViewController(true, null); };
+            _facebookAuthenticationService.OnAuthenticationCompleted += _facebookAuthenticationService_OnAuthenticationCompleted;
 
-            _facebookAuthenticationService.OnAuthenticationCompleted += (sender, e) => {
-                ViewModel.SignInWithFacebookCommand.Execute();
-                DismissViewController(true, null);
-            };
-
-            _facebookAuthenticationService.OnAuthenticationCanceled += (sender, e) => { };
-
-            _facebookAuthenticationService.OnAuthenticationFailed += (sender, e) => {
-                DismissViewController(true, null);
-            };
+            _facebookAuthenticationService.OnAuthenticationFailed += AuthenticationService_OnAuthenticationFailed;
 
             return base.SetupEvents();
+        }
+
+        #endregion
+
+        #region Handlers
+
+        private void AuthenticationService_OnAuthenticationFailed(object sender, EventArgs e)
+        {
+            DismissViewController(true, null);
+        }
+
+        private void _facebookAuthenticationService_OnAuthenticationCompleted(object sender, EventArgs e)
+        {
+            ViewModel.SignInWithFacebookCommand.Execute();
+            DismissViewController(true, null);
+        }
+
+        private void _googleAuthenticationService_OnAuthenticationCompleted(object sender, EventArgs e)
+        {
+            ViewModel?.SignInWithFacebookCommand?.Execute();
+            DismissViewController(true, null);
         }
 
         #endregion
@@ -121,7 +126,7 @@ namespace TestProject.iOS.Views
         {
             var authenticator = _facebookAuthenticationService.GetAuthenticator();
             var view = authenticator.GetUI();
-            PresentViewController(view, true, () => { });
+            PresentViewController(view, true, null);
         }
 
         void GoogleLogin()
@@ -129,6 +134,19 @@ namespace TestProject.iOS.Views
             var authenticator = _googleAuthenticationService.GetAuthenticator();
             var viewController = authenticator.GetUI();
             PresentViewController(viewController, true, null);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            _googleAuthenticationService.OnAuthenticationCompleted -= _googleAuthenticationService_OnAuthenticationCompleted;
+
+            _googleAuthenticationService.OnAuthenticationFailed -= AuthenticationService_OnAuthenticationFailed;
+
+            _facebookAuthenticationService.OnAuthenticationCompleted -= _facebookAuthenticationService_OnAuthenticationCompleted;
+
+            _facebookAuthenticationService.OnAuthenticationFailed -= AuthenticationService_OnAuthenticationFailed;
         }
 
         #endregion

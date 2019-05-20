@@ -22,12 +22,12 @@ namespace TestProject.Droid.Helpers
         : IUriHelper
     {
 
-        private const string title = "Title";
+        private const string Title = "Title";
 
 
         public Uri GetImageUri(Context context, Bitmap inImage)
         {
-            string path = MediaStore.Images.Media.InsertImage(context.ContentResolver, inImage, title, null);
+            string path = MediaStore.Images.Media.InsertImage(context.ContentResolver, inImage, Title, null);
 
             var imageUri = Uri.Parse(path);
 

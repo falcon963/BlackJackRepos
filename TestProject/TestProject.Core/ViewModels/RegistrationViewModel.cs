@@ -17,7 +17,6 @@ using TestProject.Core.Models;
 using TestProject.Core.Repositories.Interfaces;
 using TestProject.Core.Services.Interfaces;
 using TestProject.LanguageResources;
-using TestProject.Resources;
 
 namespace TestProject.Core.ViewModels
 {
@@ -26,7 +25,6 @@ namespace TestProject.Core.ViewModels
     {
         #region Fields
 
-        private readonly ILoginRepository _loginService;
         private readonly IDialogsService _dialogsService;
         private readonly IValidationService _validationService;
         private readonly IUserDialogs _userDialogs;
@@ -37,11 +35,10 @@ namespace TestProject.Core.ViewModels
 
         #endregion
 
-        public RegistrationViewModel(IMvxNavigationService navigationService, ILoginRepository loginService,
+        public RegistrationViewModel(IMvxNavigationService navigationService,
             IUserDialogs userDialogs, IDialogsService dialogsService, IValidationService validationService, IUserService userService) : base(navigationService)
         {
             _userDialogs = userDialogs;
-            _loginService = loginService;
             _dialogsService = dialogsService;
             _validationService = validationService;
             _userService = userService;
@@ -62,11 +59,11 @@ namespace TestProject.Core.ViewModels
 
         #region Propertys
 
-        [Required(ErrorMessageResourceName = "LoginMustBeRequired", ErrorMessageResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = nameof(Strings.LoginMustBeRequired), ErrorMessageResourceType = typeof(Strings))]
         public string Login { get; set; }
 
-        [Required(ErrorMessageResourceName = "PasswordMustBeRequired", ErrorMessageResourceType = typeof(Strings))]
-        [RegularExpression(@"[0-9A-Z]+.{8,}", ErrorMessageResourceName = "RegularError", ErrorMessageResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = nameof(Strings.PasswordMustBeRequired), ErrorMessageResourceType = typeof(Strings))]
+        [RegularExpression(@"[0-9A-Z]+.{8,}", ErrorMessageResourceName = nameof(Strings.RegularError), ErrorMessageResourceType = typeof(Strings))]
         public string Password
         {
             get
@@ -97,8 +94,8 @@ namespace TestProject.Core.ViewModels
             }
         }
 
-        [Required(ErrorMessageResourceName = "ConfirmPasswordFieldIsEmpty", ErrorMessageResourceType =typeof(Strings))]
-        [Compare(nameof(Password), ErrorMessageResourceName = "ConfirmPasswordMustBeComparePassword", ErrorMessageResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = nameof(Strings.ConfirmPasswordMustBeRequired), ErrorMessageResourceType =typeof(Strings))]
+        [Compare(nameof(Password), ErrorMessageResourceName = nameof(Strings.ConfirmPasswordMustBeComparePassword), ErrorMessageResourceType = typeof(Strings))]
         public string PasswordConfirmation
         {
             get
@@ -163,7 +160,7 @@ namespace TestProject.Core.ViewModels
                         Password = Password
                     };
 
-                    _loginService.Save(user);
+                    _userService.SaveCreatedUser(user);
 
                     var userConfirm = await _dialogsService.ShowConfirmDialogAsync(Strings.RegistrateSuccessfulReturnOnLoginPage, Strings.Success);
 

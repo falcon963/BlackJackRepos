@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 using MvvmCross.UI;
 using TestProject.Core.Repositories.Interfaces;
 using TestProject.Core.Helpers.Interfaces;
-using TestProject.Resources;
 using TestProject.Core.Colors;
 using TestProject.Core.Services.Interfaces;
+using TestProject.LanguageResources;
 
 namespace TestProject.Core.ViewModels
 {

@@ -44,6 +44,22 @@ namespace TestProject.Core.Services
             return createUserId;
         }
 
+        public int SaveCreatedUser(User user)
+        {
+            int id;
+
+            if (user.Id == 0)
+            {
+                id = _loginRepository.Save(user);
+
+                return id;
+            }
+
+            id = _loginRepository.Update(user);
+
+            return id;
+        }
+
         public void ChangeImage(int userId, string imagePath)
         {
             User user = _loginRepository.Get(userId);

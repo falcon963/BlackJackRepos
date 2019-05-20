@@ -64,10 +64,10 @@ namespace TestProject.Core.ViewModels
 
         public OAuth2Authenticator Auth { get; set; }
 
-        [Required(ErrorMessageResourceName = "LoginMustBeRequired", ErrorMessageResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = nameof(Strings.LoginMustBeRequired), ErrorMessageResourceType = typeof(Strings))]
         public string Login { get; set; }
 
-        [Required(ErrorMessageResourceName = "PasswordMustBeRequired", ErrorMessageResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = nameof(Strings.PasswordMustBeRequired), ErrorMessageResourceType = typeof(Strings))]
         public string Password { get; set; }
 
         public bool IsRememberMeStatus

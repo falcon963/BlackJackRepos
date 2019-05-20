@@ -7,12 +7,12 @@ using Foundation;
 using UIKit;
 using SQLite;
 using System.IO;
-using TestProject.Core.DBConnection.Interfacies;
+using TestProject.Core.Providers.Interfacies;
 
-namespace TestProject.iOS.Database
+namespace TestProject.iOS.Providers
 {
-    public class DatabaseConnectionService
-        : IDatabaseConnectionService
+    public class DatabaseConnectionProvider
+        : IDatabaseConnectionProvider
     {
         public SQLiteConnection GetDBConnection(string dbName)
         {

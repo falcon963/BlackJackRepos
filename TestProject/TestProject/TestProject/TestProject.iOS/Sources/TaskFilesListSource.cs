@@ -15,7 +15,7 @@ namespace TestProject.iOS.Sources
         : MvxTableViewSource
     {
 
-        public string cellIdentifier = "FileCell";
+        public string cellIdentifier = nameof(FileCell);
 
         private TaskDetailsView _mainView;
 
@@ -24,7 +24,7 @@ namespace TestProject.iOS.Sources
             _mainView = view;
             DeselectAutomatically = true;
             tableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
-            tableView.RegisterNibForCellReuse(UINib.FromName("FileCell", NSBundle.MainBundle), cellIdentifier);
+            tableView.RegisterNibForCellReuse(UINib.FromName(nameof(FileCell), NSBundle.MainBundle), cellIdentifier);
         }
 
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)

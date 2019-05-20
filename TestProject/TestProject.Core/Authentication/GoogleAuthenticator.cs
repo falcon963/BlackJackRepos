@@ -17,7 +17,6 @@ namespace TestProject.Core.Authentication
         public static Uri AuthorizeUrl = new Uri(SocialConstants.AuthorizeUrlGoogle);
         private const bool IsUsingNativeUI = true;
 
-
         private readonly OAuth2Authenticator _auth;
         private readonly IGoogleAuthenticationDelegate _authenticationDelegate;
 
@@ -55,7 +54,7 @@ namespace TestProject.Core.Authentication
 
                 _authenticationDelegate.OnAuthenticationCompleted(token);
             }
-            else
+            if(!e.IsAuthenticated)
             {
                 _authenticationDelegate.OnAuthenticationCanceled();
             }

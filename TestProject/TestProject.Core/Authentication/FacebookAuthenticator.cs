@@ -47,13 +47,15 @@ namespace TestProject.Core.Authentication
             if (e.IsAuthenticated)
             {
                 var token = e.Account.Properties[SocialConstants.CompletedProperties];
+
                 var userHelper = Mvx.IoCProvider.Resolve<IUserHelper>();
 
                 userHelper.UserAccessToken = token;
 
                 _authentication.OnAuthenticationCompleted(token);
             }
-            else
+
+            if(!e.IsAuthenticated)
             {
                 _authentication.OnAuthenticationCanceled();
             }

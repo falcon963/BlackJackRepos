@@ -36,8 +36,6 @@
 	<string>Need you location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Need you location.</string>
-	<key>UIRequiresFullScreen</key>
-	<true/>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>This app needs access to photos.</string>
 	<key>CFBundleName</key>
@@ -70,5 +68,7 @@
 			<string>Document Type 1</string>
 		</dict>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 </dict>
 </plist>

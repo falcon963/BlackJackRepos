@@ -9,6 +9,6 @@ namespace TestProject.Core.Models
     {
         public string ItemTitle { get; set; }
 
-        public Action ItemAction {get;set;}
+        public Action ItemAction { get; set; }
     }
 }

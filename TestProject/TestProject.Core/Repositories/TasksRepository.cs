@@ -7,18 +7,18 @@ using SQLite;
 using System.Linq;
 using MvvmCross;
 using TestProject.Core.ViewModels;
-using TestProject.Core.DBConnection;
+using TestProject.Core.Providers;
 using System.Threading;
 using TestProject.Core.Repositories.Interfaces;
 using MvvmCross.Logging;
-using TestProject.Core.DBConnection.Interfacies;
+using TestProject.Core.Providers.Interfacies;
 
 namespace TestProject.Core.Repositories
 {
     public class TasksRepository 
         : BaseRepository<UserTask>, ITasksRepository
     {
-        public TasksRepository(IDatabaseConnectionService dbConnection) : base(dbConnection)
+        public TasksRepository(IDatabaseConnectionProvider dbConnection) : base(dbConnection)
         {
         }
 

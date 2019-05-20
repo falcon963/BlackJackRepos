@@ -99,7 +99,7 @@ namespace TestProject.iOS.Views
         {
             var height = field.Frame.Size.Height;
             var width = field.Frame.Size.Width;
-            Single shadowOffsetX = 2000;
+            float shadowOffsetX = 2000;
             var shadowPath = new UIBezierPath();
             shadowPath.MoveTo(new CGPoint(0, height));
             shadowPath.AddLineTo(new CGPoint(width, height));

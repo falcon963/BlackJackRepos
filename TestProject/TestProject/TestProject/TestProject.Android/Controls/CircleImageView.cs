@@ -20,7 +20,7 @@ namespace TestProject.Droid.Controls
     public class CircleImageView 
         : ImageView
     {
-        private static readonly int DEF_PRESS_HIGHLIGHT_COLOR = 0x32000000;
+        private static readonly int DefPressHighlight_Color = 0x32000000;
 
         private Bitmap _bitmap;
         private Paint _bitmapPaint;
@@ -50,7 +50,7 @@ namespace TestProject.Droid.Controls
             _bitmapDrawBounds = new RectF();
 
             int strokeColor = Color.Transparent;
-            int highlightColor = DEF_PRESS_HIGHLIGHT_COLOR;
+            int highlightColor = DefPressHighlight_Color;
 
             if (attrs != null)
             {

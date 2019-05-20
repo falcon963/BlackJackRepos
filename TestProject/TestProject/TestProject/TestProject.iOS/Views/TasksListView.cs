@@ -13,6 +13,7 @@ using TestProject.Core.ViewModels;
 using TestProject.iOS.Converters;
 using TestProject.iOS.Sources;
 using TestProject.iOS.Views.Cells;
+using TestProject.LanguageResources;
 using UIKit;
 using Xam.iOS.Fab;
 using Xam.iOS.Fab.Views;
@@ -68,7 +69,7 @@ namespace TestProject.iOS.Views
         {
             base.ViewDidLoad();
 
-            NavigationController.NavigationBar.TopItem.Title = "Tasks List";
+            NavigationController.NavigationBar.TopItem.Title = Strings.TasksList;
             
 
             _source = new TasksListSource(TasksList, this);

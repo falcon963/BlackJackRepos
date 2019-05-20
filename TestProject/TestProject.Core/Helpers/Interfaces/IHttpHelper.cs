@@ -8,6 +8,6 @@ namespace TestProject.Core.Helpers.Interfaces
     public interface IHttpHelper
     {
         Task<T> Get<T>(string url);
-        Task<byte[]> GetByte(string uri);
+        Task<byte[]> GetByte(string url);
     }
 }

@@ -49,7 +49,7 @@ namespace TestProject.iOS.Services
 
             using (NSData imageData = image.AsPNG())
             {
-                Byte[] imageByteArray = new Byte[imageData.Length];
+                byte[] imageByteArray = new byte[imageData.Length];
                 System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, imageByteArray, 0, Convert.ToInt32(imageData.Length));
                 return imageByteArray;
             }
