@@ -30,7 +30,6 @@ namespace TestProject.Droid.Fragments
         : BaseFragment<ProfileViewModel>, IFragmentLifecycle
     {
         private ImageView _imageView;
-        private Bitmap _bitmap;
 
         private readonly MultimediaService<ProfileFragment> _multimediaService;
         private readonly IImageHelper _imageHelper;

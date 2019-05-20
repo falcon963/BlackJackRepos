@@ -46,8 +46,6 @@ namespace TestProject.Droid.Services
 
         private IUriHelper _uriHelper;
 
-        public Uri _imageUri;
-
         public MultimediaService(T fragment, View imageView)
         {
             _fragment = fragment;
@@ -69,7 +67,7 @@ namespace TestProject.Droid.Services
                 if (args?.ResultCode == ResultCodeOk
                     && args?.RequestCode == RequestCamera)
                 {
-                    SetResult(taskCompletionSource ,_imageUri.Path);
+                    SetResult(taskCompletionSource , args.Data.Data.Path);
                 }
 
                 if (args?.ResultCode == ResultCodeOk
@@ -100,10 +98,10 @@ namespace TestProject.Droid.Services
                 var filePath = Path.Combine(sdCardPath, name);
 
                 File image = new File(filePath);
-                _imageUri = Uri.FromFile(image);
+                var imageUri = Uri.FromFile(image);
 
                 var intent = new Intent(MediaStore.ActionImageCapture);
-                intent.PutExtra(MediaStore.ExtraOutput, _imageUri);
+                intent.PutExtra(MediaStore.ExtraOutput, imageUri);
 
                 _fragment.StartActivityForResult(intent, RequestCamera);
             }

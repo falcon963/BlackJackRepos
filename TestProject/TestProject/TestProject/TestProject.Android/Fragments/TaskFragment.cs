@@ -48,7 +48,6 @@ namespace TestProject.Droid.Fragments
 
         private Toolbar _toolbar;
         private ImageView _imageView;
-        private Bitmap _bitmap;
 
         private readonly MultimediaService<TaskFragment> _multimediaService;
         private readonly IImageHelper _imageHelper;

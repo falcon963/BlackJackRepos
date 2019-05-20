@@ -52,7 +52,6 @@ namespace TestProject.Droid.Fragments
         private SignInButton _googleButton;
         private LoginButton _facebookButton;
         private GoogleApiClient _googleApiClient;
-        private Action _singInCommand;
         private IFacebookAuthenticationService _facebookAuthenticationService;
         private IGoogleAuthenticationApiService _googleAuthenticationApiService;
 

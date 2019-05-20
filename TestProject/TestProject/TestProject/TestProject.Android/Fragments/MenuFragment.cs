@@ -33,8 +33,6 @@ namespace TestProject.Droid.Fragments
         : BaseFragment<MenuViewModel>
     {
         private MvxListView _navigationView;
-        private CircleImageView _avatar;
-        private Bitmap _bitmap;
 
         protected override int _fragmentId => Resource.Layout.MenuFragment;
 

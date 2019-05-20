@@ -16,8 +16,6 @@ namespace TestProject.iOS.Views
     public partial class ProfileView 
         : BaseView<ProfileView, ProfileViewModel>
     {
-        private UITapGestureRecognizer _tap;
-
         private UIImagePickerController _imagePickerController = new UIImagePickerController();
 
         private readonly IPhotoService _photoService;
