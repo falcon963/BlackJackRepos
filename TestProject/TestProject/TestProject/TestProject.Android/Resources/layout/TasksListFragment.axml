@@ -17,7 +17,7 @@
 		local:MvxBind="Refreshing IsRefreshing;RefreshCommand RefreshTaskCommand"
 		android:background="@color/yellow">
 
-			<android.support.v7.widget.RecyclerView
+			<MvvmCross.Droid.Support.V7.RecyclerView.MvxRecyclerView
 				android:id="@+id/task_recycler_view"
 				android:scrollbars="vertical"
 				android:orientation="horizontal"

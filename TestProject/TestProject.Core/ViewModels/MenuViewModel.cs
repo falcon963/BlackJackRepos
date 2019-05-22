@@ -86,6 +86,8 @@ namespace TestProject.Core.ViewModels
                             {
                                 _userHelper.DeleteUserStatus();
 
+                                _userHelper.DeleteUserAccessToken();
+
                                 await NavigationService.Navigate<MainRegistrationViewModel>();
                             }
                     },

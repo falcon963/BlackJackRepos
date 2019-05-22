@@ -37,9 +37,9 @@
 			android:paddingLeft="@dimen/text_view_padding_listitem"
 			android:layout_marginRight="@dimen/margin_dimen"
 			android:layout_marginLeft="@dimen/margin_dimen"
-			local:MvxBind="Text Title"
 		/>
 
+			
 		<CheckBox
 			android:id="@+id/list_checkbox"
 			android:focusable="false"
@@ -48,8 +48,8 @@
 			android:layout_centerVertical="true"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
+			android:enabled = "false"
 			android:layout_alignParentRight="true"
-			local:MvxBind="Checked Status"
 		/>
 
 		<Button

@@ -15,6 +15,7 @@ using Android.Views;
 using Android.Widget;
 using DE.Hdodenhof.CircleImageView;
 using Java.Lang;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.RecyclerView;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.Views;
@@ -27,7 +28,7 @@ using CircleImageView = TestProject.Droid.Controls.CircleImageView;
 namespace TestProject.Droid.Adapters
 {
     public class RecyclerImageAdapter 
-        : RecyclerView.Adapter
+        : MvxRecyclerAdapter
     {
         private List<UserTask> _tasksListPendingRemoval;
 
@@ -43,7 +44,7 @@ namespace TestProject.Droid.Adapters
 
         public List<UserTask> Tasks { get; set; }
 
-        public RecyclerImageAdapter(TasksListFragment view)
+        public RecyclerImageAdapter(TasksListFragment view, IMvxAndroidBindingContext bindingContext): base(bindingContext)
         {
             ItemClick += (sender, e) => { view?.ViewModel?.ItemSelectedCommand?.Execute(view.ViewModel.Tasks[e]); };
 
@@ -59,8 +60,10 @@ namespace TestProject.Droid.Adapters
         public override RecyclerView.ViewHolder 
             OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            View itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.TasksListItem, parent, false);
-            ImageViewHolder holder = new ImageViewHolder(itemView, OnClick);
+            var itemBindingContext = new MvxAndroidBindingContext(parent.Context, this.BindingContext.LayoutInflaterHolder);
+            var view = this.InflateViewForHolder(parent, Resource.Layout.TasksListItem, itemBindingContext);
+
+            ImageViewHolder holder = new ImageViewHolder(view, itemBindingContext);
 
             return holder;
         }
@@ -101,7 +104,7 @@ namespace TestProject.Droid.Adapters
                     Tasks.Remove(item);
                 };
             }
-            if(!contains)
+            if (!contains)
             {
                 viewHolder.Divider.Visibility = ViewStates.Visible;
                 viewHolder.CheckBox.Visibility = ViewStates.Visible;
@@ -118,6 +121,8 @@ namespace TestProject.Droid.Adapters
             {
                 viewHolder.Divider.Visibility = ViewStates.Invisible;
             }
+
+            base.OnBindViewHolder(holder, position);
 
             //viewHolder.Text.Text = Tasks[position]?.Title;
             //viewHolder.CheckBox.Checked = Tasks[position].Status;
@@ -166,11 +171,21 @@ namespace TestProject.Droid.Adapters
             return _tasksListPendingRemoval.Contains(item);
         }
 
-        public override int ItemCount
-        {
-            get { return Tasks.Count; }
-        }
-
+        //public override int ItemCount
+        //{
+        //    get
+        //    {
+        //        try
+        //        {
+        //            var count = Tasks.Count;
+        //            return count;
+        //        }catch(System.Exception ex)
+        //        {
+        //            var e = ex.InnerException;
+        //            return Tasks.Count;
+        //        }
+        //    }
+        //}
 
         public void OnClick(int position)
         {
@@ -201,9 +216,31 @@ namespace TestProject.Droid.Adapters
 
             return inSampleSize;
         }
+
+        //public override int GetItemViewType(int position)
+        //{
+        //    try
+        //    {
+        //        var item = GetItem(position);
+                
+        //        if(item is UserTask)
+        //        {
+        //            return 0;
+        //        }
+
+        //        return 1;
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+
+        //        var p = ex;
+        //    }
+
+        //    return 1;
+        //}
     }
 
-    public class ImageViewHolder : RecyclerView.ViewHolder
+    public class ImageViewHolder : MvxRecyclerViewHolder
     {
         public TextView Text { get; private set; }
         public CircleImageView Image { get; private set; }
@@ -211,7 +248,7 @@ namespace TestProject.Droid.Adapters
         public View Divider { get; private set; }
         public Button DeleteButton { get; private set; }
 
-        public ImageViewHolder(View itemView, Action<int> listener) : base(itemView)
+        public ImageViewHolder(View itemView, IMvxAndroidBindingContext context) : base(itemView, context)
         {
             Text = itemView.FindViewById<TextView>(Resource.Id.task_name);
             Image = itemView.FindViewById<CircleImageView>(Resource.Id.tasklist_image);
@@ -219,8 +256,23 @@ namespace TestProject.Droid.Adapters
             Divider = itemView.FindViewById<View>(Resource.Id.divider);
             DeleteButton = itemView.FindViewById<Button>(Resource.Id.undoButton);
 
-            itemView.Click += (sender, e) => listener(obj: base.AdapterPosition);
+
+            try
+            {
+                this.DelayBind(() =>
+                {
+                    var set = this.CreateBindingSet<ImageViewHolder, UserTask>();
+                    set.Bind(this.Text).To(x => x.Title);
+                    set.Bind(this.CheckBox).To(x => x.Status);
+                    set.Apply();
+                });
+            }catch(System.Exception ex)
+            {
+                var e = ex.InnerException;
+            }
         }
+
+        
     }
 
 }

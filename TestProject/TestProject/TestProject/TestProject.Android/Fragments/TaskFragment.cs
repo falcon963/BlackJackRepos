@@ -37,6 +37,7 @@ using TestProject.Droid.Fragments.Interfaces;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross;
 using TestProject.Core.Services.Interfaces;
+using TestProject.Droid.Controls;
 
 namespace TestProject.Droid.Fragments
 {
@@ -62,7 +63,7 @@ namespace TestProject.Droid.Fragments
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-            _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.task_linearlayout);
+            _linearLayout = view.FindViewById<AppMainLinearLayout>(Resource.Id.task_linearlayout);
             _toolbar = view.FindViewById<Toolbar>(Resource.Id.task_toolbar);
             _imageView = view.FindViewById<ImageView>(Resource.Id.image_view);
 

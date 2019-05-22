@@ -19,6 +19,7 @@ using TestProject.Droid.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
+using TestProject.Droid.Controls;
 
 namespace TestProject.Droid.Fragments
 {
@@ -29,7 +30,7 @@ namespace TestProject.Droid.Fragments
 
         protected MvxActionBarDrawerToggle _drawerToggle { get; private set; }
 
-        protected LinearLayout _linearLayout { get; set; }
+        protected AppMainLinearLayout _linearLayout { get; set; }
 
         protected abstract int _fragmentId { get; }
 
@@ -52,8 +53,6 @@ namespace TestProject.Droid.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var view = this.BindingInflate(_fragmentId, null);
-
-            //_linearLayout.Click += (sender, e) => { HideSoftKeyboard(); };
 
             _toolbar = view.FindViewById<Toolbar>(Resource.Id.toolbar);
 

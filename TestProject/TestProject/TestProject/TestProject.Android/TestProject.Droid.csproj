@@ -338,6 +338,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\TestAdapter.cs" />
+    <Compile Include="Controls\AppMainLinearLayout.cs" />
     <Compile Include="Fragments\Interfaces\IFragmentLifecycle.cs" />
     <Compile Include="Helpers\AnimationDecoratorHelper.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />

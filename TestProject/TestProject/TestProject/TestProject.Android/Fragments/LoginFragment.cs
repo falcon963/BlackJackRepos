@@ -38,6 +38,8 @@ using UriParse = Android.Net.Uri;
 using TestProject.Core.Authentication;
 using TestProject.Droid.Services.Interfaces;
 using Resource = MvvmCross.Droid.Support.V7.AppCompat.Resource;
+using TestProject.Core.Helpers.Interfaces;
+using TestProject.Droid.Controls;
 
 namespace TestProject.Droid.Fragments
 {
@@ -82,15 +84,13 @@ namespace TestProject.Droid.Fragments
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-            _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.login_linearlayout);
+            _linearLayout = view.FindViewById<AppMainLinearLayout>(Resource.Id.login_linearlayout);
 
             _googleButton = view.FindViewById<SignInButton>(Resource.Id.btnGoogleSignIn);
 
             _facebookButton = view.FindViewById<LoginButton>(Resource.Id.btnFacebookSignIn);
 
             _facebookButton.Click += OnFacebookLoginButtonClicked;
-
-            _linearLayout.Click += HideSoftKeyboard;
 
             InitializeGoogleAuth();
 
@@ -113,6 +113,11 @@ namespace TestProject.Droid.Fragments
             if (result.IsSuccess)
             {
                 var accountData = result.SignInAccount;
+
+                var userHelper = Mvx.IoCProvider.Resolve<IUserHelper>();
+
+                userHelper.UserAccessToken = accountData.IdToken;
+
                 ViewModel?.SignInWithGoogleCommand?.Execute();
             }
         }
@@ -159,6 +164,13 @@ namespace TestProject.Droid.Fragments
             _linearLayout.Click -= HideSoftKeyboard;
 
             base.Dispose(disposing);
+        }
+
+        public override void OnPause()
+        {
+            base.OnPause();
+            _googleApiClient.StopAutoManage(Activity);
+            _googleApiClient.Disconnect();
         }
     }
 }

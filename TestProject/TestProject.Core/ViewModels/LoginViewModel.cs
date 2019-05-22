@@ -22,6 +22,7 @@ using TestProject.Core.Services.Interfaces;
 using TestProject.Core.Colors;
 using System.Linq;
 using TestProject.LanguageResources;
+using MvvmCross.Localization;
 
 namespace TestProject.Core.ViewModels
 {

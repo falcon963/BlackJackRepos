@@ -14,6 +14,7 @@ using MvvmCross;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.Services.Interfaces;
 using TestProject.Core.ViewModels;
+using TestProject.Droid.Controls;
 using TestProject.Droid.Fragments.Interfaces;
 using TestProject.Droid.Helpers.Interfaces;
 using TestProject.Droid.Models;
@@ -21,6 +22,7 @@ using TestProject.Droid.Services;
 using TestProject.Droid.Views;
 using File = Java.IO.File;
 using Uri = Android.Net.Uri;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace TestProject.Droid.Fragments
 {
@@ -46,8 +48,11 @@ namespace TestProject.Droid.Fragments
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-            _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.profileLinearLayout);
+            _linearLayout = view.FindViewById<AppMainLinearLayout>(Resource.Id.profileLinearLayout);
+            _toolbar = view.FindViewById<Toolbar>(Resource.Id.profile_toolbar);
             _imageView = view.FindViewById<ImageView>(Resource.Id.profileImage_view);
+
+            _toolbar.Click += HideSoftKeyboard;
 
             Mvx.IoCProvider.RegisterSingleton<IImagePickerPlatformService>(new MultimediaService<ProfileFragment>(this, _imageView));
 

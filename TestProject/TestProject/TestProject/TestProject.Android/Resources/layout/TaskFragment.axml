@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<TestProject.Droid.Controls.AppMainLinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:local="http://schemas.android.com/apk/res-auto"
 		android:orientation="vertical"
@@ -14,7 +14,7 @@
 		android:orientation="vertical"
 		android:isScrollContainer="false">
 
-		<LinearLayout
+		<TestProject.Droid.Controls.AppMainLinearLayout
 			android:id="@+id/task_linearlayout"
 			android:orientation="vertical"
 			android:layout_width="match_parent"
@@ -102,8 +102,8 @@
 
 			</RelativeLayout>
 
-		</LinearLayout>
+		</TestProject.Droid.Controls.AppMainLinearLayout>
 
 	</ScrollView>
 
-</LinearLayout>
+</TestProject.Droid.Controls.AppMainLinearLayout>

@@ -1,4 +1,5 @@
 ﻿using MvvmCross.Commands;
+using MvvmCross.Localization;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using System;
@@ -15,6 +16,11 @@ namespace TestProject.Core.ViewModels
         protected BaseViewModel(IMvxNavigationService navigationService)
         {
             NavigationService = navigationService;
+        }
+
+        public IMvxLanguageBinder TextSource
+        {
+            get { return new MvxLanguageBinder(); }
         }
 
         public IMvxAsyncCommand CloseCommand

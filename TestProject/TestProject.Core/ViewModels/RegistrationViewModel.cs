@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using MvvmCross.Commands;
+using MvvmCross.Localization;
 using MvvmCross.Navigation;
 using MvvmCross.UI;
 using Plugin.SecureStorage;

@@ -37,7 +37,9 @@ namespace TestProject.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            Mvx.IoCProvider.RegisterSingleton(() => new ResxTextProvider(Strings.ResourceManager));
+#pragma warning disable CS0618 // Type or member is obsolete
+            Mvx.RegisterSingleton<IMvxTextProvider>(new ResxTextProvider(Strings.ResourceManager));
+#pragma warning restore CS0618 // Type or member is obsolete
             Mvx.IoCProvider.RegisterSingleton(() => UserDialogs.Instance);
 
             RegisterCustomAppStart<AppStart>();

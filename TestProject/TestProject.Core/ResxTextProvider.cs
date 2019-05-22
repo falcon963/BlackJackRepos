@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace TestProject.Core
 {
-    public class ResxTextProvider 
+    public class ResxTextProvider
         : IMvxTextProvider
     {
         private readonly ResourceManager _resourceManager;
@@ -52,12 +52,12 @@ namespace TestProject.Core
 
         public bool TryGetText(out string textValue, string namespaceKey, string typeKey, string name)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public bool TryGetText(out string textValue, string namespaceKey, string typeKey, string name, params object[] formatArgs)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

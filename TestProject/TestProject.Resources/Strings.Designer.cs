@@ -134,6 +134,15 @@ namespace TestProject.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm password.
+        /// </summary>
+        public static string ConfirmPassword {
+            get {
+                return ResourceManager.GetString("ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm Password must be compare Password.
         /// </summary>
         public static string ConfirmPasswordMustBeComparePassword {
@@ -364,6 +373,15 @@ namespace TestProject.LanguageResources {
         public static string OldPasswordFieldMustBeRequired {
             get {
                 return ResourceManager.GetString("OldPasswordFieldMustBeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
             }
         }
         

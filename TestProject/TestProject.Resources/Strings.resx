@@ -294,4 +294,10 @@
   <data name="TasksList" xml:space="preserve">
     <value>Tasks List</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
 </root>
