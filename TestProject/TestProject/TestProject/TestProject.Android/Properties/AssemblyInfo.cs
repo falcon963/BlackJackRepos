@@ -13,6 +13,7 @@ using Android.App;
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: MetaData("com.facebook.sdk.ApplicationId", Value = "@string/facebook_app_id")]
 
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,

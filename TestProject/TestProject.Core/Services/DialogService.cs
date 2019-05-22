@@ -20,12 +20,12 @@ namespace TestProject.Core.Services
             }
 
             UserDialogs.Instance.Alert(
-                            new AlertConfig
-                            {
-                                Message = message,
-                                OkText = Strings.Ok,
-                                Title = Strings.Error
-                            });
+                new AlertConfig
+                {
+                     Message = message,
+                     OkText = Strings.Ok,
+                     Title = Strings.Error
+                });
         }
 
         public async Task<bool> ShowConfirmDialogAsync(string message, string title)
@@ -42,6 +42,7 @@ namespace TestProject.Core.Services
                 Title = title,
                 CancelText = Strings.No
             });
+
             return alert;
         }
 
@@ -53,12 +54,12 @@ namespace TestProject.Core.Services
             }
 
             UserDialogs.Instance.Alert(
-                            new AlertConfig
-                            {
-                                Message = message,
-                                OkText = Strings.Ok,
-                                Title = Strings.Success
-                            });
+                new AlertConfig
+                {
+                    Message = message,
+                    OkText = Strings.Ok,
+                    Title = Strings.Success
+                });
         }
     }
 }

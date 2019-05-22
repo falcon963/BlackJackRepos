@@ -25,8 +25,8 @@
 				android:overScrollMode="never"
 				android:layout_width="wrap_content"
 				android:layout_height="match_parent"
-				local:MvxItemTemplate="@layout/listitemview"
-				local:MvxBind="ItemsSource ListOfTasks; ItemClick ItemSelectedCommand"
+				local:MvxItemTemplate="@layout/taskslistitem"
+				local:MvxBind="ItemsSource Tasks; ItemClick ItemSelectedCommand"
 			/>
 
 	</MvxSwipeRefreshLayout>
@@ -37,6 +37,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom|right|end"
     android:layout_margin="8dp"
-    android:src="@drawable/add"/>
+    android:src="@drawable/add"
+	local:MvxBind="Click CreateTaskCommand"/>
 
 </FrameLayout>

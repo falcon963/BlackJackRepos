@@ -22,7 +22,7 @@
 			android:cropToPadding="false"
 			android:scaleType="fitXY"
 			
-			local:MvxBind="Click GoBackCommand"
+			local:MvxBind="Click CloseCommand"
 			
 			android:layout_alignParentLeft="true"
 			android:layout_marginLeft="@dimen/edit_text_margin"

@@ -40,6 +40,7 @@ namespace TestProject.Core.ViewModels
         private readonly ITaskService _taskService;
 
         private UserTask _userTaskCopy;
+        private string _taskimage;
 
         #endregion
 
@@ -52,6 +53,20 @@ namespace TestProject.Core.ViewModels
         public bool AddFile { get; set; }
 
         public MvxObservableCollection<FileItemViewModel> Files { get; set; }
+
+        public string TaskImage
+        {
+            get
+            {
+                return _taskimage;
+            }
+            set
+            {
+                _taskimage = value;
+                RaisePropertyChanged(() => TaskImage);
+                UserTask.Changes.ImagePath = value;
+            }
+        }
 
         public bool IsTitleEnabled
         {
@@ -77,7 +92,7 @@ namespace TestProject.Core.ViewModels
 
 
         public TaskViewModel(IMvxNavigationService navigationService, ITaskService taskService, IUserDialogs userDialogs, IFileRepository fileService, IDialogsService dialogsService, 
-            IUserHelper userHelper, IValidationService validationService, IDocumentPickerService documentPickerService, ImagePickerService imagePickerService, ITasksRepository tasksRepository):base(navigationService)
+            IUserHelper userHelper, IValidationService validationService, IDocumentPickerService documentPickerService, IImagePickerService imagePickerService, ITasksRepository tasksRepository):base(navigationService)
         {
             #region Init Service`s
             _tasksRepository = tasksRepository;
@@ -139,12 +154,17 @@ namespace TestProject.Core.ViewModels
                         await NavigationService.Close<ResultModel>(this, UserTask);
                     }
 
-                    var isGoBackConfirmed = await _dialogsService.ShowConfirmDialogAsync(message: Strings.IfYouGoOnTaskyDropWithoutSaveYourChangesWillBeLoseDoYouWantThis,
-                            title: Strings.AlertMessege);
-
-                    if (!isGoBackConfirmed)
+                    if (!UserTask.Changes.Equals(_userTaskCopy))
                     {
-                        return;
+                        var isGoBackConfirmed = await _dialogsService.ShowConfirmDialogAsync(message: Strings.IfYouGoOnTaskyDropWithoutSaveYourChangesWillBeLoseDoYouWantThis,
+                                title: Strings.AlertMessege);
+
+                        if (!isGoBackConfirmed)
+                        {
+                            return;
+                        }
+
+                        await NavigationService.Close<ResultModel>(this, UserTask);
                     }
                 });
             }
@@ -157,12 +177,12 @@ namespace TestProject.Core.ViewModels
                 return new MvxAsyncCommand(async () => {
                     var imageString = await _imagePickerService.GetImageBase64();
 
-                    if(imageString == null)
+                    if(string.IsNullOrEmpty(imageString))
                     {
                         return;
                     }
 
-                    UserTask.Changes.ImagePath = imageString;
+                    TaskImage = imageString;
                 });
             }
         }
@@ -311,6 +331,8 @@ namespace TestProject.Core.ViewModels
                 Title = task.Title,
                 Status = task.Status
             };
+
+            TaskImage = UserTask.Changes.ImagePath;
 
             _userTaskCopy = new UserTask(UserTask.Changes);
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MvvmCross;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,15 +10,15 @@ namespace TestProject.Core.Services
     public class ImagePickerService
         : IImagePickerService
     {
-        private readonly IImagePickerPlatformService _imagePicker;
-
-        public ImagePickerService(IImagePickerPlatformService imagePicker)
-        {
-            _imagePicker = imagePicker;
-        }
-
         public async Task<string> GetImageBase64()
         {
+            Mvx.IoCProvider.TryResolve(out IImagePickerPlatformService _imagePicker);
+
+            if (_imagePicker == null)
+            {
+                return string.Empty;
+            }
+
             var imageBytes = await _imagePicker.GetPhoto();
             string imageString = Convert.ToBase64String(imageBytes);
             return imageString;

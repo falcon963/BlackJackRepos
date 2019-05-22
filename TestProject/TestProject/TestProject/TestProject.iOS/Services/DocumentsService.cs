@@ -95,19 +95,14 @@ namespace TestProject.iOS.Services
                     taskCompletionSource.TrySetResult(null);
                 };
 
-                switch (documentPicker.DocumentPickerMode)
+                if(documentPicker.DocumentPickerMode == UIDocumentPickerMode.Import)
                 {
-                    case UIDocumentPickerMode.Import:
-                        documentPicker.DidPickDocumentAtUrls += (s, eventArgs) => {
+                    documentPicker.DidPickDocumentAtUrls += (s, eventArgs) => {
 
-                            var file = CreateFile(eventArgs.Urls.FirstOrDefault());
+                        var file = CreateFile(eventArgs.Urls.FirstOrDefault());
 
-                            taskCompletionSource.TrySetResult(file);
-                        };
-                        break;
-
-                    default:
-                        break;
+                        taskCompletionSource.TrySetResult(file);
+                    };
                 }
 
                 PresentedDocumentPicker?.Invoke(this, documentPicker);

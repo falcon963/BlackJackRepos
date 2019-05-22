@@ -33,7 +33,7 @@ namespace TestProject.iOS.Views
 
             base.ViewDidLoad();
 
-            var vm = (MainViewModel)this.ViewModel;
+            var vm = (MainViewModel)ViewModel;
             if (vm == null)
                 return;
         }
@@ -45,7 +45,7 @@ namespace TestProject.iOS.Views
             if (_firstTimePresented)
             {
                 _firstTimePresented = false;
-                ViewModel.ShowMenuCommand.Execute();
+                ViewModel?.ShowMenuCommand?.Execute();
             }
         }
     }

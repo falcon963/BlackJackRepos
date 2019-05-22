@@ -11,6 +11,7 @@
 	<include layout = "@layout/registration_toolbar"/>
 
 	<ScrollView
+		android:id="@+id/registration_scrollView"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:orientation="vertical"

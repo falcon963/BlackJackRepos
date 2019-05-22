@@ -16,6 +16,8 @@ namespace TestProject.iOS.Views
     public partial class ProfileView 
         : BaseView<ProfileView, ProfileViewModel>
     {
+        private const float SpaceSize = 80f;
+
         private UIImagePickerController _imagePickerController = new UIImagePickerController();
 
         private readonly IPhotoService _photoService;
@@ -80,9 +82,9 @@ namespace TestProject.iOS.Views
             AddShadow(LogoutButton);
             AddShadow(ProfileImage);
 
-            MainScrollView.ContentSize = new CGSize(0, MainScrollView.Frame.Height - 80);
+            MainScrollView.ContentSize = new CGSize(0, MainScrollView.Frame.Height - SpaceSize);
 
-            this.AutomaticallyAdjustsScrollViewInsets = false;
+            AutomaticallyAdjustsScrollViewInsets = false;
         }
 
         public override void DidReceiveMemoryWarning()

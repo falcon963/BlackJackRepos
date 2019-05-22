@@ -25,7 +25,7 @@ namespace TestProject.Droid.Fragments
     public abstract class BaseFragment
         : MvxFragment
     {
-        protected Toolbar _toolbar { get; private set; }
+        protected Toolbar _toolbar { get; set; }
 
         protected MvxActionBarDrawerToggle _drawerToggle { get; private set; }
 
@@ -53,7 +53,7 @@ namespace TestProject.Droid.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var view = this.BindingInflate(_fragmentId, null);
 
-            _linearLayout.Click += delegate { HideSoftKeyboard(); };
+            //_linearLayout.Click += (sender, e) => { HideSoftKeyboard(); };
 
             _toolbar = view.FindViewById<Toolbar>(Resource.Id.toolbar);
 
@@ -101,7 +101,7 @@ namespace TestProject.Droid.Fragments
             }
         }
 
-        public void HideSoftKeyboard()
+        public void HideSoftKeyboard(object sender, EventArgs e)
         {
             InputMethodManager close = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
             close.HideSoftInputFromWindow(_linearLayout.WindowToken, 0);
@@ -113,7 +113,10 @@ namespace TestProject.Droid.Fragments
 
             var currentFocus = Activity.CurrentFocus;
 
-            inputManager.HideSoftInputFromWindow(currentFocus.WindowToken, 0);
+            if(currentFocus != null)
+            {
+                inputManager.HideSoftInputFromWindow(currentFocus.WindowToken, 0);
+            }
 
             base.OnDestroyView();
         }
@@ -123,6 +126,7 @@ namespace TestProject.Droid.Fragments
     public  abstract class BaseFragment<TViewModel> 
         : BaseFragment where TViewModel : class, IMvxViewModel
     {
+
         public new TViewModel ViewModel
         {
             get { return (TViewModel)base.ViewModel; }

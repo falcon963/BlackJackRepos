@@ -21,6 +21,9 @@ using Android.Graphics;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
+using MvvmCross;
+using TestProject.Droid.Providers.Interfaces;
+using TestProject.Droid.Providers;
 
 namespace TestProject.Droid.Views
 {
@@ -37,6 +40,11 @@ namespace TestProject.Droid.Views
         ActionBarDrawerToggle DrawerToggle { get; set; }
 
         Toolbar Toolbar { get; set; }
+
+        public MainActivity()
+        {
+            Mvx.IoCProvider.RegisterSingleton<IContextProvider>(new ContextProvider(this));
+        }
 
         private bool _toolBarNavigationListenerIsRegistered = false;
 

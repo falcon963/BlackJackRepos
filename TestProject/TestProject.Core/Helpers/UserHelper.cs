@@ -39,6 +39,7 @@ namespace TestProject.Core.Helpers
             get
             {
                 int userId;
+
                 string stringUserId = CrossSecureStorage.Current.GetValue(nameof(SecureConstants.UserId));
 
                 int.TryParse(stringUserId, out userId);

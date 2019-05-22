@@ -10,7 +10,9 @@ using Android.Util;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
+using MvvmCross;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
+using TestProject.Core.Services.Interfaces;
 using TestProject.Core.ViewModels;
 using TestProject.Droid.Fragments.Interfaces;
 using TestProject.Droid.Helpers.Interfaces;
@@ -31,24 +33,13 @@ namespace TestProject.Droid.Fragments
     {
         private ImageView _imageView;
 
-        private readonly MultimediaService<ProfileFragment> _multimediaService;
-        private readonly IImageHelper _imageHelper;
-        private readonly IUriHelper _uriHelper;
-
         public event EventHandler<ResultEventArgs> SubscribeOnResult;
-
-        public Action<string> SaveImage { get; set; }
 
         protected override int _fragmentId => Resource.Layout.ProfileFragment;
 
-        public Uri ImageUri { get; set; }
-
-        public ProfileFragment(IUriHelper uriHelper, IImageHelper imageHelper)
+        public ProfileFragment()
         {
-            _imageHelper = imageHelper;
-            _uriHelper = uriHelper;
-            SaveImage = SaveEncodedImage;
-            _multimediaService = new MultimediaService<ProfileFragment>(this, _imageView);
+            
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -57,6 +48,8 @@ namespace TestProject.Droid.Fragments
 
             _linearLayout = view.FindViewById<LinearLayout>(Resource.Id.profileLinearLayout);
             _imageView = view.FindViewById<ImageView>(Resource.Id.profileImage_view);
+
+            Mvx.IoCProvider.RegisterSingleton<IImagePickerPlatformService>(new MultimediaService<ProfileFragment>(this, _imageView));
 
             ((MainActivity)ParentActivity).DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
 
@@ -70,11 +63,6 @@ namespace TestProject.Droid.Fragments
             base.OnActivityResult(requestCode, resultCode, data);
 
             SubscribeOnResult?.Invoke(this, new ResultEventArgs(requestCode, resultCode, data));
-        }
-
-        public void SaveEncodedImage(string encodedImage)
-        {
-            ViewModel.Profile.ImagePath = encodedImage;
         }
     }
 }

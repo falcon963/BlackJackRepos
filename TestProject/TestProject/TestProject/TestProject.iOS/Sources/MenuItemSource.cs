@@ -16,7 +16,7 @@ namespace TestProject.iOS.Sources
     public class MenuItemSource 
         : MvxTableViewSource
     {
-        public string cellIdentifier = "ContentNavigateCell";
+        public string cellIdentifier = nameof(ContentNavigateCell);
 
         public const int rowHeight = 30;
 

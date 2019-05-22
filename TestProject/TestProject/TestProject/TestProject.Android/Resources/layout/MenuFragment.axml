@@ -24,9 +24,8 @@
                 android:id="@+id/avatar"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-				android:background="@drawable/placeholder"
                 android:layout_marginTop="15dp"
-				local:MvxBind="Bitmap Profile.ImagePath; Converter=ImageValueConverter"
+				local:MvxBind="Bitmap ImageConverter(ProfileImage)"
 			/>
  
             <LinearLayout
@@ -44,7 +43,7 @@
                     android:textColor="#fff"
                     android:textSize="16sp"
                     android:textStyle="bold"
-					local:MvxBind="Text Profile.Login"
+					local:MvxBind="Text UserName"
 				/>
  
                 <TextView
@@ -71,7 +70,7 @@
 			android:background="@color/emerald"
 			local:itemTextColor="@color/black"
 			local:itemIconTint="@color/yellow"		
-			local:MvxItemTemplate="@layout/listitemmenufragment"
+			local:MvxItemTemplate="@layout/menuitem"
 			local:MvxBind="ItemsSource MenuItems; ItemClick ItemSelectCommand"
 		/>
  

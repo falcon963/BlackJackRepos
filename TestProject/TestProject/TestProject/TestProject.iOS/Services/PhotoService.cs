@@ -50,7 +50,9 @@ namespace TestProject.iOS.Services
             using (NSData imageData = image.AsPNG())
             {
                 byte[] imageByteArray = new byte[imageData.Length];
+
                 System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, imageByteArray, 0, Convert.ToInt32(imageData.Length));
+
                 return imageByteArray;
             }
         }
@@ -89,7 +91,7 @@ namespace TestProject.iOS.Services
 
                     PresentPicker.Invoke(this, _imagePickerController);
                 }
-                else
+                if (!UIImagePickerController.IsSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
                 {
                     var alert = UIAlertController.Create(Strings.Warning, Strings.YouDontHaveCamera, UIAlertControllerStyle.Alert);
                     alert.AddAction(UIAlertAction.Create(Strings.Ok, UIAlertActionStyle.Default, null));

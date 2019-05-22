@@ -26,7 +26,7 @@
 				android:singleLine="true"
 				android:layout_marginTop="@dimen/login_page_margin"
 				android:maxLength="40"
-				local:MvxBind="Text UserTask.Changes.Title; Enabled TitleEnableStatus"
+				local:MvxBind="Text UserTask.Changes.Title; Enabled IsTitleEnabled"
 			/>
 			
 			<EditText
@@ -49,7 +49,7 @@
 						android:layout_width="@dimen/taskdetails_image"
 						android:scaleType="centerCrop"
 						android:layout_centerInParent = "true"
-						local:MvxBind="Bitmap UserTask.Changes.ImagePath; Converter=ImageValueConverter"
+						local:MvxBind="Bitmap ImageConverter(TaskImage)"
 					/>
 
 			</RelativeLayout>
@@ -97,7 +97,7 @@
 					android:layout_marginRight="@dimen/taskdetails_margin"
 					android:layout_alignParentRight="true"
 					local:MvxLang="Text Delete"
-					local:MvxBind="Click DeleteUserTaskCommand; Enabled DeleteButtonStutus"
+					local:MvxBind="Click DeleteUserTaskCommand"
 				/>
 
 			</RelativeLayout>

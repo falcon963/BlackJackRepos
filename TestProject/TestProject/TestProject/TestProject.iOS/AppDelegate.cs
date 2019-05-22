@@ -14,8 +14,6 @@ using UIKit;
 
 namespace TestProject.iOS
 {
-    // The UIApplicationDelegate for the application. This class is responsible for launching the
-    // User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
     [Register("AppDelegate")]
     public class AppDelegate : MvxApplicationDelegate<Setup, App>
     {
@@ -31,7 +29,7 @@ namespace TestProject.iOS
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
-            Boolean result = false;
+            bool result = false;
 
             try
             {
@@ -48,22 +46,22 @@ namespace TestProject.iOS
 
         #region OpenUrl
 
-        public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
-        {
-            AppDeepLinksEntry(url);
-
-            Uri uri_netfx = new Uri(url.AbsoluteString);
-
-            // load redirect_url Page
-            LoginView.GoogleAuth?.OnPageLoading(uri_netfx);
-
-            return true;
-        }
-
         //public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
         //{
-        //    return AppDeepLinksEntry(url);
+        //    AppDeepLinksEntry(url);
+
+        //    Uri uri_netfx = new Uri(url.AbsoluteString);
+
+        //    // load redirect_url Page
+        //    LoginView.GoogleAuth.OnPageLoading(uri_netfx);
+
+        //    return true;
         //}
+
+        public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+            return AppDeepLinksEntry(url);
+        }
 
         public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
         {

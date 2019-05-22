@@ -22,7 +22,7 @@ namespace TestProject.iOS.Views.Cells
 
         protected ContentNavigateCell(IntPtr handle) : base(handle)
         {
-            // Note: this .ctor should not contain any initialization logic.
+            
             this.DelayBind(() =>
             {
                 var set = this.CreateBindingSet<ContentNavigateCell, MenuItem>();

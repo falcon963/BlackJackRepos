@@ -9,33 +9,31 @@ namespace TestProject.Core
 {
     public class AppStart : MvxAppStart
     {
-        IAccountCheckHelper _accountCheckHelper;
-        IUserHelper _userHelper;
-
-        public AppStart(IMvxApplication app, IMvxNavigationService mvxNavigationService, IAccountCheckHelper accountCheckHelper, IUserHelper userHelper)
+        public AppStart(IMvxApplication app, IMvxNavigationService mvxNavigationService)
             : base(app, mvxNavigationService)
         {
-            _accountCheckHelper = accountCheckHelper;
-            _userHelper = userHelper;
+
         }
 
         protected override Task NavigateToFirstViewModel(object hint = null)
         {
+            IAccountCheckHelper accountCheckHelper = Mvx.IoCProvider.Resolve<IAccountCheckHelper>();
+            IUserHelper userHelper = Mvx.IoCProvider.Resolve<IUserHelper>();
 
-            if (_accountCheckHelper.IsSocialNetworkLogin())
+            if (accountCheckHelper.IsSocialNetworkLogin())
             {
                 return NavigationService.Navigate<MainViewModel>();
             }
-            if (_userHelper.IsUserLogin)
+            if (userHelper.IsUserLogin)
             {
-                if (!_accountCheckHelper.IsCheckAccountAccess())
+                if (!accountCheckHelper.IsCheckAccountAccess())
                 {
-                    _userHelper.IsUserLogin = false;
+                    userHelper.IsUserLogin = false;
 
                     return NavigationService.Navigate<MainRegistrationViewModel>();
                 }
 
-                _userHelper.UserId = _accountCheckHelper.GetUserId();
+                userHelper.UserId = accountCheckHelper.GetUserId();
 
                 return NavigationService.Navigate<MainViewModel>();
             }

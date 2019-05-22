@@ -29,13 +29,15 @@ namespace TestProject.Core.ViewModels
 
         private readonly IDialogsService _dialogsService;
 
+        private string _profileImage;
+
         #endregion
 
         #region Propertys
 
         public ResultModel UserTask { get; set; }
 
-        public User Profile { get; set; }
+        public string UserName { get; set; }
 
         public MvxColor MainTheme { get; set; }
 
@@ -44,6 +46,19 @@ namespace TestProject.Core.ViewModels
             get
             {
                 return AppColors.MenuBackgroundColor;
+            }
+        }
+
+        public string ProfileImage
+        {
+            get
+            {
+                return _profileImage;
+            }
+            set
+            {
+                _profileImage = value;
+                RaisePropertyChanged(() => ProfileImage);
             }
         }
 
@@ -99,7 +114,9 @@ namespace TestProject.Core.ViewModels
             base.Prepare();
 
             int userId = _userHelper.UserId;
-            Profile = _loginRepository.Get(userId);
+            User profile = _loginRepository.Get(userId);
+            UserName = profile.Login;
+            ProfileImage = profile.ImagePath;
         }
 
         #region Commands

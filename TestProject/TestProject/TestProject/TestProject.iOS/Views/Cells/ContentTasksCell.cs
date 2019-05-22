@@ -22,7 +22,7 @@ namespace TestProject.iOS.Views.Cells
 
         protected ContentTasksCell(IntPtr handle) : base(handle)
         {
-            // Note: this .ctor should not contain any initialization logic.
+            
             this.DelayBind(() =>
             {
                 var set = this.CreateBindingSet<ContentTasksCell, UserTask>();

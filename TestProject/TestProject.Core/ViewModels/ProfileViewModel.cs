@@ -25,25 +25,25 @@ namespace TestProject.Core.ViewModels
 
         #region Fields
 
-        private readonly ILoginRepository _loginService;
-        private readonly IUserDialogs _userDialogs;
+        private readonly ILoginRepository _loginRepository;
         private readonly IUserHelper _userHelper;
         private readonly IValidationService _validationService;
         private readonly IDialogsService _dialogsService;
         private readonly IUserService _userService;
         private readonly IImagePickerService _imagePickerService;
 
+        private User _user;
+        private string _profileImage;
         private string _oldPassword;
         private string _newPassword;
         private string _confirmPassword;
 
         #endregion
 
-        public ProfileViewModel(IMvxNavigationService navigationService, ILoginRepository loginService,
-            IUserDialogs userDialogs, IUserHelper userHelper, IValidationService validationService, IDialogsService dialogsService, IUserService userService, IImagePickerService imagePickerService) : base(navigationService)
+        public ProfileViewModel(IMvxNavigationService navigationService, ILoginRepository loginRepository,
+            IUserHelper userHelper, IValidationService validationService, IDialogsService dialogsService, IUserService userService, IImagePickerService imagePickerService) : base(navigationService)
         {
-            _loginService = loginService;
-            _userDialogs = userDialogs;
+            _loginRepository = loginRepository;
             _userHelper = userHelper;
             _validationService = validationService;
             _dialogsService = dialogsService;
@@ -57,7 +57,31 @@ namespace TestProject.Core.ViewModels
 
         #region Propertys
 
-        public User Profile { get; set; }
+        public User Profile
+        {
+            get
+            {
+                return _user;
+            }
+            set
+            {
+                _user = value;
+            }
+        }
+
+        public string ProfileImage
+        {
+            get
+            {
+                return _profileImage;
+            }
+            set
+            {
+                _profileImage = value;
+                RaisePropertyChanged(() => ProfileImage);
+                Profile.ImagePath = value;
+            }
+        }
 
         [Required(ErrorMessageResourceName = nameof(Strings.OldPasswordFieldMustBeRequired), ErrorMessageResourceType = typeof(Strings))]
         public string OldPassword
@@ -198,12 +222,12 @@ namespace TestProject.Core.ViewModels
 
                     var imageString = await _imagePickerService.GetImageBase64();
 
-                    if (imageString == null)
+                    if (string.IsNullOrEmpty(imageString))
                     {
                         return;
                     }
 
-                    Profile.ImagePath = imageString;
+                    ProfileImage = imageString;
                 });
             }
         }
@@ -218,7 +242,9 @@ namespace TestProject.Core.ViewModels
 
             int userId = _userHelper.UserId;
 
-            Profile = _loginService.Get(userId);
+            Profile = _loginRepository.Get(userId);
+
+            ProfileImage = Profile.ImagePath;
         }
     }
 }

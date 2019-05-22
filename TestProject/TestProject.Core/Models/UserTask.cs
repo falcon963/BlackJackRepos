@@ -46,25 +46,19 @@ namespace TestProject.Core.Models
         {
             var task = obj as UserTask;
             return task != null &&
-                   UserId == task.UserId &&
                    Title == task.Title &&
                    Note == task.Note &&
                    Status == task.Status &&
-                   ImagePath == task.ImagePath &&
-                   EqualityComparer<List<TaskFileModel>>.Default.Equals(Files, task.Files) &&
-                   EqualityComparer<User>.Default.Equals(User, task.User);
+                   ImagePath == task.ImagePath;
         }
 
         public override int GetHashCode()
         {
             var hashCode = -1936418545;
-            hashCode = hashCode * -1521134295 + UserId.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Title);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Note);
-            hashCode = hashCode * -1521134295 + Status.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<bool>.Default.GetHashCode(Status);//Status.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ImagePath);
-            hashCode = hashCode * -1521134295 + EqualityComparer<List<TaskFileModel>>.Default.GetHashCode(Files);
-            hashCode = hashCode * -1521134295 + EqualityComparer<User>.Default.GetHashCode(User);
             return hashCode;
         }
         #endregion

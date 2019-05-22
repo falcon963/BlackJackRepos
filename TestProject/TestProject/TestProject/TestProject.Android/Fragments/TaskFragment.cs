@@ -35,6 +35,8 @@ using TestProject.Droid.Helpers.Interfaces;
 using TestProject.Droid.Models;
 using TestProject.Droid.Fragments.Interfaces;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross;
+using TestProject.Core.Services.Interfaces;
 
 namespace TestProject.Droid.Fragments
 {
@@ -45,28 +47,14 @@ namespace TestProject.Droid.Fragments
     public class TaskFragment
         : BaseFragment<TaskViewModel>, IFragmentLifecycle
     {
-
-        private Toolbar _toolbar;
         private ImageView _imageView;
-
-        private readonly MultimediaService<TaskFragment> _multimediaService;
-        private readonly IImageHelper _imageHelper;
-        private readonly IUriHelper _uriHelper;
 
         public event EventHandler<ResultEventArgs> SubscribeOnResult;
 
-        public Action<string> SaveImage { get; set; }
-
         protected override int _fragmentId => Resource.Layout.TaskFragment;
 
-        public Uri ImageUri { get; set; }
-
-        public TaskFragment(IUriHelper uriHelper, IImageHelper imageHelper)
+        public TaskFragment()
         {
-            _imageHelper = imageHelper;
-            _uriHelper = uriHelper;
-            SaveImage = SaveEncodedImage;
-            _multimediaService = new MultimediaService<TaskFragment>(this, _imageView);
 
         }
 
@@ -78,8 +66,10 @@ namespace TestProject.Droid.Fragments
             _toolbar = view.FindViewById<Toolbar>(Resource.Id.task_toolbar);
             _imageView = view.FindViewById<ImageView>(Resource.Id.image_view);
 
+            Mvx.IoCProvider.RegisterSingleton<IImagePickerPlatformService>(new MultimediaService<TaskFragment>(this, _imageView));
+
             _imageView.Click += (sender, e) => { ViewModel?.PickPhotoCommand?.Execute(); };
-            _toolbar.Click += (sender, e) => { HideSoftKeyboard(); };
+            _toolbar.Click += HideSoftKeyboard;
 
             ((MainActivity)ParentActivity).DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
 
@@ -101,6 +91,7 @@ namespace TestProject.Droid.Fragments
             {
                 view.Background.SetCallback(null);
             }
+
             if (view is ViewGroup)
             {
                 for (int i = 0; i < ((ViewGroup)view).ChildCount; i++)
@@ -110,11 +101,6 @@ namespace TestProject.Droid.Fragments
 
                 ((ViewGroup)view).RemoveAllViews();
             }
-        }
-
-        public void SaveEncodedImage(string encodedImage)
-        {
-            ViewModel.UserTask.Changes.ImagePath = encodedImage;
         }
 
         public override void OnDestroyView()

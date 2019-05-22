@@ -32,6 +32,11 @@ namespace TestProject.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
+            CreatableTypes()
+                .EndingWith("Provider")
+                .AsInterfaces()
+                .RegisterAsLazySingleton();
+
             Mvx.IoCProvider.RegisterSingleton(() => new ResxTextProvider(Strings.ResourceManager));
             Mvx.IoCProvider.RegisterSingleton(() => UserDialogs.Instance);
 

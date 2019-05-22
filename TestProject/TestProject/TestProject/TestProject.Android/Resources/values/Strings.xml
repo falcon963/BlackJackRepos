@@ -5,4 +5,5 @@
     <string name="drawer_close">Close</string>
 	<string name="app_name">TestProject.Droid</string>
   <string name="google_maps_key">AIzaSyC_8F6TxN4KjA7ATKiZ6_tOnLfKsadHv4c</string>
+  <string name="facebook_app_id">578268892583841</string>
 </resources>

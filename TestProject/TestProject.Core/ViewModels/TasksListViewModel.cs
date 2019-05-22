@@ -125,6 +125,7 @@ namespace TestProject.Core.ViewModels
                     Tasks.ReplaceWith(list);
 
                     IsRefreshing = false;
+                    RaisePropertyChanged(() => IsRefreshing);
                 });
 
             }

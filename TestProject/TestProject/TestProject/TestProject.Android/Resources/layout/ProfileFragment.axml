@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:local="http://schemas.android.com/apk/res-auto"
+	xmlns:converters="using:TestProject.Droid.Converters"
 	android:id="@+id/profileLinearLayout"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -79,7 +80,7 @@
 									android:layout_width="wrap_content"
 									android:layout_height="wrap_content"
 						            local:MvxLang="Text Save"
-									local:MvxBind="Click SavePasswordChangeCommand; Enabled PassChangeEneble"
+									local:MvxBind="Click UpdateProfileCommand"
 					            />
 
 							</RelativeLayout>
@@ -94,6 +95,7 @@
 									android:layout_width="@dimen/taskdetails_image"
 		            				android:scaleType="centerCrop"
 		            				android:layout_centerInParent = "true"
+									local:MvxBind="Bitmap ImageConverter(ProfileImage)"
 					            />
 
 							</RelativeLayout>
@@ -109,7 +111,7 @@
 									android:layout_width="wrap_content"
 									android:layout_height="wrap_content"
 									android:text="Save profile-image"
-									local:MvxBind="Click SaveImageChangeCommand"
+									local:MvxBind="Click UpdateProfileCommand"
 					            />
 
 							</RelativeLayout>

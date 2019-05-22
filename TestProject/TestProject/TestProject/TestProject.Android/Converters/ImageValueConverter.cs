@@ -13,7 +13,9 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using MvvmCross;
 using MvvmCross.Converters;
+using TestProject.Droid.Providers.Interfaces;
 
 namespace TestProject.Droid.Converters
 {
@@ -31,7 +33,10 @@ namespace TestProject.Droid.Converters
                 return decodedByte;
             }
 
-            var placeholder = BitmapFactory.DecodeResource(Resources.System, Resource.Drawable.placeholder);
+            var contextHelper = Mvx.Resolve<IContextProvider>();
+            var context = contextHelper.GetContext();
+
+            var placeholder = BitmapFactory.DecodeResource(context.Resources , Resource.Drawable.placeholder);
 
             return placeholder;
         }

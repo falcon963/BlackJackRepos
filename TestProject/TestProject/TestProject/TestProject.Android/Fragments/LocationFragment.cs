@@ -14,12 +14,14 @@ using Android.Runtime;
 using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Widget;
+using MvvmCross;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using TestProject.Core.ViewModels;
 using TestProject.Droid.Services.Interfaces;
 using TestProject.Droid.Views;
 using TestProject.LanguageResources;
+using ILocationService = TestProject.Droid.Services.Interfaces.ILocationService;
 
 namespace TestProject.Droid.Fragments
 {
@@ -38,9 +40,9 @@ namespace TestProject.Droid.Fragments
 
         private ILocationService _locationService;
 
-        public LocationFragment(ILocationService locationService)
+        public LocationFragment()
         {
-            _locationService = locationService;
+            _locationService = Mvx.IoCProvider.Resolve<ILocationService>();
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

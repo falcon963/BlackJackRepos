@@ -56,11 +56,6 @@ namespace TestProject.Droid.Fragments
 
             var fabButton = view.FindViewById<FloatingActionButton>(Resource.Id.fab);
 
-            var set = this.CreateBindingSet<TasksListFragment, TasksListViewModel>();
-            set.Bind(fabButton).To(v => v.CreateTaskCommand);
-
-            fabButton.Show();
-
             _imageAdapter = new RecyclerImageAdapter(this);
 
             SetupRecyclerView();

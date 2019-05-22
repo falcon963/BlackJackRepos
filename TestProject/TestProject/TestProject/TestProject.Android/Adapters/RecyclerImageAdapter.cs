@@ -22,6 +22,7 @@ using MvvmCross.ViewModels;
 using TestProject.Core.Models;
 using TestProject.Core.ViewModels;
 using TestProject.Droid.Fragments;
+using CircleImageView = TestProject.Droid.Controls.CircleImageView;
 
 namespace TestProject.Droid.Adapters
 {
@@ -44,13 +45,13 @@ namespace TestProject.Droid.Adapters
 
         public RecyclerImageAdapter(TasksListFragment view)
         {
-            this.ItemClick += (sender, e) => { view?.ViewModel?.ItemSelectedCommand?.Execute(view.ViewModel.Tasks[e]); };
+            ItemClick += (sender, e) => { view?.ViewModel?.ItemSelectedCommand?.Execute(view.ViewModel.Tasks[e]); };
 
             Tasks = view?.ViewModel?.Tasks?.ToList();
 
             _tasksListPendingRemoval = new List<UserTask>();
 
-            this.NotifyDataSetChanged();
+            NotifyDataSetChanged();
 
             _tasksFragment = view;
         }
@@ -91,6 +92,7 @@ namespace TestProject.Droid.Adapters
                     {
                         _handler.RemoveCallbacks(pendingRemovalRunnable);
                     }
+
                     UserTask task = _tasksFragment.ViewModel.Tasks[position];
 
                     _tasksFragment?.ViewModel?.DeleteTaskCommand?.Execute(task);
@@ -117,9 +119,8 @@ namespace TestProject.Droid.Adapters
                 viewHolder.Divider.Visibility = ViewStates.Invisible;
             }
 
-            viewHolder.Text.Text = Tasks[position]?.Title;
-            viewHolder.CheckBox.Checked = Tasks[position].Status;
-            
+            //viewHolder.Text.Text = Tasks[position]?.Title;
+            //viewHolder.CheckBox.Checked = Tasks[position].Status;
         }
 
         public void PendingRemoval(int position)
@@ -135,6 +136,7 @@ namespace TestProject.Droid.Adapters
 
                 _handler.PostDelayed(action, PendingRemovalTimeout);
 
+
                 if (!_pendingRunnables.ContainsKey(item))
                 {
                     _pendingRunnables.Add(item, action);
@@ -145,10 +147,12 @@ namespace TestProject.Droid.Adapters
         public void Remove(int position)
         {
             UserTask item = Tasks[position];
+
             if (_tasksListPendingRemoval.Contains(item))
             {
                 _tasksListPendingRemoval.Remove(item);
             }
+
             if (Tasks.Contains(item))
             {
                 NotifyItemChanged(position);

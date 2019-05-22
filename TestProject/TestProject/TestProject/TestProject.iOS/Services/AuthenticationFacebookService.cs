@@ -9,6 +9,7 @@ using TestProject.Core.Authentication.Interfaces;
 using TestProject.Core.Constants;
 using TestProject.iOS.Services.Interfaces;
 using UIKit;
+using Xamarin.Auth;
 
 namespace TestProject.iOS.Services
 {
@@ -109,6 +110,11 @@ namespace TestProject.iOS.Services
         public void InitializeFacebookAuth()
         {
             _authFacebook = new FacebookAuthenticator(SocialConstants.ClientIdFacebook, SocialConstants.Scope, this);
+        }
+
+        public OAuth2Authenticator GetAuthenticator()
+        {
+            return _authFacebook.GetAuthenticator();
         }
     }
 }

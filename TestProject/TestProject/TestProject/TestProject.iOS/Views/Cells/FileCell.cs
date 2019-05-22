@@ -23,7 +23,7 @@ namespace TestProject.iOS.Views.Cells
 
         protected FileCell(IntPtr handle) : base(handle)
         {
-            // Note: this .ctor should not contain any initialization logic.
+            
             this.DelayBind(() =>
             {
                 var set = this.CreateBindingSet<FileCell, FileItemViewModel>();

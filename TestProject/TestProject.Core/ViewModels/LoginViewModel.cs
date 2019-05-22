@@ -14,7 +14,6 @@ using Xamarin.Auth;
 using TestProject.Core.Services;
 using TestProject.Core.Repositories.Interfaces;
 using TestProject.Core.Helpers.Interfaces;
-using TestProject.Resources;
 using System.ComponentModel.DataAnnotations;
 using System.Resources;
 using TestProject.Core.Services.Interfaces.SocialService.Google;
@@ -43,12 +42,11 @@ namespace TestProject.Core.ViewModels
 
         #endregion
 
-        public LoginViewModel(IMvxNavigationService navigationService,ILoginRepository loginService, ITasksRepository taskService, IGoogleService googleService, 
+        public LoginViewModel(IMvxNavigationService navigationService,ILoginRepository loginService, IGoogleService googleService, 
             IFacebookService facebookService, IUserHelper userHelper, IValidationService validationService, IDialogsService dialogsService, IUserService userService) : base(navigationService)
         {
                 _facebookService = facebookService;
                 _loginService = loginService;
-                _taskService = taskService;
                 _googleService = googleService;
                 _userHelper = userHelper;
                 _validationService = validationService;
@@ -186,7 +184,6 @@ namespace TestProject.Core.ViewModels
         }
 
         #endregion
-
 
     }
 }

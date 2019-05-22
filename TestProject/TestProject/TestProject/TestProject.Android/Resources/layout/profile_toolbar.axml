@@ -16,7 +16,7 @@
         		android:layout_alignParentLeft="true"
 				android:scaleType="fitXY"
 				android:background="@drawable/back"
-				local:MvxBind="Click CloseProfileCommand"
+				local:MvxBind="Click CloseCommand"
 			/>
 
 			<TextView

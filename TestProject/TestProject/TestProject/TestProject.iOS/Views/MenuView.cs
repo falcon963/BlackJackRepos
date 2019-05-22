@@ -24,6 +24,8 @@ namespace TestProject.iOS.Views
     public partial class MenuView 
         : BaseView<MenuView ,MenuViewModel>
     {
+        private const float AnimationDuration = 0.5f;
+        private const float UserProfileImageBorderWidth = 3f;
         private MenuItemSource _source;
         public static NSString MyCellId = new NSString(nameof(ContentNavigateCell));
 
@@ -55,14 +57,14 @@ namespace TestProject.iOS.Views
             NavigateList.ScrollEnabled = false;
 
             var transition = new CATransition();
-            transition.Duration = 0.5;
+            transition.Duration = AnimationDuration;
             transition.TimingFunction = CAMediaTimingFunction.FromName(CAMediaTimingFunction.EaseInEaseOut);
             transition.Type = CATransition.TransitionPush;
             transition.Subtype = CATransition.TransitionFromLeft;
 
             NavigationController.View.Layer.AddAnimation(transition, null);
 
-            UserProfileImage.Layer.BorderWidth = 3;
+            UserProfileImage.Layer.BorderWidth = UserProfileImageBorderWidth;
             UserProfileImage.Layer.BorderColor = UIColor.White.CGColor;
             UserProfileImage.Layer.MasksToBounds = true;
             UserProfileName.Text = ViewModel.Profile.Login;

@@ -37,6 +37,7 @@ using Xamarin.Facebook.Share.Model;
 using UriParse = Android.Net.Uri;
 using TestProject.Core.Authentication;
 using TestProject.Droid.Services.Interfaces;
+using Resource = MvvmCross.Droid.Support.V7.AppCompat.Resource;
 
 namespace TestProject.Droid.Fragments
 {
@@ -52,6 +53,7 @@ namespace TestProject.Droid.Fragments
         private SignInButton _googleButton;
         private LoginButton _facebookButton;
         private GoogleApiClient _googleApiClient;
+
         private IFacebookAuthenticationService _facebookAuthenticationService;
         private IGoogleAuthenticationApiService _googleAuthenticationApiService;
 
@@ -59,11 +61,15 @@ namespace TestProject.Droid.Fragments
 
         private const int SignInGoogleId = 9001;
 
-        public LoginFragment(IFacebookAuthenticationService facebookAuthenticationService, IGoogleAuthenticationApiService googleAuthenticationApiService)
-        {
-            _facebookAuthenticationService = facebookAuthenticationService;
-            _googleAuthenticationApiService = googleAuthenticationApiService;
+        
 
+        public LoginFragment()
+        {
+
+            _facebookAuthenticationService = Mvx.IoCProvider.Resolve<IFacebookAuthenticationService>();
+            _googleAuthenticationApiService = Mvx.IoCProvider.Resolve<IGoogleAuthenticationApiService>();
+
+            _facebookAuthenticationService.InitializeFacebookAuth();
             _facebookAuthenticationService.OnAuthenticationCompleted += FacebookOnAuthenticationCompleted;
         }
 
@@ -83,6 +89,8 @@ namespace TestProject.Droid.Fragments
             _facebookButton = view.FindViewById<LoginButton>(Resource.Id.btnFacebookSignIn);
 
             _facebookButton.Click += OnFacebookLoginButtonClicked;
+
+            _linearLayout.Click += HideSoftKeyboard;
 
             InitializeGoogleAuth();
 
@@ -147,6 +155,8 @@ namespace TestProject.Droid.Fragments
         protected override void Dispose(bool disposing)
         {
             _facebookAuthenticationService.OnAuthenticationCompleted -= FacebookOnAuthenticationCompleted;
+            _toolbar.Click -= HideSoftKeyboard;
+            _linearLayout.Click -= HideSoftKeyboard;
 
             base.Dispose(disposing);
         }
