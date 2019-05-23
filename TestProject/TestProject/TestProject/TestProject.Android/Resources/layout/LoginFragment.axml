@@ -40,7 +40,7 @@
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="@dimen/edit_text_margin"
 			android:layout_alignParentLeft="true"
-			local:MvxBind="Checked RememberMeStatus; Enabled EnableStatus"
+			local:MvxBind="Checked IsRememberMeStatus"
 		/>
 
 		<TextView

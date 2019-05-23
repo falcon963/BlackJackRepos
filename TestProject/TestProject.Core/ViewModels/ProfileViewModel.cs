@@ -121,7 +121,7 @@ namespace TestProject.Core.ViewModels
         }
 
         [Required(ErrorMessageResourceName = nameof(Strings.ConfirmPasswordMustBeRequired), ErrorMessageResourceType = typeof(Strings))]
-        [Compare("UserProfileViewModel.Password", ErrorMessageResourceName = nameof(Strings.ConfirmPasswordMustBeComparePassword), ErrorMessageResourceType = typeof(Strings))]
+        [Compare(nameof(NewPassword), ErrorMessageResourceName = nameof(Strings.ConfirmPasswordMustBeComparePassword), ErrorMessageResourceType = typeof(Strings))]
         public string ConfirmPassword
         {
             get
@@ -176,19 +176,16 @@ namespace TestProject.Core.ViewModels
                 {
                     var validationModel = _validationService.Validate(this);
 
-                    if (IsPasswordChangeConfirmed)
-                    {
-                        _userService.ChangePassword(Profile.Id, NewPassword);
-
-                        _userHelper.UserPassword = NewPassword;
-                    }
-
-                    if (!validationModel.IsValid && OldPassword != Profile.Password)
+                    if (!validationModel.IsValid || OldPassword != Profile.Password)
                     {
                          _dialogsService.ShowAlert(message: validationModel.Errors.FirstOrDefault());
 
                         return;
                     }
+
+                    _userService.ChangePassword(Profile.Id, NewPassword);
+
+                    _userHelper.UserPassword = NewPassword;
 
                     _dialogsService.ShowSuccessMessage(message: Strings.ChangesAccepted);
                     _userService.ChangeImage(Profile.Id, Profile.ImagePath);

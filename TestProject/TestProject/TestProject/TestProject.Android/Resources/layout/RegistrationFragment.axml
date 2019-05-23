@@ -63,7 +63,7 @@
 					style="@style/RegistrationTextField"
 					android:layout_marginTop="@dimen/login_page_margin"
 					android:password="true"
-					local:MvxBind="Background Color(ValidateColor); Text PasswordRevise"
+					local:MvxBind="Background Color(ValidateColor); Text PasswordConfirmation"
 				/>
 
 				<RelativeLayout

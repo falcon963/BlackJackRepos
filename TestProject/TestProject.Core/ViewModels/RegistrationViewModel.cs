@@ -137,20 +137,20 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    var isLoginFree = _userService.IsValidLogin(Login);
-
-                    if (!isLoginFree)
-                    {
-                        _dialogsService.ShowAlert(Strings.LoginAlreadyUse);
-
-                        return;
-                    }
-
                     var validationModel = _validationService.Validate(this);
 
                     if (!validationModel.IsValid)
                     {
                         _dialogsService.ShowAlert(validationModel.Errors.FirstOrDefault());
+
+                        return;
+                    }
+
+                    bool isLoginFree = _userService.IsValidLogin(Login);
+
+                    if (!isLoginFree)
+                    {
+                        _dialogsService.ShowAlert(Strings.LoginAlreadyUse);
 
                         return;
                     }

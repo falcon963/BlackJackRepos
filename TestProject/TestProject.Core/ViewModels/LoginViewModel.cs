@@ -179,6 +179,7 @@ namespace TestProject.Core.ViewModels
             User user = await getUser();
 
             var id = _userService.LoginInSocialAccount(user);
+            _userHelper.UserId = id;
 
             await NavigationService.Navigate<MainViewModel>();
             await NavigationService.Close(this);

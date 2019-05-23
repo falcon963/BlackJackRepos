@@ -120,6 +120,10 @@ namespace TestProject.Droid.Fragments
 
                 ViewModel?.SignInWithGoogleCommand?.Execute();
             }
+            if (!result.IsSuccess)
+            {
+                _googleApiClient.Connect();
+            }
         }
 
         private void SignIn()
@@ -127,6 +131,8 @@ namespace TestProject.Droid.Fragments
             var signInIntent = Auth.GoogleSignInApi.GetSignInIntent(_googleApiClient);
 
             StartActivityForResult(signInIntent, SignInGoogleId);
+
+            Auth.GoogleSignInApi.SignOut(_googleApiClient);
         }
 
         #region AuthSocialInitialize
@@ -134,6 +140,7 @@ namespace TestProject.Droid.Fragments
         private void InitializeGoogleAuth()
         {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
+                .RequestIdToken(GetString(Resource.String.google_default_web_client_id))
                 .RequestEmail()
                 .Build();
 

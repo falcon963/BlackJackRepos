@@ -11121,6 +11121,12 @@ namespace TestProject.Droid
 			// aapt resource value: 0x7f0a006c
 			public const int facebook_app_id = 2131361900;
 			
+			// aapt resource value: 0x7f0a006d
+			public const int google_default_client_id = 2131361901;
+			
+			// aapt resource value: 0x7f0a006e
+			public const int google_default_web_client_id = 2131361902;
+			
 			// aapt resource value: 0x7f0a006b
 			public const int google_maps_key = 2131361899;
 			

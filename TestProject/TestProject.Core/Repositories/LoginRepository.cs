@@ -40,8 +40,9 @@ namespace TestProject.Core.Repositories
 
         public string GetUserLogin(string login)
         {
+            User user = _dbConnection.Database.Table<User>().FirstOrDefault(v => v.Login == login);
 
-            string userLogin = _dbConnection.Database.Table<User>().FirstOrDefault(v => v.Login == login).Login;
+            string userLogin = user?.Login;
 
             return userLogin;
 

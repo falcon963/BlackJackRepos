@@ -13,7 +13,10 @@
 	<uses-permission android:name="com.companyname.NewApp.Android.permission.MAPS_RECEIVE" />
 	<permission android:name="com.companyname.NewApp.Android.permission.MAPS_RECEIVE" android:protectionLevel="signature" />
 	<!-- These are optional, but recommended. They will allow Maps to use the My Location provider. -->
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.INTERNET" />
