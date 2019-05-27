@@ -176,7 +176,7 @@ namespace TestProject.Core.ViewModels
                 {
                     var validationModel = _validationService.Validate(this);
 
-                    if (!validationModel.IsValid || OldPassword != Profile.Password)
+                    if (!validationModel.IsValid && OldPassword != Profile.Password)
                     {
                          _dialogsService.ShowAlert(message: validationModel.Errors.FirstOrDefault());
 
@@ -187,8 +187,9 @@ namespace TestProject.Core.ViewModels
 
                     _userHelper.UserPassword = NewPassword;
 
-                    _dialogsService.ShowSuccessMessage(message: Strings.ChangesAccepted);
                     _userService.ChangeImage(Profile.Id, Profile.ImagePath);
+
+                    _dialogsService.ShowSuccessMessage(message: Strings.ChangesAccepted);
                 });
             }
         }

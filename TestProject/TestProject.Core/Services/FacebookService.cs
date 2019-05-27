@@ -34,14 +34,17 @@ namespace TestProject.Core.Services
             {
                 var requestUrl = "https://graph.facebook.com/me?fields=email,id,name,picture&access_token=" + accessToken;
                 var model = await _httpHelper.Get<FacebookProfileModel>(requestUrl);
+
                 string pictureUrl = model?.Picture?.Data?.Url;
+
                 if (pictureUrl != null)
                 {
                     var image = await _httpHelper.GetByte(pictureUrl);
                     account.ImagePath = Convert.ToBase64String(image);
-                    account.Login = model?.Name;
-                    account.FacebookId = model?.Id;
                 }
+
+                account.Login = model?.Name;
+                account.FacebookId = model?.Id;
             }
             catch (Exception ex)
             {

@@ -31,21 +31,22 @@ namespace TestProject.iOS.Views
 
         public MenuView() : base(nameof(MenuView), null)
         {
+            base.ViewDidLoad();
         }
 
         public override bool SetupBindings()
         {
             BindingSet.Bind(NavigateList).For(v => v.BackgroundColor).To(vm => vm.MenuColor).WithConversion("NativeColor");
-            BindingSet.Bind(UserProfileImage).For(v => v.Image).To(vm => vm.Profile.ImagePath).WithConversion(new ImageValueConverter());
+            BindingSet.Bind(UserProfileImage).For(v => v.Image).To(vm => vm.ProfileImage).WithConversion(new ImageValueConverter());
             BindingSet.Bind(_source).For(x => x.ItemsSource).To(vm => vm.MenuItems);
             BindingSet.Bind(_source).For(x => x.SelectionChangedCommand).To(vm => vm.ItemSelectCommand);
+            BindingSet.Bind(UserProfileName).For(v => v.Text).To(vm => vm.UserName);
 
             return base.SetupBindings();
         }
 
         public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
 
             _source = new MenuItemSource(NavigateList);
 
@@ -67,9 +68,10 @@ namespace TestProject.iOS.Views
             UserProfileImage.Layer.BorderWidth = UserProfileImageBorderWidth;
             UserProfileImage.Layer.BorderColor = UIColor.White.CGColor;
             UserProfileImage.Layer.MasksToBounds = true;
-            UserProfileName.Text = ViewModel.Profile.Login;
 
             NavigateList.ReloadData();
+
+
         }
 
         public override void ViewDidAppear(bool animated)

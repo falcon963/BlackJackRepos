@@ -45,9 +45,9 @@ namespace TestProject.Core.Repositories
 
         public int Save(T item)
         {
-            int id = _dbConnection.Database.Insert(item);
+            _dbConnection.Database.Insert(item);
 
-            return id;
+            return item.Id;
         }
 
         public void SaveRange(List<T> list)
@@ -67,8 +67,9 @@ namespace TestProject.Core.Repositories
 
         public int Update(T item)
         {
-            int id = _dbConnection.Database.Update(item);
-            return id;
+            _dbConnection.Database.Update(item);
+
+            return item.Id;
         }
     }
 }

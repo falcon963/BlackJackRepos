@@ -35,14 +35,16 @@ namespace TestProject.Core.Services
             {
                 var requestUrl = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + accessToken;
                 var model = await _httpHelper.Get<GoogleProfileModel>(requestUrl);
-                var image = await _httpHelper.GetByte(model?.Picture?.Url);
+                var pictureUri = model?.PictureUri;
 
-                if (model?.Picture?.Url != null)
+                if (pictureUri != null)
                 {
+                    var image = await _httpHelper.GetByte(pictureUri);
                     account.ImagePath = Convert.ToBase64String(image);
-                    account.Login = model?.Name;
-                    account.GoogleId = model?.Id;
                 }
+
+                account.Login = model?.Name;
+                account.GoogleId = model?.Id;
             }
             catch (Exception ex)
             {

@@ -18,7 +18,7 @@ namespace TestProject.iOS.Views
 
         public RegistrationView() : base(nameof(RegistrationView), null)
         {
-            ;
+            base.ViewDidLoad();
         }
 
         public override bool SetupBindings()
@@ -37,12 +37,11 @@ namespace TestProject.iOS.Views
 
         public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
+            ScrollView = RegistrationScrollView;
 
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, HandleKeyboardDidHide);
 
-            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, OnKeyboardWillHide);
-
-            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, OnKeyboardWillShow);
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, HandleKeyboardDidShow);
 
             AddShadow(LoginField);
             AddShadow(PasswordField);

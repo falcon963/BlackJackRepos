@@ -32,14 +32,10 @@ namespace TestProject.Core.Services
             {
                 createUserId = _loginRepository.Save(user);
 
-                _userHelper.UserId = createUserId;
-
                 return createUserId;
             }
 
             createUserId = getUserId.GetValueOrDefault();
-
-            _userHelper.UserId = createUserId;
 
             return createUserId;
         }
@@ -92,6 +88,7 @@ namespace TestProject.Core.Services
         public void Logout()
         {
             _userHelper.DeleteUserStatus();
+            _userHelper.DeleteUserId();
             _userHelper.DeleteUserAccessToken();
         }
     }

@@ -49,7 +49,7 @@
                         <constraint id="8919" firstAttribute="width" constant="50"/>
                         <constraint id="9012" firstAttribute="width" secondItem="6524" secondAttribute="height" multiplier="1:1"/>
                     </constraints>
-                    <state key="normal" image="icons8_plus_24_white.png"/>
+                    <state key="normal" image="add"/>
                 </button>
             </subviews>
             <constraints>
@@ -75,6 +75,6 @@
         </view>
     </objects>
     <resources>
-        <image name="icons8_plus_24_white.png" width="24" height="24"/>
+        <image name="add" width="12" height="12"/>
     </resources>
 </document>

@@ -46,6 +46,11 @@ namespace TestProject.Core.ViewModels
             NavigationService = navigationService;
         }
 
+        public IMvxLanguageBinder TextSource
+        {
+            get { return new MvxLanguageBinder(); }
+        }
+
         public IMvxAsyncCommand CloseCommand
         {
             get
@@ -66,6 +71,11 @@ namespace TestProject.Core.ViewModels
         protected BaseViewModel(IMvxNavigationService navigationService)
         {
             NavigationService = navigationService;
+        }
+
+        public IMvxLanguageBinder TextSource
+        {
+            get { return new MvxLanguageBinder(); }
         }
 
         public IMvxAsyncCommand CloseCommand

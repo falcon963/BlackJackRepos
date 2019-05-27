@@ -1,6 +1,7 @@
 ﻿using CoreGraphics;
 using Foundation;
 using Google.Maps;
+using MvvmCross;
 using MvvmCross.Platforms.Ios.Core;
 using MvvmCross.Plugin.Color.Platforms.Ios;
 using Plugin.SecureStorage;
@@ -9,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using TestProject.Core;
 using TestProject.Core.Colors;
+using TestProject.iOS.Providers;
 using TestProject.iOS.Views;
 using UIKit;
 
@@ -52,20 +54,20 @@ namespace TestProject.iOS
 
         //    Uri uri_netfx = new Uri(url.AbsoluteString);
 
-        //    // load redirect_url Page
-        //    LoginView.GoogleAuth.OnPageLoading(uri_netfx);
+        //    OpenUrlExecuted?.Invoke(this, uri_netfx);
 
         //    return true;
         //}
 
-        public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
-        {
-            return AppDeepLinksEntry(url);
-        }
-
         public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
         {
-            return AppDeepLinksEntry(url);
+            AppDeepLinksEntry(url);
+
+            Uri uri_netfx = new Uri(url.AbsoluteString);
+
+            OpenUrlExecuted?.Invoke(this, uri_netfx);
+
+            return true;
         }
 
         #endregion OpenUrl
@@ -111,6 +113,10 @@ namespace TestProject.iOS
         {
             // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
         }
+
+        #region Events
+        public event EventHandler<Uri> OpenUrlExecuted;
+        #endregion
     }
 }
 

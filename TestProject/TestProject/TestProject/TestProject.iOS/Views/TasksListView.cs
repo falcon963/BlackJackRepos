@@ -24,9 +24,11 @@ namespace TestProject.iOS.Views
     public partial class TasksListView 
         : BaseView<TasksListView, TasksListViewModel>
     {
-        private const int ShadowOpacity = 1 / 2;
-        private const int ShadowRadius = 5;
-        private const int TasksLIstRowHeight = 60;
+        private const float ShadowOpacity = 0.5f;
+        private const float ShadowRadius = 5f;
+        private const float TasksListRowHeight = 60f;
+        private const float ShadowOffsetWidth = 0f;
+        private const float ShadowOffsetHeight = 10f;
 
         public static NSString MyCellId = new NSString(nameof(ContentNavigateCell));
 
@@ -35,6 +37,8 @@ namespace TestProject.iOS.Views
         private TasksListSource _source;
 
         private MvxUIRefreshControl _refreshControl;
+
+        private bool _constructed;
 
 
         #region Property
@@ -65,21 +69,26 @@ namespace TestProject.iOS.Views
             return base.SetupBindings();
         }
 
+        public override bool CustomizeViews()
+        {
+            TasksList.RowHeight = TasksListRowHeight;
+
+            return base.CustomizeViews();
+        }
+
         public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
-
-            NavigationController.NavigationBar.TopItem.Title = Strings.TasksList;
-            
+            //NavigationController.NavigationBar.TopItem.Title = Strings.TasksList;           
+            //_constructed = true;
 
             _source = new TasksListSource(TasksList, this);
             _refreshControl = new MvxUIRefreshControl();
-            this.RefreshControl = _refreshControl;
+            RefreshControl = _refreshControl;
+
+            base.ViewDidLoad();
 
             TasksList.AddSubview(_refreshControl);
             TasksList.Source = _source;
-            TasksList.RegisterNibForCellReuse(UINib.FromName(nameof(ContentTasksCell), NSBundle.MainBundle), ContentTasksCell.Key);
-            TasksList.RowHeight = TasksLIstRowHeight;
             TasksList.ReloadData();
         }
 
@@ -94,7 +103,7 @@ namespace TestProject.iOS.Views
             FabButton.BackgroundColor = UIColor.White;
             FabButton.Layer.CornerRadius = FabButton.Frame.Height / 2;
             FabButton.Layer.ShadowColor = UIColor.Black.CGColor;
-            FabButton.Layer.ShadowOffset = new CGSize(0, 10);
+            FabButton.Layer.ShadowOffset = new CGSize(ShadowOffsetWidth, ShadowOffsetHeight);
             FabButton.Layer.MasksToBounds = false;
             FabButton.Layer.ShadowRadius = ShadowRadius;
             FabButton.Layer.ShadowOpacity = ShadowOpacity;

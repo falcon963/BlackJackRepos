@@ -112,14 +112,8 @@ namespace TestProject.iOS.Services
 
         public void InitializeGoogleAuth()
         {
-            var googleDictionary = NSDictionary.FromFile("credentials.plist");
-            string clienId = googleDictionary["CLIENT_ID"].ToString();
-            string reversedClientId = googleDictionary["REVERSED_CLIENT_ID"].ToString();
-
-            _authGoogle = new GoogleAuthenticator(clienId, scope,
-                new Uri($"{reversedClientId}:/oauth2redirect"), this);
-            //_authGoogle = new GoogleAuthenticator("70862177039-jm46ae5e77822hk8qllegch1fqler0a4.apps.googleusercontent.com", "email",
-            //    new Uri("com.googleusercontent.apps.70862177039-jm46ae5e77822hk8qllegch1fqler0a4:/oauth2redirect"), this);
+            _authGoogle = new GoogleAuthenticator("70862177039-jm46ae5e77822hk8qllegch1fqler0a4.apps.googleusercontent.com", "email",
+                new Uri("com.googleusercontent.apps.70862177039-jm46ae5e77822hk8qllegch1fqler0a4:/oauth2redirect"), this);
         }
 
         public OAuth2Authenticator GetAuthenticator()

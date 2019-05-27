@@ -86,6 +86,11 @@ namespace TestProject.Core.Helpers
             CrossSecureStorage.Current.DeleteKey(nameof(SecureConstants.Status));
         }
 
+        public void DeleteUserId()
+        {
+            CrossSecureStorage.Current.DeleteKey(nameof(SecureConstants.UserId));
+        }
+
         public void DeleteUserAccessToken()
         {
             CrossSecureStorage.Current.DeleteKey(nameof(SecureConstants.AccessToken));

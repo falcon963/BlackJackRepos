@@ -18,6 +18,8 @@ using TestProject.Core.Authentication.Interfaces;
 using TestProject.Core.Constants;
 using TestProject.iOS.Services;
 using TestProject.iOS.Services.Interfaces;
+using MvvmCross;
+using ObjCRuntime;
 
 namespace TestProject.iOS.Views
 {
@@ -38,14 +40,9 @@ namespace TestProject.iOS.Views
 
         public LoginView() : base(nameof(LoginView), null)
         {
-            ;
         }
 
-        public LoginView(IAuthenticationFacebookService facebookAuthenticationService, IAuthenticationGoogleService googleAuthenticationService) : base(nameof(LoginView), null)
-        {
-            _googleAuthenticationService = googleAuthenticationService;
-            _facebookAuthenticationService = facebookAuthenticationService;
-        }
+        #endregion
 
         public override bool SetupEvents()
         {
@@ -60,8 +57,6 @@ namespace TestProject.iOS.Views
             return base.SetupEvents();
         }
 
-        #endregion
-
         #region Handlers
 
         private void AuthenticationService_OnAuthenticationFailed(object sender, EventArgs e)
@@ -71,21 +66,22 @@ namespace TestProject.iOS.Views
 
         private void _facebookAuthenticationService_OnAuthenticationCompleted(object sender, EventArgs e)
         {
-            ViewModel.SignInWithFacebookCommand.Execute();
+            Unsubscribe();
             DismissViewController(true, null);
+            ViewModel.SignInWithFacebookCommand.Execute();
         }
 
         private void _googleAuthenticationService_OnAuthenticationCompleted(object sender, EventArgs e)
         {
-            ViewModel?.SignInWithFacebookCommand?.Execute();
+            Unsubscribe();
             DismissViewController(true, null);
+            ViewModel?.SignInWithGoogleCommand?.Execute();
         }
 
         #endregion
 
         public override bool SetupBindings()
         {
-            BindingSet.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion("NativeColor");
             BindingSet.Bind(LoginScrollView).For(v => v.BackgroundColor).To(vm => vm.LoginColor).WithConversion("NativeColor");
             BindingSet.Bind(RegistrationButton).To(vm => vm.GoRegistrationPageCommand);
             BindingSet.Bind(RememberSwitch).To(vm => vm.IsRememberMeStatus);
@@ -98,7 +94,10 @@ namespace TestProject.iOS.Views
 
         public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
+            ScrollView = LoginScrollView;
+
+            _googleAuthenticationService = Mvx.IoCProvider.Resolve<IAuthenticationGoogleService>();
+            _facebookAuthenticationService = Mvx.IoCProvider.Resolve<IAuthenticationFacebookService>();
 
             UITapGestureRecognizer facebookButton = new UITapGestureRecognizer(FacebookLogin);
             UITapGestureRecognizer googleButton = new UITapGestureRecognizer(GoogleLogin);
@@ -106,9 +105,10 @@ namespace TestProject.iOS.Views
             LoginFacebookButton.AddGestureRecognizer(facebookButton);
             LoginGoogleButton.AddGestureRecognizer(googleButton);
 
-            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, OnKeyboardWillHide);
 
-            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, OnKeyboardWillShow);
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, HandleKeyboardDidHide);
+
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, HandleKeyboardDidShow);
 
             ShadowCreate(PasswordField, ShadowViewPasswordField);
             ShadowCreate(LoginField, ShadowView);
@@ -118,6 +118,8 @@ namespace TestProject.iOS.Views
             AddShadow(LoginGoogleButton);
             AddShadow(RememberSwitch);
             AddShadow(LoginButton);
+
+            base.ViewDidLoad();
         }
 
         #region Login
@@ -132,14 +134,20 @@ namespace TestProject.iOS.Views
         void GoogleLogin()
         {
             var authenticator = _googleAuthenticationService.GetAuthenticator();
+
+            ThisApp.OpenUrlExecuted += (s, uri) =>
+            {
+                authenticator.OnPageLoading(uri);
+            };
+
             var viewController = authenticator.GetUI();
+
             PresentViewController(viewController, true, null);
+
         }
 
-        protected override void Dispose(bool disposing)
+        protected void Unsubscribe()
         {
-            base.Dispose(disposing);
-
             _googleAuthenticationService.OnAuthenticationCompleted -= _googleAuthenticationService_OnAuthenticationCompleted;
 
             _googleAuthenticationService.OnAuthenticationFailed -= AuthenticationService_OnAuthenticationFailed;

@@ -123,10 +123,17 @@
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="IncorrectUsernameAndOrPassword" xml:space="preserve">
+    <value>Nepravil'nyy login i (ili) parol'
+Incorrect username and / or password</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
   <data name="PasswordDontCompare" xml:space="preserve">
     <value>Password dont compare</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Remember me</value>
   </data>
 </root>

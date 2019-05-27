@@ -70,14 +70,6 @@ namespace TestProject.iOS.Views
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIToolbar TaskToolbar { get; set; }
 
-        [Action ("PressAddButton:")]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        partial void PressAddButton (UIKit.UIButton sender);
-
-        [Action ("PressSaveButton:")]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        partial void PressSaveButton (UIKit.UIButton sender);
-
         void ReleaseDesignerOutlets ()
         {
             if (AddFileButton != null) {

@@ -10,7 +10,7 @@ using MvvmCross.Platforms.Ios.Presenters.Attributes;
 
 namespace TestProject.iOS.Views
 {
-    [MvxRootPresentation]
+    [MvxRootPresentation()]
     public class MainView 
         : MvxTabBarViewController<MainViewModel>
     {
@@ -45,7 +45,7 @@ namespace TestProject.iOS.Views
             if (_firstTimePresented)
             {
                 _firstTimePresented = false;
-                ViewModel?.ShowMenuCommand?.Execute();
+                ViewModel?.ShowAppPagesCommand?.Execute();
             }
         }
     }

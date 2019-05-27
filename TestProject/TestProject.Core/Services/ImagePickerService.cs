@@ -19,7 +19,7 @@ namespace TestProject.Core.Services
                 return string.Empty;
             }
 
-            var imageBytes = await _imagePicker.GetPhoto();
+            var imageBytes = await _imagePicker.GetPhoto().ConfigureAwait(false);
             string imageString = Convert.ToBase64String(imageBytes);
             return imageString;
         }

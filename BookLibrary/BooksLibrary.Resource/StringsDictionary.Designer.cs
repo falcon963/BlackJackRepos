@@ -79,6 +79,16 @@ namespace BooksLibrary.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nepravil&apos;nyy login i (ili) parol&apos;
+        ///Incorrect username and / or password.
+        /// </summary>
+        public static string IncorrectUsernameAndOrPassword {
+            get {
+                return ResourceManager.GetString("IncorrectUsernameAndOrPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
@@ -93,6 +103,15 @@ namespace BooksLibrary.Resource {
         public static string PasswordDontCompare {
             get {
                 return ResourceManager.GetString("PasswordDontCompare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remember me.
+        /// </summary>
+        public static string RememberMe {
+            get {
+                return ResourceManager.GetString("RememberMe", resourceCulture);
             }
         }
     }

@@ -8,6 +8,7 @@ namespace TestProject.Core.Helpers.Interfaces
     {
         void DeleteUserStatus();
         void DeleteUserAccessToken();
+        void DeleteUserId();
         string UserLogin { get; set; }
         string UserPassword { get; set; }
         int UserId { get; set; }

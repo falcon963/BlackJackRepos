@@ -29,11 +29,12 @@ namespace TestProject.iOS.Sources
         {
             _view = view;
             DeselectAutomatically = true;
+            tableView.RegisterNibForCellReuse(UINib.FromName(nameof(ContentTasksCell), NSBundle.MainBundle), cellIdentifier);
         }
 
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
         {
-            var cell = tableView.DequeueReusableCell(ContentTasksCell.Key) as ContentTasksCell;
+            var cell = tableView.DequeueReusableCell(cellIdentifier) as ContentTasksCell;
             if (cell == null)
             {
                 return new MvxTableViewCell();
@@ -41,11 +42,14 @@ namespace TestProject.iOS.Sources
             cell.Layer.BorderColor = UIColor.Black.CGColor;
             cell.Layer.BorderWidth = SizeConstants.BorderWidth;
             cell.Layer.CornerRadius = SizeConstants.CornerRadius;
+
             if (item is UserTask taskItem)
             {
                 (cell as ContentTasksCell).UpdateCell(taskItem);
             }
+
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
+
             return cell;
         }
 

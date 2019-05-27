@@ -1,6 +1,7 @@
 ﻿using CoreGraphics;
 using Foundation;
 using MobileCoreServices;
+using MvvmCross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Presenters.Attributes;
 using MvvmCross.Platforms.Ios.Views;
@@ -27,11 +28,13 @@ namespace TestProject.iOS.Views
 
         private UIDocumentMenuViewController _documentPickerController;
 
-        private readonly IPhotoService _photoService;
+        private  IPhotoService _photoService;
 
-        private readonly IDocumentPickerService _documentsPickerService;
+        private  IDocumentPickerService _documentsPickerService;
 
         private TaskFilesListSource _source;
+
+        private const float FileListRowHeight = 40f;
 
         #endregion
 
@@ -44,11 +47,12 @@ namespace TestProject.iOS.Views
             BindingSet.Bind(DeleteButton).To(vm => vm.DeleteUserTaskCommand);
             BindingSet.Bind(AddFileButton).To(vm => vm.AddFileCommand);
             BindingSet.Bind(BackButton).To(vm => vm.ShowMenuCommand);
+            BindingSet.Bind(AddFileButton).To(vm => vm.AddFileCommand);
             BindingSet.Bind(SaveButton).To(vm => vm.SaveUserTaskCommand);
             BindingSet.Bind(DeleteButton).For(v => v.Hidden).To(vm => vm.IsDeleteButtonHidden);
             BindingSet.Bind(_source).For(x => x.ItemsSource).To(vm => vm.Files);
             BindingSet.Bind(View).For(v => v.BackgroundColor).To(vm => vm.ColorTheme).WithConversion("NativeColor");
-            BindingSet.Bind(TaskImage).To(vm => vm.UserTask.Changes.ImagePath).WithConversion(new ImageValueConverter());
+            BindingSet.Bind(TaskImage).To(vm => vm.TaskImage).WithConversion(new ImageValueConverter());
             BindingSet.Bind(TaskTitle).For(x => x.Title).To(vm => vm.UserTask.Changes.Title).WithConversion(new TaskTitleValueConverter());
 
             return base.SetupBindings();
@@ -66,18 +70,56 @@ namespace TestProject.iOS.Views
 
             _photoService.PresentAlert += _photoService_PresentAlert;
 
+            ViewModel.Files.CollectionChanged += ListOfFiles_CollectionChanged;
+
+            #region Init NSNotificationCenter.Keyboard
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, HandleKeyboardDidHide);
+
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, HandleKeyboardDidShow);
+            #endregion
+
+            #region Init TapRecognizer
+
+            UITapGestureRecognizer recognizer = new UITapGestureRecognizer(() => { ViewModel?.PickPhotoCommand?.Execute(); });
+            TaskImage.AddGestureRecognizer(recognizer);
+
+            #endregion
+
             return base.SetupEvents();
+        }
+
+        public override bool CustomizeViews()
+        {
+            FileList.BackgroundColor = UIColor.Clear;
+
+            FileList.RowHeight = FileListRowHeight;
+
+            BackButton.Image = UIImage.FromBundle("back");
+
+            MainScrollView.ContentSize = new CGSize(0, MainScrollView.Frame.Height);
+
+            TaskNote.ContentInset = UIEdgeInsets.Zero;
+
+            TaskNote.ClipsToBounds = true;
+
+            #region Init shadows
+            AddShadow(TaskName);
+            AddShadow(TaskNote);
+            AddShadow(TaskImage);
+            AddShadow(DeleteButton);
+            AddShadow(SaveButton);
+            AddShadow(TaskStatus);
+            AddShadow(AddFileButton);
+            #endregion
+
+            AutomaticallyAdjustsScrollViewInsets = false;
+
+            return base.CustomizeViews();
         }
 
         public TaskDetailsView() : base(nameof(TaskDetailsView), null)
         {
 
-        }
-
-        public TaskDetailsView(IDocumentPickerService documentPickerService, IPhotoService photoService) : base(nameof(TaskDetailsView), null)
-        {
-            _photoService = photoService;
-            _documentsPickerService = documentPickerService;
         }
 
         #region Handlers
@@ -111,56 +153,18 @@ namespace TestProject.iOS.Views
 
         public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
+            _photoService = Mvx.IoCProvider.Resolve<IPhotoService>();
+            _documentsPickerService = Mvx.IoCProvider.Resolve<IDocumentPickerService>();
 
-            FileList.BackgroundColor = UIColor.Clear;
+            ScrollView = MainScrollView;
+
             _source = new TaskFilesListSource(FileList, this);
 
-            #region Init Property Sub
+            base.ViewDidLoad();
 
-            ViewModel.Files.CollectionChanged +=   ListOfFiles_CollectionChanged;
-
-            #endregion
-
-            FileList.RowHeight = 40;
             FileList.Source = _source;
+
             InitFileList();
-           
-
-            #region Init shadows
-            AddShadow(TaskName);
-            AddShadow(TaskNote);
-            AddShadow(TaskImage);
-            AddShadow(DeleteButton);
-            AddShadow(SaveButton);
-            AddShadow(TaskStatus);
-            AddShadow(AddFileButton);
-            #endregion
-
-            
-
-            #region Init NSNotificationCenter.Keyboard
-            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, OnKeyboardWillHide);
-
-            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, OnKeyboardWillShow);
-            #endregion
-
-            #region Init TapRecognizer
-
-            UITapGestureRecognizer recognizer = new UITapGestureRecognizer(() => { ViewModel?.PickPhotoCommand?.Execute(); });
-            TaskImage.AddGestureRecognizer(recognizer);
-
-            #endregion
-
-            BackButton.Image = UIImage.FromBundle("back");
-
-            MainScrollView.ContentSize = new CGSize(0, MainScrollView.Frame.Height);
-
-            TaskNote.ContentInset = UIEdgeInsets.Zero;
-            TaskNote.ClipsToBounds = true;
-
-            this.AutomaticallyAdjustsScrollViewInsets = false;
-
 
             FileList.ReloadData();
         }
@@ -173,20 +177,19 @@ namespace TestProject.iOS.Views
 
         private void InitFileList()
         {
-            var cellHeight = FileList.RowHeight;
             int count = ViewModel.Files.Count;
 
-            if (count < 2 && FileViewHeight.Constant != cellHeight)
+            if (count < 2 && FileViewHeight.Constant != FileListRowHeight)
             {
-                FileViewHeight.Constant = cellHeight;
+                FileViewHeight.Constant = FileListRowHeight;
             }
-            if (count < 3 && count > 1 && FileViewHeight.Constant != 2 * cellHeight)
+            if (count < 3 && count > 1 && FileViewHeight.Constant != 2 * FileListRowHeight)
             {
-                FileViewHeight.Constant = 2 * cellHeight;
+                FileViewHeight.Constant = 2 * FileListRowHeight;
             }
-            if (count < 4 && count > 2 && FileViewHeight.Constant != 3 * cellHeight)
+            if (count < 4 && count > 2 && FileViewHeight.Constant != 3 * FileListRowHeight)
             {
-                FileViewHeight.Constant = 3 * cellHeight;
+                FileViewHeight.Constant = 3 * FileListRowHeight;
             }
         }
 

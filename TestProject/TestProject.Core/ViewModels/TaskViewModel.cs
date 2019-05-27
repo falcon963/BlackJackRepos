@@ -82,9 +82,9 @@ namespace TestProject.Core.ViewModels
             {
                 if(UserTask.Changes.Id == 0)
                 {
-                    return false;
+                    return true;
                 }
-                return true;
+                return false;
             }
         }
 
@@ -175,6 +175,7 @@ namespace TestProject.Core.ViewModels
             get
             {
                 return new MvxAsyncCommand(async () => {
+
                     var imageString = await _imagePickerService.GetImageBase64();
 
                     if(string.IsNullOrEmpty(imageString))

@@ -15,14 +15,23 @@ namespace TestProject.Core.Helpers
 
         public async Task<T> Get<T>(string url)
         {
-            using(var httpClient = new HttpClient())
+            try
             {
-                var json = await httpClient.GetStringAsync(url);
+                using (var httpClient = new HttpClient())
+                {
+                    var json = await httpClient.GetStringAsync(url);
 
-                var result = JsonConvert.DeserializeObject<T>(json);
+                    var result = JsonConvert.DeserializeObject<T>(json);
 
-                return result;
+                    return result;
+                } 
             }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+           
         }
 
         public async Task<byte[]> GetByte(string uri)

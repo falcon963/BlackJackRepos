@@ -160,6 +160,23 @@ namespace TestProject.iOS.Views
         protected LoadingOverlay LoaderOverlay;
         protected BaseViewModel BaseViewModel => ViewModel as BaseViewModel;
         protected MvxFluentBindingDescriptionSet<TView, TViewModel> BindingSet;
+        protected UITapGestureRecognizer hideKeyboardRecognizer;
+
+        protected virtual UIScrollView ScrollView { get; set; }
+
+        private CGSize SizeScroll { get; set; }
+
+        public virtual void HandleKeyboardDidShow(NSNotification obj)
+        {
+            SizeScroll = ScrollView.ContentSize;
+            ScrollView.ContentSize = new CGSize(View.Frame.Width, View.Frame.Height + (obj.UserInfo[UIKeyboard.FrameEndUserInfoKey] as NSValue).CGRectValue.Height/2);
+        }
+
+        public virtual void HandleKeyboardDidHide(NSNotification obj)
+        {
+
+            ScrollView.ContentSize = SizeScroll;
+        }
 
         public AppDelegate ThisApp
         {
@@ -170,7 +187,7 @@ namespace TestProject.iOS.Views
         {
             get
             {
-                return (UIApplication.SharedApplication.Delegate as AppDelegate).Window;
+                return UIApplication.SharedApplication.KeyWindow; ;
             }
             set
             {
@@ -188,6 +205,9 @@ namespace TestProject.iOS.Views
                 {
                     Hidden = true
                 };
+
+                HideKeyboard();
+
                 View.AddSubview(LoaderOverlay);
             }
             catch (Exception ex)
@@ -204,6 +224,17 @@ namespace TestProject.iOS.Views
             SetupBindings();
             SetupEvents();
             CustomizeViews();
+        }
+
+        public void HideKeyboard()
+        {
+            var tap = new UITapGestureRecognizer();
+            tap.AddTarget(() =>
+            {
+                View.EndEditing(true);
+            });
+            tap.CancelsTouchesInView = false;
+            View.AddGestureRecognizer(tap);
         }
 
         public override void ViewDidLayoutSubviews() => base.ViewDidLayoutSubviews();
@@ -295,7 +326,6 @@ namespace TestProject.iOS.Views
         private void OnScrollDismissKeyboard() => View.EndEditing(true);
 
         #endregion
-
 
         #region shadowCreate
         public void AddShadow(UIView view)

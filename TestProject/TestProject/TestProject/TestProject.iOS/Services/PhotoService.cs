@@ -40,11 +40,11 @@ namespace TestProject.iOS.Services
 
         public async Task<byte[]> GetPhoto()
         {
-            var image = await OpenImage();
+            var image = await OpenImage().ConfigureAwait(false);
 
             if(image == null)
             {
-                return null;
+                return new byte[0];
             }
 
             using (NSData imageData = image.AsPNG())
@@ -114,14 +114,14 @@ namespace TestProject.iOS.Services
 
             var actionSheet = UIAlertController.Create(Strings.PhotoSource, Strings.ChooseASource, UIAlertControllerStyle.ActionSheet);
 
-            actionSheet.AddAction(UIAlertAction.Create(Strings.Camera, UIAlertActionStyle.Default, (actionCamera) =>
-            {
-                OpenCamera();
-            }));
-
             actionSheet.AddAction(UIAlertAction.Create(Strings.Gallery, UIAlertActionStyle.Default, (actionLibrary) =>
             {
                 OpenLibrary();
+            }));
+
+            actionSheet.AddAction(UIAlertAction.Create(Strings.Camera, UIAlertActionStyle.Default, (actionCamera) =>
+            {
+                OpenCamera();
             }));
 
             actionSheet.AddAction(UIAlertAction.Create(Strings.Cancel, UIAlertActionStyle.Cancel, null));
@@ -132,8 +132,6 @@ namespace TestProject.iOS.Services
 
             return taskCompletionSource.Task;
         }
-
-
 
     }
 }

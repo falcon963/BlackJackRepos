@@ -1,5 +1,6 @@
 using CoreGraphics;
 using Foundation;
+using MvvmCross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Presenters.Attributes;
 using MvvmCross.Platforms.Ios.Views;
@@ -24,26 +25,41 @@ namespace TestProject.iOS.Views
 
         #region ctor
 
-        public ProfileView() : base(nameof(ProfileView), null)
+        public ProfileView () : base (nameof(ProfileView), null)
         {
+            _photoService = Mvx.IoCProvider.Resolve<IPhotoService>();
 
+            base.ViewDidLoad();
         }
 
-        public ProfileView (IPhotoService photoService) : base (nameof(ProfileView), null)
+        public override bool SetupEvents()
         {
-            _photoService = photoService;
+            _photoService.ImagePickerDelegateSubscription += _photoService_ImagePickerDelegateSubscription;
 
-            _photoService.ImagePickerDelegateSubscription += (sender, e) => {
-                e = this;
-            };
+            _photoService.PresentPicker += _photoService_PresentPicker;
 
-            _photoService.PresentPicker += (sender, e) => {
-                PresentViewController(e, true, null);
-            };
+            _photoService.PresentAlert += _photoService_PresentAlert;
 
-            _photoService.PresentAlert += (sender, e) => {
-                PresentViewController(e, true, null);
-            };
+            UITapGestureRecognizer recognizer = new UITapGestureRecognizer(() => { ViewModel?.PickPhotoCommand?.Execute(); });
+
+            ProfileImage.AddGestureRecognizer(recognizer);
+
+            return base.SetupEvents();
+        }
+
+        private void _photoService_PresentAlert(object sender, UIAlertController e)
+        {
+            PresentViewController(e, true, null);
+        }
+
+        private void _photoService_PresentPicker(object sender, UIImagePickerController e)
+        {
+            PresentViewController(e, true, null);
+        }
+
+        private void _photoService_ImagePickerDelegateSubscription(object sender, NSObject e)
+        {
+            e = this;
         }
 
         #endregion
@@ -54,7 +70,7 @@ namespace TestProject.iOS.Views
             BindingSet.Bind(PasswordConfirmField).To(vm => vm.ConfirmPassword);
             BindingSet.Bind(NewPasswordField).To(vm => vm.NewPassword);
             BindingSet.Bind(MainScrollView).For(v => v.BackgroundColor).To(vm => vm.Background).WithConversion("NativeColor");
-            BindingSet.Bind(ProfileImage).To(vm => vm.Profile.ImagePath).WithConversion(new ImageValueConverter());
+            BindingSet.Bind(ProfileImage).To(vm => vm.ProfileImage).WithConversion(new ImageValueConverter());
             BindingSet.Bind(PasswordField).For(v => v.BackgroundColor).To(vm => vm.ConfirmPassword).WithConversion("NativeColor");
             BindingSet.Bind(NewPasswordField).For(v => v.BackgroundColor).To(vm => vm.ConfirmColor).WithConversion("NativeColor");
             BindingSet.Bind(PasswordConfirmField).For(v => v.BackgroundColor).To(vm => vm.ConfirmColor).WithConversion("NativeColor");
@@ -66,14 +82,11 @@ namespace TestProject.iOS.Views
 
         public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
+            ScrollView = MainScrollView;
 
-            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, OnKeyboardWillHide);
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, HandleKeyboardDidHide);
 
-            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, OnKeyboardWillShow);
-
-            UITapGestureRecognizer recognizer = new UITapGestureRecognizer(() => { ViewModel?.PickPhotoCommand?.Execute(); });
-            ProfileImage.AddGestureRecognizer(recognizer);
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, HandleKeyboardDidShow);
 
             AddShadow(PasswordField);
             AddShadow(NewPasswordField);
@@ -85,6 +98,7 @@ namespace TestProject.iOS.Views
             MainScrollView.ContentSize = new CGSize(0, MainScrollView.Frame.Height - SpaceSize);
 
             AutomaticallyAdjustsScrollViewInsets = false;
+
         }
 
         public override void DidReceiveMemoryWarning()
@@ -95,6 +109,17 @@ namespace TestProject.iOS.Views
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _photoService.ImagePickerDelegateSubscription -= _photoService_ImagePickerDelegateSubscription;
+
+            _photoService.PresentPicker -= _photoService_PresentPicker;
+
+            _photoService.PresentAlert -= _photoService_PresentAlert;
+
+            base.Dispose(disposing);
         }
     }
 }

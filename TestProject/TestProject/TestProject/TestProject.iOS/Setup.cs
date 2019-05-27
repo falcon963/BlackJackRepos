@@ -25,18 +25,10 @@ namespace TestProject.iOS
     public class Setup
         : MvxIosSetup<App>
     {
-        //protected override void InitializeFirstChance()
-        //{
-        //    base.InitializeFirstChance();
-        //}
 
         protected override void InitializeLastChance()
         {
             base.InitializeLastChance();
-
-#pragma warning disable CS0618 // Type or member is obsolete
-            var registry = Mvx.Resolve<IMvxValueConverterLookup>();
-#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         protected override void RegisterPresenter()
@@ -55,12 +47,34 @@ namespace TestProject.iOS
             }
         }
 
+        protected override void FillValueConverters(IMvxValueConverterRegistry registry)
+        {
+            base.FillValueConverters(registry);
+            registry.AddOrOverwrite("NativeColor", new MvxNativeColorValueConverter());
+        }
+
         protected override IMvxApplication CreateApp()
         {
             CreatableTypes()
-                 .EndingWith("Service")
-                 .AsInterfaces()
-                 .RegisterAsLazySingleton();
+                .EndingWith("Service")
+                .AsInterfaces()
+                .RegisterAsLazySingleton();
+
+            CreatableTypes()
+                .EndingWith("Repository")
+                .AsInterfaces()
+                .RegisterAsLazySingleton();
+
+            CreatableTypes()
+                .EndingWith("Helper")
+                .AsInterfaces()
+                .RegisterAsLazySingleton();
+
+            CreatableTypes()
+                .EndingWith("Provider")
+                .AsInterfaces()
+                .RegisterAsLazySingleton();
+
             return base.CreateApp();
         }
     }
