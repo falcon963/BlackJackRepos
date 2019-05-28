@@ -13,5 +13,6 @@ namespace TestProject.iOS.Services.Interfaces
          event EventHandler<UIImagePickerController> PresentPicker;
          event EventHandler<UIAlertController> PresentAlert;
          event EventHandler<NSObject> ImagePickerDelegateSubscription;
+         event EventHandler<UIImagePickerController> DismissSubview;
     }
 }

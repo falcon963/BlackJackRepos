@@ -12,5 +12,6 @@ namespace TestProject.iOS.Services.Interfaces
     {
         event EventHandler<UIDocumentPickerViewController> PresentedDocumentPicker;
         event EventHandler<UIDocumentMenuViewController> PresentedMenuDocumentPicker;
+        event EventHandler<UIDocumentPickerViewController> CanceledPick;
     }
 }

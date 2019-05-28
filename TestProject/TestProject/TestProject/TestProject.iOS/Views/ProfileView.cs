@@ -19,8 +19,6 @@ namespace TestProject.iOS.Views
     {
         private const float SpaceSize = 80f;
 
-        private UIImagePickerController _imagePickerController = new UIImagePickerController();
-
         private readonly IPhotoService _photoService;
 
         #region ctor
@@ -40,11 +38,18 @@ namespace TestProject.iOS.Views
 
             _photoService.PresentAlert += _photoService_PresentAlert;
 
+            _photoService.DismissSubview += _photoService_DismissSubview;
+
             UITapGestureRecognizer recognizer = new UITapGestureRecognizer(() => { ViewModel?.PickPhotoCommand?.Execute(); });
 
             ProfileImage.AddGestureRecognizer(recognizer);
 
             return base.SetupEvents();
+        }
+
+        private void _photoService_DismissSubview(object sender, UIImagePickerController e)
+        {
+            e.DismissViewController(true, null);
         }
 
         private void _photoService_PresentAlert(object sender, UIAlertController e)
@@ -111,15 +116,13 @@ namespace TestProject.iOS.Views
             base.ViewWillAppear(animated);
         }
 
-        protected override void Dispose(bool disposing)
+        public void UnSubscribe()
         {
             _photoService.ImagePickerDelegateSubscription -= _photoService_ImagePickerDelegateSubscription;
 
             _photoService.PresentPicker -= _photoService_PresentPicker;
 
             _photoService.PresentAlert -= _photoService_PresentAlert;
-
-            base.Dispose(disposing);
         }
     }
 }

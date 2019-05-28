@@ -48,5 +48,13 @@ namespace TestProject.iOS.Views
                 ViewModel?.ShowAppPagesCommand?.Execute();
             }
         }
+
+        public override void PresentViewController(UIViewController viewControllerToPresent, bool animated, Action completionHandler)
+        {
+            if (PresentedViewController != viewControllerToPresent)
+            {
+                base.PresentViewController(viewControllerToPresent, animated, completionHandler);
+            }
+        }
     }
 }

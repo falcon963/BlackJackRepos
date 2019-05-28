@@ -19,11 +19,12 @@ namespace TestProject.iOS.Services
     {
         #region fields
 
-        private readonly UIImagePickerController _imagePickerController;
+        private UIImagePickerController _imagePickerController;
 
         public event EventHandler<UIImagePickerController> PresentPicker;
         public event EventHandler<UIAlertController> PresentAlert;
         public event EventHandler<NSObject> ImagePickerDelegateSubscription;
+        public event EventHandler<UIImagePickerController> DismissSubview;
 
         #endregion
 
@@ -40,7 +41,7 @@ namespace TestProject.iOS.Services
 
         public async Task<byte[]> GetPhoto()
         {
-            var image = await OpenImage().ConfigureAwait(false);
+            var image = await OpenImage();
 
             if(image == null)
             {
@@ -71,12 +72,16 @@ namespace TestProject.iOS.Services
 
                 taskCompletionSource.TrySetResult(originalImage);
 
-                _imagePickerController.DismissViewController(true, null);
+                DismissSubview?.Invoke(this, _imagePickerController);
+
+                _imagePickerController = new UIImagePickerController();
             }
 
             void Canceled(object sender, EventArgs e)
             {
-                _imagePickerController.DismissViewController(true, null);
+                DismissSubview?.Invoke(this, _imagePickerController);
+
+                _imagePickerController = new UIImagePickerController();
 
                 taskCompletionSource.TrySetResult(null);
             }
@@ -89,7 +94,7 @@ namespace TestProject.iOS.Services
                     _imagePickerController.SourceType = UIImagePickerControllerSourceType.Camera;
                     _imagePickerController.AllowsEditing = true;
 
-                    PresentPicker.Invoke(this, _imagePickerController);
+                    PresentPicker?.Invoke(this, _imagePickerController);
                 }
                 if (!UIImagePickerController.IsSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
                 {

@@ -11,16 +11,18 @@ using UIKit;
 namespace TestProject.iOS.Converters
 {
     public class FileExtensionImageConverter 
-        : MvxValueConverter<String, UIImage>
+        : MvxValueConverter<string, UIImage>
     {
-        protected override UIImage Convert(String value, Type targetType, object parameter, CultureInfo culture)
+        protected override UIImage Convert(string value, Type targetType, object parameter, CultureInfo culture)
         {
             if (string.IsNullOrEmpty(value))
             {
                 return UIImage.FromBundle("Placeholder");
             }
+            
+            var er = UIImage.FromBundle(value);
 
-            return UIImage.FromBundle(value);
+            return er;
         }
     }
 }

@@ -20,7 +20,7 @@ using Xam.iOS.Fab.Views;
 
 namespace TestProject.iOS.Views
 {
-    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Tasks", TabIconName = "task")]
+    [MvxTabPresentation(WrapInNavigationController = true, TabName = "Tasks", TabIconName = "usertask")]
     public partial class TasksListView 
         : BaseView<TasksListView, TasksListViewModel>
     {

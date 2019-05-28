@@ -19,6 +19,8 @@ using MvvmCross.Plugin.Color;
 using MvvmCross.Converters;
 using TestProject.iOS.Converters;
 using MvvmCross.Binding.Binders;
+using TestProject.iOS.Services.Interfaces;
+using TestProject.iOS.Services;
 
 namespace TestProject.iOS
 {

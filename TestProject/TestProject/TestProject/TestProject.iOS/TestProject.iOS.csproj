@@ -318,6 +318,24 @@
     <ImageAsset Include="Assets.xcassets\back.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\map.imageset\map.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\map.imageset\map@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\map.imageset\map@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\profile.imageset\profile.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\profile.imageset\profile@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\profile.imageset\profile@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\shutdown.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
@@ -360,15 +378,6 @@
     <ImageAsset Include="Assets.xcassets\menu.imageset\menu@3x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\profile.imageset\profile.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\profile.imageset\profile@2x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\profile.imageset\profile@3x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\Splashscreen.imageset\splashscreen.jpg">
       <Visible>false</Visible>
     </ImageAsset>
@@ -378,7 +387,7 @@
     <ImageAsset Include="Assets.xcassets\Splashscreen.imageset\splashscreen@3x.jpg">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\task.imageset\Contents.json">
+    <ImageAsset Include="Assets.xcassets\usertask.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\menu.imageset\Contents.json">
@@ -387,34 +396,25 @@
     <ImageAsset Include="Assets.xcassets\profile.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\map.imageset\map.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\map.imageset\map@2x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\map.imageset\map@3x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\shadow.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\Placeholder.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Jpg.imageset\jpg.png">
+    <ImageAsset Include="Assets.xcassets\jpg.imageset\jpg.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Jpg.imageset\jpg@2x.png">
+    <ImageAsset Include="Assets.xcassets\jpg.imageset\jpg@2x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Jpg.imageset\jpg@3x.png">
+    <ImageAsset Include="Assets.xcassets\jpg.imageset\jpg@3x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Pdf.imageset\Contents.json">
+    <ImageAsset Include="Assets.xcassets\pdf.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Jpg.imageset\Contents.json">
+    <ImageAsset Include="Assets.xcassets\jpg.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\Placeholder.imageset\placeholder.png">
@@ -426,16 +426,16 @@
     <ImageAsset Include="Assets.xcassets\Placeholder.imageset\placeholder@3x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Png.imageset\png.png">
+    <ImageAsset Include="Assets.xcassets\png.imageset\png.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Png.imageset\png@2x.png">
+    <ImageAsset Include="Assets.xcassets\png.imageset\png@2x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Png.imageset\png@3x.png">
+    <ImageAsset Include="Assets.xcassets\png.imageset\png@3x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Rtf.imageset\Contents.json">
+    <ImageAsset Include="Assets.xcassets\rtf.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\shadow.imageset\shadow.png">
@@ -447,19 +447,10 @@
     <ImageAsset Include="Assets.xcassets\shadow.imageset\shadow@3x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\task.imageset\task.png">
+    <ImageAsset Include="Assets.xcassets\txt.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\task.imageset\task@2x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\task.imageset\task@3x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Txt.imageset\Contents.json">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Png.imageset\Contents.json">
+    <ImageAsset Include="Assets.xcassets\png.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\Menu_ic.imageset\Contents.json">
@@ -474,31 +465,40 @@
     <ImageAsset Include="Assets.xcassets\Menu_ic.imageset\icon_menu1.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Pdf.imageset\pdf.png">
+    <ImageAsset Include="Assets.xcassets\pdf.imageset\pdf.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Pdf.imageset\pdf@2x.png">
+    <ImageAsset Include="Assets.xcassets\pdf.imageset\pdf@2x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Pdf.imageset\pdf@3x.png">
+    <ImageAsset Include="Assets.xcassets\pdf.imageset\pdf@3x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Rtf.imageset\rtf.png">
+    <ImageAsset Include="Assets.xcassets\rtf.imageset\rtf.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Rtf.imageset\rtf@2x.png">
+    <ImageAsset Include="Assets.xcassets\rtf.imageset\rtf@2x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Rtf.imageset\rtf@3x.png">
+    <ImageAsset Include="Assets.xcassets\rtf.imageset\rtf@3x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Txt.imageset\txt.png">
+    <ImageAsset Include="Assets.xcassets\txt.imageset\txt.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Txt.imageset\txt@2x.png">
+    <ImageAsset Include="Assets.xcassets\txt.imageset\txt@2x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Txt.imageset\txt@3x.png">
+    <ImageAsset Include="Assets.xcassets\txt.imageset\txt@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\usertask.imageset\task.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\usertask.imageset\task@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\usertask.imageset\task@3x.png">
       <Visible>false</Visible>
     </ImageAsset>
   </ItemGroup>

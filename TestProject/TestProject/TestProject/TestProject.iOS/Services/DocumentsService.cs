@@ -24,6 +24,7 @@ namespace TestProject.iOS.Services
 
         public event EventHandler<UIDocumentPickerViewController> PresentedDocumentPicker;
         public event EventHandler<UIDocumentMenuViewController> PresentedMenuDocumentPicker;
+        public event EventHandler<UIDocumentPickerViewController> CanceledPick;
 
         #endregion
 
@@ -92,6 +93,7 @@ namespace TestProject.iOS.Services
 
                 var documentPicker = e.DocumentPicker;
                 documentPicker.WasCancelled += (s1, e1) => {
+                    CanceledPick?.Invoke(this, documentPicker);
                     taskCompletionSource.TrySetResult(null);
                 };
 

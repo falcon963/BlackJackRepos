@@ -64,11 +64,15 @@ namespace TestProject.iOS.Views
 
             _documentsPickerService.PresentedMenuDocumentPicker += _documentsPickerService_PresentedMenuDocumentPicker;
 
+            _documentsPickerService.CanceledPick += _documentsPickerService_CanceledPick;
+
             _photoService.ImagePickerDelegateSubscription += _photoService_ImagePickerDelegateSubscription;
 
             _photoService.PresentPicker += _photoService_PresentPicker;
 
             _photoService.PresentAlert += _photoService_PresentAlert;
+
+            _photoService.DismissSubview += _photoService_DismissSubview;
 
             ViewModel.Files.CollectionChanged += ListOfFiles_CollectionChanged;
 
@@ -129,9 +133,20 @@ namespace TestProject.iOS.Views
             e = this;
         }
 
+        private void _documentsPickerService_CanceledPick(object sender, UIDocumentPickerViewController e)
+        {
+            e.View.RemoveFromSuperview();
+        }
+
+        private void _photoService_DismissSubview(object sender, UIImagePickerController e)
+        {
+            e.View.RemoveFromSuperview();
+        }
+
         private void _documentsPickerService_PresentedDocumentPicker(object sender, UIDocumentPickerViewController e)
         {
-            PresentViewController(e, true, null);
+            View.AddSubview(e.View);
+            //PresentViewController(e, true, null);
         }
 
         private void _documentsPickerService_PresentedMenuDocumentPicker(object sender, UIDocumentMenuViewController e)
@@ -141,11 +156,13 @@ namespace TestProject.iOS.Views
 
         private void _photoService_PresentPicker(object sender, UIImagePickerController e)
         {
-            PresentViewController(e, true, null);
+            View.AddSubview(e.View);
         }
 
         private void _photoService_PresentAlert(object sender, UIAlertController e)
         {
+            //View.AddSubview(e.View);
+            //TabBarController.PresentModalViewController(e, true);
             PresentViewController(e, true, null);
         }
 
@@ -203,19 +220,26 @@ namespace TestProject.iOS.Views
         #endregion
 
 
-        protected override void Dispose(bool disposing)
+        public void Unsubscribe()
         {
             _documentsPickerService.PresentedDocumentPicker -= _documentsPickerService_PresentedDocumentPicker;
 
             _documentsPickerService.PresentedMenuDocumentPicker -= _documentsPickerService_PresentedMenuDocumentPicker;
+
+            _documentsPickerService.CanceledPick -= _documentsPickerService_CanceledPick;
 
             _photoService.ImagePickerDelegateSubscription -= _photoService_ImagePickerDelegateSubscription;
 
             _photoService.PresentPicker -= _photoService_PresentPicker;
 
             _photoService.PresentAlert -= _photoService_PresentAlert;
+        }
 
-            base.Dispose(disposing);
+        public override void ViewDidDisappear(bool animated)
+        {
+            Unsubscribe();
+
+            base.ViewDidDisappear(animated);
         }
     }
 }
