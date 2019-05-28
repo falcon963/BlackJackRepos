@@ -51,9 +51,8 @@ namespace TestProject.Droid.Fragments
 
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-            _recyclerView = view.FindViewById<MvxRecyclerView>(Resource.Id.task_recycler_view);
-
             _toolbar = view.FindViewById<AppToolbar>(Resource.Id.toolbar);
+            _recyclerView = view.FindViewById<MvxRecyclerView>(Resource.Id.task_recycler_view);
 
             var fabButton = view.FindViewById<FloatingActionButton>(Resource.Id.fab);
 

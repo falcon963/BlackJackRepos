@@ -30,11 +30,7 @@ namespace TestProject.Droid.Fragments
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-            _linearLayout = view.FindViewById<AppMainLinearLayout>(Resource.Id.registration_linearlayout);
-
             _toolbar = view.FindViewById<AppToolbar>(Resource.Id.registration_toolbar);
-
-            _toolbar.Click += HideSoftKeyboard;
 
             return view;
         }

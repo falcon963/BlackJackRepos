@@ -63,14 +63,12 @@ namespace TestProject.Droid.Fragments
         {
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-            _linearLayout = view.FindViewById<AppMainLinearLayout>(Resource.Id.task_linearlayout);
-            _toolbar = view.FindViewById<AppToolbar>(Resource.Id.task_toolbar);
             _imageView = view.FindViewById<ImageView>(Resource.Id.image_view);
+            _toolbar = view.FindViewById<AppToolbar>(Resource.Id.task_toolbar);
 
             Mvx.IoCProvider.RegisterSingleton<IImagePickerPlatformService>(new MultimediaService<TaskFragment>(this, _imageView));
 
             _imageView.Click += (sender, e) => { ViewModel?.PickPhotoCommand?.Execute(); };
-            _toolbar.Click += HideSoftKeyboard;
 
             ((MainActivity)ParentActivity).DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
 
