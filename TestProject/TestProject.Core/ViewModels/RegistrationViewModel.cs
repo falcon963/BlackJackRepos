@@ -161,7 +161,7 @@ namespace TestProject.Core.ViewModels
                         Password = Password
                     };
 
-                    _userService.SaveCreatedUser(user);
+                    _userService.SaveUser(user);
 
                     var userConfirm = await _dialogsService.ShowConfirmDialogAsync(Strings.RegistrateSuccessfulReturnOnLoginPage, Strings.Success);
 

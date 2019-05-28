@@ -19,7 +19,7 @@ namespace TestProject.Droid.Services
     {
         public Task<FileItemViewModel> ImportFromDocMenu()
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

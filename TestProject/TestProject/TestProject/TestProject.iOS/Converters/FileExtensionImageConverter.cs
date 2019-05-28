@@ -20,9 +20,9 @@ namespace TestProject.iOS.Converters
                 return UIImage.FromBundle("Placeholder");
             }
             
-            var er = UIImage.FromBundle(value);
+            var extensionImage = UIImage.FromBundle(value);
 
-            return er;
+            return extensionImage;
         }
     }
 }

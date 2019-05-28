@@ -78,9 +78,6 @@ namespace TestProject.iOS.Views
 
         public override void ViewDidLoad()
         {
-            //NavigationController.NavigationBar.TopItem.Title = Strings.TasksList;           
-            //_constructed = true;
-
             _source = new TasksListSource(TasksList, this);
             _refreshControl = new MvxUIRefreshControl();
             RefreshControl = _refreshControl;

@@ -123,9 +123,6 @@ namespace TestProject.Droid.Adapters
             }
 
             base.OnBindViewHolder(holder, position);
-
-            //viewHolder.Text.Text = Tasks[position]?.Title;
-            //viewHolder.CheckBox.Checked = Tasks[position].Status;
         }
 
         public void PendingRemoval(int position)

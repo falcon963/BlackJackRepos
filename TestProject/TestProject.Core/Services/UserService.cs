@@ -40,7 +40,7 @@ namespace TestProject.Core.Services
             return createUserId;
         }
 
-        public int SaveCreatedUser(User user)
+        public int SaveUser(User user)
         {
             int id;
 

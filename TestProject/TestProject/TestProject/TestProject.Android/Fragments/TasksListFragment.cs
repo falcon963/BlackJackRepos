@@ -28,6 +28,7 @@ using TestProject.Droid.Adapters;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using TestProject.Droid.Helpers;
 using MvvmCross.Droid.Support.V7.RecyclerView;
+using TestProject.Droid.Controls;
 
 namespace TestProject.Droid.Fragments
 {
@@ -41,7 +42,6 @@ namespace TestProject.Droid.Fragments
 
         private MvxRecyclerView _recyclerView;
         private RecyclerImageAdapter _imageAdapter;
-        private Toolbar _toolbar;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -53,7 +53,7 @@ namespace TestProject.Droid.Fragments
 
             _recyclerView = view.FindViewById<MvxRecyclerView>(Resource.Id.task_recycler_view);
 
-            _toolbar = view.FindViewById<Toolbar>(Resource.Id.toolbar);
+            _toolbar = view.FindViewById<AppToolbar>(Resource.Id.toolbar);
 
             var fabButton = view.FindViewById<FloatingActionButton>(Resource.Id.fab);
 
@@ -61,17 +61,9 @@ namespace TestProject.Droid.Fragments
 
             _recyclerView.Adapter = _imageAdapter;
 
-            //var adapter = new TestAdapter((IMvxAndroidBindingContext)this.BindingContext);
-            //_recyclerView.Adapter = adapter;
-
             var set = this.CreateBindingSet<TasksListFragment, TasksListViewModel>();
             set.Bind(_recyclerView).For(x => x.ItemsSource).To(x => x.Tasks);
             set.Apply();
-
-
-            //set.Bind(_recyclerView).For(v => v.ItemsSource).To(vm => vm.Tasks);
-            //set.Apply();
-
 
             SetupRecyclerView();
 

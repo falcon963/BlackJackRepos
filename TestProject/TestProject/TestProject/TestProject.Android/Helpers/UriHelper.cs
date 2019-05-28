@@ -21,13 +21,9 @@ namespace TestProject.Droid.Helpers
     public class UriHelper
         : IUriHelper
     {
-
-        private const string Title = "Title";
-
-
         public Uri GetImageUri(Context context, Bitmap inImage)
         {
-            string path = MediaStore.Images.Media.InsertImage(context.ContentResolver, inImage, Title, null);
+            string path = MediaStore.Images.Media.InsertImage(context.ContentResolver, inImage, LanguageResources.Strings.Title, null);
 
             var imageUri = Uri.Parse(path);
 

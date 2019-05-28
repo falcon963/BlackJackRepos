@@ -19,7 +19,6 @@ namespace TestProject.iOS
     [Register("AppDelegate")]
     public class AppDelegate : MvxApplicationDelegate<Setup, App>
     {
-        // class-level declarations
 
         const string MapsApiKey = "AIzaSyCzfcYRYDcsR8nEAEcSJfPxtKpcVlBCq84";
 
@@ -47,17 +46,6 @@ namespace TestProject.iOS
         }
 
         #region OpenUrl
-
-        //public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
-        //{
-        //    AppDeepLinksEntry(url);
-
-        //    Uri uri_netfx = new Uri(url.AbsoluteString);
-
-        //    OpenUrlExecuted?.Invoke(this, uri_netfx);
-
-        //    return true;
-        //}
 
         public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
         {

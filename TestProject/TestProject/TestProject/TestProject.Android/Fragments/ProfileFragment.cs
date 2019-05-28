@@ -49,7 +49,7 @@ namespace TestProject.Droid.Fragments
             var view = base.OnCreateView(inflater, container, savedInstanceState);
 
             _linearLayout = view.FindViewById<AppMainLinearLayout>(Resource.Id.profileLinearLayout);
-            _toolbar = view.FindViewById<Toolbar>(Resource.Id.profile_toolbar);
+            _toolbar = view.FindViewById<AppToolbar>(Resource.Id.profile_toolbar);
             _imageView = view.FindViewById<ImageView>(Resource.Id.profileImage_view);
 
             _toolbar.Click += HideSoftKeyboard;

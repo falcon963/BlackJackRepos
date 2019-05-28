@@ -530,6 +530,15 @@ namespace TestProject.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Title must be required.
         /// </summary>
         public static string TitleMustBeRequired {

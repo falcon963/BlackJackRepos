@@ -26,7 +26,7 @@ namespace TestProject.Droid.Fragments
     public abstract class BaseFragment
         : MvxFragment
     {
-        protected Toolbar _toolbar { get; set; }
+        protected AppToolbar _toolbar { get; set; }
 
         protected MvxActionBarDrawerToggle _drawerToggle { get; private set; }
 
@@ -54,7 +54,7 @@ namespace TestProject.Droid.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var view = this.BindingInflate(_fragmentId, null);
 
-            _toolbar = view.FindViewById<Toolbar>(Resource.Id.toolbar);
+            _toolbar = view.FindViewById<AppToolbar>(Resource.Id.toolbar);
 
             if (_toolbar != null)
             {

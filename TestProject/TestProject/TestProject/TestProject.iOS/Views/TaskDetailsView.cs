@@ -60,19 +60,19 @@ namespace TestProject.iOS.Views
 
         public override bool SetupEvents()
         {
-            _documentsPickerService.PresentedDocumentPicker += _documentsPickerService_PresentedDocumentPicker;
+            _documentsPickerService.PresentedDocumentPicker += presentedDocumentPickerEventHandler;
 
-            _documentsPickerService.PresentedMenuDocumentPicker += _documentsPickerService_PresentedMenuDocumentPicker;
+            _documentsPickerService.PresentedMenuDocumentPicker += presentedMenuDocumentPickerEventHandler;
 
-            _documentsPickerService.CanceledPick += _documentsPickerService_CanceledPick;
+            _documentsPickerService.CanceledPick += canceledDocumentsPickerEventHandler;
 
-            _photoService.ImagePickerDelegateSubscription += _photoService_ImagePickerDelegateSubscription;
+            _photoService.ImagePickerDelegateSubscription += imagePickerDelegateSubscriptionEventHandler;
 
-            _photoService.PresentPicker += _photoService_PresentPicker;
+            _photoService.PresentPicker += presentImagePickerEventHandler;
 
-            _photoService.PresentAlert += _photoService_PresentAlert;
+            _photoService.PresentAlert += presentImagePickerMenuEventHandler;
 
-            _photoService.DismissSubview += _photoService_DismissSubview;
+            _photoService.DismissSubview += dismissImagePickerSubviewEventHandler;
 
             ViewModel.Files.CollectionChanged += ListOfFiles_CollectionChanged;
 
@@ -128,41 +128,38 @@ namespace TestProject.iOS.Views
 
         #region Handlers
 
-        private void _photoService_ImagePickerDelegateSubscription(object sender, NSObject e)
+        private void imagePickerDelegateSubscriptionEventHandler(object sender, NSObject e)
         {
             e = this;
         }
 
-        private void _documentsPickerService_CanceledPick(object sender, UIDocumentPickerViewController e)
+        private void canceledDocumentsPickerEventHandler(object sender, UIDocumentPickerViewController e)
         {
             e.View.RemoveFromSuperview();
         }
 
-        private void _photoService_DismissSubview(object sender, UIImagePickerController e)
+        private void dismissImagePickerSubviewEventHandler(object sender, UIImagePickerController e)
         {
             e.View.RemoveFromSuperview();
         }
 
-        private void _documentsPickerService_PresentedDocumentPicker(object sender, UIDocumentPickerViewController e)
+        private void presentedDocumentPickerEventHandler(object sender, UIDocumentPickerViewController e)
         {
             View.AddSubview(e.View);
-            //PresentViewController(e, true, null);
         }
 
-        private void _documentsPickerService_PresentedMenuDocumentPicker(object sender, UIDocumentMenuViewController e)
+        private void presentedMenuDocumentPickerEventHandler(object sender, UIDocumentMenuViewController e)
         {
             PresentViewController(e, true, null);
         }
 
-        private void _photoService_PresentPicker(object sender, UIImagePickerController e)
+        private void presentImagePickerEventHandler(object sender, UIImagePickerController e)
         {
             View.AddSubview(e.View);
         }
 
-        private void _photoService_PresentAlert(object sender, UIAlertController e)
+        private void presentImagePickerMenuEventHandler(object sender, UIAlertController e)
         {
-            //View.AddSubview(e.View);
-            //TabBarController.PresentModalViewController(e, true);
             PresentViewController(e, true, null);
         }
 
@@ -222,17 +219,19 @@ namespace TestProject.iOS.Views
 
         public void Unsubscribe()
         {
-            _documentsPickerService.PresentedDocumentPicker -= _documentsPickerService_PresentedDocumentPicker;
+            _documentsPickerService.PresentedDocumentPicker -= presentedDocumentPickerEventHandler;
 
-            _documentsPickerService.PresentedMenuDocumentPicker -= _documentsPickerService_PresentedMenuDocumentPicker;
+            _documentsPickerService.PresentedMenuDocumentPicker -= presentedMenuDocumentPickerEventHandler;
 
-            _documentsPickerService.CanceledPick -= _documentsPickerService_CanceledPick;
+            _documentsPickerService.CanceledPick -= canceledDocumentsPickerEventHandler;
 
-            _photoService.ImagePickerDelegateSubscription -= _photoService_ImagePickerDelegateSubscription;
+            _photoService.ImagePickerDelegateSubscription -= imagePickerDelegateSubscriptionEventHandler;
 
-            _photoService.PresentPicker -= _photoService_PresentPicker;
+            _photoService.PresentPicker -= presentImagePickerEventHandler;
 
-            _photoService.PresentAlert -= _photoService_PresentAlert;
+            _photoService.PresentAlert -= presentImagePickerMenuEventHandler;
+
+            _photoService.DismissSubview -= dismissImagePickerSubviewEventHandler;
         }
 
         public override void ViewDidDisappear(bool animated)

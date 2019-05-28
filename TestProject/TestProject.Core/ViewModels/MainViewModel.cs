@@ -34,14 +34,8 @@ namespace TestProject.Core.ViewModels
             {
                     return new MvxAsyncCommand(async () =>
                     {
-                        try
-                        {
                             await NavigationService.Navigate<TasksListViewModel>();
                             await NavigationService.Navigate<MenuViewModel>();
-                        }catch(Exception ex)
-                        {
-                            var e = ex.InnerException;
-                        }
                     });
             }
         }
@@ -52,16 +46,9 @@ namespace TestProject.Core.ViewModels
             {
                 return new MvxAsyncCommand(async () =>
                 {
-                    try
-                    {
                         await NavigationService.Navigate<TasksListViewModel>();
                         await NavigationService.Navigate<ProfileViewModel>();
                         await NavigationService.Navigate<LocationViewModel>();
-                    }
-                    catch (Exception ex)
-                    {
-                        var e = ex.InnerException;
-                    }
                 });
             }
         }

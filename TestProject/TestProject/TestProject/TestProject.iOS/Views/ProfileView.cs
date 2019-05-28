@@ -32,13 +32,13 @@ namespace TestProject.iOS.Views
 
         public override bool SetupEvents()
         {
-            _photoService.ImagePickerDelegateSubscription += _photoService_ImagePickerDelegateSubscription;
+            _photoService.ImagePickerDelegateSubscription += imagePickerDelegateSubscriptionEventHandler;
 
-            _photoService.PresentPicker += _photoService_PresentPicker;
+            _photoService.PresentPicker += presentImagePickerEventHandler;
 
-            _photoService.PresentAlert += _photoService_PresentAlert;
+            _photoService.PresentAlert += presentImagePickerMenuEventHandler;
 
-            _photoService.DismissSubview += _photoService_DismissSubview;
+            _photoService.DismissSubview += dismissImagePickerSubviewEventHandler;
 
             UITapGestureRecognizer recognizer = new UITapGestureRecognizer(() => { ViewModel?.PickPhotoCommand?.Execute(); });
 
@@ -47,22 +47,22 @@ namespace TestProject.iOS.Views
             return base.SetupEvents();
         }
 
-        private void _photoService_DismissSubview(object sender, UIImagePickerController e)
+        private void dismissImagePickerSubviewEventHandler(object sender, UIImagePickerController e)
         {
             e.DismissViewController(true, null);
         }
 
-        private void _photoService_PresentAlert(object sender, UIAlertController e)
+        private void presentImagePickerMenuEventHandler(object sender, UIAlertController e)
         {
             PresentViewController(e, true, null);
         }
 
-        private void _photoService_PresentPicker(object sender, UIImagePickerController e)
+        private void presentImagePickerEventHandler(object sender, UIImagePickerController e)
         {
             PresentViewController(e, true, null);
         }
 
-        private void _photoService_ImagePickerDelegateSubscription(object sender, NSObject e)
+        private void imagePickerDelegateSubscriptionEventHandler(object sender, NSObject e)
         {
             e = this;
         }
@@ -118,11 +118,11 @@ namespace TestProject.iOS.Views
 
         public void UnSubscribe()
         {
-            _photoService.ImagePickerDelegateSubscription -= _photoService_ImagePickerDelegateSubscription;
+            _photoService.ImagePickerDelegateSubscription -= imagePickerDelegateSubscriptionEventHandler;
 
-            _photoService.PresentPicker -= _photoService_PresentPicker;
+            _photoService.PresentPicker -= presentImagePickerEventHandler;
 
-            _photoService.PresentAlert -= _photoService_PresentAlert;
+            _photoService.PresentAlert -= presentImagePickerMenuEventHandler;
         }
     }
 }
