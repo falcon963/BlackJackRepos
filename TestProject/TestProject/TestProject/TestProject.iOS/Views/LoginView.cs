@@ -46,32 +46,32 @@ namespace TestProject.iOS.Views
 
         public override bool SetupEvents()
         {
-            _googleAuthenticationService.OnAuthenticationCompleted += _googleAuthenticationService_OnAuthenticationCompleted;
+            _googleAuthenticationService.OnAuthenticationCompleted += OnGoogleAuthenticationServiceAuthenticationCompleted;
 
-            _googleAuthenticationService.OnAuthenticationFailed += AuthenticationService_OnAuthenticationFailed;
+            _googleAuthenticationService.OnAuthenticationFailed += OnAuthenticationServiceAuthenticationFailed;
 
-            _facebookAuthenticationService.OnAuthenticationCompleted += _facebookAuthenticationService_OnAuthenticationCompleted;
+            _facebookAuthenticationService.OnAuthenticationCompleted += OnFacebookAuthenticationServiceAuthenticationCompleted;
 
-            _facebookAuthenticationService.OnAuthenticationFailed += AuthenticationService_OnAuthenticationFailed;
+            _facebookAuthenticationService.OnAuthenticationFailed += OnAuthenticationServiceAuthenticationFailed;
 
             return base.SetupEvents();
         }
 
         #region Handlers
 
-        private void AuthenticationService_OnAuthenticationFailed(object sender, EventArgs e)
+        private void OnAuthenticationServiceAuthenticationFailed(object sender, EventArgs e)
         {
             DismissViewController(true, null);
         }
 
-        private void _facebookAuthenticationService_OnAuthenticationCompleted(object sender, EventArgs e)
+        private void OnFacebookAuthenticationServiceAuthenticationCompleted(object sender, EventArgs e)
         {
             Unsubscribe();
             DismissViewController(true, null);
             ViewModel.SignInWithFacebookCommand.Execute();
         }
 
-        private void _googleAuthenticationService_OnAuthenticationCompleted(object sender, EventArgs e)
+        private void OnGoogleAuthenticationServiceAuthenticationCompleted(object sender, EventArgs e)
         {
             Unsubscribe();
             DismissViewController(true, null);
@@ -148,13 +148,13 @@ namespace TestProject.iOS.Views
 
         protected void Unsubscribe()
         {
-            _googleAuthenticationService.OnAuthenticationCompleted -= _googleAuthenticationService_OnAuthenticationCompleted;
+            _googleAuthenticationService.OnAuthenticationCompleted -= OnGoogleAuthenticationServiceAuthenticationCompleted;
 
-            _googleAuthenticationService.OnAuthenticationFailed -= AuthenticationService_OnAuthenticationFailed;
+            _googleAuthenticationService.OnAuthenticationFailed -= OnAuthenticationServiceAuthenticationFailed;
 
-            _facebookAuthenticationService.OnAuthenticationCompleted -= _facebookAuthenticationService_OnAuthenticationCompleted;
+            _facebookAuthenticationService.OnAuthenticationCompleted -= OnFacebookAuthenticationServiceAuthenticationCompleted;
 
-            _facebookAuthenticationService.OnAuthenticationFailed -= AuthenticationService_OnAuthenticationFailed;
+            _facebookAuthenticationService.OnAuthenticationFailed -= OnAuthenticationServiceAuthenticationFailed;
         }
 
         #endregion

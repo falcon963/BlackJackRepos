@@ -106,7 +106,7 @@ namespace TestProject.Droid.Fragments
         {
             base.OnDestroyView();
 
-            UnbindDrawables(this.View);
+            UnbindDrawables(View);
 
             GC.SuppressFinalize(this);
         }

@@ -60,21 +60,21 @@ namespace TestProject.iOS.Views
 
         public override bool SetupEvents()
         {
-            _documentsPickerService.PresentedDocumentPicker += presentedDocumentPickerEventHandler;
+            _documentsPickerService.PresentedDocumentPicker += OnPresentedDocumentPickerEventHandler;
 
-            _documentsPickerService.PresentedMenuDocumentPicker += presentedMenuDocumentPickerEventHandler;
+            _documentsPickerService.PresentedMenuDocumentPicker += OnPresentedMenuDocumentPickerEventHandler;
 
-            _documentsPickerService.CanceledPick += canceledDocumentsPickerEventHandler;
+            _documentsPickerService.CanceledPick += OnCanceledDocumentsPickerEventHandler;
 
-            _photoService.ImagePickerDelegateSubscription += imagePickerDelegateSubscriptionEventHandler;
+            _photoService.ImagePickerDelegateSubscription += OnImagePickerDelegateSubscriptionEventHandler;
 
-            _photoService.PresentPicker += presentImagePickerEventHandler;
+            _photoService.PresentPicker += OnPresentImagePickerEventHandler;
 
-            _photoService.PresentAlert += presentImagePickerMenuEventHandler;
+            _photoService.PresentAlert += OnPresentImagePickerMenuEventHandler;
 
-            _photoService.DismissSubview += dismissImagePickerSubviewEventHandler;
+            _photoService.DismissSubview += OnDismissImagePickerSubviewEventHandler;
 
-            ViewModel.Files.CollectionChanged += ListOfFiles_CollectionChanged;
+            ViewModel.Files.CollectionChanged += OnListOfFilesCollectionChanged;
 
             #region Init NSNotificationCenter.Keyboard
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidHideNotification, HandleKeyboardDidHide);
@@ -128,37 +128,37 @@ namespace TestProject.iOS.Views
 
         #region Handlers
 
-        private void imagePickerDelegateSubscriptionEventHandler(object sender, NSObject e)
+        private void OnImagePickerDelegateSubscriptionEventHandler(object sender, NSObject e)
         {
             e = this;
         }
 
-        private void canceledDocumentsPickerEventHandler(object sender, UIDocumentPickerViewController e)
+        private void OnCanceledDocumentsPickerEventHandler(object sender, UIDocumentPickerViewController e)
         {
             e.View.RemoveFromSuperview();
         }
 
-        private void dismissImagePickerSubviewEventHandler(object sender, UIImagePickerController e)
+        private void OnDismissImagePickerSubviewEventHandler(object sender, UIImagePickerController e)
         {
             e.View.RemoveFromSuperview();
         }
 
-        private void presentedDocumentPickerEventHandler(object sender, UIDocumentPickerViewController e)
+        private void OnPresentedDocumentPickerEventHandler(object sender, UIDocumentPickerViewController e)
         {
             View.AddSubview(e.View);
         }
 
-        private void presentedMenuDocumentPickerEventHandler(object sender, UIDocumentMenuViewController e)
+        private void OnPresentedMenuDocumentPickerEventHandler(object sender, UIDocumentMenuViewController e)
         {
             PresentViewController(e, true, null);
         }
 
-        private void presentImagePickerEventHandler(object sender, UIImagePickerController e)
+        private void OnPresentImagePickerEventHandler(object sender, UIImagePickerController e)
         {
             View.AddSubview(e.View);
         }
 
-        private void presentImagePickerMenuEventHandler(object sender, UIAlertController e)
+        private void OnPresentImagePickerMenuEventHandler(object sender, UIAlertController e)
         {
             PresentViewController(e, true, null);
         }
@@ -183,7 +183,7 @@ namespace TestProject.iOS.Views
             FileList.ReloadData();
         }
 
-        private void ListOfFiles_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void OnListOfFilesCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             InitFileList();
         }
@@ -219,19 +219,19 @@ namespace TestProject.iOS.Views
 
         public void Unsubscribe()
         {
-            _documentsPickerService.PresentedDocumentPicker -= presentedDocumentPickerEventHandler;
+            _documentsPickerService.PresentedDocumentPicker -= OnPresentedDocumentPickerEventHandler;
 
-            _documentsPickerService.PresentedMenuDocumentPicker -= presentedMenuDocumentPickerEventHandler;
+            _documentsPickerService.PresentedMenuDocumentPicker -= OnPresentedMenuDocumentPickerEventHandler;
 
-            _documentsPickerService.CanceledPick -= canceledDocumentsPickerEventHandler;
+            _documentsPickerService.CanceledPick -= OnCanceledDocumentsPickerEventHandler;
 
-            _photoService.ImagePickerDelegateSubscription -= imagePickerDelegateSubscriptionEventHandler;
+            _photoService.ImagePickerDelegateSubscription -= OnImagePickerDelegateSubscriptionEventHandler;
 
-            _photoService.PresentPicker -= presentImagePickerEventHandler;
+            _photoService.PresentPicker -= OnPresentImagePickerEventHandler;
 
-            _photoService.PresentAlert -= presentImagePickerMenuEventHandler;
+            _photoService.PresentAlert -= OnPresentImagePickerMenuEventHandler;
 
-            _photoService.DismissSubview -= dismissImagePickerSubviewEventHandler;
+            _photoService.DismissSubview -= OnDismissImagePickerSubviewEventHandler;
         }
 
         public override void ViewDidDisappear(bool animated)
