@@ -8,6 +8,7 @@ namespace TestProject.Core.Constants
     {
         public const string ClientIdFacebook = "578268892583841";
         public const string ClientIdiOSGoogle = "70862177039-jm46ae5e77822hk8qllegch1fqler0a4.apps.googleusercontent.com";
+        public const string ClientIdAndroidGoogle = "70862177039-u5gele75q6ca0f76r9o82muh4arha4sa.apps.googleusercontent.com";
         public const string ClientSecret = "DcP6ERfnO1qRQqWyIu29w6ol";
         public const string RedirectUrlGoogle = "com.mvvmcross.testproject:/oauth2redirect";
         public const string Scope = "email";

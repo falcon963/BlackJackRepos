@@ -52,13 +52,13 @@
 			android:layout_alignParentRight="true"
 		/>
 
-		<Button
+		<ImageButton
 			android:id="@+id/undoButton"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
-			local:MvxLang="Text Delete"
 			android:layout_alignParentRight="true"
 			android:layout_gravity="end|center_vertical"
+			android:background = "@drawable/deletebutton"
 		/>
 
 		<View

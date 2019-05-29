@@ -40,6 +40,10 @@ using TestProject.Droid.Services.Interfaces;
 using Resource = MvvmCross.Droid.Support.V7.AppCompat.Resource;
 using TestProject.Core.Helpers.Interfaces;
 using TestProject.Droid.Controls;
+using Android.Gms.Auth;
+using TestProject.Core.Constants;
+using Void = Java.Lang.Void;
+using String = Java.Lang.String;
 
 namespace TestProject.Droid.Fragments
 {
@@ -116,9 +120,22 @@ namespace TestProject.Droid.Fragments
 
                 var userHelper = Mvx.IoCProvider.Resolve<IUserHelper>();
 
-                userHelper.UserAccessToken = accountData.IdToken;
+                Task.Factory.StartNew(() =>
+                {
+                    var token = GoogleAuthUtil.GetToken(
+                             Context,
+                             accountData.Account,
+                             "oauth2:" + SocialConstants.Scope);
 
-                ViewModel?.SignInWithGoogleCommand?.Execute();
+                    userHelper.UserAccessToken = token;
+
+                    Activity.RunOnUiThread(() =>
+                    {
+                        ViewModel?.SignInWithGoogleCommand?.Execute();
+
+                    });
+                });
+               
             }
             if (!result.IsSuccess)
             {

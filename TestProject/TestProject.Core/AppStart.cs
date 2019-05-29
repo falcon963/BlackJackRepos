@@ -20,10 +20,6 @@ namespace TestProject.Core
             IAccountCheckHelper accountCheckHelper = Mvx.IoCProvider.Resolve<IAccountCheckHelper>();
             IUserHelper userHelper = Mvx.IoCProvider.Resolve<IUserHelper>();
 
-            //userHelper.DeleteUserAccessToken();
-            //userHelper.DeleteUserId();
-            //userHelper.DeleteUserStatus();
-
             if (accountCheckHelper.IsSocialNetworkLogin())
             {
                 return NavigationService.Navigate<MainViewModel>();

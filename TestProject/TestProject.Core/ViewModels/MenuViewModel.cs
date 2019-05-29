@@ -15,6 +15,8 @@ using TestProject.Core.Helpers.Interfaces;
 using TestProject.Core.Colors;
 using TestProject.Core.Services.Interfaces;
 using TestProject.LanguageResources;
+using MvvmCross.Plugin.Messenger;
+using TestProject.Core.Messengers;
 
 namespace TestProject.Core.ViewModels
 {
@@ -29,13 +31,13 @@ namespace TestProject.Core.ViewModels
 
         private readonly IDialogsService _dialogsService;
 
+        private readonly MvxSubscriptionToken _token;
+
         private string _profileImage;
 
         #endregion
 
         #region Propertys
-
-        public ResultModel UserTask { get; set; }
 
         public string UserName { get; set; }
 
@@ -67,11 +69,14 @@ namespace TestProject.Core.ViewModels
         #endregion
 
 
-        public MenuViewModel(IMvxNavigationService navigationService, ILoginRepository loginRepository, IUserHelper userHelper, IDialogsService dialogsService) : base(navigationService)
+        public MenuViewModel(IMvxNavigationService navigationService, ILoginRepository loginRepository, IUserHelper userHelper, IDialogsService dialogsService, IMvxMessenger mvxMessenger) : base(navigationService)
         {
             _userHelper = userHelper;
             _loginRepository = loginRepository;
             _dialogsService = dialogsService;
+            _token = mvxMessenger.Subscribe<ImageMessage>(OnImageMessage);
+
+
 
             #region InitObservableCollection
             MenuItems = new MvxObservableCollection<MenuItem>()
@@ -109,6 +114,11 @@ namespace TestProject.Core.ViewModels
                 }
             };
             #endregion
+        }
+
+        private void OnImageMessage(ImageMessage imageMessage)
+        {
+            ProfileImage = imageMessage.ImageBase64;
         }
 
         public override void Prepare()

@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
+using MvvmCross.Plugin.Messenger;
 using MvvmCross.UI;
 using Plugin.SecureStorage;
 using System;
@@ -12,6 +13,7 @@ using System.Text;
 using TestProject.Core.Colors;
 using TestProject.Core.Constants;
 using TestProject.Core.Helpers.Interfaces;
+using TestProject.Core.Messengers;
 using TestProject.Core.Models;
 using TestProject.Core.Repositories.Interfaces;
 using TestProject.Core.Services.Interfaces;
@@ -31,6 +33,7 @@ namespace TestProject.Core.ViewModels
         private readonly IDialogsService _dialogsService;
         private readonly IUserService _userService;
         private readonly IImagePickerService _imagePickerService;
+        private readonly IMvxMessenger _mvxMessenger;
 
         private User _user;
         private string _profileImage;
@@ -41,7 +44,7 @@ namespace TestProject.Core.ViewModels
         #endregion
 
         public ProfileViewModel(IMvxNavigationService navigationService, ILoginRepository loginRepository,
-            IUserHelper userHelper, IValidationService validationService, IDialogsService dialogsService, IUserService userService, IImagePickerService imagePickerService) : base(navigationService)
+            IUserHelper userHelper, IValidationService validationService, IDialogsService dialogsService, IUserService userService, IImagePickerService imagePickerService, IMvxMessenger mvxMessenger) : base(navigationService)
         {
             _loginRepository = loginRepository;
             _userHelper = userHelper;
@@ -49,6 +52,7 @@ namespace TestProject.Core.ViewModels
             _dialogsService = dialogsService;
             _userService = userService;
             _imagePickerService = imagePickerService;
+            _mvxMessenger = mvxMessenger;
 
             Background = AppColors.LoginBackgroundColor;
             ConfirmColor = AppColors.ValidColor;
@@ -176,20 +180,27 @@ namespace TestProject.Core.ViewModels
                 {
                     var validationModel = _validationService.Validate(this);
 
-                    if (!validationModel.IsValid && OldPassword != Profile.Password)
+                    if (!validationModel.IsValid && !string.IsNullOrEmpty(NewPassword))
                     {
-                         _dialogsService.ShowAlert(message: validationModel.Errors.FirstOrDefault());
+                            _dialogsService.ShowAlert(message: validationModel.Errors.FirstOrDefault());
 
-                        return;
+                            return;
                     }
 
-                    _userService.ChangePassword(Profile.Id, NewPassword);
+                    if (validationModel.IsValid && OldPassword == _userHelper.UserPassword)
+                    {
+                        _userService.ChangePassword(Profile.Id, NewPassword);
 
-                    _userHelper.UserPassword = NewPassword;
+                        _userHelper.UserPassword = NewPassword;
+                    }
 
                     _userService.ChangeImage(Profile.Id, Profile.ImagePath);
 
                     _dialogsService.ShowSuccessMessage(message: Strings.ChangesAccepted);
+
+                    var message = new ImageMessage(this, ProfileImage);
+
+                    _mvxMessenger.Publish(message);
                 });
             }
         }

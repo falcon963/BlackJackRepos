@@ -17,6 +17,7 @@ using DE.Hdodenhof.CircleImageView;
 using Java.Lang;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Support.V7.RecyclerView;
+using MvvmCross.Localization;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.Views;
 using MvvmCross.ViewModels;
@@ -168,22 +169,6 @@ namespace TestProject.Droid.Adapters
             return _tasksListPendingRemoval.Contains(item);
         }
 
-        //public override int ItemCount
-        //{
-        //    get
-        //    {
-        //        try
-        //        {
-        //            var count = Tasks.Count;
-        //            return count;
-        //        }catch(System.Exception ex)
-        //        {
-        //            var e = ex.InnerException;
-        //            return Tasks.Count;
-        //        }
-        //    }
-        //}
-
         public void OnClick(int position)
         {
             ItemClick?.Invoke(this, position);
@@ -213,28 +198,6 @@ namespace TestProject.Droid.Adapters
 
             return inSampleSize;
         }
-
-        //public override int GetItemViewType(int position)
-        //{
-        //    try
-        //    {
-        //        var item = GetItem(position);
-                
-        //        if(item is UserTask)
-        //        {
-        //            return 0;
-        //        }
-
-        //        return 1;
-        //    }
-        //    catch (System.Exception ex)
-        //    {
-
-        //        var p = ex;
-        //    }
-
-        //    return 1;
-        //}
     }
 
     public class ImageViewHolder : MvxRecyclerViewHolder
@@ -243,7 +206,7 @@ namespace TestProject.Droid.Adapters
         public CircleImageView Image { get; private set; }
         public CheckBox CheckBox { get; private set; }
         public View Divider { get; private set; }
-        public Button DeleteButton { get; private set; }
+        public ImageButton DeleteButton { get; private set; }
 
         public ImageViewHolder(View itemView, IMvxAndroidBindingContext context) : base(itemView, context)
         {
@@ -251,11 +214,8 @@ namespace TestProject.Droid.Adapters
             Image = itemView.FindViewById<CircleImageView>(Resource.Id.tasklist_image);
             CheckBox = itemView.FindViewById<CheckBox>(Resource.Id.list_checkbox);
             Divider = itemView.FindViewById<View>(Resource.Id.divider);
-            DeleteButton = itemView.FindViewById<Button>(Resource.Id.undoButton);
+            DeleteButton = itemView.FindViewById<ImageButton>(Resource.Id.undoButton);
 
-
-            try
-            {
                 this.DelayBind(() =>
                 {
                     var set = this.CreateBindingSet<ImageViewHolder, UserTask>();
@@ -263,10 +223,7 @@ namespace TestProject.Droid.Adapters
                     set.Bind(this.CheckBox).To(x => x.Status);
                     set.Apply();
                 });
-            }catch(System.Exception ex)
-            {
-                var e = ex.InnerException;
-            }
+            
         }
 
         

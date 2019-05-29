@@ -125,6 +125,9 @@
     <Reference Include="MvvmCross.Plugin.Location, Version=6.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MvvmCross.Plugin.Location.6.3.0\lib\monoandroid90\MvvmCross.Plugin.Location.dll</HintPath>
     </Reference>
+    <Reference Include="MvvmCross.Plugin.Messenger, Version=6.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MvvmCross.Plugin.Messenger.6.3.0\lib\netstandard2.0\MvvmCross.Plugin.Messenger.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Newtonsoft.Json.12.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -371,6 +374,7 @@
     <Compile Include="Services\FacebookAuthenticationService.cs" />
     <Compile Include="Services\GoogleAuthenticationApiService.cs" />
     <Compile Include="Services\GoogleAuthenticationService.cs" />
+    <Compile Include="Services\Interfaces\IAuthenticationGoogleService.cs" />
     <Compile Include="Services\Interfaces\IFacebookAuthenticationService.cs" />
     <Compile Include="Services\Interfaces\IGoogleAuthenticationApiService.cs" />
     <Compile Include="Services\Interfaces\ILocationService.cs" />
@@ -720,6 +724,21 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\deleteButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\deleteButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\deleteButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\deleteButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\deleteButton.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
